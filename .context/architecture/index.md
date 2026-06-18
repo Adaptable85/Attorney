@@ -1,6 +1,7 @@
 # Architecture Index
 
 Phase 0 architecture foundation is implemented.
+Phase 1A auth, role, permission, audit and persistence boundaries are implemented.
 
 ## Current Direction
 
@@ -12,6 +13,10 @@ Phase 0 architecture foundation is implemented.
 - Zod boundary validation.
 - Server-side service/domain modules.
 - Vitest for unit/service tests.
+- Provider-neutral auth boundary.
+- Prisma foundation models for users, roles, permissions, audit logs and agent actions.
+- Tested role permission policy.
+- Tested audit event boundary.
 
 See:
 

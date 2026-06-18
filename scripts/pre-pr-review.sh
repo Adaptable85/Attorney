@@ -45,7 +45,7 @@ if [ -n "$runner" ] && [ -f package.json ]; then
     run_cmd "install check" "pnpm install --frozen-lockfile --ignore-scripts"
   fi
 
-  for script in lint typecheck test build; do
+  for script in lint typecheck test:coverage prisma:validate build; do
     if has_package_script "$script"; then
       run_cmd "package script: $script" "$runner run $script"
     else

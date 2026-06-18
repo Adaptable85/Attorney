@@ -4,6 +4,148 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
 }
 
+enum RoleKey {
+  OWNER_PRINCIPAL
+  SUPPORT_ADMIN
+  AGENT_SERVICE
+  READ_ONLY_REVIEWER
+}
+
+enum UserStatus {
+  ACTIVE
+  DISABLED
+}
+
+enum AuthProviderKind {
+  LOCAL_DEV_PLACEHOLDER
+  FUTURE_PROVIDER
+}
+
+enum AuditEventType {
+  LOGIN
+  FAILED_LOGIN
+  PERMISSION_CHANGE
+  CLIENT_RECORD_ACCESSED
+  MATTER_RECORD_ACCESSED
+  DOCUMENT_ACCESSED
+  DRAFT_CREATED
+  INVOICE_APPROVED
+  INVOICE_SENT
+  STATEMENT_APPROVED
+  STATEMENT_SENT
+  PAYMENT_IMPORT_CHANGED
+  AGENT_ACTION
+  DOCUMENT_UPLOADED
+  DOCUMENT_DOWNLOADED
+  MARKETING_APPROVED
+  OUTREACH_APPROVED
+}
+
+enum AgentActionStatus {
+  DRAFT
+  NEEDS_REVIEW
+  APPROVED_BY_OWNER
+  REJECTED
+}
+
+model User {
+  id              String           @id @default(cuid())
+  email           String           @unique
+  name            String
+  status          UserStatus       @default(ACTIVE)
+  authProvider    AuthProviderKind @default(LOCAL_DEV_PLACEHOLDER)
+  externalSubject String?
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+
+  roles        UserRole[]
+  auditLogs    AuditLog[]    @relation("AuditActor")
+  agentActions AgentAction[] @relation("AgentActor")
+}
+
+model Role {
+  id          String   @id @default(cuid())
+  key         RoleKey  @unique
+  name        String
+  description String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  users       UserRole[]
+  permissions RolePermission[]
+}
+
+model UserRole {
+  id        String   @id @default(cuid())
+  userId    String
+  roleId    String
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role Role @relation(fields: [roleId], references: [id], onDelete: Restrict)
+
+  @@unique([userId, roleId])
+  @@index([roleId])
+}
+
+model Permission {
+  id          String   @id @default(cuid())
+  key         String   @unique
+  description String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  roles RolePermission[]
+}
+
+model RolePermission {
+  id           String   @id @default(cuid())
+  roleId       String
+  permissionId String
+  createdAt    DateTime @default(now())
+
+  role       Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  permission Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+
+  @@unique([roleId, permissionId])
+  @@index([permissionId])
+}
+
+model AuditLog {
+  id         String         @id @default(cuid())
+  eventType  AuditEventType
+  actorId    String?
+  targetType String?
+  targetId   String?
+  summary    String
+  metadata   Json?
+  sensitive  Boolean        @default(true)
+  createdAt  DateTime       @default(now())
+
+  actor User? @relation("AuditActor", fields: [actorId], references: [id], onDelete: SetNull)
+
+  @@index([eventType])
+  @@index([actorId])
+  @@index([targetType, targetId])
+}
+
+model AgentAction {
+  id              String            @id @default(cuid())
+  agentUserId     String?
+  actionType      String
+  sourceChannel   String?
+  sourceReference String?
+  draftTargetType String?
+  draftTargetId   String?
+  confidenceScore Float?
+  status          AgentActionStatus @default(DRAFT)
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+
+  agentUser User? @relation("AgentActor", fields: [agentUserId], references: [id], onDelete: SetNull)
+
+  @@index([agentUserId])
+  @@index([status])
+}

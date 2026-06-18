@@ -29,6 +29,16 @@ pnpm run pre-pr
 
 `scripts/pre-pr-review.sh` also runs context checks and available package checks.
 
+Phase 1A critical-path tests cover:
+
+- Role permission invariants.
+- Agent draft-only restrictions.
+- Support-admin approval restrictions.
+- Read-only reviewer restrictions.
+- Audit event sensitivity.
+- Auth provider boundary.
+- Architecture guardrails.
+
 ## Future Required Checks
 
 - Add Playwright browser tests when real UI workflows exist.

@@ -1,11 +1,33 @@
 # Domain Model
 
-Status: Phase 0 plan
+Status: Phase 1A foundation
 Date: 2026-06-18
 
-This document describes the planned core entities. It does not implement the database model yet.
+This document describes the core domain model. Phase 1A implements only the auth, role, permission, audit and agent-action persistence foundation.
 
 ## Core Entities
+
+## Implemented In Phase 1A
+
+Phase 1A Prisma models:
+
+- User
+- Role
+- UserRole
+- Permission
+- RolePermission
+- AuditLog
+- AgentAction
+
+Phase 1A enums:
+
+- RoleKey
+- UserStatus
+- AuthProviderKind
+- AuditEventType
+- AgentActionStatus
+
+Client, matter, invoice, statement, document, Lexpro, marketing and outreach models are still planned only.
 
 ## Users
 
@@ -20,6 +42,10 @@ Planned fields:
 - role id
 - created at
 - updated at
+- auth provider
+- external subject
+
+Implemented in Phase 1A.
 
 ## Roles
 
@@ -30,11 +56,28 @@ Initial roles:
 - Owner / Principal Attorney
 - Wesley / Build Support
 - OpenClaw Agent
+- Read-Only Reviewer
 
 Invariant:
 
 - Wesley/build support must not have owner approval powers by default.
 - OpenClaw Agent is draft-only by default.
+
+Implemented in Phase 1A.
+
+## Permissions
+
+Explicit permission keys assigned to roles.
+
+Implemented in Phase 1A through:
+
+- Permission model.
+- RolePermission model.
+- Tested TypeScript permission policy.
+
+Invariant:
+
+- Future overrides must be explicit and tested.
 
 ## Clients
 
@@ -153,6 +196,8 @@ Invariant:
 
 - Sensitive actions are audit logged.
 
+Implemented in Phase 1A as the AuditLog model and audit service boundary.
+
 ## Agent Actions
 
 Actions taken or proposed by OpenClaw/AI agents.
@@ -174,6 +219,8 @@ Invariant:
 
 - Agents may draft, prepare, transcribe, classify, research and route only.
 - Agents may not approve, send, publish, delete protected records, override accounting data or provide final legal advice.
+
+Implemented in Phase 1A as an AgentAction model and tested permission restrictions.
 
 ## Billing Line Items
 
@@ -366,4 +413,3 @@ Invariant:
 - Documents private by default.
 - Sensitive actions audit logged.
 - Lexpro remains legal/trust accounting and reconciled payment source.
-

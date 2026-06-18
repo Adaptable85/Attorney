@@ -19,6 +19,8 @@
 - No hardcoded fallback financial data.
 - No unapproved delete endpoints for protected records.
 - No public file storage for client documents.
+- Day-one role keys are OWNER_PRINCIPAL, SUPPORT_ADMIN, AGENT_SERVICE, and READ_ONLY_REVIEWER.
+- Any future permission override must be explicit and tested.
 
 ## Phase -1 Constraints
 
@@ -27,4 +29,3 @@
 - Create repo-local operating system only.
 - Hooks must be deterministic and low-noise.
 - Hooks must not call AI models.
-

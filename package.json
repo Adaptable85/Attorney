@@ -10,6 +10,7 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
+    "prisma:validate": "prisma validate",
     "pre-pr": "./scripts/pre-pr-review.sh"
   },
   "dependencies": {

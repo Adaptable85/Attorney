@@ -8,6 +8,8 @@ Phase 0 adds the technical foundation only.
 
 Do not build product features yet. Do not build the dashboard, invoice workflow, statement workflow, WhatsApp automation, Lexpro import, website, marketing system, outreach system, production auth, production database models, production file storage, or agent runtime yet.
 
+Phase 1A adds only auth, role, permission, audit and persistence boundaries.
+
 ## Project Non-Negotiables
 
 - This is a legal-admin platform for Burgess Attorneys Inc.
@@ -27,6 +29,8 @@ Do not build product features yet. Do not build the dashboard, invoice workflow,
 - No hardcoded fallback financial data.
 - No unapproved delete endpoints for protected records.
 - No public file storage for client documents.
+- Day-one role keys are `OWNER_PRINCIPAL`, `SUPPORT_ADMIN`, `AGENT_SERVICE`, and `READ_ONLY_REVIEWER`.
+- Any future permission override must be explicit and tested.
 
 ## Safe Financial Defaults
 

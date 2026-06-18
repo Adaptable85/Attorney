@@ -1,6 +1,6 @@
 # Technical Architecture
 
-Status: Phase 0 foundation
+Status: Phase 1A foundation
 Date: 2026-06-18
 
 ## Architecture Decision
@@ -20,7 +20,7 @@ The Next.js app will contain:
 - Tests.
 - Future database access through Prisma.
 
-Product UI, API endpoints and database models are intentionally minimal in Phase 0.
+Product UI and feature API endpoints remain intentionally minimal. Phase 1A adds only auth, role, permission, audit and agent-action persistence boundaries.
 
 ## Service-Layer Rule
 
@@ -37,7 +37,11 @@ Planned direction:
 - PostgreSQL for production data.
 - Prisma ORM for database access.
 
-Phase 0 includes Prisma dependencies and a PostgreSQL datasource placeholder only. Real models and migrations belong in a later phase after the data model is accepted.
+Phase 1A includes Prisma foundation models for users, roles, permissions, audit logs and agent actions.
+
+Client, matter, invoice, statement, document, Lexpro, marketing and outreach models are deferred.
+
+Prisma 7 keeps the datasource URL in `prisma.config.ts`, not in `schema.prisma`. The current config uses `DATABASE_URL` when present and a local placeholder URL for deterministic validation only.
 
 ## Validation Approach
 
@@ -49,7 +53,9 @@ Planned direction:
 
 ## Auth / Permission Strategy
 
-Auth provider is not selected in Phase 0.
+Auth provider is not selected in Phase 1A.
+
+Phase 1A adds a provider-neutral auth interface and local/dev placeholder boundary. It does not claim production security.
 
 Permission strategy:
 
@@ -57,10 +63,18 @@ Permission strategy:
 - Wesley / Build Support is restricted technical/support admin by default.
 - OpenClaw Agent is draft-only service user by default.
 - Sensitive permissions must be enforced server-side.
+- Future delegated overrides must be explicit and tested.
 
 ## Audit Strategy
 
 Sensitive actions must produce audit records.
+
+Phase 1A adds:
+
+- Audit event type definitions.
+- Audit event creation.
+- Injected audit writer boundary.
+- AuditLog Prisma model.
 
 Critical future audit events:
 
@@ -150,4 +164,3 @@ Future decisions should consider:
 - Staging and production separation.
 
 Hosting choice is ADR-worthy once the trade-off is real.
-

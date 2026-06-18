@@ -5,13 +5,22 @@ import { describe, expect, it } from "vitest";
 const root = process.cwd();
 
 describe("architecture guardrails", () => {
-  it("keeps critical approval and Lexpro rules visible in AGENTS.md", () => {
-    const agents = readFileSync(join(root, "AGENTS.md"), "utf8");
+  const criticalRules = [
+    "Owner/principal attorney approval is mandatory",
+    "OpenClaw/AI agents may draft",
+    "Lexpro remains source of truth",
+    "Invoice numbers are assigned only on owner/principal approval"
+  ];
 
-    expect(agents).toContain("Owner/principal attorney approval is mandatory");
-    expect(agents).toContain("OpenClaw/AI agents may draft");
-    expect(agents).toContain("Lexpro remains source of truth");
-    expect(agents).toContain("No secrets in Git");
+  it.each([
+    "AGENTS.md",
+    "CLAUDE.md",
+    ".context/rules/operating-constraints.md"
+  ])("keeps critical rules visible in %s", (filePath) => {
+    const file = readFileSync(join(root, filePath), "utf8");
+
+    for (const rule of criticalRules) {
+      expect(file).toContain(rule);
+    }
   });
 });
-

@@ -6,7 +6,7 @@ This repository is for the Burgess Attorneys Admin Automation Platform.
 
 Work safely, locally and deterministically. Do not assume missing frameworks, commands, APIs, hosting, financial rules, Lexpro capabilities, WhatsApp provider details, email provider details, or storage architecture.
 
-Phase 0 is technical foundation only. Do not create product features in this phase.
+Phase 1A is auth, role, permission, audit and persistence-boundary foundation only. Do not create product features in this phase.
 
 ## Burgess-Specific Rules
 
@@ -27,6 +27,8 @@ Phase 0 is technical foundation only. Do not create product features in this pha
 - No hardcoded fallback financial data.
 - No unapproved delete endpoints for protected records.
 - No public file storage for client documents.
+- Day-one role keys are `OWNER_PRINCIPAL`, `SUPPORT_ADMIN`, `AGENT_SERVICE`, and `READ_ONLY_REVIEWER`.
+- Any future permission override must be explicit and tested.
 
 ## Safe Financial Defaults
 
