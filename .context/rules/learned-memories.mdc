@@ -1,0 +1,10 @@
+# Learned Memories
+
+- The first usable product is the internal legal-admin and billing platform.
+- Day-one access model is owner/principal full control, Wesley restricted support admin and OpenClaw draft-only service user.
+- Financial rules that are not confirmed must remain configurable.
+- Draft invoices use internal draft IDs.
+- Approved invoices receive official invoice numbers only after owner/principal approval.
+- Lexpro import/sync is not part of Phase -1.
+- Phase -1 stops after operating system setup.
+

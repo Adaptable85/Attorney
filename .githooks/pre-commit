@@ -1,0 +1,7 @@
+#!/bin/sh
+set -eu
+
+echo "pre-commit: checking Burgess agent context"
+./scripts/check-agent-context.sh
+./scripts/check-adr-needed.sh
+

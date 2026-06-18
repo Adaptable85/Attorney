@@ -1,0 +1,30 @@
+# Operating Constraints
+
+## Always Applicable
+
+- This is a legal-admin platform for Burgess Attorneys Inc.
+- Client files, documents, communications and financial records are sensitive.
+- Owner/principal attorney approval is mandatory for invoices, statements, legal/status communications, marketing and outreach.
+- OpenClaw/AI agents may draft, prepare, transcribe, classify, research and route work only.
+- OpenClaw/AI agents may not approve, send, publish, delete protected records, override accounting data or provide final legal advice.
+- Wesley/build support must not have owner approval powers by default.
+- Voice notes create draft billing line items only.
+- Invoice numbers are assigned only on owner/principal approval.
+- Lexpro remains source of truth for legal/trust accounting, bookkeeping, reconciled payments and compliance records.
+- Burgess platform is source of truth for invoices and client-facing statement PDFs only.
+- Approved financial records require correction records/audit records for changes.
+- Client documents must be private by default.
+- Sensitive actions must be audit logged.
+- No secrets in Git.
+- No hardcoded fallback financial data.
+- No unapproved delete endpoints for protected records.
+- No public file storage for client documents.
+
+## Phase -1 Constraints
+
+- Do not build product features.
+- Do not create dashboard, invoice, statement, WhatsApp, Lexpro, website, marketing or outreach implementation.
+- Create repo-local operating system only.
+- Hooks must be deterministic and low-noise.
+- Hooks must not call AI models.
+

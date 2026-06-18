@@ -1,0 +1,27 @@
+# Workflows Index
+
+## Phase Workflow
+
+1. Confirm phase scope and non-scope.
+2. Inspect repository state.
+3. Write or update a plan in `docs/plans/`.
+4. Confirm deterministic validation commands.
+5. Implement with TDD where product code exists.
+6. Run deterministic checks.
+7. Run pre-PR review.
+8. Record assumptions, TODOs and risks.
+
+## Approval Workflow Principle
+
+Future product workflows must preserve mandatory owner/principal approval for:
+
+- Invoices.
+- Statements.
+- Legal/status communications.
+- Marketing.
+- Outreach.
+
+## Agent Workflow Principle
+
+Agents may draft and route work only. They may not approve, send, publish, delete protected records, override accounting data or provide final legal advice.
+
