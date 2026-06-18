@@ -1,6 +1,6 @@
 # Context Index
 
-Status: Phase -1 operating system scaffold
+Status: Phase 0 technical foundation
 
 Read order:
 
@@ -24,7 +24,17 @@ Validation:
 
 ```sh
 ./scripts/check-agent-context.sh
-./scripts/pre-pr-review.sh
+pnpm run pre-pr
+```
+
+Package commands:
+
+```sh
+pnpm run lint
+pnpm run typecheck
+pnpm test
+pnpm run test:coverage
+pnpm run build
 ```
 
 One-time hook setup:
@@ -32,4 +42,3 @@ One-time hook setup:
 ```sh
 git config core.hooksPath .githooks
 ```
-

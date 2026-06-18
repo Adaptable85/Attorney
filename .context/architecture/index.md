@@ -1,22 +1,23 @@
 # Architecture Index
 
-No application architecture is implemented in Phase -1.
+Phase 0 architecture foundation is implemented.
 
-## Phase 0 Architecture Work
+## Current Direction
 
-Phase 0 should define:
+- TypeScript.
+- Next.js App Router.
+- Modular monolith.
+- PostgreSQL-ready architecture.
+- Prisma ORM direction.
+- Zod boundary validation.
+- Server-side service/domain modules.
+- Vitest for unit/service tests.
 
-- Application framework.
-- Runtime language.
-- Database.
-- Auth approach.
-- Permission model.
-- Test harness.
-- Data model.
-- Audit model.
-- File storage approach.
-- Deployment model.
-- ADRs for hard-to-reverse decisions.
+See:
+
+- `docs/architecture/technical-architecture.md`
+- `docs/architecture/domain-model.md`
+- `docs/adr/`
 
 ## Current Confirmed Boundaries
 
@@ -27,7 +28,7 @@ Phase 0 should define:
 
 ## ADR Candidates
 
-Create `docs/adr/` only when the first ADR is accepted/needed.
+`docs/adr/` exists because Phase 0 accepted the first ADRs.
 
 Known future ADR candidates:
 
@@ -38,4 +39,3 @@ Known future ADR candidates:
 - File storage choice.
 - WhatsApp integration choice.
 - Email integration choice.
-

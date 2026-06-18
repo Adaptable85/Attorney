@@ -14,22 +14,23 @@
 
 ## Current Validation State
 
-No framework/test commands are confirmed in Phase -1.
+Phase 0 defines real package validation commands.
 
-Until tooling exists:
+Run:
 
-- `scripts/pre-pr-review.sh` runs context checks.
-- Package commands are detected only if `package.json` exists.
-- Missing commands are reported as TODO.
+```sh
+pnpm run lint
+pnpm run typecheck
+pnpm test
+pnpm run test:coverage
+pnpm run build
+pnpm run pre-pr
+```
+
+`scripts/pre-pr-review.sh` also runs context checks and available package checks.
 
 ## Future Required Checks
 
-When tooling exists, define deterministic commands for:
-
-- Lint.
-- Typecheck.
-- Test.
-- Build.
-- Coverage.
-- Security/dependency checks where practical.
-
+- Add Playwright browser tests when real UI workflows exist.
+- Add security/dependency checks where practical.
+- Keep coverage targets meaningful as business logic grows.

@@ -2,11 +2,11 @@
 
 This repository is for the Burgess Attorneys Admin Automation Platform.
 
-## Phase -1 Boundary
+## Current Phase Boundary
 
-This phase is repository operating system only.
+Phase 0 adds the technical foundation only.
 
-Do not build product features in Phase -1. Do not build the dashboard, invoice workflow, statement workflow, WhatsApp automation, Lexpro import, website, marketing system, outreach system, API, database schema, UI, auth implementation, or agent runtime yet.
+Do not build product features yet. Do not build the dashboard, invoice workflow, statement workflow, WhatsApp automation, Lexpro import, website, marketing system, outreach system, production auth, production database models, production file storage, or agent runtime yet.
 
 ## Project Non-Negotiables
 
@@ -75,7 +75,17 @@ Key context files:
 Run deterministic checks before proposing a PR:
 
 ```sh
-./scripts/pre-pr-review.sh
+pnpm run pre-pr
+```
+
+Available package commands:
+
+```sh
+pnpm run lint
+pnpm run typecheck
+pnpm test
+pnpm run test:coverage
+pnpm run build
 ```
 
 Install local hooks once per clone:
@@ -105,4 +115,3 @@ Known future ADR candidates:
 - File storage choice.
 - WhatsApp integration choice.
 - Email integration choice.
-

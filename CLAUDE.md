@@ -6,7 +6,7 @@ This repository is for the Burgess Attorneys Admin Automation Platform.
 
 Work safely, locally and deterministically. Do not assume missing frameworks, commands, APIs, hosting, financial rules, Lexpro capabilities, WhatsApp provider details, email provider details, or storage architecture.
 
-Phase -1 is repository operating system only. Do not create product features in this phase.
+Phase 0 is technical foundation only. Do not create product features in this phase.
 
 ## Burgess-Specific Rules
 
@@ -64,7 +64,17 @@ The `.context/` directory is the deeper source of truth. This file intentionally
 Before review:
 
 ```sh
-./scripts/pre-pr-review.sh
+pnpm run pre-pr
+```
+
+Available package commands:
+
+```sh
+pnpm run lint
+pnpm run typecheck
+pnpm test
+pnpm run test:coverage
+pnpm run build
 ```
 
 One-time hook setup:
@@ -84,4 +94,3 @@ Recommend an ADR only when:
 1. The decision is hard to reverse.
 2. The decision would be surprising without context.
 3. The decision came from a real trade-off.
-

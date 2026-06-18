@@ -41,6 +41,10 @@ run_cmd "ADR reminder check" "./scripts/check-adr-needed.sh"
 
 runner=$(package_runner)
 if [ -n "$runner" ] && [ -f package.json ]; then
+  if [ "$runner" = "pnpm" ] && [ -f pnpm-lock.yaml ]; then
+    run_cmd "install check" "pnpm install --frozen-lockfile --ignore-scripts"
+  fi
+
   for script in lint typecheck test build; do
     if has_package_script "$script"; then
       run_cmd "package script: $script" "$runner run $script"
@@ -62,4 +66,3 @@ echo "- file/storage access review"
 echo "- invoice/statement approval gate review"
 echo
 echo "pre-PR review complete."
-
