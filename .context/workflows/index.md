@@ -22,6 +22,14 @@ pnpm run build
 pnpm run pre-pr
 ```
 
+Admin shell workflow:
+
+- `/admin` is a protected placeholder shell only.
+- Role-aware navigation must follow the tested permission policy.
+- Owner-only approval placeholders must not be visible to support admin by default.
+- Agent service users must not receive normal admin navigation.
+- Do not add CRUD, send, approve, publish, upload, download or sync actions until their phases are accepted.
+
 Migration workflow:
 
 - Validate Prisma schema locally.

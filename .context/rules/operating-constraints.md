@@ -31,6 +31,8 @@
 - Financial/client/legal data migrations require explicit human review.
 - Seed data must not contain real client data.
 - Repository interfaces must not expose hard-delete methods for protected records.
+- Admin shell placeholders must not imply that CRUD, approval, sending, publishing, upload, download or sync workflows are implemented.
+- Agent service users must not receive normal admin shell navigation by default.
 
 ## Phase -1 Constraints
 

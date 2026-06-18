@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
+import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Burgess Attorneys Platform Foundation",
-  description: "Phase 0 technical foundation for the Burgess Attorneys platform."
+  title: "Burgess Attorneys Admin Platform",
+  description: "Protected internal admin platform foundation for Burgess Attorneys."
 };
 
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
@@ -13,4 +14,3 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
     </html>
   );
 }
-

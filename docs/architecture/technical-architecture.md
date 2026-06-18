@@ -1,6 +1,6 @@
 # Technical Architecture
 
-Status: Phase 1E local database foundation
+Status: Phase 2A protected admin shell foundation
 Date: 2026-06-18
 
 ## Architecture Decision
@@ -20,7 +20,7 @@ The Next.js app will contain:
 - Tests.
 - Future database access through Prisma.
 
-Product UI and feature API endpoints remain intentionally minimal. Phase 1E adds local-only migration execution, Prisma Client generation and a minimal users/roles repository adapter.
+Product UI and feature API endpoints remain intentionally minimal. Phase 2A adds a protected admin shell with role-aware placeholder navigation only.
 
 ## Service-Layer Rule
 
@@ -65,6 +65,8 @@ Auth provider is not selected in Phase 1A.
 
 Phase 1A adds a provider-neutral auth interface and local/dev placeholder boundary. It does not claim production security.
 
+Phase 2A uses that boundary to protect the `/admin` shell. Local development may use an explicit placeholder principal. Production auth remains unresolved and must be selected before real protected workflows are exposed.
+
 Permission strategy:
 
 - Owner / Principal Attorney has full approval powers.
@@ -74,6 +76,26 @@ Permission strategy:
 - Future delegated overrides must be explicit and tested.
 - Agents may not create or edit client or matter records directly.
 - Agents may create draft suggestions only and may not approve, assign invoice numbers, override VAT treatment or create final financial corrections.
+- Agent service users do not receive normal admin shell navigation by default.
+
+## Admin Shell
+
+Phase 2A adds `/admin` as a protected internal shell.
+
+The shell includes placeholder cards for:
+
+- Active Matters.
+- Pending Invoice Approvals.
+- Pending Statement Approvals.
+- Document Review.
+- Audit Log.
+- Agent Drafts.
+- Lexpro Boundary / Accounting Sync Placeholder.
+- Website / Marketing Placeholder.
+
+Every module card is labelled `Not implemented yet` and `Coming in later phase`.
+
+The shell does not display real client, matter, document or financial data. It does not include CRUD, approval, send, publish, upload, download, Lexpro sync or payment reconciliation actions.
 
 ## Audit Strategy
 
