@@ -39,6 +39,17 @@ Phase 1A critical-path tests cover:
 - Auth provider boundary.
 - Architecture guardrails.
 
+Phase 1B critical-path tests cover:
+
+- Client creation validation.
+- Matter creation validation.
+- Client/matter edit permission boundaries.
+- Document metadata private defaults.
+- Document access/download permission boundaries.
+- Timeline event payload shape.
+- Client/matter/document/timeline audit event coverage.
+- DocumentRecord metadata-only schema guardrail.
+
 ## Future Required Checks
 
 - Add Playwright browser tests when real UI workflows exist.

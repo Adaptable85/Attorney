@@ -1,9 +1,9 @@
 # Domain Model
 
-Status: Phase 1A foundation
+Status: Phase 1B foundation
 Date: 2026-06-18
 
-This document describes the core domain model. Phase 1A implements only the auth, role, permission, audit and agent-action persistence foundation.
+This document describes the core domain model. Phase 1B implements the client, matter, document metadata and timeline persistence foundation in addition to the Phase 1A auth/permission/audit foundation.
 
 ## Core Entities
 
@@ -27,7 +27,38 @@ Phase 1A enums:
 - AuditEventType
 - AgentActionStatus
 
-Client, matter, invoice, statement, document, Lexpro, marketing and outreach models are still planned only.
+Invoice, statement, payment/import, Lexpro, marketing and outreach models are still planned only.
+
+## Implemented In Phase 1B
+
+Phase 1B Prisma models:
+
+- Client
+- Contact
+- Matter
+- MatterAssignment
+- MatterNote
+- DocumentRecord
+- TimelineEvent
+
+Phase 1B enums:
+
+- ClientStatus
+- ContactType
+- MatterType
+- MatterStatus
+- MatterAssignmentRole
+- DocumentVisibility
+- DocumentStatus
+- TimelineEventType
+
+Phase 1B domain helpers:
+
+- Client creation validation.
+- Matter creation validation.
+- Document metadata validation with private default.
+- Timeline event payload creation.
+- Permission helpers for client/matter editing and document access.
 
 ## Users
 
@@ -42,6 +73,8 @@ Planned fields:
 - role id
 - created at
 - updated at
+
+Implemented in Phase 1B.
 - auth provider
 - external subject
 
@@ -108,6 +141,8 @@ Planned fields:
 - WhatsApp number
 - contact type
 
+Implemented in Phase 1B.
+
 ## Matters
 
 Legal matters or files linked to clients.
@@ -122,8 +157,17 @@ Planned fields:
 - status
 - assigned attorney id
 - assigned admin id
+- account number
+- next-step due date
 - opened at
 - closed at
+
+Implemented in Phase 1B.
+
+Invariant:
+
+- OpenClaw/AI agents may not create or edit client or matter records directly.
+- Prefer soft status changes over deletion for protected records.
 
 ## Matter Notes
 
@@ -137,6 +181,8 @@ Planned fields:
 - note body
 - visibility
 - created at
+
+Implemented in Phase 1B.
 
 ## Documents
 
@@ -153,12 +199,16 @@ Planned fields:
 - size
 - uploaded by
 - access classification
+- status
 - created at
+
+Implemented in Phase 1B.
 
 Invariant:
 
 - Client documents are private by default.
 - No public file storage for client documents.
+- DocumentRecord stores metadata only, not raw file content.
 
 ## Timeline Events
 
@@ -175,6 +225,8 @@ Planned fields:
 - summary
 - metadata
 - created at
+
+Implemented in Phase 1B.
 
 ## Audit Logs
 

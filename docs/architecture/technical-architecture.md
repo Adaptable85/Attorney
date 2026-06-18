@@ -1,6 +1,6 @@
 # Technical Architecture
 
-Status: Phase 1A foundation
+Status: Phase 1B foundation
 Date: 2026-06-18
 
 ## Architecture Decision
@@ -20,7 +20,7 @@ The Next.js app will contain:
 - Tests.
 - Future database access through Prisma.
 
-Product UI and feature API endpoints remain intentionally minimal. Phase 1A adds only auth, role, permission, audit and agent-action persistence boundaries.
+Product UI and feature API endpoints remain intentionally minimal. Phase 1B adds only client, matter, document metadata and timeline persistence/domain boundaries.
 
 ## Service-Layer Rule
 
@@ -39,7 +39,9 @@ Planned direction:
 
 Phase 1A includes Prisma foundation models for users, roles, permissions, audit logs and agent actions.
 
-Client, matter, invoice, statement, document, Lexpro, marketing and outreach models are deferred.
+Phase 1B adds client, contact, matter, assignment, note, document metadata and timeline models.
+
+Invoice, statement, payment/import, Lexpro, marketing and outreach models are deferred.
 
 Prisma 7 keeps the datasource URL in `prisma.config.ts`, not in `schema.prisma`. The current config uses `DATABASE_URL` when present and a local placeholder URL for deterministic validation only.
 
@@ -64,6 +66,7 @@ Permission strategy:
 - OpenClaw Agent is draft-only service user by default.
 - Sensitive permissions must be enforced server-side.
 - Future delegated overrides must be explicit and tested.
+- Agents may not create or edit client or matter records directly.
 
 ## Audit Strategy
 
@@ -75,6 +78,14 @@ Phase 1A adds:
 - Audit event creation.
 - Injected audit writer boundary.
 - AuditLog Prisma model.
+
+Phase 1B extends audit event categories for:
+
+- Client created/edited.
+- Matter created/edited.
+- Matter note added.
+- Document metadata created/uploaded/downloaded/accessed.
+- Timeline event created.
 
 Critical future audit events:
 
@@ -92,6 +103,8 @@ Critical future audit events:
 ## File Storage Placeholder
 
 Client documents must be private by default.
+
+Phase 1B stores document metadata only. No raw file content is stored in `DocumentRecord`.
 
 Final storage choice is deferred. Future options may include private object storage or provider-managed secure storage.
 

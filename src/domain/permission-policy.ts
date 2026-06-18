@@ -13,6 +13,13 @@ const rolePermissions: Record<RoleKey, readonly PermissionAction[]> = {
     "override_accounting_data",
     "create_draft_line_item",
     "create_agent_draft_suggestion",
+    "create_client",
+    "edit_client",
+    "create_matter",
+    "edit_matter",
+    "view_document_metadata",
+    "download_document",
+    "create_timeline_event",
     "view_audit_logs",
     "view_assigned_records",
     "record_admin_note",
@@ -21,12 +28,19 @@ const rolePermissions: Record<RoleKey, readonly PermissionAction[]> = {
   ],
   SUPPORT_ADMIN: [
     "create_draft_line_item",
+    "create_client",
+    "edit_client",
+    "create_matter",
+    "edit_matter",
+    "view_document_metadata",
+    "download_document",
+    "create_timeline_event",
     "view_assigned_records",
     "record_admin_note",
     "upload_document"
   ],
   AGENT_SERVICE: ["create_draft_line_item", "create_agent_draft_suggestion"],
-  READ_ONLY_REVIEWER: ["view_assigned_records"]
+  READ_ONLY_REVIEWER: ["view_assigned_records", "view_document_metadata"]
 };
 
 export function canRolePerform(role: RoleKey, action: PermissionAction): boolean {
@@ -75,4 +89,28 @@ export function canCreateAgentDraftSuggestions(role: RoleKey): boolean {
 
 export function canViewAuditLogs(role: RoleKey): boolean {
   return canRolePerform(role, "view_audit_logs");
+}
+
+export function canCreateClients(role: RoleKey): boolean {
+  return canRolePerform(role, "create_client");
+}
+
+export function canEditClients(role: RoleKey): boolean {
+  return canRolePerform(role, "edit_client");
+}
+
+export function canCreateMatters(role: RoleKey): boolean {
+  return canRolePerform(role, "create_matter");
+}
+
+export function canEditMatters(role: RoleKey): boolean {
+  return canRolePerform(role, "edit_matter");
+}
+
+export function canViewDocumentMetadata(role: RoleKey): boolean {
+  return canRolePerform(role, "view_document_metadata");
+}
+
+export function canDownloadDocuments(role: RoleKey): boolean {
+  return canRolePerform(role, "download_document");
 }

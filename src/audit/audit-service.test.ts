@@ -10,8 +10,13 @@ describe("audit event boundary", () => {
         "login",
         "failed_login",
         "permission_change",
+        "client_created",
+        "client_edited",
         "client_record_accessed",
+        "matter_created",
+        "matter_edited",
         "matter_record_accessed",
+        "matter_note_added",
         "document_accessed",
         "draft_created",
         "invoice_approved",
@@ -20,8 +25,10 @@ describe("audit event boundary", () => {
         "statement_sent",
         "payment_import_changed",
         "agent_action",
+        "document_metadata_created",
         "document_uploaded",
         "document_downloaded",
+        "timeline_event_created",
         "marketing_approved",
         "outreach_approved"
       ])
@@ -35,6 +42,10 @@ describe("audit event boundary", () => {
     expect(isSensitiveAuditEvent("statement_sent")).toBe(true);
     expect(isSensitiveAuditEvent("permission_change")).toBe(true);
     expect(isSensitiveAuditEvent("agent_action")).toBe(true);
+    expect(isSensitiveAuditEvent("client_created")).toBe(true);
+    expect(isSensitiveAuditEvent("matter_edited")).toBe(true);
+    expect(isSensitiveAuditEvent("document_metadata_created")).toBe(true);
+    expect(isSensitiveAuditEvent("timeline_event_created")).toBe(true);
   });
 
   it("creates audit events without coupling to a database implementation", () => {
@@ -71,4 +82,3 @@ describe("audit event boundary", () => {
     expect(event.sensitive).toBe(true);
   });
 });
-

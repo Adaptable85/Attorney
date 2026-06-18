@@ -27,8 +27,13 @@ enum AuditEventType {
   LOGIN
   FAILED_LOGIN
   PERMISSION_CHANGE
+  CLIENT_CREATED
+  CLIENT_EDITED
   CLIENT_RECORD_ACCESSED
+  MATTER_CREATED
+  MATTER_EDITED
   MATTER_RECORD_ACCESSED
+  MATTER_NOTE_ADDED
   DOCUMENT_ACCESSED
   DRAFT_CREATED
   INVOICE_APPROVED
@@ -37,8 +42,10 @@ enum AuditEventType {
   STATEMENT_SENT
   PAYMENT_IMPORT_CHANGED
   AGENT_ACTION
+  DOCUMENT_METADATA_CREATED
   DOCUMENT_UPLOADED
   DOCUMENT_DOWNLOADED
+  TIMELINE_EVENT_CREATED
   MARKETING_APPROVED
   OUTREACH_APPROVED
 }
@@ -48,6 +55,72 @@ enum AgentActionStatus {
   NEEDS_REVIEW
   APPROVED_BY_OWNER
   REJECTED
+}
+
+enum ClientStatus {
+  ACTIVE
+  INACTIVE
+  ARCHIVED
+}
+
+enum ContactType {
+  PRIMARY
+  BILLING
+  LEGAL_CONTACT
+  OTHER
+}
+
+enum MatterType {
+  FAMILY_LAW
+  MAINTENANCE
+  DIVORCE
+  CARE_AND_CUSTODY
+  COMMERCIAL_LAW
+  FINANCIAL_DISTRESS
+  CONTRACTS
+  BUSINESS_RESCUE
+  CIVIL_LITIGATION
+  OTHER
+}
+
+enum MatterStatus {
+  OPEN
+  PENDING
+  WAITING_ON_CLIENT
+  WAITING_ON_COURT
+  WAITING_ON_PAYMENT
+  CLOSED
+  ARCHIVED
+}
+
+enum MatterAssignmentRole {
+  RESPONSIBLE_ATTORNEY
+  SUPPORT_USER
+  VIEWER
+}
+
+enum DocumentVisibility {
+  PRIVATE
+  INTERNAL
+}
+
+enum DocumentStatus {
+  ACTIVE
+  SUPERSEDED
+  ARCHIVED
+}
+
+enum TimelineEventType {
+  CLIENT_CREATED
+  CLIENT_EDITED
+  MATTER_CREATED
+  MATTER_EDITED
+  MATTER_NOTE_ADDED
+  DOCUMENT_METADATA_CREATED
+  DOCUMENT_UPLOADED
+  DOCUMENT_DOWNLOADED
+  DOCUMENT_ACCESSED
+  AUDIT_EVENT_RECORDED
 }
 
 model User {
@@ -63,6 +136,12 @@ model User {
   roles        UserRole[]
   auditLogs    AuditLog[]    @relation("AuditActor")
   agentActions AgentAction[] @relation("AgentActor")
+  responsibleMatters Matter[] @relation("ResponsibleAttorney")
+  supportMatters     Matter[] @relation("SupportUser")
+  matterAssignments  MatterAssignment[]
+  matterNotes        MatterNote[]
+  uploadedDocuments  DocumentRecord[] @relation("DocumentUploader")
+  timelineEvents     TimelineEvent[]  @relation("TimelineActor")
 }
 
 model Role {
@@ -148,4 +227,153 @@ model AgentAction {
 
   @@index([agentUserId])
   @@index([status])
+}
+
+model Client {
+  id               String       @id @default(cuid())
+  accountNumber    String       @unique
+  displayName      String
+  normalizedSearch String
+  status           ClientStatus @default(ACTIVE)
+  primaryContactId String?
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+
+  primaryContact Contact?        @relation("ClientPrimaryContact", fields: [primaryContactId], references: [id], onDelete: SetNull)
+  contacts       Contact[]       @relation("ClientContacts")
+  matters        Matter[]
+  documents      DocumentRecord[]
+  timelineEvents TimelineEvent[]
+
+  @@index([status])
+  @@index([normalizedSearch])
+}
+
+model Contact {
+  id             String      @id @default(cuid())
+  clientId       String
+  name           String
+  email          String?
+  phone          String?
+  whatsappNumber String?
+  type           ContactType @default(OTHER)
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+
+  client            Client   @relation("ClientContacts", fields: [clientId], references: [id], onDelete: Restrict)
+  primaryForClients Client[] @relation("ClientPrimaryContact")
+
+  @@index([clientId])
+  @@index([type])
+}
+
+model Matter {
+  id                    String       @id @default(cuid())
+  clientId              String
+  accountNumber         String
+  normalizedSearch      String
+  name                  String
+  description           String
+  type                  MatterType
+  status                MatterStatus @default(OPEN)
+  responsibleAttorneyId String?
+  supportUserId         String?
+  nextStepDueDate       DateTime?
+  openedAt              DateTime     @default(now())
+  closedAt              DateTime?
+  createdAt             DateTime     @default(now())
+  updatedAt             DateTime     @updatedAt
+
+  client              Client             @relation(fields: [clientId], references: [id], onDelete: Restrict)
+  responsibleAttorney User?              @relation("ResponsibleAttorney", fields: [responsibleAttorneyId], references: [id], onDelete: SetNull)
+  supportUser         User?              @relation("SupportUser", fields: [supportUserId], references: [id], onDelete: SetNull)
+  assignments         MatterAssignment[]
+  notes               MatterNote[]
+  documents           DocumentRecord[]
+  timelineEvents      TimelineEvent[]
+
+  @@index([clientId])
+  @@index([accountNumber])
+  @@index([type])
+  @@index([status])
+  @@index([nextStepDueDate])
+  @@index([normalizedSearch])
+}
+
+model MatterAssignment {
+  id        String               @id @default(cuid())
+  matterId  String
+  userId    String
+  role      MatterAssignmentRole
+  createdAt DateTime             @default(now())
+  updatedAt DateTime             @updatedAt
+
+  matter Matter @relation(fields: [matterId], references: [id], onDelete: Restrict)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Restrict)
+
+  @@unique([matterId, userId, role])
+  @@index([userId])
+}
+
+model MatterNote {
+  id        String   @id @default(cuid())
+  matterId  String
+  authorId  String?
+  body      String
+  internal  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  matter Matter @relation(fields: [matterId], references: [id], onDelete: Restrict)
+  author User?  @relation(fields: [authorId], references: [id], onDelete: SetNull)
+
+  @@index([matterId])
+  @@index([authorId])
+}
+
+model DocumentRecord {
+  id          String             @id @default(cuid())
+  clientId    String?
+  matterId    String?
+  storageKey  String
+  filename    String
+  contentType String
+  sizeBytes   Int?
+  visibility  DocumentVisibility @default(PRIVATE)
+  status      DocumentStatus     @default(ACTIVE)
+  uploadedById String?
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+
+  client     Client? @relation(fields: [clientId], references: [id], onDelete: Restrict)
+  matter     Matter? @relation(fields: [matterId], references: [id], onDelete: Restrict)
+  uploadedBy User?   @relation("DocumentUploader", fields: [uploadedById], references: [id], onDelete: SetNull)
+
+  @@index([clientId])
+  @@index([matterId])
+  @@index([visibility])
+  @@index([status])
+}
+
+model TimelineEvent {
+  id          String            @id @default(cuid())
+  eventType   TimelineEventType
+  actorId     String?
+  subjectType String
+  subjectId   String
+  clientId    String?
+  matterId    String?
+  summary     String
+  metadata    Json?
+  createdAt   DateTime          @default(now())
+
+  actor  User?   @relation("TimelineActor", fields: [actorId], references: [id], onDelete: SetNull)
+  client Client? @relation(fields: [clientId], references: [id], onDelete: SetNull)
+  matter Matter? @relation(fields: [matterId], references: [id], onDelete: SetNull)
+
+  @@index([eventType])
+  @@index([actorId])
+  @@index([subjectType, subjectId])
+  @@index([clientId])
+  @@index([matterId])
 }

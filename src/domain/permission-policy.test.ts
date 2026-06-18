@@ -4,13 +4,19 @@ import {
   canApproveInvoices,
   canApproveStatements,
   canCreateAgentDraftSuggestions,
+  canCreateClients,
+  canCreateMatters,
   canCreateDraftLineItems,
   canDeleteProtectedRecords,
+  canDownloadDocuments,
+  canEditClients,
+  canEditMatters,
   canOverrideAccountingData,
   canPublishMarketing,
   canRolePerform,
   canSendClientCommunication,
   canSendOutreach,
+  canViewDocumentMetadata,
   canViewAuditLogs,
   getRolePermissions
 } from "./permission-policy";
@@ -66,5 +72,16 @@ describe("role permission policy", () => {
     expect(canViewAuditLogs("SUPPORT_ADMIN")).toBe(false);
     expect(canViewAuditLogs("AGENT_SERVICE")).toBe(false);
     expect(canViewAuditLogs("READ_ONLY_REVIEWER")).toBe(false);
+  });
+
+  it("enforces client, matter and document permission boundaries", () => {
+    expect(canCreateClients("OWNER_PRINCIPAL")).toBe(true);
+    expect(canEditClients("SUPPORT_ADMIN")).toBe(true);
+    expect(canCreateMatters("SUPPORT_ADMIN")).toBe(true);
+    expect(canEditMatters("READ_ONLY_REVIEWER")).toBe(false);
+    expect(canCreateClients("AGENT_SERVICE")).toBe(false);
+    expect(canViewDocumentMetadata("READ_ONLY_REVIEWER")).toBe(true);
+    expect(canDownloadDocuments("READ_ONLY_REVIEWER")).toBe(false);
+    expect(canDownloadDocuments("AGENT_SERVICE")).toBe(false);
   });
 });

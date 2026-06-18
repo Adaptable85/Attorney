@@ -23,4 +23,14 @@ describe("architecture guardrails", () => {
       expect(file).toContain(rule);
     }
   });
+
+  it("keeps document metadata private and free of raw content fields", () => {
+    const schema = readFileSync(join(root, "prisma/schema.prisma"), "utf8");
+    const documentModel = schema.split("model DocumentRecord")[1]?.split("model TimelineEvent")[0];
+
+    expect(documentModel).toContain("visibility  DocumentVisibility @default(PRIVATE)");
+    expect(documentModel).not.toContain("rawContent");
+    expect(documentModel).not.toContain("fileContent");
+    expect(documentModel).not.toContain("bytes");
+  });
 });

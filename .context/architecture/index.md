@@ -2,6 +2,7 @@
 
 Phase 0 architecture foundation is implemented.
 Phase 1A auth, role, permission, audit and persistence boundaries are implemented.
+Phase 1B client, matter, document metadata and timeline persistence foundations are implemented.
 
 ## Current Direction
 
@@ -17,6 +18,8 @@ Phase 1A auth, role, permission, audit and persistence boundaries are implemente
 - Prisma foundation models for users, roles, permissions, audit logs and agent actions.
 - Tested role permission policy.
 - Tested audit event boundary.
+- Prisma foundation models for clients, contacts, matters, assignments, notes, document metadata and timeline events.
+- Tested client/matter/document/timeline domain helpers.
 
 See:
 
@@ -30,6 +33,7 @@ See:
 - Lexpro: source of truth for legal/trust accounting, bookkeeping, reconciled payments and compliance records.
 - Invoice numbers: assigned only on owner/principal approval.
 - Agent: draft-only service user by default.
+- Client documents: metadata only in Phase 1B and private by default.
 
 ## ADR Candidates
 
