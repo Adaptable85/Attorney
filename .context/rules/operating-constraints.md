@@ -27,6 +27,10 @@
 - VAT overrides require a reason.
 - Draft invoices must not have official invoice numbers.
 - Statement records are snapshots and require approval before sending.
+- Production migrations must not be run automatically by agents.
+- Financial/client/legal data migrations require explicit human review.
+- Seed data must not contain real client data.
+- Repository interfaces must not expose hard-delete methods for protected records.
 
 ## Phase -1 Constraints
 

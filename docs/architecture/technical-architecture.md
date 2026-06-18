@@ -1,6 +1,6 @@
 # Technical Architecture
 
-Status: Phase 1C foundation
+Status: Phase 1D foundation
 Date: 2026-06-18
 
 ## Architecture Decision
@@ -20,7 +20,7 @@ The Next.js app will contain:
 - Tests.
 - Future database access through Prisma.
 
-Product UI and feature API endpoints remain intentionally minimal. Phase 1C adds only billing, invoice, statement and financial correction schema/domain boundaries.
+Product UI and feature API endpoints remain intentionally minimal. Phase 1D adds migration strategy, repository interfaces, a Prisma boundary and fake seed fixtures.
 
 ## Service-Layer Rule
 
@@ -46,6 +46,8 @@ Phase 1C adds billing line item, invoice, invoice approval, invoice number seque
 Payment/import, Lexpro, marketing and outreach models are deferred.
 
 Financial records store money in integer cents with currency fields. Floating point money fields are not allowed.
+
+Migrations are controlled and reviewed. Production migrations must not be run automatically by agents.
 
 Prisma 7 keeps the datasource URL in `prisma.config.ts`, not in `schema.prisma`. The current config uses `DATABASE_URL` when present and a local placeholder URL for deterministic validation only.
 
@@ -184,3 +186,22 @@ Future decisions should consider:
 - Staging and production separation.
 
 Hosting choice is ADR-worthy once the trade-off is real.
+
+## Repository Boundary
+
+Phase 1D defines repository interfaces only.
+
+The interfaces protect future persistence work by:
+
+- Avoiding hard-delete methods for protected records.
+- Separating draft updates from approved financial correction workflows.
+- Keeping audit writing explicit.
+- Keeping document records metadata-only.
+
+Concrete Prisma implementations are deferred until local database setup and migration execution strategy are accepted.
+
+## Seed Strategy
+
+Phase 1D includes a dev-only seed skeleton and deterministic fake fixtures.
+
+Seed data must not contain real client data and must never run automatically in production.

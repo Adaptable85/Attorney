@@ -1,9 +1,9 @@
 # Domain Model
 
-Status: Phase 1C foundation
+Status: Phase 1D foundation
 Date: 2026-06-18
 
-This document describes the core domain model. Phase 1C implements the billing, invoice, statement and financial correction foundation in addition to the prior auth, client, matter, document metadata and timeline foundations.
+This document describes the core domain model. Phase 1D adds migration strategy, repository interfaces and seed fixtures on top of the prior schema/domain foundations.
 
 ## Core Entities
 
@@ -94,6 +94,31 @@ Phase 1C domain helpers:
 - Statement snapshot validation.
 - Statement approval payload creation.
 - Financial correction payload creation.
+
+## Implemented In Phase 1D
+
+Phase 1D adds:
+
+- Reviewed database migration strategy.
+- ADR for controlled Prisma migrations.
+- Repository interface boundaries.
+- Prisma client boundary.
+- Deterministic fake test fixtures.
+- Dev-only seed skeleton.
+
+Repository rules:
+
+- No hard-delete methods for protected records.
+- Approved invoices/statements are not updated directly.
+- Correction records are required for approved financial changes.
+- Document records remain metadata-only.
+- Audit log writer is explicit.
+
+Seed rules:
+
+- Seed data must be fake.
+- Seed data must not contain real Burgess client data.
+- Dev seed must not run automatically in production.
 
 ## Users
 

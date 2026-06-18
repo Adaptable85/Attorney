@@ -61,6 +61,16 @@ Phase 1C critical-path tests cover:
 - Financial audit event sensitivity.
 - Prisma money-field guardrails.
 
+Phase 1D critical-path tests cover:
+
+- Repository interfaces avoiding hard-delete methods.
+- Approved invoice/statement repository updates routed through correction workflows.
+- Fake fixtures including all day-one roles.
+- Fake financial fixtures using integer cents.
+- Prisma client boundary import without `DATABASE_URL`.
+- Dev-only seed guardrails.
+- Migration strategy warning against automatic production migrations by agents.
+
 ## Future Required Checks
 
 - Add Playwright browser tests when real UI workflows exist.

@@ -11,6 +11,8 @@
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
     "prisma:validate": "prisma validate",
+    "db:validate": "pnpm run prisma:validate",
+    "db:seed": "tsx prisma/seed.ts",
     "pre-pr": "./scripts/pre-pr-review.sh"
   },
   "dependencies": {
@@ -28,6 +30,7 @@
     "eslint": "^9.39.4",
     "eslint-config-next": "^16.2.9",
     "prisma": "^7.8.0",
+    "tsx": "^4.21.0",
     "typescript": "^6.0.3",
     "vitest": "^4.1.9"
   }

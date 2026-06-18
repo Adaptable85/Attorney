@@ -4,6 +4,7 @@ Phase 0 architecture foundation is implemented.
 Phase 1A auth, role, permission, audit and persistence boundaries are implemented.
 Phase 1B client, matter, document metadata and timeline persistence foundations are implemented.
 Phase 1C billing, invoice, statement and financial correction foundations are implemented.
+Phase 1D migration strategy, repository interfaces, Prisma boundary and fake seed fixtures are implemented.
 
 ## Current Direction
 
@@ -23,6 +24,9 @@ Phase 1C billing, invoice, statement and financial correction foundations are im
 - Tested client/matter/document/timeline domain helpers.
 - Prisma foundation models for billing line items, invoices, invoice approvals, invoice number sequences, statement snapshots, statement approvals and financial correction records.
 - Tested money, VAT, invoice approval, statement approval and financial correction helpers.
+- Reviewed migration strategy and ADR.
+- Repository interfaces with protected-record boundaries.
+- Dev-only seed skeleton and deterministic fake fixtures.
 
 See:
 
@@ -40,6 +44,8 @@ See:
 - Money: integer cents only.
 - Invoice numbers: nullable until owner/principal approval.
 - Statements: snapshots, not live mutable views.
+- Production migrations: never run automatically by agents.
+- Seed data: fake only, no real client data.
 
 ## ADR Candidates
 

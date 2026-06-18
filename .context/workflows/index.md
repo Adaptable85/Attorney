@@ -22,6 +22,13 @@ pnpm run build
 pnpm run pre-pr
 ```
 
+Migration workflow:
+
+- Validate Prisma schema locally.
+- Generate/apply migrations only when explicitly instructed.
+- Never run production migrations automatically by agent.
+- Review schema diffs, SQL, backup status and rollback strategy before staging/production migrations.
+
 ## Approval Workflow Principle
 
 Future product workflows must preserve mandatory owner/principal approval for:

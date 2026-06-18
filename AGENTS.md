@@ -4,13 +4,14 @@ This repository is for the Burgess Attorneys Admin Automation Platform.
 
 ## Current Phase Boundary
 
-Phase 1C adds billing, invoice, statement and financial correction schema/domain foundations only.
+Phase 1D adds database migration strategy, repository interfaces and seed fixtures only.
 
 Do not build product features yet. Do not build the dashboard, invoice workflow, statement workflow, WhatsApp automation, Lexpro import, website, marketing system, outreach system, production auth, production database models, production file storage, or agent runtime yet.
 
 Phase 1A adds only auth, role, permission, audit and persistence boundaries.
 Phase 1B adds no UI and no sending/storage implementation.
 Phase 1C adds no UI, PDF generation, sending, payment reconciliation, WhatsApp automation or Lexpro import/sync.
+Phase 1D adds no production database migration execution and no real database wiring.
 
 ## Project Non-Negotiables
 
@@ -36,6 +37,9 @@ Phase 1C adds no UI, PDF generation, sending, payment reconciliation, WhatsApp a
 - OpenClaw/AI agents may not create or edit client or matter records directly.
 - Money must be stored in integer cents, not floating point values.
 - VAT rules must remain configurable, and VAT overrides require a reason.
+- Production migrations must not be run automatically by agents.
+- Seed data must not contain real client data.
+- Repository interfaces must not expose hard-delete methods for protected records.
 
 ## Safe Financial Defaults
 
