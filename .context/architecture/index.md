@@ -3,6 +3,7 @@
 Phase 0 architecture foundation is implemented.
 Phase 1A auth, role, permission, audit and persistence boundaries are implemented.
 Phase 1B client, matter, document metadata and timeline persistence foundations are implemented.
+Phase 1C billing, invoice, statement and financial correction foundations are implemented.
 
 ## Current Direction
 
@@ -20,6 +21,8 @@ Phase 1B client, matter, document metadata and timeline persistence foundations 
 - Tested audit event boundary.
 - Prisma foundation models for clients, contacts, matters, assignments, notes, document metadata and timeline events.
 - Tested client/matter/document/timeline domain helpers.
+- Prisma foundation models for billing line items, invoices, invoice approvals, invoice number sequences, statement snapshots, statement approvals and financial correction records.
+- Tested money, VAT, invoice approval, statement approval and financial correction helpers.
 
 See:
 
@@ -34,6 +37,9 @@ See:
 - Invoice numbers: assigned only on owner/principal approval.
 - Agent: draft-only service user by default.
 - Client documents: metadata only in Phase 1B and private by default.
+- Money: integer cents only.
+- Invoice numbers: nullable until owner/principal approval.
+- Statements: snapshots, not live mutable views.
 
 ## ADR Candidates
 

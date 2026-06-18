@@ -1,6 +1,6 @@
 # Technical Architecture
 
-Status: Phase 1B foundation
+Status: Phase 1C foundation
 Date: 2026-06-18
 
 ## Architecture Decision
@@ -20,7 +20,7 @@ The Next.js app will contain:
 - Tests.
 - Future database access through Prisma.
 
-Product UI and feature API endpoints remain intentionally minimal. Phase 1B adds only client, matter, document metadata and timeline persistence/domain boundaries.
+Product UI and feature API endpoints remain intentionally minimal. Phase 1C adds only billing, invoice, statement and financial correction schema/domain boundaries.
 
 ## Service-Layer Rule
 
@@ -41,7 +41,11 @@ Phase 1A includes Prisma foundation models for users, roles, permissions, audit 
 
 Phase 1B adds client, contact, matter, assignment, note, document metadata and timeline models.
 
-Invoice, statement, payment/import, Lexpro, marketing and outreach models are deferred.
+Phase 1C adds billing line item, invoice, invoice approval, invoice number sequence, statement snapshot, statement approval and financial correction models.
+
+Payment/import, Lexpro, marketing and outreach models are deferred.
+
+Financial records store money in integer cents with currency fields. Floating point money fields are not allowed.
 
 Prisma 7 keeps the datasource URL in `prisma.config.ts`, not in `schema.prisma`. The current config uses `DATABASE_URL` when present and a local placeholder URL for deterministic validation only.
 
@@ -67,6 +71,7 @@ Permission strategy:
 - Sensitive permissions must be enforced server-side.
 - Future delegated overrides must be explicit and tested.
 - Agents may not create or edit client or matter records directly.
+- Agents may create draft suggestions only and may not approve, assign invoice numbers, override VAT treatment or create final financial corrections.
 
 ## Audit Strategy
 
@@ -86,6 +91,8 @@ Phase 1B extends audit event categories for:
 - Matter note added.
 - Document metadata created/uploaded/downloaded/accessed.
 - Timeline event created.
+
+Phase 1C extends audit event categories for billing line items, invoice submission/approval/numbering/correction, statement snapshots/approval/correction, financial corrections and VAT overrides.
 
 Critical future audit events:
 

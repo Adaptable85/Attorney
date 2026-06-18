@@ -36,11 +36,23 @@ enum AuditEventType {
   MATTER_NOTE_ADDED
   DOCUMENT_ACCESSED
   DRAFT_CREATED
+  BILLING_LINE_ITEM_CREATED
+  BILLING_LINE_ITEM_EDITED
+  INVOICE_CREATED
+  INVOICE_SUBMITTED_FOR_APPROVAL
   INVOICE_APPROVED
+  INVOICE_NUMBER_ASSIGNED
   INVOICE_SENT
+  INVOICE_CANCELLED
+  INVOICE_CORRECTED
+  STATEMENT_SNAPSHOT_CREATED
+  STATEMENT_SUBMITTED_FOR_APPROVAL
   STATEMENT_APPROVED
   STATEMENT_SENT
+  STATEMENT_CORRECTED
   PAYMENT_IMPORT_CHANGED
+  FINANCIAL_CORRECTION_CREATED
+  VAT_TREATMENT_OVERRIDDEN
   AGENT_ACTION
   DOCUMENT_METADATA_CREATED
   DOCUMENT_UPLOADED
@@ -123,6 +135,69 @@ enum TimelineEventType {
   AUDIT_EVENT_RECORDED
 }
 
+enum BillingLineItemStatus {
+  DRAFT
+  AWAITING_REVIEW
+  APPROVED_FOR_INVOICE
+  REJECTED
+  INVOICED
+  CORRECTED
+}
+
+enum BillingCategory {
+  TIME
+  FOLIO
+  PAGE
+  FIXED_TARIFF
+  DISBURSEMENT
+  ADJUSTMENT
+  CORRECTION
+}
+
+enum VatTreatment {
+  VAT_ON_FEES
+  NO_VAT
+  VAT_EXEMPT
+  CUSTOM
+}
+
+enum InvoiceStatus {
+  DRAFT
+  AWAITING_OWNER_APPROVAL
+  APPROVED
+  SENT
+  CANCELLED
+  CORRECTED
+  PAID
+  PART_PAID
+  OVERDUE
+}
+
+enum StatementStatus {
+  DRAFT
+  AWAITING_OWNER_APPROVAL
+  APPROVED
+  SENT
+  UPDATED_AFTER_PAYMENT
+  CLOSED
+  CORRECTED
+}
+
+enum FinancialCorrectionType {
+  LINE_ITEM_CORRECTION
+  INVOICE_CORRECTION
+  STATEMENT_CORRECTION
+  VAT_CORRECTION
+  ADMIN_CORRECTION
+}
+
+enum FinancialRecordSource {
+  MANUAL
+  AGENT_DRAFT
+  SYSTEM
+  CORRECTION
+}
+
 model User {
   id              String           @id @default(cuid())
   email           String           @unique
@@ -142,6 +217,15 @@ model User {
   matterNotes        MatterNote[]
   uploadedDocuments  DocumentRecord[] @relation("DocumentUploader")
   timelineEvents     TimelineEvent[]  @relation("TimelineActor")
+  billingLineItems   BillingLineItem[] @relation("BillingLineItemCreator")
+  invoicesCreated    Invoice[]        @relation("InvoiceCreator")
+  invoicesApproved   Invoice[]        @relation("InvoiceApprover")
+  invoiceNumbersAssigned Invoice[]     @relation("InvoiceNumberAssigner")
+  invoiceApprovals   InvoiceApproval[]
+  statementsCreated  StatementSnapshot[] @relation("StatementCreator")
+  statementsApproved StatementSnapshot[] @relation("StatementApprover")
+  statementApprovals StatementApproval[]
+  financialCorrections FinancialCorrectionRecord[] @relation("FinancialCorrectionActor")
 }
 
 model Role {
@@ -244,6 +328,8 @@ model Client {
   matters        Matter[]
   documents      DocumentRecord[]
   timelineEvents TimelineEvent[]
+  invoices       Invoice[]
+  statements     StatementSnapshot[]
 
   @@index([status])
   @@index([normalizedSearch])
@@ -291,6 +377,9 @@ model Matter {
   notes               MatterNote[]
   documents           DocumentRecord[]
   timelineEvents      TimelineEvent[]
+  billingLineItems    BillingLineItem[]
+  invoices            Invoice[]
+  statements          StatementSnapshot[]
 
   @@index([clientId])
   @@index([accountNumber])
@@ -376,4 +465,198 @@ model TimelineEvent {
   @@index([subjectType, subjectId])
   @@index([clientId])
   @@index([matterId])
+}
+
+model BillingLineItem {
+  id                String                @id @default(cuid())
+  matterId          String
+  description       String
+  category          BillingCategory
+  status            BillingLineItemStatus @default(DRAFT)
+  quantity          Int                   @default(1)
+  unitAmountCents   Int
+  totalAmountCents  Int
+  currency          String                @default("ZAR")
+  vatTreatment      VatTreatment
+  vatAmountCents    Int                   @default(0)
+  source            FinancialRecordSource @default(MANUAL)
+  sourceReference   String?
+  createdById       String?
+  approvedById      String?
+  approvedAt        DateTime?
+  createdAt         DateTime              @default(now())
+  updatedAt         DateTime              @updatedAt
+
+  matter    Matter @relation(fields: [matterId], references: [id], onDelete: Restrict)
+  createdBy User?  @relation("BillingLineItemCreator", fields: [createdById], references: [id], onDelete: SetNull)
+
+  invoiceLines InvoiceLine[]
+
+  @@index([matterId])
+  @@index([status])
+  @@index([category])
+}
+
+model Invoice {
+  id                         String                @id @default(cuid())
+  clientId                   String
+  matterId                   String
+  internalDraftReference      String                @unique
+  officialInvoiceNumber       String?               @unique
+  status                     InvoiceStatus         @default(DRAFT)
+  subtotalCents              Int
+  vatAmountCents             Int                   @default(0)
+  totalCents                 Int
+  currency                   String                @default("ZAR")
+  source                     FinancialRecordSource @default(MANUAL)
+  createdById                String?
+  approvedById               String?
+  approvedAt                 DateTime?
+  invoiceNumberAssignedById  String?
+  invoiceNumberAssignedAt    DateTime?
+  invoiceNumberSequenceId    String?
+  createdAt                  DateTime              @default(now())
+  updatedAt                  DateTime              @updatedAt
+
+  client                  Client                 @relation(fields: [clientId], references: [id], onDelete: Restrict)
+  matter                  Matter                 @relation(fields: [matterId], references: [id], onDelete: Restrict)
+  createdBy               User?                  @relation("InvoiceCreator", fields: [createdById], references: [id], onDelete: SetNull)
+  approvedBy              User?                  @relation("InvoiceApprover", fields: [approvedById], references: [id], onDelete: SetNull)
+  invoiceNumberAssignedBy User?                  @relation("InvoiceNumberAssigner", fields: [invoiceNumberAssignedById], references: [id], onDelete: SetNull)
+  invoiceNumberSequence   InvoiceNumberSequence? @relation(fields: [invoiceNumberSequenceId], references: [id], onDelete: SetNull)
+  lines                   InvoiceLine[]
+  approvals               InvoiceApproval[]
+  statements              StatementLine[]
+
+  @@index([clientId])
+  @@index([matterId])
+  @@index([status])
+  @@index([approvedAt])
+}
+
+model InvoiceLine {
+  id                String  @id @default(cuid())
+  invoiceId         String
+  billingLineItemId String?
+  description       String
+  category          BillingCategory
+  quantity          Int     @default(1)
+  unitAmountCents   Int
+  totalAmountCents  Int
+  vatTreatment      VatTreatment
+  vatAmountCents    Int     @default(0)
+  currency          String  @default("ZAR")
+  position          Int
+  createdAt         DateTime @default(now())
+
+  invoice         Invoice          @relation(fields: [invoiceId], references: [id], onDelete: Restrict)
+  billingLineItem BillingLineItem? @relation(fields: [billingLineItemId], references: [id], onDelete: SetNull)
+
+  @@index([invoiceId])
+  @@index([billingLineItemId])
+}
+
+model InvoiceApproval {
+  id         String   @id @default(cuid())
+  invoiceId  String
+  approverId String
+  approvedAt DateTime @default(now())
+  notes      String?
+
+  invoice  Invoice @relation(fields: [invoiceId], references: [id], onDelete: Restrict)
+  approver User    @relation(fields: [approverId], references: [id], onDelete: Restrict)
+
+  @@index([invoiceId])
+  @@index([approverId])
+}
+
+model InvoiceNumberSequence {
+  id          String   @id @default(cuid())
+  scope       String   @unique
+  prefix      String
+  nextNumber  Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  invoices Invoice[]
+}
+
+model StatementSnapshot {
+  id              String          @id @default(cuid())
+  clientId        String
+  matterId        String?
+  status          StatementStatus @default(DRAFT)
+  statementPeriodStart DateTime?
+  statementPeriodEnd   DateTime?
+  openingBalanceCents  Int       @default(0)
+  closingBalanceCents  Int
+  currency        String          @default("ZAR")
+  createdById     String?
+  approvedById    String?
+  approvedAt      DateTime?
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  client     Client              @relation(fields: [clientId], references: [id], onDelete: Restrict)
+  matter     Matter?             @relation(fields: [matterId], references: [id], onDelete: SetNull)
+  createdBy  User?               @relation("StatementCreator", fields: [createdById], references: [id], onDelete: SetNull)
+  approvedBy User?               @relation("StatementApprover", fields: [approvedById], references: [id], onDelete: SetNull)
+  lines      StatementLine[]
+  approvals  StatementApproval[]
+
+  @@index([clientId])
+  @@index([matterId])
+  @@index([status])
+}
+
+model StatementLine {
+  id                  String   @id @default(cuid())
+  statementSnapshotId  String
+  invoiceId           String?
+  description         String
+  lineDate            DateTime?
+  debitCents          Int      @default(0)
+  creditCents         Int      @default(0)
+  balanceCents        Int
+  currency            String   @default("ZAR")
+  position            Int
+  createdAt           DateTime @default(now())
+
+  statementSnapshot StatementSnapshot @relation(fields: [statementSnapshotId], references: [id], onDelete: Restrict)
+  invoice           Invoice?          @relation(fields: [invoiceId], references: [id], onDelete: SetNull)
+
+  @@index([statementSnapshotId])
+  @@index([invoiceId])
+}
+
+model StatementApproval {
+  id                  String   @id @default(cuid())
+  statementSnapshotId  String
+  approverId          String
+  approvedAt          DateTime @default(now())
+  notes               String?
+
+  statementSnapshot StatementSnapshot @relation(fields: [statementSnapshotId], references: [id], onDelete: Restrict)
+  approver          User              @relation(fields: [approverId], references: [id], onDelete: Restrict)
+
+  @@index([statementSnapshotId])
+  @@index([approverId])
+}
+
+model FinancialCorrectionRecord {
+  id               String                  @id @default(cuid())
+  correctionType   FinancialCorrectionType
+  targetRecordType String
+  targetRecordId   String
+  actorId          String
+  reason           String
+  amountDeltaCents Int?
+  currency         String                  @default("ZAR")
+  createdAt        DateTime                @default(now())
+
+  actor User @relation("FinancialCorrectionActor", fields: [actorId], references: [id], onDelete: Restrict)
+
+  @@index([targetRecordType, targetRecordId])
+  @@index([actorId])
+  @@index([correctionType])
 }

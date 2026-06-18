@@ -50,6 +50,17 @@ Phase 1B critical-path tests cover:
 - Client/matter/document/timeline audit event coverage.
 - DocumentRecord metadata-only schema guardrail.
 
+Phase 1C critical-path tests cover:
+
+- Integer-cent money validation.
+- VAT defaults and override reason requirements.
+- Draft invoice number boundaries.
+- Owner-only invoice/statement approval.
+- Invoice number assignment on owner approval.
+- Financial correction payloads.
+- Financial audit event sensitivity.
+- Prisma money-field guardrails.
+
 ## Future Required Checks
 
 - Add Playwright browser tests when real UI workflows exist.

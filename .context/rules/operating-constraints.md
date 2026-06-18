@@ -23,6 +23,10 @@
 - Any future permission override must be explicit and tested.
 - OpenClaw/AI agents may not create or edit client or matter records directly.
 - Document records store metadata only unless a future storage decision explicitly changes this.
+- Money must be stored in integer cents, not floating point values.
+- VAT overrides require a reason.
+- Draft invoices must not have official invoice numbers.
+- Statement records are snapshots and require approval before sending.
 
 ## Phase -1 Constraints
 

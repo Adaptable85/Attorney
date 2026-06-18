@@ -19,11 +19,23 @@ describe("audit event boundary", () => {
         "matter_note_added",
         "document_accessed",
         "draft_created",
+        "billing_line_item_created",
+        "billing_line_item_edited",
+        "invoice_created",
+        "invoice_submitted_for_approval",
         "invoice_approved",
+        "invoice_number_assigned",
         "invoice_sent",
+        "invoice_cancelled",
+        "invoice_corrected",
+        "statement_snapshot_created",
+        "statement_submitted_for_approval",
         "statement_approved",
         "statement_sent",
+        "statement_corrected",
         "payment_import_changed",
+        "financial_correction_created",
+        "vat_treatment_overridden",
         "agent_action",
         "document_metadata_created",
         "document_uploaded",
@@ -46,6 +58,9 @@ describe("audit event boundary", () => {
     expect(isSensitiveAuditEvent("matter_edited")).toBe(true);
     expect(isSensitiveAuditEvent("document_metadata_created")).toBe(true);
     expect(isSensitiveAuditEvent("timeline_event_created")).toBe(true);
+    expect(isSensitiveAuditEvent("invoice_number_assigned")).toBe(true);
+    expect(isSensitiveAuditEvent("financial_correction_created")).toBe(true);
+    expect(isSensitiveAuditEvent("vat_treatment_overridden")).toBe(true);
   });
 
   it("creates audit events without coupling to a database implementation", () => {

@@ -4,18 +4,23 @@ import {
   canApproveInvoices,
   canApproveStatements,
   canCreateAgentDraftSuggestions,
+  canCreateFinancialCorrections,
   canCreateClients,
   canCreateMatters,
   canCreateDraftLineItems,
+  canEditDraftBillingLineItems,
   canDeleteProtectedRecords,
   canDownloadDocuments,
   canEditClients,
   canEditMatters,
+  canOverrideVatTreatment,
+  canAssignInvoiceNumbers,
   canOverrideAccountingData,
   canPublishMarketing,
   canRolePerform,
   canSendClientCommunication,
   canSendOutreach,
+  canViewFinancialRecords,
   canViewDocumentMetadata,
   canViewAuditLogs,
   getRolePermissions
@@ -83,5 +88,24 @@ describe("role permission policy", () => {
     expect(canViewDocumentMetadata("READ_ONLY_REVIEWER")).toBe(true);
     expect(canDownloadDocuments("READ_ONLY_REVIEWER")).toBe(false);
     expect(canDownloadDocuments("AGENT_SERVICE")).toBe(false);
+  });
+
+  it("enforces financial approval, correction, VAT and numbering boundaries", () => {
+    expect(canAssignInvoiceNumbers("OWNER_PRINCIPAL")).toBe(true);
+    expect(canCreateFinancialCorrections("OWNER_PRINCIPAL")).toBe(true);
+    expect(canOverrideVatTreatment("OWNER_PRINCIPAL")).toBe(true);
+
+    expect(canAssignInvoiceNumbers("SUPPORT_ADMIN")).toBe(false);
+    expect(canCreateFinancialCorrections("SUPPORT_ADMIN")).toBe(false);
+    expect(canOverrideVatTreatment("SUPPORT_ADMIN")).toBe(false);
+
+    expect(canAssignInvoiceNumbers("AGENT_SERVICE")).toBe(false);
+    expect(canCreateFinancialCorrections("AGENT_SERVICE")).toBe(false);
+    expect(canOverrideVatTreatment("AGENT_SERVICE")).toBe(false);
+    expect(canEditDraftBillingLineItems("SUPPORT_ADMIN")).toBe(true);
+    expect(canEditDraftBillingLineItems("AGENT_SERVICE")).toBe(false);
+    expect(canViewFinancialRecords("READ_ONLY_REVIEWER")).toBe(true);
+    expect(canCreateDraftLineItems("AGENT_SERVICE")).toBe(true);
+    expect(canCreateAgentDraftSuggestions("AGENT_SERVICE")).toBe(true);
   });
 });

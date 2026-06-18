@@ -12,6 +12,7 @@ const rolePermissions: Record<RoleKey, readonly PermissionAction[]> = {
     "delete_protected_record",
     "override_accounting_data",
     "create_draft_line_item",
+    "edit_draft_billing_line_item",
     "create_agent_draft_suggestion",
     "create_client",
     "edit_client",
@@ -20,6 +21,10 @@ const rolePermissions: Record<RoleKey, readonly PermissionAction[]> = {
     "view_document_metadata",
     "download_document",
     "create_timeline_event",
+    "view_financial_records",
+    "create_financial_correction",
+    "override_vat_treatment",
+    "assign_invoice_number",
     "view_audit_logs",
     "view_assigned_records",
     "record_admin_note",
@@ -28,6 +33,7 @@ const rolePermissions: Record<RoleKey, readonly PermissionAction[]> = {
   ],
   SUPPORT_ADMIN: [
     "create_draft_line_item",
+    "edit_draft_billing_line_item",
     "create_client",
     "edit_client",
     "create_matter",
@@ -35,12 +41,17 @@ const rolePermissions: Record<RoleKey, readonly PermissionAction[]> = {
     "view_document_metadata",
     "download_document",
     "create_timeline_event",
+    "view_financial_records",
     "view_assigned_records",
     "record_admin_note",
     "upload_document"
   ],
   AGENT_SERVICE: ["create_draft_line_item", "create_agent_draft_suggestion"],
-  READ_ONLY_REVIEWER: ["view_assigned_records", "view_document_metadata"]
+  READ_ONLY_REVIEWER: [
+    "view_assigned_records",
+    "view_document_metadata",
+    "view_financial_records"
+  ]
 };
 
 export function canRolePerform(role: RoleKey, action: PermissionAction): boolean {
@@ -83,6 +94,10 @@ export function canCreateDraftLineItems(role: RoleKey): boolean {
   return canRolePerform(role, "create_draft_line_item");
 }
 
+export function canEditDraftBillingLineItems(role: RoleKey): boolean {
+  return canRolePerform(role, "edit_draft_billing_line_item");
+}
+
 export function canCreateAgentDraftSuggestions(role: RoleKey): boolean {
   return canRolePerform(role, "create_agent_draft_suggestion");
 }
@@ -113,4 +128,20 @@ export function canViewDocumentMetadata(role: RoleKey): boolean {
 
 export function canDownloadDocuments(role: RoleKey): boolean {
   return canRolePerform(role, "download_document");
+}
+
+export function canViewFinancialRecords(role: RoleKey): boolean {
+  return canRolePerform(role, "view_financial_records");
+}
+
+export function canCreateFinancialCorrections(role: RoleKey): boolean {
+  return canRolePerform(role, "create_financial_correction");
+}
+
+export function canOverrideVatTreatment(role: RoleKey): boolean {
+  return canRolePerform(role, "override_vat_treatment");
+}
+
+export function canAssignInvoiceNumbers(role: RoleKey): boolean {
+  return canRolePerform(role, "assign_invoice_number");
 }

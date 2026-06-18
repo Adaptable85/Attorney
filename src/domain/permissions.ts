@@ -8,6 +8,7 @@ export const PERMISSION_ACTIONS = [
   "delete_protected_record",
   "override_accounting_data",
   "create_draft_line_item",
+  "edit_draft_billing_line_item",
   "create_agent_draft_suggestion",
   "create_client",
   "edit_client",
@@ -16,6 +17,10 @@ export const PERMISSION_ACTIONS = [
   "view_document_metadata",
   "download_document",
   "create_timeline_event",
+  "view_financial_records",
+  "create_financial_correction",
+  "override_vat_treatment",
+  "assign_invoice_number",
   "view_audit_logs",
   "view_assigned_records",
   "record_admin_note",
@@ -39,6 +44,9 @@ export const PROTECTED_ACTIONS: ReadonlySet<PermissionAction> = new Set([
   "create_matter",
   "edit_matter",
   "download_document",
+  "create_financial_correction",
+  "override_vat_treatment",
+  "assign_invoice_number",
   "edit_protected_record"
 ]);
 
