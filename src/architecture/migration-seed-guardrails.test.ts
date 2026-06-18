@@ -21,7 +21,16 @@ describe("migration and seed guardrails", () => {
     expect(seed).toContain("BURGESS_ALLOW_DEV_SEED");
     expect(seed).toContain("production");
     expect(seed).toContain("Dev seed skipped");
-    expect(seed).toContain("Actual database writes are deferred");
+    expect(seed).toContain("Dev seed completed with fake users and roles only");
+  });
+
+  it("keeps dev database reset local-only and guarded", () => {
+    const reset = readFileSync(join(root, "scripts/reset-dev-db.ts"), "utf8");
+
+    expect(reset).toContain("BURGESS_ALLOW_DEV_DB_RESET");
+    expect(reset).toContain("localhost");
+    expect(reset).toContain("burgess_attorneys_dev");
+    expect(reset).toContain("Refusing to reset database");
   });
 
   it("keeps seed fixtures free of real Burgess client names", () => {
@@ -39,4 +48,3 @@ describe("migration and seed guardrails", () => {
     expect(fixtures).not.toContain("attorneys inc");
   });
 });
-

@@ -4,7 +4,7 @@ This repository is for the Burgess Attorneys Admin Automation Platform.
 
 ## Current Phase Boundary
 
-Phase 1D adds database migration strategy, repository interfaces and seed fixtures only.
+Phase 1E adds local-only migration execution, Prisma Client generation, guarded fake users/roles seed writes and a minimal users/roles repository adapter only.
 
 Do not build product features yet. Do not build the dashboard, invoice workflow, statement workflow, WhatsApp automation, Lexpro import, website, marketing system, outreach system, production auth, production database models, production file storage, or agent runtime yet.
 
@@ -12,6 +12,7 @@ Phase 1A adds only auth, role, permission, audit and persistence boundaries.
 Phase 1B adds no UI and no sending/storage implementation.
 Phase 1C adds no UI, PDF generation, sending, payment reconciliation, WhatsApp automation or Lexpro import/sync.
 Phase 1D adds no production database migration execution and no real database wiring.
+Phase 1E adds local development database wiring only. It adds no production migration execution and no product features.
 
 ## Project Non-Negotiables
 
@@ -97,6 +98,7 @@ Available package commands:
 pnpm run lint
 pnpm run typecheck
 pnpm test
+pnpm run test:db
 pnpm run test:coverage
 pnpm run build
 ```

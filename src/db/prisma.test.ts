@@ -43,7 +43,18 @@ describe("Prisma client boundary", () => {
     expect(globalThis.burgessPrismaClient).toBeUndefined();
   });
 
-  it("does not hide missing generated Prisma client setup", async () => {
-    await expect(getPrismaClient()).rejects.toThrow();
+  it("can lazy-load the generated Prisma client without connecting", async () => {
+    process.env.DATABASE_URL = "postgresql://fake:fake@localhost:5432/fake";
+
+    const client = await getPrismaClient();
+
+    expect(client).toHaveProperty("$connect");
+    expect(client).toHaveProperty("$disconnect");
+  });
+
+  it("requires DATABASE_URL before constructing Prisma Client", async () => {
+    delete process.env.DATABASE_URL;
+
+    await expect(getPrismaClient()).rejects.toThrow("DATABASE_URL is required");
   });
 });

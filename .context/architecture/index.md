@@ -5,6 +5,7 @@ Phase 1A auth, role, permission, audit and persistence boundaries are implemente
 Phase 1B client, matter, document metadata and timeline persistence foundations are implemented.
 Phase 1C billing, invoice, statement and financial correction foundations are implemented.
 Phase 1D migration strategy, repository interfaces, Prisma boundary and fake seed fixtures are implemented.
+Phase 1E local migration execution, Prisma Client generation and a minimal users/roles repository adapter are implemented.
 
 ## Current Direction
 
@@ -27,6 +28,9 @@ Phase 1D migration strategy, repository interfaces, Prisma boundary and fake see
 - Reviewed migration strategy and ADR.
 - Repository interfaces with protected-record boundaries.
 - Dev-only seed skeleton and deterministic fake fixtures.
+- Local-only development migration path.
+- Guarded fake users/roles seed writes.
+- Database integration tests isolated behind `pnpm run test:db`.
 
 See:
 
@@ -46,6 +50,7 @@ See:
 - Statements: snapshots, not live mutable views.
 - Production migrations: never run automatically by agents.
 - Seed data: fake only, no real client data.
+- Normal pre-PR checks: must not require a running database.
 
 ## ADR Candidates
 

@@ -1,6 +1,6 @@
 # Context Index
 
-Status: Phase 0 technical foundation
+Status: Phase 1E local database foundation
 
 Read order:
 
@@ -33,6 +33,7 @@ Package commands:
 pnpm run lint
 pnpm run typecheck
 pnpm test
+pnpm run test:db
 pnpm run test:coverage
 pnpm run build
 ```

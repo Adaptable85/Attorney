@@ -8,4 +8,4 @@ export type { MattersRepository } from "./matters-repository";
 export type { StatementsRepository } from "./statements-repository";
 export type { TimelineRepository } from "./timeline-repository";
 export type { UsersRepository } from "./users-repository";
-
+export { createPrismaUsersRepository } from "./prisma/users-prisma-repository";

@@ -1,28 +1,34 @@
 # Database Migration Strategy
 
-Status: Phase 1D foundation
+Status: Phase 1E local development foundation
 Date: 2026-06-18
 
 ## Current State
 
 - Prisma schema exists at `prisma/schema.prisma`.
 - Prisma config exists at `prisma.config.ts`.
-- No migrations have been created or applied.
+- A local development migration has been created against `burgess_attorneys_dev`.
 - No production database connection is configured.
-- `pnpm run prisma:validate` validates the schema only.
+- `pnpm run prisma:validate` validates the schema.
+- `pnpm run prisma:generate` generates the local Prisma Client.
+- `pnpm run prisma:migrate:dev` is available for reviewed local development migrations only.
 
 ## Local / Dev Strategy
 
-Local database setup is deferred to a future phase.
+Local database setup is available for development only.
 
-Expected future local flow:
+Current local flow:
 
-1. Configure a local development `DATABASE_URL`.
-2. Generate or apply reviewed development migrations.
-3. Run dev-only seed fixtures.
-4. Run repository/service tests against a controlled local database only when explicitly enabled.
+1. Configure `DATABASE_URL` with the local `burgess_attorneys_dev` database.
+2. Validate the Prisma schema.
+3. Generate Prisma Client.
+4. Create or apply reviewed development migrations with `pnpm run prisma:migrate:dev`.
+5. Run dev-only seed fixtures with `BURGESS_ALLOW_DEV_SEED=true`.
+6. Reset local dev data only with `BURGESS_ALLOW_DEV_DB_RESET=true pnpm run db:reset:dev`.
+7. Run repository/service database tests with `pnpm run test:db`.
 
 Agents may validate the Prisma schema. Agents may generate dev migrations only when explicitly instructed.
+Normal pre-PR checks must not require a running database.
 
 ## Staging / Production Strategy
 
@@ -75,4 +81,5 @@ Before staging or production migrations:
 - Schema changes affecting approved financial records require extra tests.
 - Seed data must not contain real client data.
 - Seed data must be fake, deterministic and safe for development only.
-
+- `pnpm run db:seed` must skip by default unless `BURGESS_ALLOW_DEV_SEED=true`.
+- `pnpm run db:reset:dev` must skip by default unless `BURGESS_ALLOW_DEV_DB_RESET=true` and `DATABASE_URL` points to local `burgess_attorneys_dev`.

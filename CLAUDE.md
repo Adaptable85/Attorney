@@ -6,7 +6,7 @@ This repository is for the Burgess Attorneys Admin Automation Platform.
 
 Work safely, locally and deterministically. Do not assume missing frameworks, commands, APIs, hosting, financial rules, Lexpro capabilities, WhatsApp provider details, email provider details, or storage architecture.
 
-Phase 1D is database migration strategy, repository interface and seed fixture foundation only. Do not create product UI, production migrations, real database wiring, sending, payment reconciliation, WhatsApp automation or Lexpro import/sync in this phase.
+Phase 1E is local-only database migration execution, Prisma Client generation and a minimal users/roles repository spike. Do not create product UI, production migrations, sending, payment reconciliation, WhatsApp automation or Lexpro import/sync in this phase.
 
 ## Burgess-Specific Rules
 
@@ -81,6 +81,7 @@ Available package commands:
 pnpm run lint
 pnpm run typecheck
 pnpm test
+pnpm run test:db
 pnpm run test:coverage
 pnpm run build
 ```

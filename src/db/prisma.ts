@@ -3,7 +3,8 @@ type PrismaClientLike = {
   $disconnect(): Promise<void>;
 };
 
-type PrismaClientConstructor = new () => PrismaClientLike;
+type PrismaClientConstructor = new (options: { adapter: unknown }) => PrismaClientLike;
+type PrismaPgConstructor = new (config: { connectionString: string }) => unknown;
 
 declare global {
   var burgessPrismaClient: PrismaClientLike | undefined;
@@ -18,6 +19,19 @@ export async function getPrismaClient(): Promise<PrismaClientLike> {
     return globalThis.burgessPrismaClient;
   }
 
+  const databaseUrl = process.env.DATABASE_URL;
+
+  if (!databaseUrl) {
+    throw new Error("DATABASE_URL is required before constructing Prisma Client.");
+  }
+
+  const adapterModule = await import("@prisma/adapter-pg");
+  const PrismaPg = (adapterModule as unknown as { PrismaPg?: PrismaPgConstructor }).PrismaPg;
+
+  if (!PrismaPg) {
+    throw new Error("Prisma Postgres adapter is not available.");
+  }
+
   const prismaModule = await import("@prisma/client");
   const PrismaClient = (prismaModule as unknown as { PrismaClient?: PrismaClientConstructor })
     .PrismaClient;
@@ -26,7 +40,9 @@ export async function getPrismaClient(): Promise<PrismaClientLike> {
     throw new Error("Prisma client has not been generated yet.");
   }
 
-  globalThis.burgessPrismaClient = new PrismaClient();
+  const adapter = new PrismaPg({ connectionString: databaseUrl });
+
+  globalThis.burgessPrismaClient = new PrismaClient({ adapter });
   return globalThis.burgessPrismaClient;
 }
 
