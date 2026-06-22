@@ -32,6 +32,7 @@
 - Seed data must not contain real client data.
 - Repository interfaces must not expose hard-delete methods for protected records.
 - Admin shell placeholders must not imply that CRUD, approval, sending, publishing, upload, download or sync workflows are implemented.
+- Admin dashboard demo values must not imply live operational counts or implemented workflow actions.
 - Agent service users must not receive normal admin shell navigation by default.
 
 ## Phase -1 Constraints

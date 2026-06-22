@@ -14,6 +14,7 @@ Phase 1C adds no UI, PDF generation, sending, payment reconciliation, WhatsApp a
 Phase 1D adds no production database migration execution and no real database wiring.
 Phase 1E adds local development database wiring only. It adds no production migration execution and no product features.
 Phase 2A adds no CRUD, no real dashboard data, no protected workflow actions and no production auth.
+Phase 2B adds read-only admin dashboard placeholders only. It adds no real dashboard data, CRUD, protected workflow actions, production auth, sending or sync.
 
 ## Project Non-Negotiables
 

@@ -7,6 +7,7 @@ Phase 1C billing, invoice, statement and financial correction foundations are im
 Phase 1D migration strategy, repository interfaces, Prisma boundary and fake seed fixtures are implemented.
 Phase 1E local migration execution, Prisma Client generation and a minimal users/roles repository adapter are implemented.
 Phase 2A protected admin shell UI and role-aware placeholder navigation are implemented.
+Phase 2B read-only admin dashboard overview with safe demo placeholder data is implemented.
 
 ## Current Direction
 
@@ -34,6 +35,7 @@ Phase 2A protected admin shell UI and role-aware placeholder navigation are impl
 - Database integration tests isolated behind `pnpm run test:db`.
 - Protected `/admin` shell route with placeholder-only cards.
 - Local/dev auth boundary for shell protection; production auth remains unresolved.
+- Protected `/admin/dashboard` route with read-only, role-filtered demo placeholder sections.
 
 See:
 
@@ -55,6 +57,7 @@ See:
 - Seed data: fake only, no real client data.
 - Normal pre-PR checks: must not require a running database.
 - Admin shell: placeholder only, no CRUD or protected workflow actions.
+- Admin dashboard: demo placeholder data only, no live counts or workflow actions.
 - Agent service users: blocked from normal admin shell navigation.
 
 ## ADR Candidates

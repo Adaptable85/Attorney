@@ -8,6 +8,11 @@ export function AdminNav({ modules }: Readonly<{ modules: readonly AdminModule[]
         <p className="admin-nav__brand-label">Internal admin shell</p>
       </div>
       <ul className="admin-nav__list">
+        <li>
+          <a className="admin-nav__link" href="/admin/dashboard">
+            Dashboard
+          </a>
+        </li>
         {modules.map((module) => (
           <li key={module.id}>
             <a className="admin-nav__link" href={`#${module.id}`}>

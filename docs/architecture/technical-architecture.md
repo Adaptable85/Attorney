@@ -67,6 +67,8 @@ Phase 1A adds a provider-neutral auth interface and local/dev placeholder bounda
 
 Phase 2A uses that boundary to protect the `/admin` shell. Local development may use an explicit placeholder principal. Production auth remains unresolved and must be selected before real protected workflows are exposed.
 
+Phase 2B reuses the same boundary for `/admin/dashboard`. The dashboard is read-only and backed by demo placeholder data only.
+
 Permission strategy:
 
 - Owner / Principal Attorney has full approval powers.
@@ -96,6 +98,8 @@ The shell includes placeholder cards for:
 Every module card is labelled `Not implemented yet` and `Coming in later phase`.
 
 The shell does not display real client, matter, document or financial data. It does not include CRUD, approval, send, publish, upload, download, Lexpro sync or payment reconciliation actions.
+
+Phase 2B adds `/admin/dashboard` as a protected read-only overview. Dashboard sections are role-filtered and clearly labelled as demo placeholder data. Owner/principal users can see pending approval placeholders, while support admins see preparation placeholders without owner-only controls. The dashboard does not expose create, edit, delete, approve, send, publish, upload, download, Lexpro sync or payment reconciliation actions.
 
 ## Audit Strategy
 
