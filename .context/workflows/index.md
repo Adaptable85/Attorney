@@ -45,6 +45,12 @@ Read-only client/matter UI workflow:
 - Do not render active edit, delete, send or approval controls.
 - Payment and statement fields must remain placeholders until Lexpro/accounting and statement workflows are accepted.
 
+Client/matter form workflow:
+
+- Disabled form foundations may exist before persistence.
+- Do not enable save actions until server-side validation, service calls, permission checks and audit logging are tested.
+- Agent service and read-only reviewer users must remain blocked from create forms.
+
 Migration workflow:
 
 - Validate Prisma schema locally.

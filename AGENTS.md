@@ -17,6 +17,7 @@ Phase 2A adds no CRUD, no real dashboard data, no protected workflow actions and
 Phase 2B adds read-only admin dashboard placeholders only. It adds no real dashboard data, CRUD, protected workflow actions, production auth, sending or sync.
 Phase 2C adds client/matter service boundaries only. It adds no delete endpoints, UI CRUD, invoice/statement endpoints, production auth, production DB dependency, sending or sync.
 Phase 2D adds read-only client/matter UI with safe demo data only. It adds no edit/delete actions, invoice/statement creation, document upload/download, sending, payment reconciliation or sync.
+Phase 2E adds disabled client/matter form foundations only. It adds no submit/save action, server action, API route, persistence, document upload, invoice/statement generation, sending or sync.
 
 ## Project Non-Negotiables
 

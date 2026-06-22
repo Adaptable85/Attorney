@@ -127,6 +127,12 @@ Phase 2D adds read-only UI models for displaying client and matter summaries:
 
 The UI models are demo-only and do not represent live operational records.
 
+## Implemented In Phase 2E
+
+Phase 2E adds disabled UI form foundations for future client and matter creation.
+
+The forms are not domain mutations yet. They do not submit, persist, audit or create records.
+
 Repository rules:
 
 - No hard-delete methods for protected records.

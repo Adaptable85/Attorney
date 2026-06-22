@@ -447,6 +447,55 @@ a {
   font-weight: 700;
 }
 
+.form-foundation {
+  display: grid;
+  gap: 16px;
+}
+
+.form-foundation form {
+  display: grid;
+  gap: 14px;
+  border: 1px solid var(--burgess-border);
+  border-radius: 8px;
+  background: var(--burgess-panel);
+  padding: 18px;
+}
+
+.form-foundation label {
+  display: grid;
+  gap: 6px;
+  color: var(--burgess-muted);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.form-foundation input,
+.form-foundation select,
+.form-foundation textarea {
+  width: 100%;
+  border: 1px solid var(--burgess-border);
+  border-radius: 6px;
+  background: var(--burgess-panel-muted);
+  padding: 10px 12px;
+  color: var(--burgess-muted);
+  font: inherit;
+}
+
+.form-foundation textarea {
+  min-height: 96px;
+  resize: vertical;
+}
+
+.form-foundation button {
+  justify-self: start;
+  border: 1px solid var(--burgess-border);
+  border-radius: 6px;
+  background: var(--burgess-warning-soft);
+  padding: 10px 12px;
+  color: var(--burgess-warning);
+  font-weight: 700;
+}
+
 .not-authorized {
   max-width: 720px;
   margin: 48px auto;

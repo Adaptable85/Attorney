@@ -73,6 +73,8 @@ Phase 2C adds server-side client/matter service functions that wrap repository i
 
 Phase 2D adds protected read-only client and matter pages. These pages use safe demo repositories through the Phase 2C service functions and display placeholder operational fields only. They do not expose edit, delete, send, approval, upload, download, payment reconciliation or Lexpro sync controls.
 
+Phase 2E adds disabled client/matter create form foundations. They are permission-gated for owner/principal and support admin users, but no server action, API route or persistence wiring exists.
+
 Permission strategy:
 
 - Owner / Principal Attorney has full approval powers.
@@ -235,6 +237,8 @@ Concrete Prisma implementations outside the users/roles spike are deferred until
 Phase 2C adds service boundaries for listing, reading and creating client/matter records through repository interfaces. These services are designed for future route handlers and server actions, but they do not expose delete operations or require a production database.
 
 Phase 2D adds read-only UI pages for client and matter summaries. The current data source is clearly labelled demo data and is not a live database read model.
+
+Phase 2E form pages are future-phase placeholders only. Enabling them will require server-side validation, service calls, audit logging and persistence tests.
 
 ## Seed Strategy
 

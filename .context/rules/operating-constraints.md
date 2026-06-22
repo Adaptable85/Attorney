@@ -36,6 +36,7 @@
 - Agent service users must not receive normal admin shell navigation by default.
 - Client/matter service routes or UI must not bypass server-side service permission checks.
 - Read-only client/matter UI must not render active edit, delete, send or approval controls.
+- Client/matter create forms must remain disabled until validation, permissions, audit logging and persistence are implemented and tested.
 
 ## Phase -1 Constraints
 
