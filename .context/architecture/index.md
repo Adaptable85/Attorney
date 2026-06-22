@@ -8,6 +8,7 @@ Phase 1D migration strategy, repository interfaces, Prisma boundary and fake see
 Phase 1E local migration execution, Prisma Client generation and a minimal users/roles repository adapter are implemented.
 Phase 2A protected admin shell UI and role-aware placeholder navigation are implemented.
 Phase 2B read-only admin dashboard overview with safe demo placeholder data is implemented.
+Phase 2C client/matter service boundaries are implemented without API routes or database-dependent normal tests.
 
 ## Current Direction
 
@@ -36,6 +37,7 @@ Phase 2B read-only admin dashboard overview with safe demo placeholder data is i
 - Protected `/admin` shell route with placeholder-only cards.
 - Local/dev auth boundary for shell protection; production auth remains unresolved.
 - Protected `/admin/dashboard` route with read-only, role-filtered demo placeholder sections.
+- Client/matter service functions wrap repository interfaces with admin access checks and safe typed errors.
 
 See:
 
@@ -58,6 +60,7 @@ See:
 - Normal pre-PR checks: must not require a running database.
 - Admin shell: placeholder only, no CRUD or protected workflow actions.
 - Admin dashboard: demo placeholder data only, no live counts or workflow actions.
+- Client/matter services: no hard-delete operation, no API route exposure yet, and no normal-test database dependency.
 - Agent service users: blocked from normal admin shell navigation.
 
 ## ADR Candidates

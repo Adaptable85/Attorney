@@ -32,6 +32,13 @@ Admin shell workflow:
 - Agent service users must not receive normal admin navigation.
 - Do not add CRUD, send, approve, publish, upload, download or sync actions until their phases are accepted.
 
+Client/matter service workflow:
+
+- Route handlers and UI must use service-layer permission checks rather than calling repositories directly.
+- Service errors must be typed and user-safe.
+- Future client/matter mutations must include audit-ready actor context.
+- Do not add hard-delete operations for protected client or matter records.
+
 Migration workflow:
 
 - Validate Prisma schema locally.

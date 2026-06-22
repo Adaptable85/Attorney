@@ -106,6 +106,17 @@ Phase 1D adds:
 - Deterministic fake test fixtures.
 - Dev-only seed skeleton.
 
+## Implemented In Phase 2C
+
+Phase 2C adds server-side service boundaries for client and matter summaries:
+
+- Client list/detail service functions.
+- Matter list/detail service functions.
+- Permission-guarded client/matter create service functions.
+- Safe typed service errors.
+
+The services use repository interfaces and do not expose hard-delete operations, API routes or production database wiring.
+
 Repository rules:
 
 - No hard-delete methods for protected records.

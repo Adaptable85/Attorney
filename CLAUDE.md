@@ -6,7 +6,7 @@ This repository is for the Burgess Attorneys Admin Automation Platform.
 
 Work safely, locally and deterministically. Do not assume missing frameworks, commands, APIs, hosting, financial rules, Lexpro capabilities, WhatsApp provider details, email provider details, or storage architecture.
 
-Phase 2A is a protected, role-aware admin shell UI with placeholder module cards only. Phase 2B adds a read-only dashboard overview with safe demo placeholder data only. Do not create client/matter CRUD, invoice workflows, statement workflows, production auth, production migrations, sending, payment reconciliation, WhatsApp automation or Lexpro import/sync in these phases.
+Phase 2A is a protected, role-aware admin shell UI with placeholder module cards only. Phase 2B adds a read-only dashboard overview with safe demo placeholder data only. Phase 2C adds client/matter service boundaries only. Do not create client/matter UI CRUD, invoice workflows, statement workflows, production auth, production migrations, sending, payment reconciliation, WhatsApp automation or Lexpro import/sync in these phases.
 
 ## Burgess-Specific Rules
 

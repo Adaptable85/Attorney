@@ -69,6 +69,8 @@ Phase 2A uses that boundary to protect the `/admin` shell. Local development may
 
 Phase 2B reuses the same boundary for `/admin/dashboard`. The dashboard is read-only and backed by demo placeholder data only.
 
+Phase 2C adds server-side client/matter service functions that wrap repository interfaces with admin access checks, create permissions and safe typed errors. No API route handlers are exposed in Phase 2C, and normal validation remains database-free.
+
 Permission strategy:
 
 - Owner / Principal Attorney has full approval powers.
@@ -227,6 +229,8 @@ The interfaces protect future persistence work by:
 - Keeping document records metadata-only.
 
 Concrete Prisma implementations outside the users/roles spike are deferred until their phases are accepted.
+
+Phase 2C adds service boundaries for listing, reading and creating client/matter records through repository interfaces. These services are designed for future route handlers and server actions, but they do not expose delete operations or require a production database.
 
 ## Seed Strategy
 
