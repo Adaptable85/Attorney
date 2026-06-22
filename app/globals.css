@@ -335,6 +335,118 @@ a {
   font-size: 12px;
 }
 
+.read-list,
+.read-detail {
+  display: grid;
+  gap: 16px;
+}
+
+.read-list__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  border: 1px solid var(--burgess-border);
+  border-radius: 8px;
+  background: var(--burgess-panel);
+  padding: 18px;
+}
+
+.read-list__header h1 {
+  margin: 0;
+  font-size: 24px;
+  line-height: 1.2;
+}
+
+.read-list__header p {
+  margin: 8px 0 0;
+  color: var(--burgess-muted);
+  line-height: 1.5;
+}
+
+.read-list__header span,
+.read-card__title-row span {
+  border-radius: 999px;
+  background: var(--burgess-accent-soft);
+  padding: 7px 10px;
+  color: var(--burgess-accent);
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.read-list__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.read-card,
+.read-detail {
+  border: 1px solid var(--burgess-border);
+  border-radius: 8px;
+  background: var(--burgess-panel);
+  padding: 18px;
+}
+
+.read-card__title-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.read-card h2,
+.read-detail h1 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.read-card p,
+.read-detail p {
+  margin: 10px 0 0;
+  color: var(--burgess-muted);
+  line-height: 1.5;
+}
+
+.read-card dl,
+.read-detail dl {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin: 16px 0 0;
+}
+
+.read-card dt,
+.read-detail dt {
+  color: var(--burgess-muted);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.read-card dd,
+.read-detail dd {
+  margin: 4px 0 0;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.read-card__link {
+  display: inline-flex;
+  margin-top: 16px;
+  color: var(--burgess-accent);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.read-detail__future {
+  border-radius: 8px;
+  background: var(--burgess-warning-soft);
+  padding: 12px;
+  color: var(--burgess-warning) !important;
+  font-weight: 700;
+}
+
 .not-authorized {
   max-width: 720px;
   margin: 48px auto;
@@ -366,13 +478,18 @@ a {
   .status-grid,
   .module-grid,
   .dashboard-grid,
-  .dashboard-metrics {
+  .dashboard-metrics,
+  .read-list__grid,
+  .read-card dl,
+  .read-detail dl {
     grid-template-columns: 1fr;
   }
 
   .admin-header,
   .dashboard-overview__header,
-  .dashboard-section__header {
+  .dashboard-section__header,
+  .read-list__header,
+  .read-card__title-row {
     display: grid;
   }
 }

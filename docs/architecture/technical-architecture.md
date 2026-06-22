@@ -71,6 +71,8 @@ Phase 2B reuses the same boundary for `/admin/dashboard`. The dashboard is read-
 
 Phase 2C adds server-side client/matter service functions that wrap repository interfaces with admin access checks, create permissions and safe typed errors. No API route handlers are exposed in Phase 2C, and normal validation remains database-free.
 
+Phase 2D adds protected read-only client and matter pages. These pages use safe demo repositories through the Phase 2C service functions and display placeholder operational fields only. They do not expose edit, delete, send, approval, upload, download, payment reconciliation or Lexpro sync controls.
+
 Permission strategy:
 
 - Owner / Principal Attorney has full approval powers.
@@ -231,6 +233,8 @@ The interfaces protect future persistence work by:
 Concrete Prisma implementations outside the users/roles spike are deferred until their phases are accepted.
 
 Phase 2C adds service boundaries for listing, reading and creating client/matter records through repository interfaces. These services are designed for future route handlers and server actions, but they do not expose delete operations or require a production database.
+
+Phase 2D adds read-only UI pages for client and matter summaries. The current data source is clearly labelled demo data and is not a live database read model.
 
 ## Seed Strategy
 

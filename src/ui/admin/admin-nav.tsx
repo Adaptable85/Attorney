@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import type { AdminModule } from "./admin-modules";
 
 export function AdminNav({ modules }: Readonly<{ modules: readonly AdminModule[] }>) {
@@ -9,9 +11,19 @@ export function AdminNav({ modules }: Readonly<{ modules: readonly AdminModule[]
       </div>
       <ul className="admin-nav__list">
         <li>
-          <a className="admin-nav__link" href="/admin/dashboard">
+          <Link className="admin-nav__link" href="/admin/dashboard">
             Dashboard
-          </a>
+          </Link>
+        </li>
+        <li>
+          <Link className="admin-nav__link" href="/admin/clients">
+            Clients
+          </Link>
+        </li>
+        <li>
+          <Link className="admin-nav__link" href="/admin/matters">
+            Matters
+          </Link>
         </li>
         {modules.map((module) => (
           <li key={module.id}>

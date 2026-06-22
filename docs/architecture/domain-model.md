@@ -117,6 +117,16 @@ Phase 2C adds server-side service boundaries for client and matter summaries:
 
 The services use repository interfaces and do not expose hard-delete operations, API routes or production database wiring.
 
+## Implemented In Phase 2D
+
+Phase 2D adds read-only UI models for displaying client and matter summaries:
+
+- Client list items with account number, demo client name, status, matter count and placeholder financial/payment labels.
+- Matter list items with account number, client name, matter name/description, type, status, next step due date and placeholder operational labels.
+- Matter detail items with the same required fields and a future-phase-only action label.
+
+The UI models are demo-only and do not represent live operational records.
+
 Repository rules:
 
 - No hard-delete methods for protected records.

@@ -35,6 +35,7 @@
 - Admin dashboard demo values must not imply live operational counts or implemented workflow actions.
 - Agent service users must not receive normal admin shell navigation by default.
 - Client/matter service routes or UI must not bypass server-side service permission checks.
+- Read-only client/matter UI must not render active edit, delete, send or approval controls.
 
 ## Phase -1 Constraints
 

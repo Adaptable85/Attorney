@@ -16,6 +16,7 @@ Phase 1E adds local development database wiring only. It adds no production migr
 Phase 2A adds no CRUD, no real dashboard data, no protected workflow actions and no production auth.
 Phase 2B adds read-only admin dashboard placeholders only. It adds no real dashboard data, CRUD, protected workflow actions, production auth, sending or sync.
 Phase 2C adds client/matter service boundaries only. It adds no delete endpoints, UI CRUD, invoice/statement endpoints, production auth, production DB dependency, sending or sync.
+Phase 2D adds read-only client/matter UI with safe demo data only. It adds no edit/delete actions, invoice/statement creation, document upload/download, sending, payment reconciliation or sync.
 
 ## Project Non-Negotiables
 

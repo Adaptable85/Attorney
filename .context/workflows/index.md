@@ -39,6 +39,12 @@ Client/matter service workflow:
 - Future client/matter mutations must include audit-ready actor context.
 - Do not add hard-delete operations for protected client or matter records.
 
+Read-only client/matter UI workflow:
+
+- Demo data must be clearly labelled until a real read model is accepted.
+- Do not render active edit, delete, send or approval controls.
+- Payment and statement fields must remain placeholders until Lexpro/accounting and statement workflows are accepted.
+
 Migration workflow:
 
 - Validate Prisma schema locally.
