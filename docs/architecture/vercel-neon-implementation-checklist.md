@@ -1,7 +1,9 @@
 # Vercel And Neon Implementation Checklist
 
-Status: Phase 5D checklist
+Status: Superseded by ADR 0010
 Date: 2026-06-23
+
+This checklist is retained as historical context. ADR 0010 supersedes the Neon database-provider direction with Supabase Postgres. Use `docs/architecture/vercel-supabase-implementation-checklist.md` for active implementation planning.
 
 ADR 0009 accepts Vercel for the secure Next.js app/API and Neon managed PostgreSQL for production database hosting. This checklist is implementation planning only. It does not deploy, create production databases, add secrets, enable live auth, enable UI saves or enable production writes.
 

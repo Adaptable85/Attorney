@@ -33,6 +33,7 @@ Phase 5A production hosting/environment decision pack is implemented without dep
 Phase 5B accepts Vercel + Neon hosting/database direction in ADR 0009 without deployment, production database creation, production migrations, production auth readiness, production writes or UI saves.
 Phase 5C Vercel + Neon staging setup planning is implemented without creating live Vercel/Neon resources, deployment, secrets, production database commands, production auth readiness, production writes or UI saves.
 Phase 5D staging resource creation runbook and approval checklist are implemented without creating live Vercel/Neon resources, deployment, secrets, database commands, production auth readiness, production writes or UI saves.
+Phase 5G accepts Supabase Postgres as the managed PostgreSQL direction replacing Neon without creating Vercel/Supabase resources, deployment, secrets, database commands, production auth readiness, production writes or UI saves.
 
 ## Current Direction
 
@@ -90,11 +91,13 @@ Phase 5D staging resource creation runbook and approval checklist are implemente
 - Phase 4H callback/JWKS fetch-cache design lives at `docs/architecture/entra-staging-callback-jwks-fetch-cache-design.md` and is documentation-only.
 - PR #1 was squash merged to `origin/main` at `57dccc1`, and local `main` has been synced to that squash merge.
 - Phase 5A hosting/environment decision pack lives at `docs/architecture/production-hosting-environment-decision-pack.md`.
-- ADR 0009 accepts Vercel for the secure Next.js app/API and Neon managed PostgreSQL for the production database.
-- Vercel/Neon implementation checklist lives at `docs/architecture/vercel-neon-implementation-checklist.md`.
+- ADR 0010 accepts Vercel for the secure Next.js app/API and Supabase Postgres for staging and production PostgreSQL. ADR 0010 supersedes the Neon database-provider part of ADR 0009.
+- Vercel/Supabase implementation checklist lives at `docs/architecture/vercel-supabase-implementation-checklist.md`.
+- Historical Vercel/Neon implementation checklist lives at `docs/architecture/vercel-neon-implementation-checklist.md`.
 - Phase 5C staging setup plan lives at `docs/plans/phase-5c-vercel-neon-staging-setup-plan.md`.
 - Vercel staging checklist lives at `docs/architecture/vercel-staging-setup-checklist.md`.
-- Neon staging checklist lives at `docs/architecture/neon-staging-setup-checklist.md`.
+- Supabase staging checklist lives at `docs/architecture/supabase-staging-setup-checklist.md`.
+- Historical Neon staging checklist lives at `docs/architecture/neon-staging-setup-checklist.md`.
 - Environment variable template lives at `docs/architecture/environment-variable-template.md`.
 - Staging pre-deploy checklist lives at `docs/architecture/staging-predeploy-checklist.md`.
 - Phase 5D staging resource creation runbook lives at `docs/architecture/staging-resource-creation-runbook.md`.
@@ -149,6 +152,7 @@ See:
 - Phase 5B Vercel/Neon direction: accepted architecture decision only; no deployment, production database creation, production migration, live auth, production write or UI save is exposed.
 - Phase 5C staging setup plan: documentation/templates/checklists only; no Vercel project, Neon database, deployment, secret, production database command, live auth, production write or UI save is exposed.
 - Phase 5D staging resource runbook: documentation/checklists only; no Vercel project, Neon database, deployment, secret, database command, live auth, production write or UI save is exposed.
+- Phase 5G Supabase database-provider direction: accepted architecture decision and checklist updates only; no Supabase project, deployment, secret, database command, live auth, production write or UI save is exposed.
 - Agent service users: blocked from normal admin shell navigation.
 
 ## ADR Candidates

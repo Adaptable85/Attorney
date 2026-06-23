@@ -90,15 +90,16 @@ Audited persistence workflow:
 - Phase 5B accepts Vercel + Neon direction only; do not deploy, create production Neon databases, add secrets, enable live auth, enable UI saves or enable production writes.
 - Phase 5C documents Vercel/Neon staging setup plans and environment templates only; do not create Vercel projects, create Neon databases, deploy, add secrets, enable live auth, enable UI saves or enable production writes.
 - Phase 5D documents staging resource creation runbook and approval checklist only; do not create Vercel projects, create Neon databases, deploy, add secrets, run database commands, enable live auth, enable UI saves or enable production writes.
+- Phase 5G accepts Supabase Postgres as the managed PostgreSQL direction replacing Neon; do not create Supabase projects, deploy, add secrets, enable Supabase Auth/Storage, enable live auth, enable UI saves or enable production writes.
 - Do not enable `BURGESS_PRODUCTION_AUTH_ENABLED`, `BURGESS_PRODUCTION_AUTH_CONFIGURED` or `BURGESS_PRODUCTION_WRITES_ENABLED` until Entra tenant/admin access, MFA policy, allowed users/domains, role claim approach, environment configuration, staging validation and production readiness review are complete.
 
 Hosting/environment workflow:
 
 - PR #1 is squash merged into `origin/main` at `57dccc1`.
 - Local `main` is synced to the squash merge.
-- ADR 0009 accepts Vercel for the secure Next.js app/API and Neon managed PostgreSQL for production database hosting.
+- ADR 0010 accepts Vercel for the secure Next.js app/API and Supabase Postgres for staging and production PostgreSQL. ADR 0010 supersedes the Neon database-provider part of ADR 0009.
 - xneelo remains DNS/domain/public website only unless xneelo Cloud/Managed Server is explicitly required.
-- Do not deploy until Vercel project setup, Neon staging/production setup, URLs, DNS approach, backup retention, Entra tenant/admin access and deploy approvers are accepted.
+- Do not deploy until Vercel project setup, Supabase staging/production setup, URLs, DNS approach, backup retention, Entra tenant/admin access and deploy approvers are accepted.
 - Phase 5C staging setup docs are planning artifacts only; live resource creation and staging deployment remain pending explicit approval.
 - Phase 5D runbook defines the approval-controlled resource creation sequence only; live resource creation still requires explicit approval after the runbook is reviewed.
 

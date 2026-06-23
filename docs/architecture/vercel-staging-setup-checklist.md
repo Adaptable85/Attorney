@@ -1,6 +1,6 @@
 # Vercel Staging Setup Checklist
 
-Status: Phase 5D planning
+Status: Phase 5G planning update
 Date: 2026-06-23
 
 This checklist prepares Vercel staging setup only. It does not create a project, deploy the app, add secrets, enable live auth, enable UI saves or enable production writes.
@@ -89,14 +89,14 @@ Use placeholders first. Store real values only in Vercel environment variables, 
 
 ## Production Environment Variables Later
 
-- Use the production Neon database URL only in the Vercel production environment.
+- Use the production Supabase Postgres URL only in the Vercel production environment.
 - Use the production Entra app registration only in the Vercel production environment.
 - Keep `AUTH_PRODUCTION_READY=false` until the production auth readiness review passes.
 - Keep `BURGESS_PRODUCTION_WRITES_ENABLED=false` until a later live-write phase approves production writes.
 
 ## Function Region Recommendation
 
-- Choose a Vercel function region close to the selected Neon region where practical.
+- Choose a Vercel function region close to the selected Supabase region where practical.
 - Document the exact region before staging deploy.
 - Revisit the decision before production if latency, reliability or client expectations require it.
 
@@ -113,7 +113,7 @@ Use placeholders first. Store real values only in Vercel environment variables, 
 - Keep the previous successful deployment reference.
 - Use Vercel rollback for app regressions.
 - Disable auth/write flags if unexpected staging behavior appears.
-- Do not attempt data rollback without a reviewed Neon restore path.
+- Do not attempt data rollback without a reviewed Supabase restore path.
 
 ## Production Hold
 

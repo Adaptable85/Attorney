@@ -3,6 +3,8 @@
 Status: planned
 Date: 2026-06-23
 
+Phase 5G note: ADR 0010 supersedes this plan's Neon database-provider direction with Supabase Postgres. This document is retained as historical context for Phase 5C. Use `docs/architecture/supabase-staging-setup-checklist.md` and `docs/architecture/vercel-supabase-implementation-checklist.md` for active database-provider planning.
+
 ## Summary
 
 Phase 5C prepares the staging setup plan for the accepted Vercel + Neon hosting direction. It documents the exact setup sequence, environment variable template and pre-deploy checks needed before any live resource is created.

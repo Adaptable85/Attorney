@@ -1,6 +1,6 @@
 # Environment Variable Template
 
-Status: Phase 5C template
+Status: Phase 5G template update
 Date: 2026-06-23
 
 This template lists required and known environment variables with placeholders only. Do not commit real values. Store secrets only in local `.env.local` or approved provider secret stores.
@@ -43,7 +43,7 @@ This template lists required and known environment variables with placeholders o
 
 | Variable | Placeholder | Secret | Initial value / note |
 | --- | --- | --- | --- |
-| `DATABASE_URL` | `<neon-staging-database-url>` | Yes | Staging Neon URL only. No production DB URL. |
+| `DATABASE_URL` | `<supabase-staging-postgres-url>` | Yes | Staging Supabase Postgres URL only. No production DB URL. |
 | `AUTH_PROVIDER` | `entra` | No | Placeholder until staging auth approval. |
 | `AUTH_ENTRA_TENANT_ID` | `<staging-tenant-id>` | No | Add only in Vercel staging secrets/settings. |
 | `AUTH_ENTRA_CLIENT_ID` | `<staging-client-id>` | No | Add only in Vercel staging settings. |
@@ -77,7 +77,7 @@ This template lists required and known environment variables with placeholders o
 
 | Variable | Placeholder | Secret | Initial value / note |
 | --- | --- | --- | --- |
-| `DATABASE_URL` | `<neon-production-database-url>` | Yes | Production Neon URL only after approval. |
+| `DATABASE_URL` | `<supabase-production-postgres-url>` | Yes | Production Supabase Postgres URL only after approval. |
 | `AUTH_PROVIDER` | `entra` | No | Does not by itself approve live auth. |
 | `AUTH_ENTRA_TENANT_ID` | `<production-tenant-id>` | No | Add only after Entra production configuration approval. |
 | `AUTH_ENTRA_CLIENT_ID` | `<production-client-id>` | No | Add only after approval. |

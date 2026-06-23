@@ -1,7 +1,9 @@
 # Neon Staging Setup Checklist
 
-Status: Phase 5D planning
+Status: Superseded by ADR 0010
 Date: 2026-06-23
+
+This checklist is retained as historical context. ADR 0010 supersedes the Neon database-provider direction with Supabase Postgres. Use `docs/architecture/supabase-staging-setup-checklist.md` for active staging database setup planning.
 
 This checklist prepares Neon staging setup only. It does not create a Neon project, create a production database, run production database commands, run production migrations or add secrets.
 

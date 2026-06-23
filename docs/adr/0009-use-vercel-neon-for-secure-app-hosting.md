@@ -1,7 +1,9 @@
 # 0009: Use Vercel And Neon For Secure App Hosting
 
-Status: Accepted
+Status: Superseded
 Date: 2026-06-23
+
+Superseded by: ADR 0010 for the managed PostgreSQL provider decision. Vercel remains the accepted app/API host.
 
 ## Context
 
@@ -12,6 +14,8 @@ The platform handles sensitive legal-admin data. Hosting must support reviewed d
 ## Decision
 
 Use Vercel for the secure Next.js app/API and Neon managed PostgreSQL for the production database.
+
+This database-provider decision is superseded by ADR 0010, which uses Supabase Postgres instead of Neon.
 
 Keep xneelo only for DNS/domain/public website needs unless the client explicitly requires xneelo Cloud/Managed Server infrastructure.
 

@@ -4,7 +4,7 @@ This repository is for the Burgess Attorneys Admin Automation Platform.
 
 ## Current Phase Boundary
 
-Phase 5D adds a staging resource creation runbook and approval checklist only. It adds no Vercel project creation, Neon database creation, deployment, database command, production migration, live OAuth exchange, Microsoft redirect, network call to Microsoft, session cookie creation, real provider secrets, production auth readiness, production writes, live UI save, active production save button or mutation API route.
+Phase 5G records Supabase Postgres as the approved managed PostgreSQL replacement for Neon. It adds documentation and context only. It adds no Vercel project creation, Supabase project creation, deployment, database command, production migration, live OAuth exchange, Microsoft redirect, network call to Microsoft, session cookie creation, real provider secrets, production auth readiness, production writes, live UI save, active production save button or mutation API route.
 
 Do not build product features yet. Do not build client/matter CRUD, invoice workflow, statement workflow, WhatsApp automation, Lexpro import, website, marketing system, outreach system, production auth, production database models, production file storage, or agent runtime yet.
 
@@ -40,6 +40,7 @@ Phase 5A adds hosting/environment decision documentation only. It records PR #1 
 Phase 5B accepts Vercel + Neon hosting/database direction only. It adds no deployment, production database creation, production database command, production migration, live auth, UI saves, production writes, sending or sync.
 Phase 5C adds Vercel/Neon staging setup plans and environment templates only. It adds no Vercel project creation, Neon database creation, deployment, secrets, production database command, production migration, live auth, UI saves, production writes, sending or sync.
 Phase 5D adds a staging resource creation runbook and approval checklist only. It adds no Vercel project creation, Neon database creation, deployment, secrets, database command, production migration, live auth, UI saves, production writes, sending or sync.
+Phase 5G accepts Supabase Postgres as the managed PostgreSQL direction replacing Neon. It adds no Vercel project creation, Supabase project creation, deployment, secrets, database command, production migration, live auth, UI saves, production writes, sending or sync.
 
 ## Project Non-Negotiables
 
@@ -81,9 +82,10 @@ Phase 5D adds a staging resource creation runbook and approval checklist only. I
 - Local DB tests must use local PostgreSQL and the guarded `burgess_attorneys_dev` database only.
 - Microsoft Entra ID / Microsoft 365 identity is the accepted production auth provider direction, but implementation, secrets, production auth readiness and production writes remain blocked until approved validation is complete.
 - Production hosting, production database, DNS, backup and deployment approvals remain pending after Phase 5A.
-- Vercel + Neon is the accepted hosting/database direction after Phase 5B, but production provisioning and deployment remain blocked until explicitly approved.
+- Vercel + Supabase Postgres is the accepted hosting/database direction after ADR 0010. ADR 0010 supersedes the Neon database-provider part of ADR 0009, but production provisioning and deployment remain blocked until explicitly approved.
 - Phase 5C setup templates do not approve live resource creation, deployment, secrets, live auth, UI saves or production writes.
 - Phase 5D runbook/checklist does not approve live resource creation, deployment, secrets, database commands, live auth, UI saves or production writes.
+- Supabase is approved as managed PostgreSQL only; Supabase Auth, Supabase Storage, generated APIs and public object storage are not approved.
 - xneelo shared hosting must not host the secure app.
 
 ## Safe Financial Defaults

@@ -1,6 +1,6 @@
 # Technical Architecture
 
-Status: Phase 5D staging resource runbook planning
+Status: Phase 5 database-provider update
 Date: 2026-06-23
 
 ## Architecture Decision
@@ -122,6 +122,8 @@ Phase 5B accepts Vercel for the secure Next.js app/API and Neon managed PostgreS
 Phase 5C adds Vercel and Neon staging setup plans, environment variable templates and a staging pre-deploy checklist. It does not create live Vercel/Neon resources, deploy, add secrets, enable live Entra auth, enable UI saves or enable production writes.
 
 Phase 5D adds a staging resource creation runbook and approval checklist. It does not create Vercel resources, create Neon resources, deploy, add secrets, run database commands, enable live Entra auth, enable UI saves or enable production writes.
+
+ADR 0010 supersedes the Neon database-provider part of ADR 0009 and accepts Supabase Postgres for staging and production PostgreSQL. Vercel remains the accepted secure Next.js app/API host. Supabase Auth and Supabase Storage are not adopted by this decision.
 
 Permission strategy:
 

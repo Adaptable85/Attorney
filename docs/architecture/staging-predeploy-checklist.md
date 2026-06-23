@@ -1,6 +1,6 @@
 # Staging Pre-Deploy Checklist
 
-Status: Phase 5D planning
+Status: Phase 5G planning update
 Date: 2026-06-23
 
 This checklist must pass before any future staging deploy. It does not approve deployment by itself.
@@ -14,7 +14,7 @@ Phase 5D adds a resource creation runbook and approval checklist. Staging resour
 - `main` is synced with `origin/main`.
 - No unreviewed feature branches are used for staging.
 - No secrets or real client data are present in Git.
-- Staging resource creation approval is recorded before Vercel/Neon resources are created.
+- Staging resource creation approval is recorded before Vercel/Supabase resources are created.
 
 ## Staging Resource Details
 
@@ -22,9 +22,9 @@ Manual staging resource details are pending concrete non-secret values.
 
 - Vercel project name: pending.
 - Vercel staging URL: pending.
-- Neon project name: pending.
-- Neon region: pending.
-- Neon database/branch name: pending.
+- Supabase project name: pending.
+- Supabase region: pending.
+- Supabase database/branch name: pending.
 - `DATABASE_URL` configured in Vercel: pending yes/no confirmation, value must not be recorded.
 - Write gates confirmed false/off: pending yes/no confirmation.
 - `AUTH_PRODUCTION_READY=false`: pending yes/no confirmation.
@@ -56,7 +56,7 @@ pnpm run test:db:local
 
 ## Database Migration Status
 
-- Neon staging database exists only after explicit approval.
+- Supabase staging database exists only after explicit approval.
 - `DATABASE_URL` points to staging only for staging deploy/migration work.
 - Migration SQL has been reviewed.
 - Staging migration command has been approved.
@@ -101,7 +101,7 @@ pnpm run test:db:local
 - Capture deployment reference before smoke testing.
 - Use Vercel rollback for app regressions.
 - Disable auth/write flags if unexpected behavior appears.
-- Use Neon restore only after restore procedure is reviewed.
+- Use Supabase restore only after restore procedure is reviewed.
 - Do not run rollback migrations without an approved recovery plan.
 
 ## Data Rules
