@@ -2,7 +2,9 @@ export type ServiceErrorCode =
   | "UNAUTHORIZED"
   | "NOT_FOUND"
   | "VALIDATION_ERROR"
-  | "REPOSITORY_ERROR";
+  | "REPOSITORY_ERROR"
+  | "AUDIT_ERROR"
+  | "SERVICE_CONTEXT_ERROR";
 
 export type ServiceError = {
   code: ServiceErrorCode;
@@ -38,5 +40,12 @@ export function repositoryFailure(): ServiceResult<never> {
   return serviceFailure({
     code: "REPOSITORY_ERROR",
     message: "The requested records could not be loaded safely."
+  });
+}
+
+export function auditFailure(): ServiceResult<never> {
+  return serviceFailure({
+    code: "AUDIT_ERROR",
+    message: "The requested change could not be audited safely."
   });
 }

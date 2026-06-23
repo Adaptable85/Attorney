@@ -75,6 +75,10 @@ Phase 2D adds protected read-only client and matter pages. These pages use safe 
 
 Phase 2E adds disabled client/matter create form foundations. They are permission-gated for owner/principal and support admin users, but no server action, API route or persistence wiring exists.
 
+Phase 3A hardens the auth boundary for future production auth. Authenticated sessions are mapped through explicit role keys into domain principals, and unknown roles fail closed. The local/dev current user helper remains disabled in production and no production secrets are required for normal tests.
+
+Phase 3A also adds audited service context for future writes. Mutation-capable services must receive actor, role, source and audit writer context, pass permission checks and provide audit metadata before mutation preparation runs.
+
 Permission strategy:
 
 - Owner / Principal Attorney has full approval powers.
@@ -117,6 +121,8 @@ Phase 1A adds:
 - Audit event creation.
 - Injected audit writer boundary.
 - AuditLog Prisma model.
+
+Phase 3A adds an audited mutation executor for service-layer write preparation. It records audit intent before running mutation preparation so future live writes cannot bypass audit context. Real database-backed writes should later use transactions or an outbox pattern when available.
 
 Phase 1B extends audit event categories for:
 
@@ -239,6 +245,8 @@ Phase 2C adds service boundaries for listing, reading and creating client/matter
 Phase 2D adds read-only UI pages for client and matter summaries. The current data source is clearly labelled demo data and is not a live database read model.
 
 Phase 2E form pages are future-phase placeholders only. Enabling them will require server-side validation, service calls, audit logging and persistence tests.
+
+Phase 3A updates client/matter create service functions to require audited service context. The UI forms remain disabled; no API route, server action or live save is exposed.
 
 ## Seed Strategy
 

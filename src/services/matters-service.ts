@@ -2,12 +2,12 @@ import type { AuthenticatedPrincipal } from "@/auth/auth-provider";
 import { hasAdminShellAccess } from "@/auth/admin-access";
 import {
   type CreateMatterInput,
-  canCreateMatterRecord,
   validateMatterCreationInput
 } from "@/domain/matters";
 import type { MatterRecord, MattersRepository } from "@/repositories/matters-repository";
-import type { ActorContext } from "@/repositories/shared";
 import { ZodError } from "zod";
+import { executeAuditedMutation } from "./audited-service";
+import type { ServiceContext } from "./service-context";
 import {
   type ServiceResult,
   repositoryFailure,
@@ -30,13 +30,6 @@ export type MattersServiceDependencies = {
   mattersRepository: Pick<MattersRepository, "create" | "findById" | "listOpen">;
 };
 
-function actorFromPrincipal(principal: AuthenticatedPrincipal): ActorContext {
-  return {
-    actorId: principal.userId,
-    reason: "Admin matter service boundary"
-  };
-}
-
 function toMatterSummary(record: MatterRecord): MatterSummary {
   return {
     id: record.id,
@@ -52,10 +45,6 @@ function toMatterSummary(record: MatterRecord): MatterSummary {
 
 function canAccessMatterServices(principal: AuthenticatedPrincipal | null): principal is AuthenticatedPrincipal {
   return hasAdminShellAccess(principal);
-}
-
-function canCreateMatter(principal: AuthenticatedPrincipal): boolean {
-  return principal.roles.some(canCreateMatterRecord);
 }
 
 function validationFailure(error: ZodError): ServiceResult<never> {
@@ -115,25 +104,36 @@ export async function getMatterSummary(
 }
 
 export async function createMatterRecord(
-  principal: AuthenticatedPrincipal | null,
+  context: ServiceContext,
   input: CreateMatterInput,
   dependencies: MattersServiceDependencies
 ): Promise<ServiceResult<MatterSummary>> {
-  if (!canAccessMatterServices(principal) || !canCreateMatter(principal)) {
-    return serviceFailure({
-      code: "UNAUTHORIZED",
-      message: "This user cannot create matter records."
-    });
-  }
-
   try {
     const validated = validateMatterCreationInput(input);
-    const matter = await dependencies.mattersRepository.create(
-      validated,
-      actorFromPrincipal(principal)
-    );
 
-    return serviceSuccess(toMatterSummary(matter));
+    return executeAuditedMutation({
+      context,
+      requiredPermission: "create_matter",
+      audit: {
+        eventType: "matter_created",
+        targetType: "matter",
+        summary: "Matter create requested through audited service boundary",
+        metadata: {
+          accountNumber: validated.accountNumber,
+          clientId: validated.clientId,
+          status: validated.status,
+          type: validated.type
+        }
+      },
+      async run() {
+        const matter = await dependencies.mattersRepository.create(validated, {
+          actorId: context.actor.userId,
+          reason: "Audited matter create service"
+        });
+
+        return toMatterSummary(matter);
+      }
+    });
   } catch (error) {
     if (error instanceof ZodError) {
       return validationFailure(error);

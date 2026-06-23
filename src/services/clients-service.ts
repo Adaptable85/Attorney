@@ -2,12 +2,12 @@ import type { AuthenticatedPrincipal } from "@/auth/auth-provider";
 import { hasAdminShellAccess } from "@/auth/admin-access";
 import {
   type CreateClientInput,
-  canCreateClientRecord,
   validateClientCreationInput
 } from "@/domain/clients";
 import type { ClientsRepository, ClientRecord } from "@/repositories/clients-repository";
-import type { ActorContext } from "@/repositories/shared";
 import { ZodError } from "zod";
+import { executeAuditedMutation } from "./audited-service";
+import type { ServiceContext } from "./service-context";
 import {
   type ServiceResult,
   repositoryFailure,
@@ -26,13 +26,6 @@ export type ClientsServiceDependencies = {
   clientsRepository: Pick<ClientsRepository, "create" | "findById" | "listOpen">;
 };
 
-function actorFromPrincipal(principal: AuthenticatedPrincipal): ActorContext {
-  return {
-    actorId: principal.userId,
-    reason: "Admin client service boundary"
-  };
-}
-
 function toClientSummary(record: ClientRecord): ClientSummary {
   return {
     id: record.id,
@@ -44,10 +37,6 @@ function toClientSummary(record: ClientRecord): ClientSummary {
 
 function canAccessClientServices(principal: AuthenticatedPrincipal | null): principal is AuthenticatedPrincipal {
   return hasAdminShellAccess(principal);
-}
-
-function canCreateClient(principal: AuthenticatedPrincipal): boolean {
-  return principal.roles.some(canCreateClientRecord);
 }
 
 function validationFailure(error: ZodError): ServiceResult<never> {
@@ -107,25 +96,34 @@ export async function getClientSummary(
 }
 
 export async function createClientRecord(
-  principal: AuthenticatedPrincipal | null,
+  context: ServiceContext,
   input: CreateClientInput,
   dependencies: ClientsServiceDependencies
 ): Promise<ServiceResult<ClientSummary>> {
-  if (!canAccessClientServices(principal) || !canCreateClient(principal)) {
-    return serviceFailure({
-      code: "UNAUTHORIZED",
-      message: "This user cannot create client records."
-    });
-  }
-
   try {
     const validated = validateClientCreationInput(input);
-    const client = await dependencies.clientsRepository.create(
-      validated,
-      actorFromPrincipal(principal)
-    );
 
-    return serviceSuccess(toClientSummary(client));
+    return executeAuditedMutation({
+      context,
+      requiredPermission: "create_client",
+      audit: {
+        eventType: "client_created",
+        targetType: "client",
+        summary: "Client create requested through audited service boundary",
+        metadata: {
+          accountNumber: validated.accountNumber,
+          status: validated.status
+        }
+      },
+      async run() {
+        const client = await dependencies.clientsRepository.create(validated, {
+          actorId: context.actor.userId,
+          reason: "Audited client create service"
+        });
+
+        return toClientSummary(client);
+      }
+    });
   } catch (error) {
     if (error instanceof ZodError) {
       return validationFailure(error);

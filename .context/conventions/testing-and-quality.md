@@ -71,6 +71,16 @@ Phase 1D critical-path tests cover:
 - Dev-only seed guardrails.
 - Migration strategy warning against automatic production migrations by agents.
 
+Phase 3A critical-path tests cover:
+
+- Fail-closed session-to-role mapping.
+- Local/dev current-user boundary with no production secrets.
+- Server-side admin user requirement helper.
+- Service context actor and role requirements.
+- Audited mutation permission and audit metadata requirements.
+- Client/matter create services requesting audit payloads before repository writes.
+- Guardrails against forbidden cross-repo references, hard-delete names and active client/matter workflow controls.
+
 ## Future Required Checks
 
 - Add Playwright browser tests when real UI workflows exist.

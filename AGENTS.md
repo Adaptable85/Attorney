@@ -18,6 +18,7 @@ Phase 2B adds read-only admin dashboard placeholders only. It adds no real dashb
 Phase 2C adds client/matter service boundaries only. It adds no delete endpoints, UI CRUD, invoice/statement endpoints, production auth, production DB dependency, sending or sync.
 Phase 2D adds read-only client/matter UI with safe demo data only. It adds no edit/delete actions, invoice/statement creation, document upload/download, sending, payment reconciliation or sync.
 Phase 2E adds disabled client/matter form foundations only. It adds no submit/save action, server action, API route, persistence, document upload, invoice/statement generation, sending or sync.
+Phase 3A adds auth/session hardening and audited persistence enablement only. It adds no production auth secrets, live UI saves, API mutation routes, production DB commands, deployment, sending or sync.
 
 ## Project Non-Negotiables
 
@@ -46,6 +47,7 @@ Phase 2E adds disabled client/matter form foundations only. It adds no submit/sa
 - Production migrations must not be run automatically by agents.
 - Seed data must not contain real client data.
 - Repository interfaces must not expose hard-delete methods for protected records.
+- Mutation-capable services must require authenticated actor context, permission checks and audit metadata before repository writes.
 
 ## Safe Financial Defaults
 

@@ -1,8 +1,44 @@
 import { readFileSync } from "node:fs";
+import { readdirSync, statSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 
 const root = process.cwd();
+const sourceRoots = ["AGENTS.md", "CLAUDE.md", ".context", "app", "docs", "src"];
+
+function collectTextFiles(path: string): string[] {
+  const fullPath = join(root, path);
+  const stat = statSync(fullPath);
+
+  if (stat.isFile()) {
+    return [fullPath];
+  }
+
+  return readdirSync(fullPath).flatMap((entry) => {
+    const child = join(path, entry);
+    const childFullPath = join(root, child);
+    const childStat = statSync(childFullPath);
+
+    if (childStat.isDirectory()) {
+      return collectTextFiles(child);
+    }
+
+    return childFullPath.endsWith(".ts") ||
+      childFullPath.endsWith(".tsx") ||
+      childFullPath.endsWith(".md") ||
+      childFullPath.endsWith(".css")
+      ? [childFullPath]
+      : [];
+  });
+}
+
+function projectSource(): string {
+  return sourceRoots
+    .flatMap(collectTextFiles)
+    .filter((filePath) => !filePath.endsWith("src/architecture/guardrails.test.ts"))
+    .map((filePath) => readFileSync(filePath, "utf8"))
+    .join("\n");
+}
 
 describe("architecture guardrails", () => {
   const criticalRules = [
@@ -58,5 +94,54 @@ describe("architecture guardrails", () => {
       expect(file).toContain("Approved financial records require correction records");
       expect(file).toContain("Lexpro remains source of truth");
     }
+  });
+
+  it("does not reference Command Center or command-center artifacts", () => {
+    const source = projectSource();
+
+    expect(source).not.toContain("Command Center");
+    expect(source).not.toContain("command-center");
+    expect(source).not.toContain("artifacts/command-center");
+  });
+
+  it("does not add hard-delete service or route naming for protected records", () => {
+    const source = projectSource();
+
+    expect(source).not.toMatch(/\bdelete(Client|Matter|Invoice|Statement)\b/);
+    expect(source).not.toMatch(/\bhardDelete(Client|Matter|Invoice|Statement)\b/);
+  });
+
+  it("keeps client and matter UI free of active send or approval controls", () => {
+    const source = [
+      readFileSync(join(root, "src/ui/admin/client-list.tsx"), "utf8"),
+      readFileSync(join(root, "src/ui/admin/matter-list.tsx"), "utf8"),
+      readFileSync(join(root, "src/ui/admin/matter-detail.tsx"), "utf8")
+    ].join("\n");
+
+    expect(source).not.toMatch(/<button[^>]*>(?:Approve|Send|Delete|Edit)/);
+    expect(source).not.toContain("Approve invoice");
+    expect(source).not.toContain("Send statement");
+  });
+
+  it("keeps create form submit controls disabled until audited persistence is enabled", () => {
+    const clientForm = readFileSync(join(root, "src/ui/admin/client-create-form.tsx"), "utf8");
+    const matterForm = readFileSync(join(root, "src/ui/admin/matter-create-form.tsx"), "utf8");
+
+    expect(clientForm).toContain("type=\"button\" disabled");
+    expect(matterForm).toContain("type=\"button\" disabled");
+    expect(clientForm).not.toContain("action=");
+    expect(matterForm).not.toContain("action=");
+  });
+
+  it("requires mutation-capable services to use audited service context", () => {
+    const clientsService = readFileSync(join(root, "src/services/clients-service.ts"), "utf8");
+    const mattersService = readFileSync(join(root, "src/services/matters-service.ts"), "utf8");
+
+    expect(clientsService).toContain("context: ServiceContext");
+    expect(clientsService).toContain("executeAuditedMutation");
+    expect(clientsService).toContain("eventType: \"client_created\"");
+    expect(mattersService).toContain("context: ServiceContext");
+    expect(mattersService).toContain("executeAuditedMutation");
+    expect(mattersService).toContain("eventType: \"matter_created\"");
   });
 });

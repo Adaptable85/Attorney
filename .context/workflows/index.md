@@ -51,6 +51,13 @@ Client/matter form workflow:
 - Do not enable save actions until server-side validation, service calls, permission checks and audit logging are tested.
 - Agent service and read-only reviewer users must remain blocked from create forms.
 
+Audited persistence workflow:
+
+- Authenticated sessions must map through fail-closed role mapping before service use.
+- Mutation-capable services must receive service context with actor, role, source and audit writer.
+- Permission checks and audit metadata are required before mutation preparation runs.
+- UI must not write directly to repositories.
+
 Migration workflow:
 
 - Validate Prisma schema locally.

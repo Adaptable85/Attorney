@@ -11,6 +11,7 @@ Phase 2B read-only admin dashboard overview with safe demo placeholder data is i
 Phase 2C client/matter service boundaries are implemented without API routes or database-dependent normal tests.
 Phase 2D read-only client/matter UI is implemented with safe demo data through service boundaries.
 Phase 2E disabled client/matter create form foundations are implemented without persistence.
+Phase 3A auth/session hardening and audited persistence enablement are implemented without live UI saves.
 
 ## Current Direction
 
@@ -42,6 +43,8 @@ Phase 2E disabled client/matter create form foundations are implemented without 
 - Client/matter service functions wrap repository interfaces with admin access checks and safe typed errors.
 - Protected `/admin/clients`, `/admin/matters` and `/admin/matters/[id]` read-only pages use safe demo repositories.
 - Protected `/admin/clients/new` and `/admin/matters/new` render disabled future-phase form foundations only.
+- Auth sessions map through fail-closed role mapping before becoming domain principals.
+- Mutation-capable service functions require service context, permission checks and audit metadata.
 
 See:
 
@@ -67,6 +70,7 @@ See:
 - Client/matter services: no hard-delete operation, no API route exposure yet, and no normal-test database dependency.
 - Client/matter UI: read-only demo display only, no edit/delete/send/approve actions.
 - Client/matter form foundations: disabled only, no submit action or persistence.
+- Audited persistence enablement: service boundary only; forms remain disabled and no live database write is exposed.
 - Agent service users: blocked from normal admin shell navigation.
 
 ## ADR Candidates

@@ -3,16 +3,8 @@ import {
   type AuthProvider,
   createLocalDevAuthProvider
 } from "./auth-provider";
-import type { RoleKey } from "@/domain/roles";
-
-function isSupportedDevRole(value: string | undefined): value is RoleKey {
-  return (
-    value === "OWNER_PRINCIPAL" ||
-    value === "SUPPORT_ADMIN" ||
-    value === "AGENT_SERVICE" ||
-    value === "READ_ONLY_REVIEWER"
-  );
-}
+import { createSession } from "./role-mapping";
+import { mapSessionToPrincipal } from "./role-mapping";
 
 export function getLocalDevPrincipal(): AuthenticatedPrincipal | null {
   if (process.env.NODE_ENV === "production") {
@@ -25,14 +17,14 @@ export function getLocalDevPrincipal(): AuthenticatedPrincipal | null {
     return null;
   }
 
-  const role = isSupportedDevRole(devRoleFromEnv) ? devRoleFromEnv : "SUPPORT_ADMIN";
+  const role = devRoleFromEnv ?? "SUPPORT_ADMIN";
 
-  return {
-    userId: `local_dev_${role.toLowerCase()}`,
+  return mapSessionToPrincipal(createSession({
+    subject: `local_dev_${role.toLowerCase()}`,
     email: "local.dev.admin@example.test",
-    roles: [role],
+    roleKeys: [role],
     provider: "local_dev_placeholder"
-  };
+  }));
 }
 
 export function createCurrentUserProvider(): AuthProvider {

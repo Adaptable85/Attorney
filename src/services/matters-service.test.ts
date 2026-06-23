@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 import type { CreateMatterInput } from "@/domain/matters";
 import { validateMatterCreationInput } from "@/domain/matters";
@@ -10,6 +10,7 @@ import {
   getMatterSummary,
   listMatterSummaries
 } from "./matters-service";
+import { createServiceContext } from "./service-context";
 
 const now = new Date("2026-06-18T00:00:00.000Z");
 
@@ -40,6 +41,27 @@ const agentPrincipal = {
   roles: ["AGENT_SERVICE" as const],
   provider: "local_dev_placeholder" as const
 };
+
+function createTestServiceContext(
+  principal:
+    | typeof ownerPrincipal
+    | typeof supportPrincipal
+    | typeof reviewerPrincipal
+    | typeof agentPrincipal
+) {
+  const result = createServiceContext(principal, {
+    auditWriter: {
+      record: vi.fn(async () => undefined)
+    },
+    source: "matters-service-test"
+  });
+
+  if (!result.ok) {
+    throw new Error("Expected service context");
+  }
+
+  return result.data;
+}
 
 function createFakeMattersRepository(): MattersRepository {
   const records = [
@@ -119,13 +141,40 @@ describe("matters service", () => {
     };
 
     await expect(
-      createMatterRecord(ownerPrincipal, input, { mattersRepository: createFakeMattersRepository() })
-    ).resolves.toMatchObject({ ok: true });
-    await expect(
-      createMatterRecord(supportPrincipal, input, {
+      createMatterRecord(createTestServiceContext(ownerPrincipal), input, {
         mattersRepository: createFakeMattersRepository()
       })
     ).resolves.toMatchObject({ ok: true });
+    await expect(
+      createMatterRecord(createTestServiceContext(supportPrincipal), input, {
+        mattersRepository: createFakeMattersRepository()
+      })
+    ).resolves.toMatchObject({ ok: true });
+  });
+
+  it("emits audit payload before matter create preparation", async () => {
+    const context = createTestServiceContext(ownerPrincipal);
+    const result = await createMatterRecord(
+      context,
+      {
+        clientId: "client_demo_001",
+        accountNumber: "DEMO-MATTER-NEW",
+        name: "Demo Matter New",
+        description: "Fake matter for service validation",
+        type: "CONTRACTS"
+      },
+      { mattersRepository: createFakeMattersRepository() }
+    );
+
+    expect(result).toMatchObject({ ok: true });
+    expect(context.auditWriter.record).toHaveBeenCalledWith(
+      expect.objectContaining({
+        eventType: "matter_created",
+        actorId: "owner",
+        targetType: "matter",
+        summary: "Matter create requested through audited service boundary"
+      })
+    );
   });
 
   it("blocks agent and read-only reviewer users from creating matters", async () => {
@@ -138,10 +187,12 @@ describe("matters service", () => {
     };
 
     await expect(
-      createMatterRecord(agentPrincipal, input, { mattersRepository: createFakeMattersRepository() })
+      createMatterRecord(createTestServiceContext(agentPrincipal), input, {
+        mattersRepository: createFakeMattersRepository()
+      })
     ).resolves.toMatchObject({ ok: false, error: { code: "UNAUTHORIZED" } });
     await expect(
-      createMatterRecord(reviewerPrincipal, input, {
+      createMatterRecord(createTestServiceContext(reviewerPrincipal), input, {
         mattersRepository: createFakeMattersRepository()
       })
     ).resolves.toMatchObject({ ok: false, error: { code: "UNAUTHORIZED" } });
@@ -149,7 +200,7 @@ describe("matters service", () => {
 
   it("returns validation errors without raw stack traces", async () => {
     const result = await createMatterRecord(
-      ownerPrincipal,
+      createTestServiceContext(ownerPrincipal),
       {
         clientId: "",
         accountNumber: "",
@@ -211,7 +262,7 @@ describe("matters service", () => {
     ).resolves.toMatchObject({ ok: false, error: { code: "REPOSITORY_ERROR" } });
     await expect(
       createMatterRecord(
-        ownerPrincipal,
+        createTestServiceContext(ownerPrincipal),
         {
           clientId: "client_demo_001",
           accountNumber: "DEMO-MATTER-NEW",

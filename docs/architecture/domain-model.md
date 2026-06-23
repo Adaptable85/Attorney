@@ -133,6 +133,18 @@ Phase 2E adds disabled UI form foundations for future client and matter creation
 
 The forms are not domain mutations yet. They do not submit, persist, audit or create records.
 
+## Implemented In Phase 3A
+
+Phase 3A adds production-grade auth and audited service enablement:
+
+- Fail-closed session-to-role mapping.
+- Server-side admin user requirement helper.
+- Service context with actor, primary role, source and audit writer.
+- Audited mutation executor for future client/matter writes.
+- Client/matter create service functions requiring audited service context.
+
+The disabled forms remain non-mutating. No live client or matter persistence is exposed by UI, API routes or server actions.
+
 Repository rules:
 
 - No hard-delete methods for protected records.

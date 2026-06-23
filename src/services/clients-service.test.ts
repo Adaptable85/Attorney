@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 import type { CreateClientInput } from "@/domain/clients";
 import { validateClientCreationInput } from "@/domain/clients";
@@ -6,6 +6,7 @@ import type { ClientsRepository } from "@/repositories/clients-repository";
 import { fakeClient } from "@/test/fixtures";
 import * as clientsServiceExports from "./clients-service";
 import { createClientRecord, getClientSummary, listClientSummaries } from "./clients-service";
+import { createServiceContext } from "./service-context";
 
 const now = new Date("2026-06-18T00:00:00.000Z");
 
@@ -36,6 +37,27 @@ const agentPrincipal = {
   roles: ["AGENT_SERVICE" as const],
   provider: "local_dev_placeholder" as const
 };
+
+function createTestServiceContext(
+  principal:
+    | typeof ownerPrincipal
+    | typeof supportPrincipal
+    | typeof reviewerPrincipal
+    | typeof agentPrincipal
+) {
+  const result = createServiceContext(principal, {
+    auditWriter: {
+      record: vi.fn(async () => undefined)
+    },
+    source: "clients-service-test"
+  });
+
+  if (!result.ok) {
+    throw new Error("Expected service context");
+  }
+
+  return result.data;
+}
 
 function createFakeClientsRepository(): ClientsRepository {
   const records = [
@@ -103,13 +125,37 @@ describe("clients service", () => {
     };
 
     await expect(
-      createClientRecord(ownerPrincipal, input, { clientsRepository: createFakeClientsRepository() })
-    ).resolves.toMatchObject({ ok: true });
-    await expect(
-      createClientRecord(supportPrincipal, input, {
+      createClientRecord(createTestServiceContext(ownerPrincipal), input, {
         clientsRepository: createFakeClientsRepository()
       })
     ).resolves.toMatchObject({ ok: true });
+    await expect(
+      createClientRecord(createTestServiceContext(supportPrincipal), input, {
+        clientsRepository: createFakeClientsRepository()
+      })
+    ).resolves.toMatchObject({ ok: true });
+  });
+
+  it("emits audit payload before client create preparation", async () => {
+    const context = createTestServiceContext(ownerPrincipal);
+    const result = await createClientRecord(
+      context,
+      {
+        accountNumber: "DEMO-CLIENT-NEW",
+        displayName: "Demo Client New"
+      },
+      { clientsRepository: createFakeClientsRepository() }
+    );
+
+    expect(result).toMatchObject({ ok: true });
+    expect(context.auditWriter.record).toHaveBeenCalledWith(
+      expect.objectContaining({
+        eventType: "client_created",
+        actorId: "owner",
+        targetType: "client",
+        summary: "Client create requested through audited service boundary"
+      })
+    );
   });
 
   it("blocks agent and read-only reviewer users from creating clients", async () => {
@@ -119,10 +165,12 @@ describe("clients service", () => {
     };
 
     await expect(
-      createClientRecord(agentPrincipal, input, { clientsRepository: createFakeClientsRepository() })
+      createClientRecord(createTestServiceContext(agentPrincipal), input, {
+        clientsRepository: createFakeClientsRepository()
+      })
     ).resolves.toMatchObject({ ok: false, error: { code: "UNAUTHORIZED" } });
     await expect(
-      createClientRecord(reviewerPrincipal, input, {
+      createClientRecord(createTestServiceContext(reviewerPrincipal), input, {
         clientsRepository: createFakeClientsRepository()
       })
     ).resolves.toMatchObject({ ok: false, error: { code: "UNAUTHORIZED" } });
@@ -130,7 +178,7 @@ describe("clients service", () => {
 
   it("returns validation errors without raw stack traces", async () => {
     const result = await createClientRecord(
-      ownerPrincipal,
+      createTestServiceContext(ownerPrincipal),
       {
         accountNumber: "",
         displayName: ""
@@ -189,7 +237,7 @@ describe("clients service", () => {
     ).resolves.toMatchObject({ ok: false, error: { code: "REPOSITORY_ERROR" } });
     await expect(
       createClientRecord(
-        ownerPrincipal,
+        createTestServiceContext(ownerPrincipal),
         {
           accountNumber: "DEMO-CLIENT-NEW",
           displayName: "Demo Client New"
