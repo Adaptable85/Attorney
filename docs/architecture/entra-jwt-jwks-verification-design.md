@@ -1,9 +1,11 @@
 # Entra JWT/JWKS Verification Design
 
-Status: Phase 4G jose verifier decision
+Status: Phase 4H staging callback/JWKS fetch-cache design
 Date: 2026-06-23
 
 Phase 4F added a verification boundary only. Phase 4G selects `jose` and adds a non-live adapter skeleton for fake/local token verification. It does not add live OAuth, token exchange, Microsoft network fetches, sessions, cookies, production auth readiness or writes.
+
+Phase 4H documents how a future staging callback should fetch and cache JWKS metadata before passing selected JWK material to the `jose` adapter. It does not implement that fetch/cache wiring or enable routes.
 
 ## Why Cryptographic Verification Is Required
 
@@ -62,7 +64,7 @@ Verified claims still must match:
 
 ## Key Caching And Rotation
 
-Phase 4D introduced a JWKS cache boundary with injectable fetcher. Phase 4F does not add live JWKS fetching. Future live auth must define cache expiry, key rotation, retry and outage behavior before routes are enabled.
+Phase 4D introduced a JWKS cache boundary with injectable fetcher. Phase 4H defines the intended expiry, rotation, unknown-`kid` refresh and outage behavior in `docs/architecture/entra-staging-callback-jwks-fetch-cache-design.md`. Future live auth must implement and validate that design before routes are enabled.
 
 ## Route Status
 
@@ -71,6 +73,7 @@ Login, callback and logout routes remain disabled. They do not redirect to Micro
 ## Requirements Before Live Auth
 
 - Define reviewed live JWKS fetch/cache behavior.
+- Implement and test the Phase 4H staging callback/JWKS fetch-cache design.
 - Configure real Entra app registration values outside Git.
 - Validate JWKS fetch/cache behavior in staging.
 - Add callback/session implementation with audit events.

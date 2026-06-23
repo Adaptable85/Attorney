@@ -61,6 +61,7 @@
 - Microsoft Entra staging wiring must remain disabled by default and must not enable live routes, cookies, sessions, production auth readiness or production writes.
 - Microsoft Entra JWT/JWKS verification boundaries must not treat decoded claims as authenticated unless an injected cryptographic verifier succeeds.
 - Microsoft Entra `jose` verifier adapters must use injected key material only and must not fetch Microsoft JWKS metadata until a live auth phase is accepted.
+- Microsoft Entra callback/JWKS fetch-cache design must remain documentation-only until a live auth phase explicitly accepts route enablement, network fetch, token exchange, session creation and audit wiring.
 - Do not enable production auth readiness or production writes until Entra tenant/admin access, MFA policy, allowed users/domains, role claim approach, environment configuration, staging validation and production readiness review are complete.
 
 ## Phase -1 Constraints

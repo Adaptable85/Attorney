@@ -1,6 +1,6 @@
 # Entra Callback And Session Architecture
 
-Status: Phase 4G jose verifier decision
+Status: Phase 4H staging callback/JWKS fetch-cache design
 Date: 2026-06-23
 
 Phase 4B adds disabled route placeholders. It does not implement live OAuth, token exchange, session creation or cookie writing.
@@ -14,6 +14,8 @@ Phase 4E adds disabled-by-default staging dependency wiring for the state store,
 Phase 4F adds JWT/JWKS key-selection and verifier boundaries. There is no default verifier and no live JWT library yet; decoded claims do not authenticate users without an injected verifier result.
 
 Phase 4G selects `jose` and adds a non-live verifier adapter for injected JWK material and fake/local tests. Routes remain disabled and still do not exchange codes, fetch JWKS metadata, create sessions or create cookies.
+
+Phase 4H documents the future staging callback and JWKS fetch-cache flow in `docs/architecture/entra-staging-callback-jwks-fetch-cache-design.md`. It still does not enable routes, redirects, token exchange, network fetches, sessions, cookies, production auth readiness or writes.
 
 ## Intended Login Flow
 
@@ -60,6 +62,7 @@ In Phase 4B, the callback route returns disabled JSON and does not exchange toke
 - Phase 4D JWKS cache models metadata availability and expiry through an injectable fetcher. No default Microsoft network call exists.
 - Phase 4E can compose the JWKS cache dependency, but cryptographic token verification remains unavailable and tokens still do not authenticate users.
 - Phase 4G selects `jose` for the verifier dependency. Live callback code must still wait for reviewed JWKS fetch/cache wiring and staging validation.
+- Phase 4H defines the reviewed staging sequence for callback and JWKS fetch/cache behavior, but the sequence remains documentation-only until a live-auth phase wires it.
 
 ## Claim Mapping
 
@@ -131,4 +134,4 @@ Audit metadata must not include tokens, secrets or raw provider payloads.
 
 ## Why Routes Remain Disabled
 
-The route placeholders exist so routing, tests and guardrails can be reviewed before live auth. They remain disabled even when staging dependency wiring and verifier boundaries are available, and stay disabled until Entra app registration, secret storage, callback/session implementation, staging validation, cryptographic token verification and production readiness review are complete.
+The route placeholders exist so routing, tests and guardrails can be reviewed before live auth. They remain disabled even when staging dependency wiring, verifier boundaries and Phase 4H callback/JWKS fetch-cache design are available, and stay disabled until Entra app registration, secret storage, callback/session implementation, staging validation, cryptographic token verification and production readiness review are complete.

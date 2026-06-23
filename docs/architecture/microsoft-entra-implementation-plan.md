@@ -1,11 +1,11 @@
 # Microsoft Entra Implementation Plan
 
-Status: Phase 4G jose JWT/JWKS verifier decision
+Status: Phase 4H staging callback/JWKS fetch-cache design
 Date: 2026-06-23
 
 ## Current State
 
-Microsoft Entra ID / Microsoft 365 identity is the accepted production auth provider direction. Phase 4A added a provider-specific skeleton. Phase 4B added staging setup documentation, callback/session architecture, disabled route placeholders and session shape validation. Phase 4C added OAuth state/nonce helpers, PKCE helpers, JWKS descriptors and token-validation skeletons. Phase 4D added OAuth state storage and JWKS cache boundaries without live login, secrets, session cookies, default network fetches, production auth readiness or production writes. Phase 4E added disabled-by-default staging dependency wiring for state storage, JWKS cache, PKCE and token-validation markers while keeping routes disabled. Phase 4F added JWT/JWKS verifier and key-selection boundaries. Phase 4G selects `jose` and adds a non-live adapter skeleton without route wiring or production readiness.
+Microsoft Entra ID / Microsoft 365 identity is the accepted production auth provider direction. Phase 4A added a provider-specific skeleton. Phase 4B added staging setup documentation, callback/session architecture, disabled route placeholders and session shape validation. Phase 4C added OAuth state/nonce helpers, PKCE helpers, JWKS descriptors and token-validation skeletons. Phase 4D added OAuth state storage and JWKS cache boundaries without live login, secrets, session cookies, default network fetches, production auth readiness or production writes. Phase 4E added disabled-by-default staging dependency wiring for state storage, JWKS cache, PKCE and token-validation markers while keeping routes disabled. Phase 4F added JWT/JWKS verifier and key-selection boundaries. Phase 4G selects `jose` and adds a non-live adapter skeleton without route wiring or production readiness. Phase 4H adds staging callback/JWKS fetch-cache design documentation only.
 
 Implemented skeleton pieces:
 
@@ -29,6 +29,7 @@ Implemented skeleton pieces:
 - `src/auth/entra/entra-jwks-key-selection.ts`: local JWKS key selection and algorithm allowlist.
 - `src/auth/entra/entra-jwt-verifier.ts`: injected JWT verification boundary with no default verifier.
 - `src/auth/entra/entra-jose-verifier.ts`: non-live `jose` adapter using injected JWK material only.
+- `docs/architecture/entra-staging-callback-jwks-fetch-cache-design.md`: documentation-only design for future staging callback and JWKS fetch/cache behavior.
 
 ## Required Before Live Implementation
 
@@ -41,6 +42,7 @@ Implemented skeleton pieces:
 - Validate callback URL allowlists.
 - Add reviewed OAuth callback/session implementation.
 - Add real cryptographic JWT/JWKS validation and reviewed key caching.
+- Implement the Phase 4H callback/JWKS fetch-cache design in a separate live-auth phase.
 - Add audit events for login and failed login.
 - Complete staging validation with fake/test users.
 - Complete production readiness review.
@@ -73,8 +75,9 @@ Implemented skeleton pieces:
 - Staging wiring does not enable live login, route behavior, production auth readiness or production writes.
 - JWT verification has no default route wiring and does not trust decode-only claims.
 - `jose` is selected in ADR 0008, but the adapter is not wired to live routes and does not fetch Microsoft JWKS metadata.
+- Phase 4H callback/JWKS fetch-cache design is not implementation and does not enable route behavior, network fetches, token exchange, cookies, sessions or production readiness.
 - Create forms remain disabled.
 
 ## Next Phase
 
-The next phase should design reviewed staging callback/JWKS fetch wiring, still without enabling production writes.
+The next phase should implement non-production staging callback/JWKS behavior behind explicit disabled-by-default gates only after review, still without enabling production writes.

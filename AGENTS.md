@@ -4,7 +4,7 @@ This repository is for the Burgess Attorneys Admin Automation Platform.
 
 ## Current Phase Boundary
 
-Phase 4G selects `jose` for Microsoft Entra JWT/JWKS verification and adds a non-live verifier adapter skeleton only. It adds no live OAuth exchange, Microsoft redirect, network call to Microsoft by default, session cookie creation, real provider secrets, production auth readiness, production writes, live UI save, active production save button, mutation API route, deployment or production database operation.
+Phase 4H adds staging callback and JWKS fetch-cache design documentation only. It adds no live OAuth exchange, Microsoft redirect, network call to Microsoft, session cookie creation, real provider secrets, production auth readiness, production writes, live UI save, active production save button, mutation API route, deployment or production database operation.
 
 Do not build product features yet. Do not build client/matter CRUD, invoice workflow, statement workflow, WhatsApp automation, Lexpro import, website, marketing system, outreach system, production auth, production database models, production file storage, or agent runtime yet.
 
@@ -35,6 +35,7 @@ Phase 4D adds OAuth state storage and JWKS metadata cache boundaries only. It ad
 Phase 4E adds disabled-by-default Entra staging dependency wiring only. It adds no route enablement, Microsoft redirects, token exchange, default JWKS network fetch, cryptographic token acceptance, session cookies, real secrets, production auth readiness, live UI saves, active production save button, mutation API routes, production DB commands, production migrations, deployment, sending or sync.
 Phase 4F adds Entra JWT/JWKS verifier interfaces, key-selection rules and fake/local verifier tests only. It adds no route enablement, Microsoft redirects, token exchange, default JWKS network fetch, session cookies, real secrets, production auth readiness, live UI saves, active production save button, mutation API routes, production DB commands, production migrations, deployment, sending or sync.
 Phase 4G selects `jose` and adds a non-live Entra JWT adapter for fake/local tokens and injected keys only. It adds no route enablement, Microsoft redirects, token exchange, default JWKS network fetch, session cookies, real secrets, production auth readiness, live UI saves, active production save button, mutation API routes, production DB commands, production migrations, deployment, sending or sync.
+Phase 4H adds staging callback/JWKS fetch-cache design and checklists only. It adds no route enablement, Microsoft redirects, token exchange, default JWKS network fetch, session cookies, real secrets, production auth readiness, live UI saves, active production save button, mutation API routes, production DB commands, production migrations, deployment, sending or sync.
 
 ## Project Non-Negotiables
 

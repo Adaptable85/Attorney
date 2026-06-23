@@ -85,6 +85,7 @@ Audited persistence workflow:
 - Phase 4E adds disabled-by-default Entra staging dependency wiring only; do not treat wired state/cache dependencies as live auth, route enablement or production write readiness.
 - Phase 4F adds JWT/JWKS verifier and key-selection boundaries only; do not treat verifier interfaces as live login, route enablement, session creation or production write readiness.
 - Phase 4G selects `jose` and adds a non-live verifier adapter only; do not import it into route handlers or treat it as live callback/session readiness.
+- Phase 4H documents staging callback/JWKS fetch-cache design only; do not implement it, enable routes, fetch Microsoft metadata, exchange tokens, create sessions or treat it as production auth readiness.
 - Do not enable `BURGESS_PRODUCTION_AUTH_ENABLED`, `BURGESS_PRODUCTION_AUTH_CONFIGURED` or `BURGESS_PRODUCTION_WRITES_ENABLED` until Entra tenant/admin access, MFA policy, allowed users/domains, role claim approach, environment configuration, staging validation and production readiness review are complete.
 
 Migration workflow:
