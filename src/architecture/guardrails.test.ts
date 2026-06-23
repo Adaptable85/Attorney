@@ -248,6 +248,17 @@ describe("architecture guardrails", () => {
     expect(routeSource).not.toContain("fetch(");
   });
 
+  it("keeps Microsoft Entra token skeleton from authenticating unverified tokens", () => {
+    const tokenValidation = readFileSync(join(root, "src/auth/entra/entra-token-validation.ts"), "utf8");
+    const jwks = readFileSync(join(root, "src/auth/entra/entra-jwks.ts"), "utf8");
+
+    expect(tokenValidation).toContain("cryptographic_verification_required");
+    expect(tokenValidation).toContain("requires cryptographic JWKS validation");
+    expect(tokenValidation).not.toContain("serviceSuccess");
+    expect(tokenValidation).not.toContain("mapEntraClaimsToPrincipal");
+    expect(jwks).not.toContain("fetch(");
+  });
+
   it("keeps normal tests database-free and DB tests locally guarded", () => {
     const testFiles = collectTextFiles("src").filter((filePath) => filePath.endsWith(".test.ts"));
     const dbTestFiles = testFiles.filter((filePath) => filePath.endsWith(".db.test.ts"));

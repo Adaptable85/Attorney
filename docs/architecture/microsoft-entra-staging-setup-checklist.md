@@ -1,6 +1,6 @@
 # Microsoft Entra Staging Setup Checklist
 
-Status: Phase 4B checklist only
+Status: Phase 4C checklist with OAuth skeleton
 Date: 2026-06-23
 
 No real tenant, client or secret values belong in this document.
@@ -64,6 +64,10 @@ Placeholder names only:
 - Callback route returns disabled until live implementation is accepted.
 - Login route does not redirect to Microsoft until live implementation is accepted.
 - Logout route does not mutate cookies until live implementation is accepted.
+- State and nonce values expire and reject unsafe redirect targets.
+- PKCE verifier and challenge helpers are tested.
+- Token claim-shape checks reject missing or mismatched issuer, audience, tenant, nonce, subject, email and domain.
+- Complete placeholder tokens still require cryptographic JWKS verification.
 - Role mapping rejects unknown role claims.
 - Agent and read-only roles cannot create client/matter records.
 - Production writes remain disabled.
@@ -75,4 +79,3 @@ Placeholder names only:
 - Remove or rotate staging secrets in approved secret storage.
 - Revoke test sessions if sessions exist in a future phase.
 - Preserve audit logs for attempted auth activity.
-

@@ -80,6 +80,7 @@ Audited persistence workflow:
 - Phase 3K.1 accepts Microsoft Entra ID / Microsoft 365 identity as the production auth provider direction.
 - Phase 4A adds the Entra auth skeleton only; do not treat complete Entra placeholder config as live login or production write approval.
 - Phase 4B adds disabled Entra route placeholders and session shape validation only; do not treat route existence as live auth readiness.
+- Phase 4C adds OAuth state/nonce, PKCE and token-validation skeletons only; do not treat token claim-shape validation as authenticated login.
 - Do not enable `BURGESS_PRODUCTION_AUTH_ENABLED`, `BURGESS_PRODUCTION_AUTH_CONFIGURED` or `BURGESS_PRODUCTION_WRITES_ENABLED` until Entra tenant/admin access, MFA policy, allowed users/domains, role claim approach, environment configuration, staging validation and production readiness review are complete.
 
 Migration workflow:

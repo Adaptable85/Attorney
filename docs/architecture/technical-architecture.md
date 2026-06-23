@@ -1,6 +1,6 @@
 # Technical Architecture
 
-Status: Phase 4B Microsoft Entra callback placeholders
+Status: Phase 4C Microsoft Entra OAuth security skeleton
 Date: 2026-06-23
 
 ## Architecture Decision
@@ -101,6 +101,8 @@ Phase 4A adds a Microsoft Entra auth skeleton under `src/auth/entra`. The skelet
 
 Phase 4B adds disabled Entra login, callback and logout route placeholders plus future session shape validation. The placeholders return disabled JSON only and do not redirect to Microsoft, exchange tokens, create session cookies, enable production auth readiness or enable writes.
 
+Phase 4C adds OAuth state/nonce helpers, PKCE helpers, an Entra JWKS descriptor and a token-validation skeleton. Complete placeholder tokens still fail with cryptographic verification required, and no Microsoft network calls, redirects, token exchanges, session cookies, production auth readiness or writes are enabled.
+
 Permission strategy:
 
 - Owner / Principal Attorney has full approval powers.
@@ -160,7 +162,7 @@ Phase 3G permits local/dev backend writes only through explicit dev gates and au
 
 Phase 3H local DB validation could not run in this execution environment because local PostgreSQL CLI/server tooling is unavailable. DB-only tests remain guarded and optional.
 
-Phase 4B does not change persistence. Production writes remain blocked until live Entra implementation, tenant/admin access, MFA policy, role mapping, staging validation, audit/transaction review and release gates are complete.
+Phase 4C does not change persistence. Production writes remain blocked until live Entra implementation, tenant/admin access, MFA policy, role mapping, staging validation, cryptographic token verification, audit/transaction review and release gates are complete.
 
 Phase 1B extends audit event categories for:
 

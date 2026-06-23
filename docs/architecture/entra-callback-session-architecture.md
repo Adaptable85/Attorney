@@ -1,9 +1,11 @@
 # Entra Callback And Session Architecture
 
-Status: Phase 4B design only
+Status: Phase 4C OAuth security skeleton
 Date: 2026-06-23
 
 Phase 4B adds disabled route placeholders. It does not implement live OAuth, token exchange, session creation or cookie writing.
+
+Phase 4C adds pure state/nonce, PKCE, JWKS descriptor and token-validation skeletons. It still does not redirect to Microsoft, fetch JWKS metadata, exchange tokens, create sessions or authenticate users.
 
 ## Intended Login Flow
 
@@ -33,6 +35,7 @@ In Phase 4B, the callback route returns disabled JSON and does not exchange toke
 - Nonce must bind the browser flow to the returned ID token.
 - Browser-submitted callbacks must validate CSRF metadata.
 - Missing or mismatched state/nonce must fail closed and produce a failed-login audit event in a future implementation.
+- Phase 4C helpers validate state/nonce shape, expiry, provider marker and redirect allowlist only; storage is still a future phase.
 
 ## Token Validation Requirements
 
@@ -43,6 +46,7 @@ In Phase 4B, the callback route returns disabled JSON and does not exchange toke
 - Validate expiry and not-before claims.
 - Reject tokens from unexpected tenants or domains.
 - Never log tokens or client secrets.
+- Phase 4C token validation checks expected claim shape but always fails with cryptographic verification required for otherwise complete tokens.
 
 ## Claim Mapping
 
@@ -115,4 +119,3 @@ Audit metadata must not include tokens, secrets or raw provider payloads.
 ## Why Routes Remain Disabled
 
 The route placeholders exist so routing, tests and guardrails can be reviewed before live auth. They remain disabled until Entra app registration, secret storage, callback/session implementation, staging validation and production readiness review are complete.
-
