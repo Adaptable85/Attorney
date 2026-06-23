@@ -1,6 +1,6 @@
 # Technical Architecture
 
-Status: Phase 4G Microsoft Entra jose verifier decision
+Status: Phase 5B accepted Vercel/Neon hosting direction
 Date: 2026-06-23
 
 ## Architecture Decision
@@ -110,6 +110,14 @@ Phase 4E adds disabled-by-default staging wiring that composes Entra config, OAu
 Phase 4F adds JWKS key-selection and JWT verifier boundaries. The verifier has no default implementation and no JWT library was added. Tests use fake/local keys and an injected local verifier only to prove the boundary; live routes remain disabled and no production auth readiness or writes are enabled.
 
 Phase 4G selects `jose` in ADR 0008 and adds a non-live adapter skeleton that verifies fake/local RS256 tokens with injected JWK material only. It does not fetch Microsoft JWKS metadata, wire routes, create sessions, enable production auth readiness or enable writes.
+
+Phase 4H adds staging callback/JWKS fetch-cache design documentation. It does not enable route behavior, Microsoft redirects, token exchange, default Microsoft network fetches, session cookies, production auth readiness or writes.
+
+PR #1 was squash merged into `origin/main` at `57dccc1 Review Burgess platform foundation auth (#1)`, and local `main` has been synced to that squash merge.
+
+Phase 5A adds a production hosting/environment decision pack. It recommends a managed app host plus managed PostgreSQL, with xneelo retained for public website/domain/DNS if required. It does not deploy, run production database commands, run production migrations, configure real secrets, enable live Entra auth, enable UI saves or enable production writes.
+
+Phase 5B accepts Vercel for the secure Next.js app/API and Neon managed PostgreSQL for production database hosting in ADR 0009. xneelo remains a DNS/domain/public website option only unless the client explicitly requires xneelo Cloud/Managed Server infrastructure. This does not deploy, create production databases, add secrets, enable live Entra auth, enable UI saves or enable production writes.
 
 Permission strategy:
 

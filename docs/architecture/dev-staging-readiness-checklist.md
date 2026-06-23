@@ -1,7 +1,11 @@
 # Dev/Staging Readiness Checklist
 
-Status: Phase 3H checklist
+Status: Phase 5B checklist
 Date: 2026-06-23
+
+PR #1 has been squash merged to `origin/main` at `57dccc1`, and local `main` has been synced to that squash merge. Deployment remains blocked until hosting, production database, DNS, backup and deployment approvals are accepted.
+
+ADR 0009 accepts Vercel for the secure app/API and Neon managed PostgreSQL for the production database. This acceptance does not create the production database, deploy the app, enable live auth, enable UI saves or enable production writes.
 
 ## Local DB Readiness
 
@@ -71,7 +75,22 @@ Date: 2026-06-23
 - Approved direction: Microsoft Entra ID / Microsoft 365 identity.
 - Confirm Burgess Microsoft 365 tenant/admin access before implementation.
 - Confirm MFA availability/enforcement, allowed users/domains, role claim approach and break-glass admin process before implementation.
+- Confirm hosting provider, production DB provider, staging URL, production URL, domain/DNS approach, backup retention and production deploy approvers before deployment.
+- Approved hosting/database direction: Vercel + Neon.
+- Keep xneelo for DNS/domain/public website only unless xneelo Cloud/Managed Server is explicitly required.
 - Production release approval remains pending.
 - Production backup/rollback plan remains pending.
 - Owner/principal approval workflow review remains pending.
 - No production writes until all blockers are resolved and approved.
+
+## Phase 5A Hosting / Environment Checklist
+
+- Review `docs/architecture/production-hosting-environment-decision-pack.md`.
+- Accepted direction: Vercel app hosting and Neon managed PostgreSQL.
+- Use `docs/architecture/vercel-neon-implementation-checklist.md` before provisioning.
+- Confirm xneelo remains public website/domain/DNS only unless the client explicitly requires xneelo Cloud/Managed Server.
+- Create staging before production.
+- Configure environment variables only through approved secret stores.
+- Keep production auth readiness false until Entra staging and production checks pass.
+- Keep UI saves and production writes disabled until later release approval.
+- Do not deploy from unreviewed branches.

@@ -29,6 +29,8 @@ Phase 4E disabled-by-default Entra staging dependency wiring is implemented with
 Phase 4F Entra JWT/JWKS verification boundary skeleton is implemented without route enablement, Microsoft redirects, token exchange, default JWKS network fetch, session cookies, production auth readiness, production writes or UI saves.
 Phase 4G selects `jose` for Entra JWT/JWKS verification and adds a non-live adapter skeleton without route enablement, Microsoft redirects, token exchange, default JWKS network fetch, session cookies, production auth readiness, production writes or UI saves.
 Phase 4H staging callback/JWKS fetch-cache design is implemented without route enablement, Microsoft redirects, token exchange, default JWKS network fetch, session cookies, production auth readiness, production writes or UI saves.
+Phase 5A production hosting/environment decision pack is implemented without deployment, production database commands, production migrations, production auth readiness, production writes or UI saves.
+Phase 5B accepts Vercel + Neon hosting/database direction in ADR 0009 without deployment, production database creation, production migrations, production auth readiness, production writes or UI saves.
 
 ## Current Direction
 
@@ -84,6 +86,12 @@ Phase 4H staging callback/JWKS fetch-cache design is implemented without route e
 - Entra JWKS key selection lives at `src/auth/entra/entra-jwks-key-selection.ts`; JWT verifier boundary lives at `src/auth/entra/entra-jwt-verifier.ts`.
 - Entra `jose` adapter lives at `src/auth/entra/entra-jose-verifier.ts` and uses injected JWK material only.
 - Phase 4H callback/JWKS fetch-cache design lives at `docs/architecture/entra-staging-callback-jwks-fetch-cache-design.md` and is documentation-only.
+- PR #1 was squash merged to `origin/main` at `57dccc1`, and local `main` has been synced to that squash merge.
+- Phase 5A hosting/environment decision pack lives at `docs/architecture/production-hosting-environment-decision-pack.md`.
+- ADR 0009 accepts Vercel for the secure Next.js app/API and Neon managed PostgreSQL for the production database.
+- Vercel/Neon implementation checklist lives at `docs/architecture/vercel-neon-implementation-checklist.md`.
+- xneelo remains DNS/domain/public website only unless xneelo Cloud/Managed Server is explicitly required.
+- Production deployment, production database creation, secrets, live auth and production writes remain pending.
 
 See:
 
@@ -128,6 +136,8 @@ See:
 - Phase 4F verifier boundary: JWT/JWKS interfaces and fake/local tests only; decoded claims do not authenticate without an injected verifier and live routes remain disabled.
 - Phase 4G `jose` adapter: fake/local token verification only; no live route import, Microsoft JWKS fetch, session, production auth readiness, production write or UI save is exposed.
 - Phase 4H callback/JWKS fetch-cache design: documentation and checklists only; no route enablement, Microsoft network fetch, token exchange, session, production auth readiness, production write or UI save is exposed.
+- Phase 5A hosting/environment decision pack: documentation only; no deployment, production database command, production migration, production auth readiness, production write or UI save is exposed.
+- Phase 5B Vercel/Neon direction: accepted architecture decision only; no deployment, production database creation, production migration, live auth, production write or UI save is exposed.
 - Agent service users: blocked from normal admin shell navigation.
 
 ## ADR Candidates
