@@ -31,6 +31,52 @@ a {
   color: inherit;
 }
 
+.home-page {
+  display: grid;
+  min-height: 100vh;
+  place-items: center;
+  padding: 28px;
+}
+
+.home-page__panel {
+  width: min(100%, 760px);
+  border: 1px solid var(--burgess-border);
+  border-radius: 8px;
+  background: var(--burgess-panel);
+  padding: 32px;
+}
+
+.home-page__eyebrow {
+  margin: 0 0 10px;
+  color: var(--burgess-accent);
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.home-page h1 {
+  margin: 0;
+  font-size: 32px;
+  line-height: 1.2;
+}
+
+.home-page p {
+  margin: 12px 0 0;
+  color: var(--burgess-muted);
+  line-height: 1.55;
+}
+
+.home-page__link {
+  display: inline-flex;
+  margin-top: 20px;
+  border-radius: 6px;
+  background: var(--burgess-accent);
+  padding: 10px 14px;
+  color: #ffffff;
+  font-weight: 700;
+  text-decoration: none;
+}
+
 .admin-page-frame {
   min-height: 100vh;
   background: var(--burgess-bg);
