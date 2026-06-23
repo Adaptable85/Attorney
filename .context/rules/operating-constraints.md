@@ -63,6 +63,8 @@
 - Microsoft Entra `jose` verifier adapters must use injected key material only and must not fetch Microsoft JWKS metadata until a live auth phase is accepted.
 - Microsoft Entra callback/JWKS fetch-cache design must remain documentation-only until a live auth phase explicitly accepts route enablement, network fetch, token exchange, session creation and audit wiring.
 - Do not enable production auth readiness or production writes until Entra tenant/admin access, MFA policy, allowed users/domains, role claim approach, environment configuration, staging validation and production readiness review are complete.
+- Production hosting, production database, DNS, backup and deploy approvals must be accepted before any deployment.
+- Phase 5A hosting/environment documentation must not be treated as deployment approval.
 
 ## Phase -1 Constraints
 
