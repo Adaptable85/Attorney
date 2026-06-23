@@ -2,6 +2,8 @@
 
 Date/time: 2026-06-23 15:22:36 SAST
 
+Phase 5G note: this report is retained as historical evidence for the Phase 5E Neon CLI blocker. ADR 0010 supersedes the Neon database-provider direction with Supabase Postgres. No Vercel, Neon or Supabase resource was created by this report.
+
 ## Summary
 
 Phase 5E attempted to begin staging-only Vercel + Neon resource creation from the local Attorney workspace. Resource creation was blocked because the required provider CLIs are not installed in this execution environment.

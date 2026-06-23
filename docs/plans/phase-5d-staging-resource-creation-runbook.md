@@ -3,6 +3,8 @@
 Status: planned
 Date: 2026-06-23
 
+Phase 5G note: ADR 0010 supersedes this plan's Neon database-provider direction with Supabase Postgres. This document is retained as historical context for Phase 5D. Use `docs/architecture/staging-resource-creation-runbook.md`, `docs/architecture/supabase-staging-setup-checklist.md` and `docs/architecture/vercel-supabase-implementation-checklist.md` for active staging planning.
+
 ## Summary
 
 Phase 5D prepares the operational runbook and approval checklist for creating staging resources on Vercel and Neon. It turns the Phase 5C setup plan into an approval-controlled sequence that can be followed later.

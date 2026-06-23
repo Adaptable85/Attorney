@@ -1,16 +1,18 @@
 # Staging Resource Creation Runbook
 
-Status: Phase 5D runbook
+Status: Phase 5G runbook update
 Date: 2026-06-23
 
-This runbook describes how staging resources should be created later after explicit approval. It does not create Vercel resources, create Neon resources, deploy, add secrets, run migrations, enable live auth, enable UI saves or enable production writes.
+This runbook describes how staging resources should be created later after explicit approval. It does not create Vercel resources, create Supabase resources, deploy, add secrets, run migrations, enable live auth, enable UI saves or enable production writes.
+
+ADR 0010 supersedes the earlier Neon database-provider direction with Supabase Postgres. Use Supabase as managed PostgreSQL only; Supabase Auth and Supabase Storage are not approved by this runbook.
 
 ## A. Preconditions
 
 - GitHub `main` is clean and synced with `origin/main`.
 - No unmerged PR is required for the staging setup run.
 - Vercel account/team is confirmed.
-- Neon account/project owner is confirmed.
+- Supabase account/project owner is confirmed.
 - Burgess Microsoft Entra tenant access is pending or confirmed and recorded.
 - Domain/DNS owner is identified.
 - Staging URL is approved.
@@ -40,25 +42,26 @@ This runbook describes how staging resources should be created later after expli
 6. Keep root directory as repository root unless Vercel detection or a later approved repo layout requires otherwise.
 7. Configure preview/staging branch strategy before enabling deployments.
 8. Add environment variables as placeholders first, then approved staging values only in Vercel environment settings.
-9. Choose function region close to the selected Neon region where practical.
+9. Choose function region close to the selected Supabase region where practical.
 10. Do not add a production domain.
 11. Do not run a production deploy.
 12. Restrict project access to approved maintainers.
 13. Confirm logs do not print secret values.
 
-## C. Neon Staging Setup Steps
+## C. Supabase Staging Setup Steps
 
-1. Create a Neon project after approval.
-2. Recommended project name: `burgess-attorneys-admin`.
+1. Create a Supabase project after approval.
+2. Recommended project name: `burgess-attorneys-staging`.
 3. Choose and record the region.
-4. Create a staging database/branch.
-5. Recommended staging database name: `burgess_attorneys_staging`.
+4. Confirm the staging Postgres database/branch.
+5. Recommended staging database/branch name: `staging`.
 6. Store the connection string only in secure Vercel environment variables.
 7. Do not commit connection strings.
 8. Use fake/test data only.
 9. Confirm backup and restore settings.
 10. Confirm runtime and migration roles if separate roles are available.
 11. Do not create a production database unless explicitly approved in a separate production step.
+12. Do not enable Supabase Auth, Supabase Storage, generated APIs or public object storage.
 
 ## D. Migration Process For Staging
 
@@ -84,7 +87,7 @@ Use placeholders only in documentation. Real values belong only in approved prov
 
 Required staging values:
 
-- `DATABASE_URL=<neon-staging-database-url>`
+- `DATABASE_URL=<supabase-staging-postgres-url>`
 - `AUTH_PROVIDER=entra`
 - `AUTH_ENTRA_TENANT_ID=<staging-tenant-id>`
 - `AUTH_ENTRA_CLIENT_ID=<staging-client-id>`
@@ -120,14 +123,14 @@ All Burgess feature/write gates remain false/off unless a later fake-data stagin
 - Create forms remain disabled.
 - No real client data appears.
 - Logs show no secret leakage.
-- Staging database connection uses only the staging Neon database.
+- Staging database connection uses only the staging Supabase Postgres database.
 
 ## G. Rollback / Cleanup
 
 - Remove Vercel preview/staging environment variables if they were misconfigured.
 - Disconnect staging database from Vercel if the wrong database was attached.
 - Rotate any credential that may have been exposed.
-- Delete Neon staging branch/database if needed and approved.
+- Delete the Supabase staging project/database if needed and approved.
 - Remove Vercel project if it was created incorrectly and no longer needed.
 - Keep an audit note of actions taken, owners, timestamps, cleanup and remaining risks.
 - Do not run production cleanup commands from this staging runbook.
