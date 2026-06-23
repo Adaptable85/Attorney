@@ -1,6 +1,6 @@
 # Entra Callback And Session Architecture
 
-Status: Phase 4F JWT/JWKS verification skeleton design
+Status: Phase 4G jose verifier decision
 Date: 2026-06-23
 
 Phase 4B adds disabled route placeholders. It does not implement live OAuth, token exchange, session creation or cookie writing.
@@ -12,6 +12,8 @@ Phase 4D adds an OAuth state store boundary and JWKS metadata cache boundary. Th
 Phase 4E adds disabled-by-default staging dependency wiring for the state store, JWKS cache, PKCE helpers and token-validation marker. The wiring is not imported by live route handlers and does not enable redirects, token exchange, cookies, sessions, production auth readiness or writes.
 
 Phase 4F adds JWT/JWKS key-selection and verifier boundaries. There is no default verifier and no live JWT library yet; decoded claims do not authenticate users without an injected verifier result.
+
+Phase 4G selects `jose` and adds a non-live verifier adapter for injected JWK material and fake/local tests. Routes remain disabled and still do not exchange codes, fetch JWKS metadata, create sessions or create cookies.
 
 ## Intended Login Flow
 
@@ -57,7 +59,7 @@ In Phase 4B, the callback route returns disabled JSON and does not exchange toke
 - Phase 4C token validation checks expected claim shape but always fails with cryptographic verification required for otherwise complete tokens.
 - Phase 4D JWKS cache models metadata availability and expiry through an injectable fetcher. No default Microsoft network call exists.
 - Phase 4E can compose the JWKS cache dependency, but cryptographic token verification remains unavailable and tokens still do not authenticate users.
-- Phase 4F defines the verifier dependency and key-selection rules. Live callback code must still wait for a reviewed JWT/JWKS library and staging validation.
+- Phase 4G selects `jose` for the verifier dependency. Live callback code must still wait for reviewed JWKS fetch/cache wiring and staging validation.
 
 ## Claim Mapping
 

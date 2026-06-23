@@ -1,6 +1,6 @@
 # Technical Architecture
 
-Status: Phase 4F Microsoft Entra JWT/JWKS verification skeleton
+Status: Phase 4G Microsoft Entra jose verifier decision
 Date: 2026-06-23
 
 ## Architecture Decision
@@ -108,6 +108,8 @@ Phase 4D adds an OAuth state store boundary with an in-memory test adapter and a
 Phase 4E adds disabled-by-default staging wiring that composes Entra config, OAuth state storage, JWKS cache, PKCE helpers and token-validation dependency markers. It returns a non-live dependency bundle only when the explicit staging flag, complete placeholder config and a crypto verification dependency marker are present. Routes remain disabled and no production auth readiness or production writes are enabled.
 
 Phase 4F adds JWKS key-selection and JWT verifier boundaries. The verifier has no default implementation and no JWT library was added. Tests use fake/local keys and an injected local verifier only to prove the boundary; live routes remain disabled and no production auth readiness or writes are enabled.
+
+Phase 4G selects `jose` in ADR 0008 and adds a non-live adapter skeleton that verifies fake/local RS256 tokens with injected JWK material only. It does not fetch Microsoft JWKS metadata, wire routes, create sessions, enable production auth readiness or enable writes.
 
 Permission strategy:
 

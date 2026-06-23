@@ -1,9 +1,9 @@
 # Entra JWT/JWKS Verification Design
 
-Status: Phase 4F verification skeleton
+Status: Phase 4G jose verifier decision
 Date: 2026-06-23
 
-Phase 4F adds a verification boundary only. It does not add live OAuth, token exchange, Microsoft network fetches, sessions, cookies, production auth readiness or writes.
+Phase 4F added a verification boundary only. Phase 4G selects `jose` and adds a non-live adapter skeleton for fake/local token verification. It does not add live OAuth, token exchange, Microsoft network fetches, sessions, cookies, production auth readiness or writes.
 
 ## Why Cryptographic Verification Is Required
 
@@ -13,9 +13,9 @@ Decode-only parsing is not authentication.
 
 ## Library Decision
 
-No JWT library is added in Phase 4F. The current implementation defines the dependency boundary and tests fail-closed behavior with fake/local keys and an injected local test verifier.
+Phase 4G selects `jose` and records ADR 0008. `jose` provides standards-based JWT/JWK verification without custom crypto.
 
-Future live implementation should evaluate a maintained JOSE-compatible library such as `jose` before accepting tokens.
+The current adapter uses injected JWK material and fake/local signed tokens only. It does not fetch Microsoft JWKS metadata and is not wired to routes.
 
 ## Algorithm Allowlist
 
@@ -70,7 +70,7 @@ Login, callback and logout routes remain disabled. They do not redirect to Micro
 
 ## Requirements Before Live Auth
 
-- Select and review a JWT/JWKS library.
+- Define reviewed live JWKS fetch/cache behavior.
 - Configure real Entra app registration values outside Git.
 - Validate JWKS fetch/cache behavior in staging.
 - Add callback/session implementation with audit events.

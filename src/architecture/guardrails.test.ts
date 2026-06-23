@@ -257,6 +257,7 @@ describe("architecture guardrails", () => {
     const tokenValidation = readFileSync(join(root, "src/auth/entra/entra-token-validation.ts"), "utf8");
     const jwks = readFileSync(join(root, "src/auth/entra/entra-jwks.ts"), "utf8");
     const verifier = readFileSync(join(root, "src/auth/entra/entra-jwt-verifier.ts"), "utf8");
+    const joseVerifier = readFileSync(join(root, "src/auth/entra/entra-jose-verifier.ts"), "utf8");
     const keySelection = readFileSync(join(root, "src/auth/entra/entra-jwks-key-selection.ts"), "utf8");
 
     expect(tokenValidation).toContain("cryptographic_verification_required");
@@ -270,6 +271,11 @@ describe("architecture guardrails", () => {
     expect(verifier).not.toContain("fetch(");
     expect(verifier).not.toContain("client_secret");
     expect(verifier).not.toContain("jose");
+    expect(joseVerifier).toContain("jwtVerify");
+    expect(joseVerifier).toContain("importJWK");
+    expect(joseVerifier).not.toContain("fetch(");
+    expect(joseVerifier).not.toContain("createRemoteJWKSet");
+    expect(joseVerifier).not.toContain("client_secret");
     expect(keySelection).toContain('"RS256"');
     expect(keySelection).not.toContain("fetch(");
   });
