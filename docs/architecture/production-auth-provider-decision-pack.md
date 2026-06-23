@@ -53,7 +53,7 @@ Still pending before implementation:
 - Phase Auth-2: Environment/config skeleton with placeholders only. Phase 4A adds this without secrets or live readiness.
 - Phase Auth-3: Provider adapter skeleton behind the existing `ProductionAuthAdapter` boundary. Phase 4A adds this without OAuth exchange or sessions.
 - Phase Auth-4: Role claim mapping to `OWNER_PRINCIPAL`, `SUPPORT_ADMIN`, `AGENT_SERVICE` and `READ_ONLY_REVIEWER`. Phase 4A adds tested mapping helpers.
-- Phase Auth-5: MFA/session enforcement, including expiry, revocation and secure-cookie behavior.
+- Phase Auth-5: MFA/session enforcement, including expiry, revocation and secure-cookie behavior. Phase 4B documents this and adds disabled route/session placeholders only.
 - Phase Auth-6: Staging validation with fake/test users only.
 - Phase Auth-7: Production readiness review, including backup, rollback, lockout and audit checks.
 - Phase Auth-8: Enable production auth readiness flag only after approval.

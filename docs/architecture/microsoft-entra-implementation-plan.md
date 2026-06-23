@@ -1,11 +1,11 @@
 # Microsoft Entra Implementation Plan
 
-Status: Phase 4A skeleton only
+Status: Phase 4B route placeholders and design only
 Date: 2026-06-23
 
 ## Current State
 
-Microsoft Entra ID / Microsoft 365 identity is the accepted production auth provider direction. Phase 4A adds a provider-specific skeleton without live login, secrets, sessions, route handlers, production auth readiness or production writes.
+Microsoft Entra ID / Microsoft 365 identity is the accepted production auth provider direction. Phase 4A added a provider-specific skeleton. Phase 4B adds staging setup documentation, callback/session architecture, disabled route placeholders and session shape validation without live login, secrets, session cookies, production auth readiness or production writes.
 
 Implemented skeleton pieces:
 
@@ -13,6 +13,11 @@ Implemented skeleton pieces:
 - `src/auth/entra/entra-issuer.ts`: issuer and OpenID configuration URL helpers with no network calls.
 - `src/auth/entra/entra-claims.ts`: Entra-like claim mapping to internal production principals.
 - `src/auth/entra/entra-auth-adapter.ts`: adapter skeleton that fails closed until config and production readiness are present.
+- `src/auth/entra/entra-route-handlers.ts`: disabled route response helpers.
+- `src/auth/session-shape.ts`: future session shape validation without session creation.
+- `app/api/auth/entra/login/route.ts`: disabled login placeholder.
+- `app/api/auth/entra/callback/route.ts`: disabled callback placeholder.
+- `app/api/auth/entra/logout/route.ts`: disabled logout placeholder.
 
 ## Required Before Live Implementation
 
@@ -47,10 +52,9 @@ Implemented skeleton pieces:
 - Complete Entra placeholder config does not enable production writes.
 - The adapter skeleton does not exchange tokens.
 - No cookies or sessions are created.
-- No auth route handlers are exposed in Phase 4A.
+- Auth route handlers return disabled JSON only and do not redirect to Microsoft.
 - Create forms remain disabled.
 
 ## Next Phase
 
-The next phase should configure a staging-only Entra app registration and decide the exact OIDC/session implementation path, still without enabling production writes.
-
+The next phase should wire staging-only Entra configuration in an approved environment and implement reviewed OAuth state/nonce validation behind disabled-by-default readiness gates, still without enabling production writes.

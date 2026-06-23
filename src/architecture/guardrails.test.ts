@@ -227,8 +227,25 @@ describe("architecture guardrails", () => {
     expect(envExample).not.toMatch(/AUTH_ENTRA_TENANT_ID=.+/);
     expect(envExample).not.toMatch(/AUTH_ENTRA_CLIENT_ID=.+/);
     expect(source).toContain("Microsoft Entra live login is not implemented.");
+    expect(source).toContain("entra_auth_not_enabled");
     expect(source).not.toContain("client_secret=");
     expect(source).not.toContain("oauth/token");
+  });
+
+  it("keeps Microsoft Entra route placeholders disabled and cookie-free", () => {
+    const routeSource = [
+      readFileSync(join(root, "app/api/auth/entra/login/route.ts"), "utf8"),
+      readFileSync(join(root, "app/api/auth/entra/callback/route.ts"), "utf8"),
+      readFileSync(join(root, "app/api/auth/entra/logout/route.ts"), "utf8"),
+      readFileSync(join(root, "src/auth/entra/entra-route-handlers.ts"), "utf8")
+    ].join("\n");
+
+    expect(routeSource).toContain("entra_auth_not_enabled");
+    expect(routeSource).not.toContain("NextResponse.redirect");
+    expect(routeSource).not.toContain("login.microsoftonline.com");
+    expect(routeSource).not.toContain("Set-Cookie");
+    expect(routeSource).not.toContain("cookies()");
+    expect(routeSource).not.toContain("fetch(");
   });
 
   it("keeps normal tests database-free and DB tests locally guarded", () => {

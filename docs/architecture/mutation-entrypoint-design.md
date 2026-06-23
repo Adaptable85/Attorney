@@ -78,6 +78,8 @@ Phase 3H adds no mutation behavior. It documents readiness checks and confirms U
 
 Phase 3J adds no mutation behavior. Phase 3K.1 accepts Microsoft Entra ID / Microsoft 365 identity as the production auth provider direction, but live mutation routes and UI saves remain blocked until Entra config, staging validation, audit, transaction and release gates are complete.
 
+Phase 4B adds disabled Entra auth routes only. These are authentication placeholders, not mutation routes, and they do not enable form saves or production writes.
+
 ## Test Requirements
 
 - Missing user blocked.

@@ -4,7 +4,7 @@ This repository is for the Burgess Attorneys Admin Automation Platform.
 
 ## Current Phase Boundary
 
-Phase 4A adds a Microsoft Entra ID / Microsoft 365 auth implementation skeleton only. It adds no live OAuth exchange, session creation, real provider secrets, production auth readiness, production writes, live UI save, active production save button, API mutation route, deployment or production database operation.
+Phase 4B adds Microsoft Entra staging setup docs, callback/session architecture, disabled auth route placeholders and session shape validation only. It adds no live OAuth exchange, Microsoft redirect, session cookie creation, real provider secrets, production auth readiness, production writes, live UI save, active production save button, mutation API route, deployment or production database operation.
 
 Do not build product features yet. Do not build client/matter CRUD, invoice workflow, statement workflow, WhatsApp automation, Lexpro import, website, marketing system, outreach system, production auth, production database models, production file storage, or agent runtime yet.
 
@@ -29,6 +29,7 @@ Phase 3H adds safe local DB validation documentation, guarded local DB scripts a
 Phase 3J adds production auth provider comparison, recommendation and implementation-plan documentation only. It adds no real provider setup, production auth secrets, live UI saves, active production save button, API mutation routes, production DB commands, production migrations, deployment, sending or sync.
 Phase 3K.1 accepts Microsoft Entra ID / Microsoft 365 identity as the production auth provider direction only. It adds no provider integration, secrets, production auth readiness, live UI saves, active production save button, API mutation routes, production DB commands, production migrations, deployment, sending or sync.
 Phase 4A adds Entra config parsing, issuer helpers, claim mapping and adapter skeletons only. It adds no live login, token exchange, session creation, real secrets, production auth readiness, live UI saves, active production save button, API mutation routes, production DB commands, production migrations, deployment, sending or sync.
+Phase 4B adds disabled Entra login/callback/logout placeholders, staging setup docs and callback/session design only. It adds no Microsoft redirects, token exchange, session cookies, real secrets, production auth readiness, live UI saves, active production save button, mutation API routes, production DB commands, production migrations, deployment, sending or sync.
 
 ## Project Non-Negotiables
 

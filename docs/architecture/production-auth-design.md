@@ -1,6 +1,6 @@
 # Production Auth Design
 
-Status: Phase 4A Microsoft Entra skeleton
+Status: Phase 4B Microsoft Entra route placeholders and session design
 Date: 2026-06-23
 
 ## Current Auth State
@@ -16,6 +16,8 @@ Phase 3G kept production auth provider selection pending. Dev-only mutation func
 Phase 3J added `docs/architecture/production-auth-provider-decision-pack.md`. Phase 3K.1 accepts Microsoft Entra ID / Microsoft 365 identity as the provider direction in ADR 0007. This does not enable production auth readiness.
 
 Phase 4A adds a Microsoft Entra implementation skeleton under `src/auth/entra`. It parses placeholder-safe config, builds issuer URLs, maps Entra-like claims and exposes an adapter skeleton. It does not perform OAuth token exchange, create sessions, add route handlers, add secrets, enable production auth readiness or enable writes.
+
+Phase 4B adds staging setup documentation, callback/session architecture, disabled Entra login/callback/logout route placeholders and future session shape validation. The routes return `entra_auth_not_enabled` JSON responses. They do not redirect to Microsoft, exchange tokens, create cookies, create sessions, enable production auth readiness or enable writes.
 
 ## Production Auth Requirements
 

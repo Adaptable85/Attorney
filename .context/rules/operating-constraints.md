@@ -55,6 +55,7 @@
 - Refuse Railway, Supabase, Neon, Render, Vercel, remote hostnames and production database URLs for DB tests.
 - Microsoft Entra ID / Microsoft 365 identity is the accepted production auth provider direction.
 - Microsoft Entra skeleton code must not perform live OAuth, create sessions, expose secrets or imply production readiness.
+- Microsoft Entra route placeholders must return disabled/not-enabled responses and must not redirect to Microsoft, exchange tokens, set cookies or imply production readiness.
 - Do not enable production auth readiness or production writes until Entra tenant/admin access, MFA policy, allowed users/domains, role claim approach, environment configuration, staging validation and production readiness review are complete.
 
 ## Phase -1 Constraints

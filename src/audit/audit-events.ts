@@ -1,6 +1,7 @@
 export const AUDIT_EVENT_TYPES = [
   "login",
   "failed_login",
+  "logout",
   "permission_change",
   "client_created",
   "client_edited",
@@ -42,6 +43,7 @@ export type AuditEventType = (typeof AUDIT_EVENT_TYPES)[number];
 export const SENSITIVE_AUDIT_EVENT_TYPES: ReadonlySet<AuditEventType> = new Set([
   "login",
   "failed_login",
+  "logout",
   "permission_change",
   "client_created",
   "client_edited",

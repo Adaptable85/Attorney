@@ -22,6 +22,7 @@ Phase 3H safe local DB validation documentation and dev/staging readiness checkl
 Phase 3J production auth provider decision pack is implemented without provider integration, production secrets, production writes or UI saves.
 Phase 3K.1 Microsoft Entra ID / Microsoft 365 identity decision ADR is accepted without provider integration, production secrets, production auth readiness, production writes or UI saves.
 Phase 4A Microsoft Entra auth skeleton is implemented without live OAuth, session creation, real secrets, production auth readiness, production writes or UI saves.
+Phase 4B Entra staging setup, callback/session design and disabled route placeholders are implemented without Microsoft redirects, token exchange, session cookies, production auth readiness, production writes or UI saves.
 
 ## Current Direction
 
@@ -70,6 +71,7 @@ Phase 4A Microsoft Entra auth skeleton is implemented without live OAuth, sessio
 - Production auth provider decision pack lives at `docs/architecture/production-auth-provider-decision-pack.md`.
 - Accepted auth direction is Microsoft Entra ID / Microsoft 365 identity, pending tenant/admin access confirmation, MFA policy, role claim approach, environment configuration, staging validation and production readiness review.
 - Entra config parsing, issuer helpers, claim mapping and adapter skeletons live under `src/auth/entra`.
+- Disabled Entra login/callback/logout route placeholders live under `app/api/auth/entra` and return `entra_auth_not_enabled`.
 
 See:
 
@@ -107,6 +109,7 @@ See:
 - Phase 3J auth decision pack: docs only; no provider integration, secrets, login flow, production write or UI save is exposed.
 - Phase 3K.1 auth decision ADR: Microsoft Entra ID / Microsoft 365 identity accepted as direction only; no provider integration, secrets, production auth readiness, production write or UI save is exposed.
 - Phase 4A Entra skeleton: config/parser/claim adapter tests only; no live OAuth, callback route, session creation, production auth readiness, production write or UI save is exposed.
+- Phase 4B Entra route placeholders: login/callback/logout routes return disabled JSON only; no Microsoft redirect, token exchange, session cookie, production auth readiness, production write or UI save is exposed.
 - Agent service users: blocked from normal admin shell navigation.
 
 ## ADR Candidates
