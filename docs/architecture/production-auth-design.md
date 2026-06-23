@@ -1,6 +1,6 @@
 # Production Auth Design
 
-Status: Phase 4E Microsoft Entra disabled staging wiring
+Status: Phase 4F Microsoft Entra JWT/JWKS verification skeleton
 Date: 2026-06-23
 
 ## Current Auth State
@@ -24,6 +24,8 @@ Phase 4C adds OAuth state/nonce helpers, PKCE helpers, JWKS URL descriptors and 
 Phase 4D adds OAuth state storage and JWKS cache boundaries without live routes, cookies, sessions, default Microsoft network fetches or authenticated token acceptance.
 
 Phase 4E adds disabled-by-default staging dependency wiring for Entra config, state storage, JWKS cache, PKCE and token-validation markers. It still does not enable live login, route redirects, token exchange, session cookies, production auth readiness or production writes.
+
+Phase 4F adds JWT/JWKS key-selection and verifier boundaries. The boundary has no default verifier, no Microsoft network fetch and no production JWT library dependency yet. Decode-only claims remain untrusted.
 
 ## Production Auth Requirements
 
@@ -72,6 +74,7 @@ Still pending before implementation:
 - Confirm break-glass admin process.
 - Configure environment variables outside Git.
 - Complete staging validation.
+- Select and review a JWT/JWKS verification library.
 - Complete production readiness review.
 
 Options reviewed:

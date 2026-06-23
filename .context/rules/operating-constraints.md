@@ -59,6 +59,7 @@
 - Microsoft Entra token-validation skeletons must not authenticate users until cryptographic JWKS verification, state/nonce storage and staging validation are implemented and approved.
 - Microsoft Entra state store and JWKS cache boundaries must not be wired to live routes, cookies, sessions or default network fetches until a live auth phase is accepted.
 - Microsoft Entra staging wiring must remain disabled by default and must not enable live routes, cookies, sessions, production auth readiness or production writes.
+- Microsoft Entra JWT/JWKS verification boundaries must not treat decoded claims as authenticated unless an injected cryptographic verifier succeeds.
 - Do not enable production auth readiness or production writes until Entra tenant/admin access, MFA policy, allowed users/domains, role claim approach, environment configuration, staging validation and production readiness review are complete.
 
 ## Phase -1 Constraints

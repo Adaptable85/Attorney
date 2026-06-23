@@ -1,6 +1,6 @@
 # Microsoft Entra Staging Setup Checklist
 
-Status: Phase 4E checklist with disabled staging wiring
+Status: Phase 4F checklist with JWT/JWKS verifier skeleton
 Date: 2026-06-23
 
 No real tenant, client or secret values belong in this document.
@@ -71,6 +71,8 @@ Placeholder names only:
 - Complete placeholder tokens still require cryptographic JWKS verification.
 - Staging wiring remains disabled unless `BURGESS_ENTRA_STAGING_AUTH_WIRING_ENABLED=true` is explicitly set.
 - Enabled staging wiring returns dependencies only and does not enable live routes, sessions, production auth readiness or production writes.
+- JWT verification has no default verifier and must fail closed without a reviewed cryptographic verification dependency.
+- Decode-only token claims must not authenticate users.
 - Role mapping rejects unknown role claims.
 - Agent and read-only roles cannot create client/matter records.
 - Production writes remain disabled.

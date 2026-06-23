@@ -1,6 +1,12 @@
-import { type ServiceResult, serviceFailure } from "@/services/service-result";
+import { type ServiceResult, serviceFailure, serviceSuccess } from "@/services/service-result";
 import type { EntraAuthConfig } from "./entra-config";
 import type { EntraJwksMetadata } from "./entra-jwks-cache";
+import type {
+  EntraJwtSignatureVerifier,
+  EntraVerifiedJwtClaims
+} from "./entra-jwt-verifier";
+import { createEntraJwtVerificationInput, verifyEntraJwt } from "./entra-jwt-verifier";
+import type { EntraJwksPublicKey } from "./entra-jwks-key-selection";
 
 export type EntraTokenValidationInput = {
   issuer?: string | null;
@@ -32,6 +38,8 @@ export type EntraTokenValidationFailureReason =
   | "jwks_unavailable"
   | "jwks_issuer_mismatch"
   | "jwks_expired"
+  | "verifier_missing"
+  | "verifier_failed"
   | "cryptographic_verification_required";
 
 export type EntraTokenValidationFailure = {
@@ -64,11 +72,12 @@ function emailAllowed(email: string, allowedDomains: readonly string[]): boolean
   return Boolean(domain && allowedDomains.includes(domain));
 }
 
-export function validateEntraTokenSkeleton(
+function validateVerifiedClaims(
   input: EntraTokenValidationInput,
   config: Pick<EntraAuthConfig, "issuerUrl" | "clientId" | "tenantId" | "allowedEmailDomains">,
-  now: Date = new Date()
-): ServiceResult<never> {
+  now: Date,
+  options?: { cryptographicVerificationRequired?: boolean }
+): ServiceResult<EntraVerifiedJwtClaims | never> {
   if (!input.issuer) {
     return fail("issuer_missing", "Microsoft Entra token issuer is required.");
   }
@@ -129,8 +138,95 @@ export function validateEntraTokenSkeleton(
     return fail("jwks_expired", "Microsoft Entra JWKS metadata is expired.");
   }
 
+  if (options?.cryptographicVerificationRequired === false) {
+    return serviceSuccess({
+      issuer: input.issuer,
+      audience: input.audience,
+      tenantId: input.tenantId,
+      expiresAt: input.expiresAt,
+      notBefore: input.notBefore ?? undefined,
+      nonce: input.nonce,
+      subject: input.subject,
+      email: input.email,
+      claims: {
+        iss: input.issuer,
+        aud: input.audience,
+        tid: input.tenantId,
+        exp: Math.floor(input.expiresAt.getTime() / 1000),
+        nbf: input.notBefore ? Math.floor(input.notBefore.getTime() / 1000) : undefined,
+        nonce: input.nonce,
+        oid: input.subject,
+        email: input.email
+      }
+    });
+  }
+
   return fail(
     "cryptographic_verification_required",
     "Microsoft Entra token requires cryptographic JWKS validation before authentication."
   );
+}
+
+export function validateEntraTokenSkeleton(
+  input: EntraTokenValidationInput,
+  config: Pick<EntraAuthConfig, "issuerUrl" | "clientId" | "tenantId" | "allowedEmailDomains">,
+  now: Date = new Date()
+): ServiceResult<never> {
+  return validateVerifiedClaims(input, config, now) as ServiceResult<never>;
+}
+
+export function validateVerifiedEntraTokenSkeleton(
+  input: {
+    rawIdToken?: string | null;
+    expectedNonce?: string | null;
+    jwksKeys?: readonly EntraJwksPublicKey[] | null;
+    signatureVerifier?: EntraJwtSignatureVerifier;
+    jwksMetadata?: EntraJwksMetadata | null;
+  },
+  config: Pick<EntraAuthConfig, "issuerUrl" | "clientId" | "tenantId" | "allowedEmailDomains">,
+  now: Date = new Date()
+): ServiceResult<EntraVerifiedJwtClaims> {
+  if (!input.signatureVerifier) {
+    return fail("verifier_missing", "Microsoft Entra JWT verifier is required.");
+  }
+
+  const verified = verifyEntraJwt(createEntraJwtVerificationInput({
+    rawIdToken: input.rawIdToken ?? "",
+    config,
+    expectedNonce: input.expectedNonce ?? "",
+    keys: input.jwksKeys ?? [],
+    signatureVerifier: input.signatureVerifier,
+    now
+  }));
+
+  if (!verified.ok) {
+    return fail("verifier_failed", verified.error.message);
+  }
+
+  const structural = validateVerifiedClaims(
+    {
+      issuer: verified.data.issuer,
+      audience: verified.data.audience,
+      tenantId: verified.data.tenantId,
+      expiresAt: verified.data.expiresAt,
+      notBefore: verified.data.notBefore,
+      nonce: verified.data.nonce,
+      expectedNonce: input.expectedNonce,
+      subject: verified.data.subject,
+      email: verified.data.email,
+      jwksMetadata: input.jwksMetadata
+    },
+    config,
+    now,
+    { cryptographicVerificationRequired: false }
+  );
+
+  if (!structural.ok) {
+    return structural;
+  }
+
+  return serviceSuccess({
+    ...verified.data,
+    claims: verified.data.claims
+  });
 }

@@ -256,12 +256,22 @@ describe("architecture guardrails", () => {
   it("keeps Microsoft Entra token skeleton from authenticating unverified tokens", () => {
     const tokenValidation = readFileSync(join(root, "src/auth/entra/entra-token-validation.ts"), "utf8");
     const jwks = readFileSync(join(root, "src/auth/entra/entra-jwks.ts"), "utf8");
+    const verifier = readFileSync(join(root, "src/auth/entra/entra-jwt-verifier.ts"), "utf8");
+    const keySelection = readFileSync(join(root, "src/auth/entra/entra-jwks-key-selection.ts"), "utf8");
 
     expect(tokenValidation).toContain("cryptographic_verification_required");
     expect(tokenValidation).toContain("requires cryptographic JWKS validation");
-    expect(tokenValidation).not.toContain("serviceSuccess");
+    expect(tokenValidation).toContain("verifier_missing");
+    expect(tokenValidation).toContain("verifyEntraJwt");
     expect(tokenValidation).not.toContain("mapEntraClaimsToPrincipal");
     expect(jwks).not.toContain("fetch(");
+    expect(verifier).toContain("signatureVerifier");
+    expect(verifier).toContain("Microsoft Entra JWT cryptographic verifier is not configured.");
+    expect(verifier).not.toContain("fetch(");
+    expect(verifier).not.toContain("client_secret");
+    expect(verifier).not.toContain("jose");
+    expect(keySelection).toContain('"RS256"');
+    expect(keySelection).not.toContain("fetch(");
   });
 
   it("keeps Microsoft Entra storage and JWKS cache boundaries non-live", () => {

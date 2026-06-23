@@ -1,11 +1,11 @@
 # Microsoft Entra Implementation Plan
 
-Status: Phase 4E disabled staging wiring
+Status: Phase 4F JWT/JWKS verification skeleton
 Date: 2026-06-23
 
 ## Current State
 
-Microsoft Entra ID / Microsoft 365 identity is the accepted production auth provider direction. Phase 4A added a provider-specific skeleton. Phase 4B added staging setup documentation, callback/session architecture, disabled route placeholders and session shape validation. Phase 4C added OAuth state/nonce helpers, PKCE helpers, JWKS descriptors and token-validation skeletons. Phase 4D added OAuth state storage and JWKS cache boundaries without live login, secrets, session cookies, default network fetches, production auth readiness or production writes. Phase 4E adds disabled-by-default staging dependency wiring for state storage, JWKS cache, PKCE and token-validation markers while keeping routes disabled.
+Microsoft Entra ID / Microsoft 365 identity is the accepted production auth provider direction. Phase 4A added a provider-specific skeleton. Phase 4B added staging setup documentation, callback/session architecture, disabled route placeholders and session shape validation. Phase 4C added OAuth state/nonce helpers, PKCE helpers, JWKS descriptors and token-validation skeletons. Phase 4D added OAuth state storage and JWKS cache boundaries without live login, secrets, session cookies, default network fetches, production auth readiness or production writes. Phase 4E added disabled-by-default staging dependency wiring for state storage, JWKS cache, PKCE and token-validation markers while keeping routes disabled. Phase 4F adds JWT/JWKS verifier and key-selection boundaries without adding a live JWT library, route wiring or production readiness.
 
 Implemented skeleton pieces:
 
@@ -26,6 +26,8 @@ Implemented skeleton pieces:
 - `src/auth/entra/entra-jwks-cache.ts`: JWKS metadata cache boundary with injectable fetcher.
 - `src/auth/entra/entra-staging-wiring.ts`: disabled-by-default staging dependency wiring.
 - `src/auth/entra/entra-route-dependencies.ts`: disabled route dependency composition for future handler injection.
+- `src/auth/entra/entra-jwks-key-selection.ts`: local JWKS key selection and algorithm allowlist.
+- `src/auth/entra/entra-jwt-verifier.ts`: injected JWT verification boundary with no default verifier.
 
 ## Required Before Live Implementation
 
@@ -68,8 +70,10 @@ Implemented skeleton pieces:
 - State store is not wired to cookies or live routes.
 - Staging wiring is disabled by default and requires `BURGESS_ENTRA_STAGING_AUTH_WIRING_ENABLED=true`, complete placeholder config and a cryptographic verification dependency marker before it returns a non-live dependency bundle.
 - Staging wiring does not enable live login, route behavior, production auth readiness or production writes.
+- JWT verification has no default verifier and does not trust decode-only claims.
+- No JWT library was added in Phase 4F; a future phase should review `jose` or another maintained JOSE-compatible library.
 - Create forms remain disabled.
 
 ## Next Phase
 
-The next phase should add a reviewed cryptographic token verification dependency plan and staging route design, still without enabling production writes.
+The next phase should review and select the production JWT/JWKS verification library and staging callback wiring plan, still without enabling production writes.
