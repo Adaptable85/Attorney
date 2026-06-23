@@ -76,6 +76,8 @@ Phase 3G dev-only mutation functions also do not change form enablement. Create 
 
 Phase 3H adds no mutation behavior. It documents readiness checks and confirms UI saves remain disabled until release approval.
 
+Phase 3J adds no mutation behavior. Production auth provider recommendation remains pending owner approval, so live mutation routes and UI saves remain blocked.
+
 ## Test Requirements
 
 - Missing user blocked.

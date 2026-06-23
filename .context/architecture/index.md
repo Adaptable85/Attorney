@@ -19,6 +19,7 @@ Phase 3E production-auth gating and server-action/API mutation design is impleme
 Phase 3F production-auth adapter boundary and disabled mutation entrypoint skeletons are implemented without live write entrypoints.
 Phase 3G dev-only client/matter write path is implemented for backend tests without production writes or UI saves.
 Phase 3H safe local DB validation documentation and dev/staging readiness checklist are implemented without production writes or UI saves.
+Phase 3J production auth provider decision pack is implemented without provider integration, production secrets, production writes or UI saves.
 
 ## Current Direction
 
@@ -64,6 +65,8 @@ Phase 3H safe local DB validation documentation and dev/staging readiness checkl
 - Dev-only mutation functions require fake `DEMO-*` account numbers.
 - Dev/staging readiness checklist lives at `docs/architecture/dev-staging-readiness-checklist.md`.
 - Local DB helper scripts target only `localhost` and `burgess_attorneys_dev`.
+- Production auth provider decision pack lives at `docs/architecture/production-auth-provider-decision-pack.md`.
+- Recommended auth direction is Microsoft Entra ID if Burgess already uses Microsoft 365; otherwise Clerk/Auth0-style managed auth, pending owner approval.
 
 See:
 
@@ -98,6 +101,7 @@ See:
 - Phase 3F disabled skeletons: server-module tests only; no UI wiring, active server action, API mutation route, live save, migration or production DB operation is exposed.
 - Phase 3G dev-only writes: backend mutation functions only; no UI save, active production save button, API mutation route, production auth provider, migration or production DB operation is exposed.
 - Phase 3H local DB validation: docs/scripts/checklist only; DB tests require local PostgreSQL and remain optional/guarded.
+- Phase 3J auth decision pack: docs only; no provider integration, secrets, login flow, production write or UI save is exposed.
 - Agent service users: blocked from normal admin shell navigation.
 
 ## ADR Candidates

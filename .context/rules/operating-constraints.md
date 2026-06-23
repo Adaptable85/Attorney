@@ -53,6 +53,8 @@
 - Create forms must remain disabled until a separate UI-write phase is accepted.
 - Local DB validation must use local PostgreSQL and a guarded `burgess_attorneys_dev` URL only.
 - Refuse Railway, Supabase, Neon, Render, Vercel, remote hostnames and production database URLs for DB tests.
+- Production auth provider recommendation must remain pending owner approval until an accepted decision is recorded.
+- Do not enable production auth readiness or production writes from a recommendation document alone.
 
 ## Phase -1 Constraints
 

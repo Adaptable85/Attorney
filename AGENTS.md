@@ -4,7 +4,7 @@ This repository is for the Burgess Attorneys Admin Automation Platform.
 
 ## Current Phase Boundary
 
-Phase 3H adds safe local DB validation documentation and dev/staging readiness checklist only. It adds no production writes, live UI save, active production save button, API mutation route, deployment or production database operation.
+Phase 3J adds a production auth provider decision pack only. It adds no real provider integration, production secrets, production writes, live UI save, active production save button, API mutation route, deployment or production database operation.
 
 Do not build product features yet. Do not build client/matter CRUD, invoice workflow, statement workflow, WhatsApp automation, Lexpro import, website, marketing system, outreach system, production auth, production database models, production file storage, or agent runtime yet.
 
@@ -26,6 +26,7 @@ Phase 3E adds production auth design, mutation entrypoint design, default-off re
 Phase 3F adds production auth adapter/readiness boundaries and disabled client/matter mutation skeletons only. It adds no real provider setup, production auth secrets, live UI saves, active server action writes, API mutation routes, production DB commands, migrations, deployment, sending or sync.
 Phase 3G adds dev-only client/matter mutation functions behind explicit local/dev gates only. It adds no production auth provider, production auth secrets, live UI saves, active production save button, API mutation routes, production DB commands, migrations, deployment, sending or sync.
 Phase 3H adds safe local DB validation documentation, guarded local DB scripts and dev/staging readiness checklist only. It adds no production auth provider, production auth secrets, live UI saves, active production save button, API mutation routes, production DB commands, production migrations, deployment, sending or sync.
+Phase 3J adds production auth provider comparison, recommendation and implementation-plan documentation only. It adds no real provider setup, production auth secrets, live UI saves, active production save button, API mutation routes, production DB commands, production migrations, deployment, sending or sync.
 
 ## Project Non-Negotiables
 
@@ -65,6 +66,7 @@ Phase 3H adds safe local DB validation documentation, guarded local DB scripts a
 - Dev-only write paths must require explicit local/dev flags, local/dev composition and fake `DEMO-*` account numbers.
 - Production writes must remain blocked unless production auth readiness and explicit production write approval are configured.
 - Local DB tests must use local PostgreSQL and the guarded `burgess_attorneys_dev` database only.
+- Production auth provider recommendation remains pending owner approval until an accepted decision is recorded.
 
 ## Safe Financial Defaults
 

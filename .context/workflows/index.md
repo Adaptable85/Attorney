@@ -77,6 +77,8 @@ Audited persistence workflow:
 - Production writes additionally require production auth readiness and explicit production write enablement.
 - Phase 3G keeps create forms disabled and unwired from mutation functions.
 - Phase 3H observed this execution environment has no `psql`, `pg_isready` or `createdb`, so DB tests were skipped here.
+- Phase 3J recommends Microsoft Entra ID when Burgess has Microsoft 365, otherwise Clerk/Auth0-style managed auth; recommendation is pending owner approval.
+- Do not enable `BURGESS_PRODUCTION_AUTH_ENABLED`, `BURGESS_PRODUCTION_AUTH_CONFIGURED` or `BURGESS_PRODUCTION_WRITES_ENABLED` until provider approval and staging validation are complete.
 
 Migration workflow:
 

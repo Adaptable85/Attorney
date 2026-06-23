@@ -13,6 +13,8 @@ Phase 3F adds a provider-neutral production auth adapter boundary and readiness 
 
 Phase 3G keeps production auth provider selection pending. Dev-only mutation functions rely on local/dev auth principals and do not count as production auth readiness.
 
+Phase 3J adds `docs/architecture/production-auth-provider-decision-pack.md`. It recommends Microsoft Entra ID when Burgess Attorneys already uses Microsoft 365 and wants firm-controlled identity, otherwise a managed provider such as Clerk/Auth0 when fast secure setup matters more than Microsoft integration. The recommendation is pending owner approval and does not enable production auth readiness.
+
 ## Production Auth Requirements
 
 - Auth must produce a stable subject ID and verified email.
@@ -55,6 +57,8 @@ Provider choice is pending. Options to review:
 - A provider-managed legal/compliance-friendly identity platform if required.
 
 No paid or external provider is selected by this phase.
+
+The Phase 3J decision pack compares Auth.js, Clerk, Supabase Auth, Microsoft Entra ID and Auth0-style managed identity providers.
 
 ## Why Production Auth Blocks Live Writes
 

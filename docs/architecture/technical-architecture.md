@@ -1,6 +1,6 @@
 # Technical Architecture
 
-Status: Phase 3H safe local DB validation and readiness checklist
+Status: Phase 3J production auth provider decision pack
 Date: 2026-06-23
 
 ## Architecture Decision
@@ -95,6 +95,8 @@ Phase 3G adds dev-only server-module mutation functions for client and matter cr
 
 Phase 3H adds safe local DB validation documentation, local helper scripts and a dev/staging readiness checklist. It adds no schema changes, routes, UI saves or production writes.
 
+Phase 3J adds a production auth provider decision pack. It recommends Microsoft Entra ID if Burgess Attorneys already uses Microsoft 365, otherwise Clerk/Auth0-style managed auth if fast secure setup matters more than Microsoft integration. The recommendation remains pending owner approval and adds no provider integration, secrets, routes, UI saves or production writes.
+
 Permission strategy:
 
 - Owner / Principal Attorney has full approval powers.
@@ -153,6 +155,8 @@ Phase 3F keeps the new client/matter mutation skeletons non-writing. Audit metad
 Phase 3G permits local/dev backend writes only through explicit dev gates and audited transaction composition. Production writes remain blocked by production auth readiness and `productionWritesEnabled`.
 
 Phase 3H local DB validation could not run in this execution environment because local PostgreSQL CLI/server tooling is unavailable. DB-only tests remain guarded and optional.
+
+Phase 3J does not change persistence. Production writes remain blocked until provider approval, implementation, staging validation, audit/transaction review and release gates are complete.
 
 Phase 1B extends audit event categories for:
 
