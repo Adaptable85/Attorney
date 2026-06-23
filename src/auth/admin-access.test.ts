@@ -121,13 +121,11 @@ describe("admin access boundary", () => {
     expect(getLocalDevPrincipal()).toBeNull();
   });
 
-  it("falls back to support admin for unsupported local dev role env values", () => {
+  it("fails closed for unsupported local dev role env values", () => {
     vi.stubEnv("NODE_ENV", "test");
     vi.stubEnv("BURGESS_DEV_CURRENT_ROLE", "UNSUPPORTED");
 
-    expect(getLocalDevPrincipal()).toMatchObject({
-      roles: ["SUPPORT_ADMIN"]
-    });
+    expect(getLocalDevPrincipal()).toBeNull();
   });
 
   it("creates and reads the current local provider without production auth", async () => {

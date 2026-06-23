@@ -9,6 +9,7 @@ describe("audit event boundary", () => {
       expect.arrayContaining([
         "login",
         "failed_login",
+        "logout",
         "permission_change",
         "client_created",
         "client_edited",
@@ -53,6 +54,7 @@ describe("audit event boundary", () => {
     expect(isSensitiveAuditEvent("statement_approved")).toBe(true);
     expect(isSensitiveAuditEvent("statement_sent")).toBe(true);
     expect(isSensitiveAuditEvent("permission_change")).toBe(true);
+    expect(isSensitiveAuditEvent("logout")).toBe(true);
     expect(isSensitiveAuditEvent("agent_action")).toBe(true);
     expect(isSensitiveAuditEvent("client_created")).toBe(true);
     expect(isSensitiveAuditEvent("matter_edited")).toBe(true);

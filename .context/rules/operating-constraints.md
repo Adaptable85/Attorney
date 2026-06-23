@@ -32,7 +32,37 @@
 - Seed data must not contain real client data.
 - Repository interfaces must not expose hard-delete methods for protected records.
 - Admin shell placeholders must not imply that CRUD, approval, sending, publishing, upload, download or sync workflows are implemented.
+- Admin dashboard demo values must not imply live operational counts or implemented workflow actions.
 - Agent service users must not receive normal admin shell navigation by default.
+- Client/matter service routes or UI must not bypass server-side service permission checks.
+- Read-only client/matter UI must not render active edit, delete, send or approval controls.
+- Client/matter create forms must remain disabled until validation, permissions, audit logging and persistence are implemented and tested.
+- Mutation-capable services must require authenticated actor context, permission checks and audit metadata before repository writes.
+- Local Prisma repository adapters must not be wired to UI saves, API mutation routes or production database operations until production auth and transaction/outbox behavior are explicitly accepted.
+- DB integration tests must use fake data only and must refuse unsafe/non-local database URLs.
+- Live persistence must not be enabled until audited mutations use an injected transaction boundary and production auth is accepted.
+- AuditLog is the immediate internal outbox-equivalent; do not add a separate outbox table without an accepted plan.
+- Local/dev service composition must not be imported by UI routes or used as a production persistence path.
+- Client/matter write release gates must default off and fail closed for missing or unknown flag values.
+- Production client/matter writes must not be enabled until production auth, audited persistence and explicit release approval are configured.
+- Future server actions or API mutation routes must pass production-compatible principal, role, service context, permission, audit metadata, transaction boundary and release-gate checks before service mutation code runs.
+- Production auth readiness must fail closed unless an accepted production provider is explicitly configured.
+- Disabled mutation skeletons must remain unwired from UI, app routes, Prisma adapters and local/dev composition until a live-write phase is accepted.
+- Dev-only mutation functions must require explicit local/dev gates, local/dev composition and fake `DEMO-*` account numbers.
+- Production writes must require production auth readiness and explicit production write enablement.
+- Create forms must remain disabled until a separate UI-write phase is accepted.
+- Local DB validation must use local PostgreSQL and a guarded `burgess_attorneys_dev` URL only.
+- Refuse Railway, Supabase, Neon, Render, Vercel, remote hostnames and production database URLs for DB tests.
+- Microsoft Entra ID / Microsoft 365 identity is the accepted production auth provider direction.
+- Microsoft Entra skeleton code must not perform live OAuth, create sessions, expose secrets or imply production readiness.
+- Microsoft Entra route placeholders must return disabled/not-enabled responses and must not redirect to Microsoft, exchange tokens, set cookies or imply production readiness.
+- Microsoft Entra token-validation skeletons must not authenticate users until cryptographic JWKS verification, state/nonce storage and staging validation are implemented and approved.
+- Microsoft Entra state store and JWKS cache boundaries must not be wired to live routes, cookies, sessions or default network fetches until a live auth phase is accepted.
+- Microsoft Entra staging wiring must remain disabled by default and must not enable live routes, cookies, sessions, production auth readiness or production writes.
+- Microsoft Entra JWT/JWKS verification boundaries must not treat decoded claims as authenticated unless an injected cryptographic verifier succeeds.
+- Microsoft Entra `jose` verifier adapters must use injected key material only and must not fetch Microsoft JWKS metadata until a live auth phase is accepted.
+- Microsoft Entra callback/JWKS fetch-cache design must remain documentation-only until a live auth phase explicitly accepts route enablement, network fetch, token exchange, session creation and audit wiring.
+- Do not enable production auth readiness or production writes until Entra tenant/admin access, MFA policy, allowed users/domains, role claim approach, environment configuration, staging validation and production readiness review are complete.
 
 ## Phase -1 Constraints
 

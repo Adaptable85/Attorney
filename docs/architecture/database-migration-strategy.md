@@ -1,7 +1,7 @@
 # Database Migration Strategy
 
-Status: Phase 1E local development foundation
-Date: 2026-06-18
+Status: Phase 3H safe local DB validation and readiness checklist
+Date: 2026-06-23
 
 ## Current State
 
@@ -26,6 +26,20 @@ Current local flow:
 5. Run dev-only seed fixtures with `BURGESS_ALLOW_DEV_SEED=true`.
 6. Reset local dev data only with `BURGESS_ALLOW_DEV_DB_RESET=true pnpm run db:reset:dev`.
 7. Run repository/service database tests with `pnpm run test:db`.
+
+Phase 3B DB integration tests are local-only. They must run only when `DATABASE_URL` points to local PostgreSQL on `localhost` or `127.0.0.1` and targets a database path containing `burgess_attorneys_dev`. Normal validation must not require `DATABASE_URL`.
+
+Phase 3C adds local-only Prisma transaction tests using existing Client and AuditLog tables. It does not add schema, migrations or a new outbox table. AuditLog is the immediate internal outbox-equivalent until external event dispatch is designed.
+
+Phase 3D composes local/dev Prisma repositories using the existing Client, Matter and AuditLog tables. It adds no schema changes or migrations, and DB tests remain optional/local behind `pnpm run test:db`.
+
+Phase 3E adds release-gate and mutation-gate helpers only. It adds no schema changes, migrations, production database commands, live server actions or API mutation routes. Future live writes remain blocked until production auth, audited transaction wiring and release approval are accepted.
+
+Phase 3F adds auth adapter/readiness helpers and disabled mutation skeletons only. It adds no schema changes, migrations, production database commands, live server actions or API mutation routes.
+
+Phase 3G adds dev-only mutation functions and DB-only tests using the existing Client, Matter and AuditLog tables. It adds no schema changes, migrations, production database commands, API mutation routes or production writes.
+
+Phase 3H adds safe local DB validation documentation, a dev/staging readiness checklist and local helper scripts. This execution environment did not have `psql`, `pg_isready` or `createdb`, so DB-only tests were not run here. Local DB tests remain guarded and should be run with `pnpm run test:db:local` only when local PostgreSQL is available.
 
 Agents may validate the Prisma schema. Agents may generate dev migrations only when explicitly instructed.
 Normal pre-PR checks must not require a running database.
@@ -83,3 +97,5 @@ Before staging or production migrations:
 - Seed data must be fake, deterministic and safe for development only.
 - `pnpm run db:seed` must skip by default unless `BURGESS_ALLOW_DEV_SEED=true`.
 - `pnpm run db:reset:dev` must skip by default unless `BURGESS_ALLOW_DEV_DB_RESET=true` and `DATABASE_URL` points to local `burgess_attorneys_dev`.
+- `pnpm run test:db:local` targets only `postgresql://adaptable@localhost:5432/burgess_attorneys_dev`.
+- `pnpm run db:migrate:local` is for reviewed local migrations only and must never be used for production.

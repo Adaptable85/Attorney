@@ -7,6 +7,28 @@ Phase 1C billing, invoice, statement and financial correction foundations are im
 Phase 1D migration strategy, repository interfaces, Prisma boundary and fake seed fixtures are implemented.
 Phase 1E local migration execution, Prisma Client generation and a minimal users/roles repository adapter are implemented.
 Phase 2A protected admin shell UI and role-aware placeholder navigation are implemented.
+Phase 2B read-only admin dashboard overview with safe demo placeholder data is implemented.
+Phase 2C client/matter service boundaries are implemented without API routes or database-dependent normal tests.
+Phase 2D read-only client/matter UI is implemented with safe demo data through service boundaries.
+Phase 2E disabled client/matter create form foundations are implemented without persistence.
+Phase 3A auth/session hardening and audited persistence enablement are implemented without live UI saves.
+Phase 3B local-only Prisma client/matter repository adapters and guarded DB integration tests are implemented without live UI saves or production database operations.
+Phase 3C audited transaction boundary is implemented without live UI saves or production database operations.
+Phase 3D local/dev client-matter service composition is implemented without live UI saves or production database operations.
+Phase 3E production-auth gating and server-action/API mutation design is implemented without live write entrypoints.
+Phase 3F production-auth adapter boundary and disabled mutation entrypoint skeletons are implemented without live write entrypoints.
+Phase 3G dev-only client/matter write path is implemented for backend tests without production writes or UI saves.
+Phase 3H safe local DB validation documentation and dev/staging readiness checklist are implemented without production writes or UI saves.
+Phase 3J production auth provider decision pack is implemented without provider integration, production secrets, production writes or UI saves.
+Phase 3K.1 Microsoft Entra ID / Microsoft 365 identity decision ADR is accepted without provider integration, production secrets, production auth readiness, production writes or UI saves.
+Phase 4A Microsoft Entra auth skeleton is implemented without live OAuth, session creation, real secrets, production auth readiness, production writes or UI saves.
+Phase 4B Entra staging setup, callback/session design and disabled route placeholders are implemented without Microsoft redirects, token exchange, session cookies, production auth readiness, production writes or UI saves.
+Phase 4C Entra OAuth state/nonce, PKCE, JWKS descriptor and token-validation skeletons are implemented without Microsoft redirects, token exchange, JWKS network fetch, cryptographic token acceptance, session cookies, production auth readiness, production writes or UI saves.
+Phase 4D Entra OAuth state storage and JWKS metadata cache boundaries are implemented without Microsoft redirects, token exchange, default JWKS network fetch, cryptographic token acceptance, session cookies, production auth readiness, production writes or UI saves.
+Phase 4E disabled-by-default Entra staging dependency wiring is implemented without route enablement, Microsoft redirects, token exchange, default JWKS network fetch, cryptographic token acceptance, session cookies, production auth readiness, production writes or UI saves.
+Phase 4F Entra JWT/JWKS verification boundary skeleton is implemented without route enablement, Microsoft redirects, token exchange, default JWKS network fetch, session cookies, production auth readiness, production writes or UI saves.
+Phase 4G selects `jose` for Entra JWT/JWKS verification and adds a non-live adapter skeleton without route enablement, Microsoft redirects, token exchange, default JWKS network fetch, session cookies, production auth readiness, production writes or UI saves.
+Phase 4H staging callback/JWKS fetch-cache design is implemented without route enablement, Microsoft redirects, token exchange, default JWKS network fetch, session cookies, production auth readiness, production writes or UI saves.
 
 ## Current Direction
 
@@ -34,6 +56,34 @@ Phase 2A protected admin shell UI and role-aware placeholder navigation are impl
 - Database integration tests isolated behind `pnpm run test:db`.
 - Protected `/admin` shell route with placeholder-only cards.
 - Local/dev auth boundary for shell protection; production auth remains unresolved.
+- Protected `/admin/dashboard` route with read-only, role-filtered demo placeholder sections.
+- Client/matter service functions wrap repository interfaces with admin access checks and safe typed errors.
+- Protected `/admin/clients`, `/admin/matters` and `/admin/matters/[id]` read-only pages use safe demo repositories.
+- Protected `/admin/clients/new` and `/admin/matters/new` render disabled future-phase form foundations only.
+- Auth sessions map through fail-closed role mapping before becoming domain principals.
+- Mutation-capable service functions require service context, permission checks and audit metadata.
+- Local-only Prisma client/matter repository adapters can be exercised through guarded DB tests.
+- Audited mutations can run audit recording and repository mutation through an injected transaction boundary.
+- ADR 0006 records AuditLog as the immediate internal outbox-equivalent; a separate outbox table is deferred.
+- Local/dev service composition wires Prisma client/matter/audit repositories and transaction boundary for backend-only tests.
+- Client/matter write feature and release gates default off.
+- Future mutation entrypoints must pass production-compatible principal, service context, permission, audit metadata, transaction boundary and release-gate checks before service mutation code runs.
+- Production auth adapter/readiness boundary exists, and Microsoft Entra ID / Microsoft 365 identity is the accepted provider direction.
+- Disabled client/matter mutation skeletons exist as server modules only and remain unwired from UI/routes.
+- Dev-only client/matter mutation functions exist behind explicit local/dev gates and local/dev composition.
+- Dev-only mutation functions require fake `DEMO-*` account numbers.
+- Dev/staging readiness checklist lives at `docs/architecture/dev-staging-readiness-checklist.md`.
+- Local DB helper scripts target only `localhost` and `burgess_attorneys_dev`.
+- Production auth provider decision pack lives at `docs/architecture/production-auth-provider-decision-pack.md`.
+- Accepted auth direction is Microsoft Entra ID / Microsoft 365 identity, pending tenant/admin access confirmation, MFA policy, role claim approach, environment configuration, staging validation and production readiness review.
+- Entra config parsing, issuer helpers, claim mapping and adapter skeletons live under `src/auth/entra`.
+- Disabled Entra login/callback/logout route placeholders live under `app/api/auth/entra` and return `entra_auth_not_enabled`.
+- OAuth state/nonce and PKCE helpers live under `src/auth/oauth`; Entra token/JWKS skeletons live under `src/auth/entra`.
+- OAuth state store boundary lives at `src/auth/oauth/oauth-state-store.ts`; JWKS cache boundary lives at `src/auth/entra/entra-jwks-cache.ts`.
+- Disabled Entra staging wiring lives at `src/auth/entra/entra-staging-wiring.ts` and route dependency composition lives at `src/auth/entra/entra-route-dependencies.ts`.
+- Entra JWKS key selection lives at `src/auth/entra/entra-jwks-key-selection.ts`; JWT verifier boundary lives at `src/auth/entra/entra-jwt-verifier.ts`.
+- Entra `jose` adapter lives at `src/auth/entra/entra-jose-verifier.ts` and uses injected JWK material only.
+- Phase 4H callback/JWKS fetch-cache design lives at `docs/architecture/entra-staging-callback-jwks-fetch-cache-design.md` and is documentation-only.
 
 See:
 
@@ -55,6 +105,29 @@ See:
 - Seed data: fake only, no real client data.
 - Normal pre-PR checks: must not require a running database.
 - Admin shell: placeholder only, no CRUD or protected workflow actions.
+- Admin dashboard: demo placeholder data only, no live counts or workflow actions.
+- Client/matter services: no hard-delete operation, no API route exposure yet, and no normal-test database dependency.
+- Client/matter UI: read-only demo display only, no edit/delete/send/approve actions.
+- Client/matter form foundations: disabled only, no submit action or persistence.
+- Audited persistence enablement: service boundary only; forms remain disabled and no live database write is exposed.
+- Phase 3B Prisma adapters: local repository boundary only; no UI save, API mutation route or production DB operation is exposed.
+- DB-specific tests: isolated behind `pnpm run test:db` and guarded to local `burgess_attorneys_dev`.
+- Phase 3C transaction boundary: service-layer preparation only; no UI save, server action, API mutation route or production DB operation is exposed.
+- Phase 3D local/dev composition: backend test composition only; app UI routes must not import it.
+- Phase 3E mutation gating: design/helper only; no server action, API mutation route, live UI save, production auth provider, migration or production DB operation is exposed.
+- Phase 3F disabled skeletons: server-module tests only; no UI wiring, active server action, API mutation route, live save, migration or production DB operation is exposed.
+- Phase 3G dev-only writes: backend mutation functions only; no UI save, active production save button, API mutation route, production auth provider, migration or production DB operation is exposed.
+- Phase 3H local DB validation: docs/scripts/checklist only; DB tests require local PostgreSQL and remain optional/guarded.
+- Phase 3J auth decision pack: docs only; no provider integration, secrets, login flow, production write or UI save is exposed.
+- Phase 3K.1 auth decision ADR: Microsoft Entra ID / Microsoft 365 identity accepted as direction only; no provider integration, secrets, production auth readiness, production write or UI save is exposed.
+- Phase 4A Entra skeleton: config/parser/claim adapter tests only; no live OAuth, callback route, session creation, production auth readiness, production write or UI save is exposed.
+- Phase 4B Entra route placeholders: login/callback/logout routes return disabled JSON only; no Microsoft redirect, token exchange, session cookie, production auth readiness, production write or UI save is exposed.
+- Phase 4C OAuth security skeleton: state/nonce, PKCE and token/JWKS helpers only; complete placeholder tokens still require cryptographic verification and do not authenticate users.
+- Phase 4D storage/cache boundaries: state store and JWKS cache interfaces only; no live cookies, default network fetch, authenticated token, production write or UI save is exposed.
+- Phase 4E staging wiring: dependency composition only; explicit staging wiring does not enable live routes, sessions, production auth readiness, production writes or UI saves.
+- Phase 4F verifier boundary: JWT/JWKS interfaces and fake/local tests only; decoded claims do not authenticate without an injected verifier and live routes remain disabled.
+- Phase 4G `jose` adapter: fake/local token verification only; no live route import, Microsoft JWKS fetch, session, production auth readiness, production write or UI save is exposed.
+- Phase 4H callback/JWKS fetch-cache design: documentation and checklists only; no route enablement, Microsoft network fetch, token exchange, session, production auth readiness, production write or UI save is exposed.
 - Agent service users: blocked from normal admin shell navigation.
 
 ## ADR Candidates

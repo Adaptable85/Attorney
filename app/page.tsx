@@ -1,9 +1,19 @@
+import Link from "next/link";
+
 export default function Home() {
   return (
-    <main>
-      <h1>Burgess Attorneys Platform Foundation</h1>
-      <p>Phase 0 technical foundation only. Product features are not implemented.</p>
+    <main className="home-page" aria-labelledby="home-title">
+      <section className="home-page__panel">
+        <p className="home-page__eyebrow">Burgess Attorneys</p>
+        <h1 id="home-title">Admin Platform Foundation</h1>
+        <p>
+          Protected internal admin shell for future legal-admin workflows. Current screens use
+          safe placeholder data only; production auth, saves and sending remain disabled.
+        </p>
+        <Link className="home-page__link" href="/admin">
+          Open admin shell
+        </Link>
+      </section>
     </main>
   );
 }
-

@@ -10,11 +10,13 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:db": "vitest run --config vitest.db.config.ts",
+    "test:db:local": "DATABASE_URL=postgresql://adaptable@localhost:5432/burgess_attorneys_dev pnpm run test:db",
     "test:coverage": "vitest run --coverage",
     "prisma:generate": "prisma generate",
     "prisma:migrate:dev": "prisma migrate dev",
     "prisma:validate": "prisma validate",
     "db:validate": "pnpm run prisma:validate",
+    "db:migrate:local": "DATABASE_URL=postgresql://adaptable@localhost:5432/burgess_attorneys_dev pnpm exec prisma migrate dev",
     "db:seed": "tsx prisma/seed.ts",
     "db:reset:dev": "tsx scripts/reset-dev-db.ts",
     "pre-pr": "./scripts/pre-pr-review.sh"
@@ -22,6 +24,7 @@
   "dependencies": {
     "@prisma/adapter-pg": "^7.8.0",
     "@prisma/client": "^7.8.0",
+    "jose": "^6.2.3",
     "next": "^16.2.9",
     "pg": "^8.21.0",
     "react": "^19.2.7",

@@ -71,6 +71,78 @@ Phase 1D critical-path tests cover:
 - Dev-only seed guardrails.
 - Migration strategy warning against automatic production migrations by agents.
 
+Phase 3A critical-path tests cover:
+
+- Fail-closed session-to-role mapping.
+- Local/dev current-user boundary with no production secrets.
+- Server-side admin user requirement helper.
+- Service context actor and role requirements.
+- Audited mutation permission and audit metadata requirements.
+- Client/matter create services requesting audit payloads before repository writes.
+- Guardrails against forbidden cross-repo references, hard-delete names and active client/matter workflow controls.
+
+Phase 3B critical-path tests cover:
+
+- Local-only Prisma client repository adapter create/read/list behavior.
+- Local-only Prisma matter repository adapter create/read/list/update behavior.
+- DB integration tests guarded to local `burgess_attorneys_dev`.
+- Service create paths proving permission denial, validation failure and audit failure prevent repository writes.
+- Guardrails preventing direct UI Prisma/repository-adapter use and normal-test database requirements.
+
+Phase 3C critical-path tests cover:
+
+- Audited mutation requirements for actor context, permission decision and audit metadata.
+- Audit, repository and transaction failure paths returning safe typed errors.
+- Fake transaction boundary commit and rollback behavior in normal tests.
+- Client/matter create service preparation running through an injected transaction boundary.
+- Guarded Prisma transaction DB tests for atomic fake client plus audit-log behavior.
+- Guardrails preventing direct UI transaction-boundary imports.
+
+Phase 3D critical-path tests cover:
+
+- Prisma AuditLog repository mapping.
+- Local/dev service composition fail-closed behavior.
+- Composed backend client/matter create dependencies using transaction-scoped repositories.
+- Guarded DB-only composition tests for owner/support success and agent/reviewer denial.
+- Guardrails preventing app/UI imports of local/dev composition.
+
+Phase 3E critical-path tests cover:
+
+- Feature flags defaulting off and failing closed for unknown values.
+- Production client/matter writes requiring production auth readiness and audited persistence readiness.
+- Local/dev writes requiring explicit local/dev write enablement.
+- Mutation gate denial for disabled release gates, missing users, agent users, read-only users, missing service context, missing audit metadata and missing transaction boundary.
+- Guardrails preventing create forms or app routes from importing active mutation gates as live save paths.
+
+Phase 3F critical-path tests cover:
+
+- Production auth readiness defaulting false.
+- Unknown and local/dev provider values failing closed.
+- Provider claims mapping only through explicit internal role keys.
+- Missing subject, email or role claims failing closed.
+- Agent role mapping without client/matter write permission.
+- Disabled client/matter mutation skeletons failing closed for missing users, blocked roles, disabled gates, missing audit metadata and missing transaction dependency.
+- Guardrails preventing mutation entrypoints from importing Prisma adapters or active server action markers.
+
+Phase 3G critical-path tests cover:
+
+- Production and dev write gates staying separate and default-off.
+- Explicit local/dev gates enabling backend mutation functions without enabling production writes.
+- Owner/support dev mutations using audited service paths only when local/dev composition is provided.
+- Agent/read-only users remaining blocked.
+- Missing audit metadata, missing transaction dependency and disabled gates preventing repository writes.
+- Real-looking account numbers rejected from the dev-only path.
+- DB-only dev mutation tests guarded to safe local `burgess_attorneys_dev`.
+- Guardrails keeping UI forms disabled and free of direct persistence imports.
+
+Phase 3H critical-path checks cover:
+
+- Local DB availability probing with no remote database use.
+- DB guard tests refusing cloud/remote database URLs.
+- Safe local DB helper scripts targeting `localhost` and `burgess_attorneys_dev`.
+- Dev/staging readiness checklist documentation.
+- Normal validation remaining database-free.
+
 ## Future Required Checks
 
 - Add Playwright browser tests when real UI workflows exist.

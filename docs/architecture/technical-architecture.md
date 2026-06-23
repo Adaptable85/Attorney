@@ -1,7 +1,7 @@
 # Technical Architecture
 
-Status: Phase 2A protected admin shell foundation
-Date: 2026-06-18
+Status: Phase 4G Microsoft Entra jose verifier decision
+Date: 2026-06-23
 
 ## Architecture Decision
 
@@ -67,6 +67,50 @@ Phase 1A adds a provider-neutral auth interface and local/dev placeholder bounda
 
 Phase 2A uses that boundary to protect the `/admin` shell. Local development may use an explicit placeholder principal. Production auth remains unresolved and must be selected before real protected workflows are exposed.
 
+Phase 2B reuses the same boundary for `/admin/dashboard`. The dashboard is read-only and backed by demo placeholder data only.
+
+Phase 2C adds server-side client/matter service functions that wrap repository interfaces with admin access checks, create permissions and safe typed errors. No API route handlers are exposed in Phase 2C, and normal validation remains database-free.
+
+Phase 2D adds protected read-only client and matter pages. These pages use safe demo repositories through the Phase 2C service functions and display placeholder operational fields only. They do not expose edit, delete, send, approval, upload, download, payment reconciliation or Lexpro sync controls.
+
+Phase 2E adds disabled client/matter create form foundations. They are permission-gated for owner/principal and support admin users, but no server action, API route or persistence wiring exists.
+
+Phase 3A hardens the auth boundary for future production auth. Authenticated sessions are mapped through explicit role keys into domain principals, and unknown roles fail closed. The local/dev current user helper remains disabled in production and no production secrets are required for normal tests.
+
+Phase 3A also adds audited service context for future writes. Mutation-capable services must receive actor, role, source and audit writer context, pass permission checks and provide audit metadata before mutation preparation runs.
+
+Phase 3B adds local-only Prisma repository adapters for clients and matters. These adapters prove fake client/matter create, read, list and matter update behavior against the existing schema through DB-specific tests, but they do not enable live UI saves, API mutation routes or production database operations. Normal validation remains database-free.
+
+Phase 3C adds an audited transaction boundary for future live writes. Audited mutations now require actor context, a permission decision, audit metadata and a transaction boundary before audit recording and repository mutation run. The default boundary is immediate for normal tests; Prisma transaction behavior is isolated to guarded local DB tests. UI saves remain disabled.
+
+Phase 3D adds a local/dev service composition layer that wires Prisma client, matter, audit and transaction adapters together for backend-only testing. It is disabled in production, not imported by app UI routes and does not expose server actions or API mutation routes.
+
+Phase 3E adds production auth design documentation, server-action/API mutation entrypoint design, default-off client/matter write release gates and a service-layer mutation gate helper. The helper requires a production-compatible principal, service context, permission action, audit metadata, transaction boundary and enabled release gate before future mutation entrypoints may call service mutation code. No server action, API route, live UI save, production auth provider or production database command is added.
+
+Phase 3F adds a provider-neutral production auth adapter boundary and auth readiness helpers. Production auth readiness defaults false, local/dev auth does not count as production readiness and unknown providers fail closed. The provider choice remains pending and no secrets are added.
+
+Phase 3F also adds disabled server-module skeletons for future client/matter create entrypoints. They evaluate the mutation gate but still return disabled typed errors and do not call repositories, Prisma adapters, server actions or API routes.
+
+Phase 3G adds dev-only server-module mutation functions for client and matter creation. They require explicit local/dev release gates, local/dev service composition, mutation gate success, audit metadata, transaction boundary and fake `DEMO-*` account numbers. They use the audited client/matter service functions and remain unwired from UI forms or API routes.
+
+Phase 3H adds safe local DB validation documentation, local helper scripts and a dev/staging readiness checklist. It adds no schema changes, routes, UI saves or production writes.
+
+Phase 3J adds a production auth provider decision pack. Phase 3K.1 records Microsoft Entra ID / Microsoft 365 identity as the accepted production auth provider direction. This adds no provider integration, secrets, routes, UI saves, production auth readiness or production writes.
+
+Phase 4A adds a Microsoft Entra auth skeleton under `src/auth/entra`. The skeleton includes config parsing, issuer metadata URL helpers, Entra-like claim mapping and an adapter boundary that fails closed when config or production readiness is missing. It does not perform live OAuth, create sessions, add callback routes, commit secrets, enable production auth readiness or enable writes.
+
+Phase 4B adds disabled Entra login, callback and logout route placeholders plus future session shape validation. The placeholders return disabled JSON only and do not redirect to Microsoft, exchange tokens, create session cookies, enable production auth readiness or enable writes.
+
+Phase 4C adds OAuth state/nonce helpers, PKCE helpers, an Entra JWKS descriptor and a token-validation skeleton. Complete placeholder tokens still fail with cryptographic verification required, and no Microsoft network calls, redirects, token exchanges, session cookies, production auth readiness or writes are enabled.
+
+Phase 4D adds an OAuth state store boundary with an in-memory test adapter and a JWKS metadata cache boundary with an injectable fetcher. These boundaries are not wired to live routes, cookies, sessions or default Microsoft network fetches. Token validation still fails until real cryptographic verification exists.
+
+Phase 4E adds disabled-by-default staging wiring that composes Entra config, OAuth state storage, JWKS cache, PKCE helpers and token-validation dependency markers. It returns a non-live dependency bundle only when the explicit staging flag, complete placeholder config and a crypto verification dependency marker are present. Routes remain disabled and no production auth readiness or production writes are enabled.
+
+Phase 4F adds JWKS key-selection and JWT verifier boundaries. The verifier has no default implementation and no JWT library was added. Tests use fake/local keys and an injected local verifier only to prove the boundary; live routes remain disabled and no production auth readiness or writes are enabled.
+
+Phase 4G selects `jose` in ADR 0008 and adds a non-live adapter skeleton that verifies fake/local RS256 tokens with injected JWK material only. It does not fetch Microsoft JWKS metadata, wire routes, create sessions, enable production auth readiness or enable writes.
+
 Permission strategy:
 
 - Owner / Principal Attorney has full approval powers.
@@ -97,6 +141,8 @@ Every module card is labelled `Not implemented yet` and `Coming in later phase`.
 
 The shell does not display real client, matter, document or financial data. It does not include CRUD, approval, send, publish, upload, download, Lexpro sync or payment reconciliation actions.
 
+Phase 2B adds `/admin/dashboard` as a protected read-only overview. Dashboard sections are role-filtered and clearly labelled as demo placeholder data. Owner/principal users can see pending approval placeholders, while support admins see preparation placeholders without owner-only controls. The dashboard does not expose create, edit, delete, approve, send, publish, upload, download, Lexpro sync or payment reconciliation actions.
+
 ## Audit Strategy
 
 Sensitive actions must produce audit records.
@@ -107,6 +153,24 @@ Phase 1A adds:
 - Audit event creation.
 - Injected audit writer boundary.
 - AuditLog Prisma model.
+
+Phase 3A adds an audited mutation executor for service-layer write preparation. It records audit intent before running mutation preparation so future live writes cannot bypass audit context. Real database-backed writes should later use transactions or an outbox pattern when available.
+
+Phase 3B intentionally leaves audit writes and client/matter writes non-atomic in production terms. Before live saves are enabled, the implementation needs a production auth provider plus a reviewed transaction or outbox design.
+
+Phase 3C resolves the immediate transaction decision in ADR 0006. AuditLog is the internal outbox-equivalent for now, and audit recording plus repository mutation must run inside an injected transaction boundary before live persistence is exposed. A separate outbox table remains deferred until external event dispatch exists.
+
+Phase 3D adds a Prisma AuditLog repository adapter and audit-writer bridge for local/dev composition. DB-specific tests remain optional and guarded to local `burgess_attorneys_dev`.
+
+Phase 3E keeps live writes blocked by release gates. Audit context and transaction dependency are required by the mutation gate before future entrypoints can proceed, but no active entrypoint exists in this phase.
+
+Phase 3F keeps the new client/matter mutation skeletons non-writing. Audit metadata and transaction boundary dependencies are validated before the skeleton returns disabled, so future wiring has a tested fail-closed path.
+
+Phase 3G permits local/dev backend writes only through explicit dev gates and audited transaction composition. Production writes remain blocked by production auth readiness and `productionWritesEnabled`.
+
+Phase 3H local DB validation could not run in this execution environment because local PostgreSQL CLI/server tooling is unavailable. DB-only tests remain guarded and optional.
+
+Phase 4F does not change persistence. Production writes remain blocked until live Entra implementation, tenant/admin access, MFA policy, role mapping, staging validation, cryptographic token verification, audit/transaction review and release gates are complete.
 
 Phase 1B extends audit event categories for:
 
@@ -223,6 +287,22 @@ The interfaces protect future persistence work by:
 - Keeping document records metadata-only.
 
 Concrete Prisma implementations outside the users/roles spike are deferred until their phases are accepted.
+
+Phase 2C adds service boundaries for listing, reading and creating client/matter records through repository interfaces. These services are designed for future route handlers and server actions, but they do not expose delete operations or require a production database.
+
+Phase 2D adds read-only UI pages for client and matter summaries. The current data source is clearly labelled demo data and is not a live database read model.
+
+Phase 2E form pages are future-phase placeholders only. Enabling them will require server-side validation, service calls, audit logging and persistence tests.
+
+Phase 3A updates client/matter create service functions to require audited service context. The UI forms remain disabled; no API route, server action or live save is exposed.
+
+Phase 3C adds transaction-boundary injection to client/matter create service preparation. This is still service-layer-only; no API route, server action or UI save is exposed.
+
+Phase 3D composes those repositories for local/dev backend tests only. Production auth and release approval still block live persistence.
+
+Phase 3E adds a mutation entrypoint gate for future route handlers or server actions. App UI routes must not import the gate directly, and the disabled create forms remain non-submitting placeholders until production auth, audited transaction wiring and release approval are accepted.
+
+Phase 3G keeps create forms disabled. The dev-only mutation functions are backend test paths only and must not be imported by UI routes until a separate UI-write phase is accepted.
 
 ## Seed Strategy
 

@@ -1,7 +1,7 @@
 # Domain Model
 
-Status: Phase 1D foundation
-Date: 2026-06-18
+Status: Phase 3G dev-only client/matter write path
+Date: 2026-06-23
 
 This document describes the core domain model. Phase 1D adds migration strategy, repository interfaces and seed fixtures on top of the prior schema/domain foundations.
 
@@ -105,6 +105,113 @@ Phase 1D adds:
 - Prisma client boundary.
 - Deterministic fake test fixtures.
 - Dev-only seed skeleton.
+
+## Implemented In Phase 2C
+
+Phase 2C adds server-side service boundaries for client and matter summaries:
+
+- Client list/detail service functions.
+- Matter list/detail service functions.
+- Permission-guarded client/matter create service functions.
+- Safe typed service errors.
+
+The services use repository interfaces and do not expose hard-delete operations, API routes or production database wiring.
+
+## Implemented In Phase 2D
+
+Phase 2D adds read-only UI models for displaying client and matter summaries:
+
+- Client list items with account number, demo client name, status, matter count and placeholder financial/payment labels.
+- Matter list items with account number, client name, matter name/description, type, status, next step due date and placeholder operational labels.
+- Matter detail items with the same required fields and a future-phase-only action label.
+
+The UI models are demo-only and do not represent live operational records.
+
+## Implemented In Phase 2E
+
+Phase 2E adds disabled UI form foundations for future client and matter creation.
+
+The forms are not domain mutations yet. They do not submit, persist, audit or create records.
+
+## Implemented In Phase 3A
+
+Phase 3A adds production-grade auth and audited service enablement:
+
+- Fail-closed session-to-role mapping.
+- Server-side admin user requirement helper.
+- Service context with actor, primary role, source and audit writer.
+- Audited mutation executor for future client/matter writes.
+- Client/matter create service functions requiring audited service context.
+
+The disabled forms remain non-mutating. No live client or matter persistence is exposed by UI, API routes or server actions.
+
+## Implemented In Phase 3B
+
+Phase 3B adds local-only Prisma repository adapters for client and matter records:
+
+- Client adapter create/read/list/update/archive methods matching the repository interface.
+- Matter adapter create/read/list/update/archive methods matching the repository interface.
+- DB-specific integration tests for fake client and matter rows behind `pnpm run test:db`.
+- Local/dev `DATABASE_URL` guard for DB tests.
+
+The adapters do not change the domain model and do not enable live UI saves, server actions, API mutation routes or production database operations. Future live writes still require production auth and a transaction/outbox decision for audited persistence.
+
+## Implemented In Phase 3C
+
+Phase 3C adds an audited transaction boundary, not new domain entities:
+
+- Audited mutation execution requires actor context, permission decision and audit metadata.
+- Audit recording and repository mutation can run inside an injected transaction boundary.
+- Client and matter create services accept an optional transaction boundary for future live persistence wiring.
+- Prisma transaction behavior is tested only through guarded local DB tests.
+
+ADR 0006 records the decision to use AuditLog as the immediate internal outbox-equivalent. A separate outbox table is deferred until external event dispatch exists. UI forms remain disabled and no live client or matter persistence is exposed.
+
+## Implemented In Phase 3D
+
+Phase 3D adds backend composition only:
+
+- Prisma AuditLog repository adapter.
+- Audit writer bridge from repository to service audit boundary.
+- Local/dev client-matter service composition factory.
+- Transaction-scoped client, matter and audit dependencies for DB-only tests.
+
+It does not add domain entities, production auth, UI saves, server actions or API mutation routes.
+
+## Implemented In Phase 3E
+
+Phase 3E adds no domain entities. It adds production-auth and mutation-entrypoint design plus default-off release gates for future client/matter writes:
+
+- Client/matter write feature flags default off.
+- Production writes require production-auth readiness and audited persistence readiness.
+- Local/dev writes require an explicit local/dev write flag.
+- Future mutation entrypoints must pass a production-compatible principal, service context, permission check, audit metadata, transaction boundary and release gate before service mutation code can run.
+
+It does not add a production auth provider, UI saves, server actions, API mutation routes, database migrations or production database operations.
+
+## Implemented In Phase 3F
+
+Phase 3F adds no domain entities. It adds production-auth adapter/readiness boundaries and disabled client/matter mutation skeletons:
+
+- Production auth provider readiness defaults false.
+- Provider claims must map through explicit internal role keys.
+- Missing subject, email or role claims fail closed.
+- Disabled client/matter skeletons evaluate release gate, service context, permission, audit metadata and transaction boundary requirements.
+- Skeletons still return disabled typed errors and do not call repositories or persist records.
+
+It does not add a production auth provider, UI saves, active server actions, API mutation routes, database migrations or production database operations.
+
+## Implemented In Phase 3G
+
+Phase 3G adds no domain entities. It adds a dev-only backend write path for existing client and matter domain records:
+
+- Dev writes require explicit local/dev release gates.
+- Dev writes require local/dev service composition and audited transaction dependencies.
+- Dev write inputs must use fake `DEMO-*` account numbers.
+- Agent and read-only users remain blocked from client/matter creation.
+- Owner and support admin users may create fake client/matter records only through the explicitly enabled dev path.
+
+It does not add UI saves, active production save buttons, API mutation routes, schema changes, production auth provider setup or production database operations.
 
 Repository rules:
 

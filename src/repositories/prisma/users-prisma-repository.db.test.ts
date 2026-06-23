@@ -3,8 +3,11 @@ import { describe, expect, it } from "vitest";
 import { getPrismaClient } from "@/db/prisma";
 import { fakeUsers } from "@/test/fixtures";
 
+import { requireSafeLocalDatabaseUrl } from "./db-test-guard";
 import { createPrismaUsersRepository } from "./users-prisma-repository";
 
+const databaseUrl = requireSafeLocalDatabaseUrl();
+const describeDb = databaseUrl ? describe : describe.skip;
 const owner = fakeUsers.owner;
 
 type PrismaUsersDbClient = Parameters<typeof createPrismaUsersRepository>[0] & {
@@ -31,7 +34,7 @@ type PrismaUsersDbClient = Parameters<typeof createPrismaUsersRepository>[0] & {
   };
 };
 
-describe("Prisma users repository integration", () => {
+describeDb("Prisma users repository integration", () => {
   it("creates and reads fake users and roles in the local dev database", async () => {
     const prisma = (await getPrismaClient()) as unknown as PrismaUsersDbClient;
 
