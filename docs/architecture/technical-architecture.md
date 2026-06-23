@@ -1,7 +1,7 @@
 # Technical Architecture
 
-Status: Phase 2A protected admin shell foundation
-Date: 2026-06-18
+Status: Phase 3B local Prisma repository adapter foundation
+Date: 2026-06-23
 
 ## Architecture Decision
 
@@ -79,6 +79,8 @@ Phase 3A hardens the auth boundary for future production auth. Authenticated ses
 
 Phase 3A also adds audited service context for future writes. Mutation-capable services must receive actor, role, source and audit writer context, pass permission checks and provide audit metadata before mutation preparation runs.
 
+Phase 3B adds local-only Prisma repository adapters for clients and matters. These adapters prove fake client/matter create, read, list and matter update behavior against the existing schema through DB-specific tests, but they do not enable live UI saves, API mutation routes or production database operations. Normal validation remains database-free.
+
 Permission strategy:
 
 - Owner / Principal Attorney has full approval powers.
@@ -123,6 +125,8 @@ Phase 1A adds:
 - AuditLog Prisma model.
 
 Phase 3A adds an audited mutation executor for service-layer write preparation. It records audit intent before running mutation preparation so future live writes cannot bypass audit context. Real database-backed writes should later use transactions or an outbox pattern when available.
+
+Phase 3B intentionally leaves audit writes and client/matter writes non-atomic in production terms. Before live saves are enabled, the implementation needs a production auth provider plus a reviewed transaction or outbox design.
 
 Phase 1B extends audit event categories for:
 

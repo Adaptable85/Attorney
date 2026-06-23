@@ -1,7 +1,7 @@
 # Domain Model
 
-Status: Phase 1D foundation
-Date: 2026-06-18
+Status: Phase 3B local Prisma repository adapter foundation
+Date: 2026-06-23
 
 This document describes the core domain model. Phase 1D adds migration strategy, repository interfaces and seed fixtures on top of the prior schema/domain foundations.
 
@@ -144,6 +144,17 @@ Phase 3A adds production-grade auth and audited service enablement:
 - Client/matter create service functions requiring audited service context.
 
 The disabled forms remain non-mutating. No live client or matter persistence is exposed by UI, API routes or server actions.
+
+## Implemented In Phase 3B
+
+Phase 3B adds local-only Prisma repository adapters for client and matter records:
+
+- Client adapter create/read/list/update/archive methods matching the repository interface.
+- Matter adapter create/read/list/update/archive methods matching the repository interface.
+- DB-specific integration tests for fake client and matter rows behind `pnpm run test:db`.
+- Local/dev `DATABASE_URL` guard for DB tests.
+
+The adapters do not change the domain model and do not enable live UI saves, server actions, API mutation routes or production database operations. Future live writes still require production auth and a transaction/outbox decision for audited persistence.
 
 Repository rules:
 

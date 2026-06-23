@@ -5,6 +5,13 @@ import { describe, expect, it } from "vitest";
 
 const root = process.cwd();
 const sourceRoots = ["AGENTS.md", "CLAUDE.md", ".context", "app", "docs", "src"];
+const clientMatterUiFiles = [
+  "src/ui/admin/client-create-form.tsx",
+  "src/ui/admin/client-list.tsx",
+  "src/ui/admin/matter-create-form.tsx",
+  "src/ui/admin/matter-detail.tsx",
+  "src/ui/admin/matter-list.tsx"
+];
 
 function collectTextFiles(path: string): string[] {
   const fullPath = join(root, path);
@@ -131,6 +138,42 @@ describe("architecture guardrails", () => {
     expect(matterForm).toContain("type=\"button\" disabled");
     expect(clientForm).not.toContain("action=");
     expect(matterForm).not.toContain("action=");
+  });
+
+  it("keeps client and matter UI away from direct Prisma and repository adapters", () => {
+    const uiSource = clientMatterUiFiles
+      .map((filePath) => readFileSync(join(root, filePath), "utf8"))
+      .join("\n");
+    const createFormSource = [
+      readFileSync(join(root, "src/ui/admin/client-create-form.tsx"), "utf8"),
+      readFileSync(join(root, "src/ui/admin/matter-create-form.tsx"), "utf8")
+    ].join("\n");
+
+    expect(uiSource).not.toContain("@prisma/client");
+    expect(uiSource).not.toContain("@/db/prisma");
+    expect(createFormSource).not.toContain("repositories/prisma");
+    expect(createFormSource).not.toContain("createPrismaClientsRepository");
+    expect(createFormSource).not.toContain("createPrismaMattersRepository");
+  });
+
+  it("keeps normal tests database-free and DB tests locally guarded", () => {
+    const testFiles = collectTextFiles("src").filter((filePath) => filePath.endsWith(".test.ts"));
+    const dbTestFiles = testFiles.filter((filePath) => filePath.endsWith(".db.test.ts"));
+    const normalTestSource = testFiles
+      .filter((filePath) => !filePath.endsWith(".db.test.ts"))
+      .filter((filePath) => !filePath.endsWith("src/db/prisma.test.ts"))
+      .filter((filePath) => !filePath.endsWith("src/architecture/guardrails.test.ts"))
+      .map((filePath) => readFileSync(filePath, "utf8"))
+      .join("\n");
+
+    expect(normalTestSource).not.toContain("process.env.DATABASE_URL");
+    expect(normalTestSource).not.toContain("getPrismaClient()");
+
+    for (const filePath of dbTestFiles) {
+      const source = readFileSync(filePath, "utf8");
+
+      expect(source).toContain("requireSafeLocalDatabaseUrl");
+    }
   });
 
   it("requires mutation-capable services to use audited service context", () => {

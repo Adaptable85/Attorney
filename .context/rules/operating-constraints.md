@@ -38,6 +38,8 @@
 - Read-only client/matter UI must not render active edit, delete, send or approval controls.
 - Client/matter create forms must remain disabled until validation, permissions, audit logging and persistence are implemented and tested.
 - Mutation-capable services must require authenticated actor context, permission checks and audit metadata before repository writes.
+- Local Prisma repository adapters must not be wired to UI saves, API mutation routes or production database operations until production auth and transaction/outbox behavior are explicitly accepted.
+- DB integration tests must use fake data only and must refuse unsafe/non-local database URLs.
 
 ## Phase -1 Constraints
 

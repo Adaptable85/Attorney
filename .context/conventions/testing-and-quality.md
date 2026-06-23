@@ -81,6 +81,14 @@ Phase 3A critical-path tests cover:
 - Client/matter create services requesting audit payloads before repository writes.
 - Guardrails against forbidden cross-repo references, hard-delete names and active client/matter workflow controls.
 
+Phase 3B critical-path tests cover:
+
+- Local-only Prisma client repository adapter create/read/list behavior.
+- Local-only Prisma matter repository adapter create/read/list/update behavior.
+- DB integration tests guarded to local `burgess_attorneys_dev`.
+- Service create paths proving permission denial, validation failure and audit failure prevent repository writes.
+- Guardrails preventing direct UI Prisma/repository-adapter use and normal-test database requirements.
+
 ## Future Required Checks
 
 - Add Playwright browser tests when real UI workflows exist.

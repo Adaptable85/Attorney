@@ -5,7 +5,8 @@ export function MatterCreateForm() {
         <div>
           <h1 id="matter-create-title">Create Matter Foundation</h1>
           <p>
-            Future phase only. This form is disabled and does not save matter records.
+            Persistence service is being prepared. Live save remains disabled until production auth
+            and audited transaction checks are complete.
           </p>
         </div>
         <span>Future phase only</span>

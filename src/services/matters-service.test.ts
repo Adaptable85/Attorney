@@ -198,6 +198,29 @@ describe("matters service", () => {
     ).resolves.toMatchObject({ ok: false, error: { code: "UNAUTHORIZED" } });
   });
 
+  it("does not call the matter repository when create permission is denied", async () => {
+    const create = vi.fn(createFakeMattersRepository().create);
+    const repository = {
+      ...createFakeMattersRepository(),
+      create
+    };
+
+    await expect(
+      createMatterRecord(
+        createTestServiceContext(reviewerPrincipal),
+        {
+          clientId: "client_demo_001",
+          accountNumber: "DEMO-MATTER-NEW",
+          name: "Demo Matter New",
+          description: "Fake matter for service validation",
+          type: "CONTRACTS"
+        },
+        { mattersRepository: repository }
+      )
+    ).resolves.toMatchObject({ ok: false, error: { code: "UNAUTHORIZED" } });
+    expect(create).not.toHaveBeenCalled();
+  });
+
   it("returns validation errors without raw stack traces", async () => {
     const result = await createMatterRecord(
       createTestServiceContext(ownerPrincipal),
@@ -220,6 +243,65 @@ describe("matters service", () => {
     });
     expect(JSON.stringify(result)).not.toContain("ZodError");
     expect(JSON.stringify(result)).not.toContain("stack");
+  });
+
+  it("does not call the matter repository when validation fails", async () => {
+    const create = vi.fn(createFakeMattersRepository().create);
+    const repository = {
+      ...createFakeMattersRepository(),
+      create
+    };
+
+    await expect(
+      createMatterRecord(
+        createTestServiceContext(ownerPrincipal),
+        {
+          clientId: "",
+          accountNumber: "",
+          name: "",
+          description: "",
+          type: "CONTRACTS"
+        },
+        { mattersRepository: repository }
+      )
+    ).resolves.toMatchObject({ ok: false, error: { code: "VALIDATION_ERROR" } });
+    expect(create).not.toHaveBeenCalled();
+  });
+
+  it("does not call the matter repository when audit recording fails", async () => {
+    const contextResult = createServiceContext(ownerPrincipal, {
+      auditWriter: {
+        record: vi.fn(async () => {
+          throw new Error("audit unavailable");
+        })
+      },
+      source: "matters-service-test"
+    });
+    const create = vi.fn(createFakeMattersRepository().create);
+
+    if (!contextResult.ok) {
+      throw new Error("Expected service context");
+    }
+
+    await expect(
+      createMatterRecord(
+        contextResult.data,
+        {
+          clientId: "client_demo_001",
+          accountNumber: "DEMO-MATTER-NEW",
+          name: "Demo Matter New",
+          description: "Fake matter for service validation",
+          type: "CONTRACTS"
+        },
+        {
+          mattersRepository: {
+            ...createFakeMattersRepository(),
+            create
+          }
+        }
+      )
+    ).resolves.toMatchObject({ ok: false, error: { code: "AUDIT_ERROR" } });
+    expect(create).not.toHaveBeenCalled();
   });
 
   it("returns not found for missing matter summaries", async () => {

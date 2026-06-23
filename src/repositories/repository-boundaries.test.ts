@@ -1,14 +1,28 @@
-import { readdirSync, readFileSync } from "node:fs";
+import { readdirSync, readFileSync, statSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 
 const root = process.cwd();
 const repositoriesDir = join(root, "src/repositories");
 
+function collectRepositoryFiles(path: string): string[] {
+  return readdirSync(path).flatMap((entry) => {
+    const fullPath = join(path, entry);
+    const stat = statSync(fullPath);
+
+    if (stat.isDirectory()) {
+      return collectRepositoryFiles(fullPath);
+    }
+
+    return fullPath.endsWith(".ts") ? [fullPath] : [];
+  });
+}
+
 function repositorySource(): string {
-  return readdirSync(repositoriesDir)
-    .filter((file) => file.endsWith(".ts"))
-    .map((file) => readFileSync(join(repositoriesDir, file), "utf8"))
+  return collectRepositoryFiles(repositoriesDir)
+    .filter((file) => !file.endsWith("repository-boundaries.test.ts"))
+    .filter((file) => !file.endsWith(".test.ts"))
+    .map((file) => readFileSync(file, "utf8"))
     .join("\n");
 }
 
@@ -44,4 +58,3 @@ describe("repository boundaries", () => {
     expect(source).toContain("reason");
   });
 });
-

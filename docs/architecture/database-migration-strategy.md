@@ -1,7 +1,7 @@
 # Database Migration Strategy
 
-Status: Phase 1E local development foundation
-Date: 2026-06-18
+Status: Phase 3B local development repository foundation
+Date: 2026-06-23
 
 ## Current State
 
@@ -26,6 +26,8 @@ Current local flow:
 5. Run dev-only seed fixtures with `BURGESS_ALLOW_DEV_SEED=true`.
 6. Reset local dev data only with `BURGESS_ALLOW_DEV_DB_RESET=true pnpm run db:reset:dev`.
 7. Run repository/service database tests with `pnpm run test:db`.
+
+Phase 3B DB integration tests are local-only. They must run only when `DATABASE_URL` points to local PostgreSQL on `localhost` or `127.0.0.1` and targets a database path containing `burgess_attorneys_dev`. Normal validation must not require `DATABASE_URL`.
 
 Agents may validate the Prisma schema. Agents may generate dev migrations only when explicitly instructed.
 Normal pre-PR checks must not require a running database.

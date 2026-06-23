@@ -9,6 +9,7 @@ describe("client create form foundation", () => {
 
     expect(html).toContain("Create Client Foundation");
     expect(html).toContain("Future phase only");
+    expect(html).toContain("Live save remains disabled");
     expect(html).toContain("disabled");
     expect(html).not.toContain("action=");
   });

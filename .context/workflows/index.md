@@ -57,6 +57,8 @@ Audited persistence workflow:
 - Mutation-capable services must receive service context with actor, role, source and audit writer.
 - Permission checks and audit metadata are required before mutation preparation runs.
 - UI must not write directly to repositories.
+- Local Prisma client/matter adapters may be used only for local development and DB integration tests until production auth and transaction/outbox behavior are reviewed.
+- Client/matter create forms must stay disabled until live audited persistence is explicitly accepted.
 
 Migration workflow:
 
@@ -64,6 +66,7 @@ Migration workflow:
 - Generate/apply migrations only when explicitly instructed.
 - Never run production migrations automatically by agent.
 - Review schema diffs, SQL, backup status and rollback strategy before staging/production migrations.
+- Run `pnpm run test:db` only with a safe local/dev `DATABASE_URL`.
 
 ## Approval Workflow Principle
 
