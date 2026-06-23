@@ -122,7 +122,18 @@ Phase 3F critical-path tests cover:
 - Missing subject, email or role claims failing closed.
 - Agent role mapping without client/matter write permission.
 - Disabled client/matter mutation skeletons failing closed for missing users, blocked roles, disabled gates, missing audit metadata and missing transaction dependency.
-- Guardrails preventing skeletons from importing Prisma adapters, local/dev composition or active server action markers.
+- Guardrails preventing mutation entrypoints from importing Prisma adapters or active server action markers.
+
+Phase 3G critical-path tests cover:
+
+- Production and dev write gates staying separate and default-off.
+- Explicit local/dev gates enabling backend mutation functions without enabling production writes.
+- Owner/support dev mutations using audited service paths only when local/dev composition is provided.
+- Agent/read-only users remaining blocked.
+- Missing audit metadata, missing transaction dependency and disabled gates preventing repository writes.
+- Real-looking account numbers rejected from the dev-only path.
+- DB-only dev mutation tests guarded to safe local `burgess_attorneys_dev`.
+- Guardrails keeping UI forms disabled and free of direct persistence imports.
 
 ## Future Required Checks
 

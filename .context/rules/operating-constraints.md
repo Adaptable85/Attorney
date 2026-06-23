@@ -48,6 +48,9 @@
 - Future server actions or API mutation routes must pass production-compatible principal, role, service context, permission, audit metadata, transaction boundary and release-gate checks before service mutation code runs.
 - Production auth readiness must fail closed unless an accepted production provider is explicitly configured.
 - Disabled mutation skeletons must remain unwired from UI, app routes, Prisma adapters and local/dev composition until a live-write phase is accepted.
+- Dev-only mutation functions must require explicit local/dev gates, local/dev composition and fake `DEMO-*` account numbers.
+- Production writes must require production auth readiness and explicit production write enablement.
+- Create forms must remain disabled until a separate UI-write phase is accepted.
 
 ## Phase -1 Constraints
 

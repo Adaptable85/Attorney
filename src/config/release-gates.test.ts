@@ -9,20 +9,26 @@ describe("release gates", () => {
       clientMatterWritesEnabled: false,
       productionAuthConfigured: false,
       auditedPersistenceEnabled: false,
-      localDevWritesEnabled: false
+      localDevWritesEnabled: false,
+      devMutationEntrypointsEnabled: false,
+      productionWritesEnabled: false
     });
     expect(
       readFeatureFlags({
         BURGESS_CLIENT_MATTER_WRITES_ENABLED: "yes",
         BURGESS_PRODUCTION_AUTH_CONFIGURED: "1",
         BURGESS_AUDITED_PERSISTENCE_ENABLED: "TRUE",
-        BURGESS_LOCAL_DEV_WRITES_ENABLED: "enabled"
+        BURGESS_LOCAL_DEV_WRITES_ENABLED: "enabled",
+        BURGESS_DEV_MUTATION_ENTRYPOINTS_ENABLED: "on",
+        BURGESS_PRODUCTION_WRITES_ENABLED: "yes"
       })
     ).toEqual({
       clientMatterWritesEnabled: false,
       productionAuthConfigured: false,
       auditedPersistenceEnabled: false,
-      localDevWritesEnabled: false
+      localDevWritesEnabled: false,
+      devMutationEntrypointsEnabled: false,
+      productionWritesEnabled: false
     });
   });
 
@@ -35,7 +41,9 @@ describe("release gates", () => {
             clientMatterWritesEnabled: true,
             productionAuthConfigured: false,
             auditedPersistenceEnabled: true,
-            localDevWritesEnabled: true
+            localDevWritesEnabled: true,
+            devMutationEntrypointsEnabled: true,
+            productionWritesEnabled: true
           }
         })
       )
@@ -52,11 +60,32 @@ describe("release gates", () => {
             clientMatterWritesEnabled: true,
             productionAuthConfigured: true,
             auditedPersistenceEnabled: true,
-            localDevWritesEnabled: false
+            localDevWritesEnabled: false,
+            devMutationEntrypointsEnabled: false,
+            productionWritesEnabled: true
           }
         })
       )
     ).toEqual({ enabled: false, reason: "production_auth_missing" });
+  });
+
+  it("keeps production writes disabled unless the production write gate is explicit", () => {
+    expect(
+      evaluateClientMatterWriteGate(
+        readReleaseGateConfig({
+          environment: "production",
+          productionAuthReady: true,
+          flags: {
+            clientMatterWritesEnabled: true,
+            productionAuthConfigured: true,
+            auditedPersistenceEnabled: true,
+            localDevWritesEnabled: true,
+            devMutationEntrypointsEnabled: true,
+            productionWritesEnabled: false
+          }
+        })
+      )
+    ).toEqual({ enabled: false, reason: "production_writes_disabled" });
   });
 
   it("requires every production write gate to be explicitly enabled", () => {
@@ -68,7 +97,9 @@ describe("release gates", () => {
             clientMatterWritesEnabled: true,
             productionAuthConfigured: true,
             auditedPersistenceEnabled: true,
-            localDevWritesEnabled: false
+            localDevWritesEnabled: false,
+            devMutationEntrypointsEnabled: false,
+            productionWritesEnabled: true
           }
         })
       )
@@ -80,7 +111,9 @@ describe("release gates", () => {
       clientMatterWritesEnabled: true,
       productionAuthConfigured: false,
       auditedPersistenceEnabled: true,
-      localDevWritesEnabled: false
+      localDevWritesEnabled: false,
+      devMutationEntrypointsEnabled: false,
+      productionWritesEnabled: false
     };
 
     expect(
@@ -98,6 +131,36 @@ describe("release gates", () => {
           }
         })
       )
+    ).toEqual({ enabled: false, reason: "dev_mutation_entrypoints_disabled" });
+    expect(
+      evaluateClientMatterWriteGate(
+        readReleaseGateConfig({
+          environment: "test",
+          flags: {
+            ...baseFlags,
+            localDevWritesEnabled: true,
+            devMutationEntrypointsEnabled: true
+          }
+        })
+      )
     ).toEqual({ enabled: true, reason: "enabled_for_local_dev" });
+  });
+
+  it("explicit local/dev config does not imply production writes", () => {
+    const flags = {
+      clientMatterWritesEnabled: true,
+      productionAuthConfigured: false,
+      auditedPersistenceEnabled: true,
+      localDevWritesEnabled: true,
+      devMutationEntrypointsEnabled: true,
+      productionWritesEnabled: false
+    };
+
+    expect(
+      evaluateClientMatterWriteGate(readReleaseGateConfig({ environment: "test", flags }))
+    ).toEqual({ enabled: true, reason: "enabled_for_local_dev" });
+    expect(
+      evaluateClientMatterWriteGate(readReleaseGateConfig({ environment: "production", flags }))
+    ).toEqual({ enabled: false, reason: "production_auth_missing" });
   });
 });

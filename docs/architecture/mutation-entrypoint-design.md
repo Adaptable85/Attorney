@@ -11,6 +11,8 @@ No entrypoint is enabled in Phase 3E. Server actions or route handlers should be
 
 Phase 3F adds disabled server-module skeletons for client and matter creation. They are not Next server actions, are not API routes and are not wired to forms. They evaluate mutation gates and then still return disabled typed errors instead of writing.
 
+Phase 3G adds explicit dev-only server-module mutation functions for client and matter creation. They require local/dev release gates, local/dev service composition, service context, audit metadata, transaction boundary and fake `DEMO-*` account numbers. They are not wired to UI forms or API routes and do not enable production writes.
+
 ## Required Mutation Gate Checklist
 
 Every future mutation entrypoint must require:
@@ -47,6 +49,8 @@ Required flags:
 - `productionAuthConfigured`
 - `auditedPersistenceEnabled`
 - `localDevWritesEnabled` for local/dev testing only
+- `devMutationEntrypointsEnabled` for dev-only server-module mutation tests
+- `productionWritesEnabled` for future production writes only after production auth readiness
 
 ## No Hard-Delete Rule
 
@@ -67,6 +71,8 @@ Create forms may be enabled only after:
 - Release approval is recorded.
 
 The disabled skeletons do not change form enablement. UI wiring remains a future phase.
+
+Phase 3G dev-only mutation functions also do not change form enablement. Create forms remain disabled and unwired.
 
 ## Test Requirements
 

@@ -12,7 +12,9 @@ const enabledGate = evaluateClientMatterWriteGate(
       clientMatterWritesEnabled: true,
       productionAuthConfigured: true,
       auditedPersistenceEnabled: true,
-      localDevWritesEnabled: false
+      localDevWritesEnabled: false,
+      devMutationEntrypointsEnabled: false,
+      productionWritesEnabled: true
     }
   })
 );
@@ -24,7 +26,9 @@ const disabledGate = evaluateClientMatterWriteGate(
       clientMatterWritesEnabled: false,
       productionAuthConfigured: true,
       auditedPersistenceEnabled: true,
-      localDevWritesEnabled: false
+      localDevWritesEnabled: false,
+      devMutationEntrypointsEnabled: false,
+      productionWritesEnabled: true
     }
   })
 );

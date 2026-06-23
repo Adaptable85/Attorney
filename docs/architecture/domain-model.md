@@ -1,6 +1,6 @@
 # Domain Model
 
-Status: Phase 3F production auth adapter and disabled mutation entrypoints
+Status: Phase 3G dev-only client/matter write path
 Date: 2026-06-23
 
 This document describes the core domain model. Phase 1D adds migration strategy, repository interfaces and seed fixtures on top of the prior schema/domain foundations.
@@ -200,6 +200,18 @@ Phase 3F adds no domain entities. It adds production-auth adapter/readiness boun
 - Skeletons still return disabled typed errors and do not call repositories or persist records.
 
 It does not add a production auth provider, UI saves, active server actions, API mutation routes, database migrations or production database operations.
+
+## Implemented In Phase 3G
+
+Phase 3G adds no domain entities. It adds a dev-only backend write path for existing client and matter domain records:
+
+- Dev writes require explicit local/dev release gates.
+- Dev writes require local/dev service composition and audited transaction dependencies.
+- Dev write inputs must use fake `DEMO-*` account numbers.
+- Agent and read-only users remain blocked from client/matter creation.
+- Owner and support admin users may create fake client/matter records only through the explicitly enabled dev path.
+
+It does not add UI saves, active production save buttons, API mutation routes, schema changes, production auth provider setup or production database operations.
 
 Repository rules:
 

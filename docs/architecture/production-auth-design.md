@@ -11,6 +11,8 @@ Production auth provider selection is pending. No production provider secrets ar
 
 Phase 3F adds a provider-neutral production auth adapter boundary and readiness helpers. The boundary defines supported provider categories and maps provider claims into internal principals only after readiness checks pass. It still does not configure a real provider or commit secrets.
 
+Phase 3G keeps production auth provider selection pending. Dev-only mutation functions rely on local/dev auth principals and do not count as production auth readiness.
+
 ## Production Auth Requirements
 
 - Auth must produce a stable subject ID and verified email.

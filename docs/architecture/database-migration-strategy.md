@@ -1,6 +1,6 @@
 # Database Migration Strategy
 
-Status: Phase 3F production auth adapter and disabled mutation entrypoints
+Status: Phase 3G dev-only client/matter write path
 Date: 2026-06-23
 
 ## Current State
@@ -36,6 +36,8 @@ Phase 3D composes local/dev Prisma repositories using the existing Client, Matte
 Phase 3E adds release-gate and mutation-gate helpers only. It adds no schema changes, migrations, production database commands, live server actions or API mutation routes. Future live writes remain blocked until production auth, audited transaction wiring and release approval are accepted.
 
 Phase 3F adds auth adapter/readiness helpers and disabled mutation skeletons only. It adds no schema changes, migrations, production database commands, live server actions or API mutation routes.
+
+Phase 3G adds dev-only mutation functions and DB-only tests using the existing Client, Matter and AuditLog tables. It adds no schema changes, migrations, production database commands, API mutation routes or production writes.
 
 Agents may validate the Prisma schema. Agents may generate dev migrations only when explicitly instructed.
 Normal pre-PR checks must not require a running database.

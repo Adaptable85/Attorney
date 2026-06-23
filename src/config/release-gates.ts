@@ -15,6 +15,8 @@ export type ClientMatterWriteGateDecision = {
     | "client_matter_writes_disabled"
     | "audited_persistence_disabled"
     | "production_auth_missing"
+    | "production_writes_disabled"
+    | "dev_mutation_entrypoints_disabled"
     | "local_dev_writes_disabled";
 };
 
@@ -54,14 +56,22 @@ export function evaluateClientMatterWriteGate(
   }
 
   if (config.environment === "production") {
-    return config.flags.productionAuthConfigured
+    if (!config.flags.productionAuthConfigured) {
+      return { enabled: false, reason: "production_auth_missing" };
+    }
+
+    return config.flags.productionWritesEnabled
       ? { enabled: true, reason: "enabled_for_production" }
-      : { enabled: false, reason: "production_auth_missing" };
+      : { enabled: false, reason: "production_writes_disabled" };
   }
 
-  if (config.flags.localDevWritesEnabled) {
+  if (!config.flags.localDevWritesEnabled) {
+    return { enabled: false, reason: "local_dev_writes_disabled" };
+  }
+
+  if (config.flags.devMutationEntrypointsEnabled) {
     return { enabled: true, reason: "enabled_for_local_dev" };
   }
 
-  return { enabled: false, reason: "local_dev_writes_disabled" };
+  return { enabled: false, reason: "dev_mutation_entrypoints_disabled" };
 }

@@ -177,7 +177,7 @@ describe("architecture guardrails", () => {
     expect(appSource).not.toContain("\"use server\"");
   });
 
-  it("keeps disabled mutation skeletons away from direct persistence and active server actions", () => {
+  it("keeps mutation entrypoints away from direct persistence and active server actions", () => {
     const skeleton = readFileSync(join(root, "src/server/client-matter-mutations.ts"), "utf8");
 
     expect(skeleton).not.toContain("\"use server\"");
@@ -186,9 +186,6 @@ describe("architecture guardrails", () => {
     expect(skeleton).not.toContain("repositories/prisma");
     expect(skeleton).not.toContain("createPrismaClientsRepository");
     expect(skeleton).not.toContain("createPrismaMattersRepository");
-    expect(skeleton).not.toContain("local-dev-service-composition");
-    expect(skeleton).not.toContain("createClientRecord(");
-    expect(skeleton).not.toContain("createMatterRecord(");
   });
 
   it("keeps mutation release gates default-off", () => {
@@ -199,6 +196,8 @@ describe("architecture guardrails", () => {
     expect(flags).toContain("return value === enabledValue");
     expect(gates).toContain("client_matter_writes_disabled");
     expect(gates).toContain("production_auth_missing");
+    expect(gates).toContain("production_writes_disabled");
+    expect(gates).toContain("dev_mutation_entrypoints_disabled");
     expect(gates).toContain("local_dev_writes_disabled");
   });
 

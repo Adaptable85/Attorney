@@ -72,6 +72,10 @@ Audited persistence workflow:
 - Production auth readiness must be explicit and must not treat local/dev auth as production-ready.
 - Disabled mutation skeletons may evaluate gates in tests but must still return disabled until a live-write phase is accepted.
 - Phase 3F does not wire skeletons to UI, app routes, active server actions or API mutation routes.
+- Dev-only mutation functions may write only when `clientMatterWritesEnabled`, `localDevWritesEnabled`, `devMutationEntrypointsEnabled` and audited persistence are explicitly enabled in local/dev.
+- Dev-only mutation functions must use local/dev composition and fake `DEMO-*` account numbers.
+- Production writes additionally require production auth readiness and explicit production write enablement.
+- Phase 3G keeps create forms disabled and unwired from mutation functions.
 
 Migration workflow:
 
@@ -82,6 +86,7 @@ Migration workflow:
 - Run `pnpm run test:db` only with a safe local/dev `DATABASE_URL`.
 - Do not add an outbox table or schema change without an accepted migration plan.
 - Local/dev composition DB tests must use fake `DEMO-*` data only.
+- Dev-only mutation DB tests must stay behind `pnpm run test:db` and the safe local database guard.
 
 ## Approval Workflow Principle
 
