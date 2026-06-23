@@ -1,9 +1,11 @@
 # Staging Pre-Deploy Checklist
 
-Status: Phase 5C planning
+Status: Phase 5D planning
 Date: 2026-06-23
 
 This checklist must pass before any future staging deploy. It does not approve deployment by itself.
+
+Phase 5D adds a resource creation runbook and approval checklist. Staging resource creation remains separate from staging deployment approval.
 
 ## GitHub Branch / PR Status
 
@@ -12,6 +14,7 @@ This checklist must pass before any future staging deploy. It does not approve d
 - `main` is synced with `origin/main`.
 - No unreviewed feature branches are used for staging.
 - No secrets or real client data are present in Git.
+- Staging resource creation approval is recorded before Vercel/Neon resources are created.
 
 ## Validation Commands
 

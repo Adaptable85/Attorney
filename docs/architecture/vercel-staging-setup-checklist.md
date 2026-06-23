@@ -1,9 +1,11 @@
 # Vercel Staging Setup Checklist
 
-Status: Phase 5C planning
+Status: Phase 5D planning
 Date: 2026-06-23
 
 This checklist prepares Vercel staging setup only. It does not create a project, deploy the app, add secrets, enable live auth, enable UI saves or enable production writes.
+
+Phase 5D adds `docs/architecture/staging-resource-creation-runbook.md` and `docs/architecture/staging-resource-approval-checklist.md`. Complete the approval checklist before creating or importing any Vercel project.
 
 ## Project Recommendation
 
@@ -19,6 +21,7 @@ This checklist prepares Vercel staging setup only. It does not create a project,
 - Use reviewed PR branches for preview deployments.
 - Disable or restrict unreviewed automatic production deploys if Vercel settings allow.
 - Confirm the review branch policy before enabling previews.
+- Confirm resource creation approval before connecting GitHub to Vercel.
 
 ## Staging Branch / Deployment Strategy
 

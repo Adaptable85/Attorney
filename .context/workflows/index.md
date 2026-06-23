@@ -89,6 +89,7 @@ Audited persistence workflow:
 - Phase 5A documents production hosting/environment decisions only; do not deploy, provision production databases, run production migrations, enable live auth, enable UI saves or enable production writes.
 - Phase 5B accepts Vercel + Neon direction only; do not deploy, create production Neon databases, add secrets, enable live auth, enable UI saves or enable production writes.
 - Phase 5C documents Vercel/Neon staging setup plans and environment templates only; do not create Vercel projects, create Neon databases, deploy, add secrets, enable live auth, enable UI saves or enable production writes.
+- Phase 5D documents staging resource creation runbook and approval checklist only; do not create Vercel projects, create Neon databases, deploy, add secrets, run database commands, enable live auth, enable UI saves or enable production writes.
 - Do not enable `BURGESS_PRODUCTION_AUTH_ENABLED`, `BURGESS_PRODUCTION_AUTH_CONFIGURED` or `BURGESS_PRODUCTION_WRITES_ENABLED` until Entra tenant/admin access, MFA policy, allowed users/domains, role claim approach, environment configuration, staging validation and production readiness review are complete.
 
 Hosting/environment workflow:
@@ -99,6 +100,7 @@ Hosting/environment workflow:
 - xneelo remains DNS/domain/public website only unless xneelo Cloud/Managed Server is explicitly required.
 - Do not deploy until Vercel project setup, Neon staging/production setup, URLs, DNS approach, backup retention, Entra tenant/admin access and deploy approvers are accepted.
 - Phase 5C staging setup docs are planning artifacts only; live resource creation and staging deployment remain pending explicit approval.
+- Phase 5D runbook defines the approval-controlled resource creation sequence only; live resource creation still requires explicit approval after the runbook is reviewed.
 
 Migration workflow:
 
