@@ -6,7 +6,7 @@ This repository is for the Burgess Attorneys Admin Automation Platform.
 
 Work safely, locally and deterministically. Do not assume missing frameworks, commands, APIs, hosting, financial rules, Lexpro capabilities, WhatsApp provider details, email provider details, or storage architecture.
 
-Phase 2A is a protected, role-aware admin shell UI with placeholder module cards only. Phase 2B adds a read-only dashboard overview with safe demo placeholder data only. Phase 2C adds client/matter service boundaries only. Phase 2D adds read-only client/matter UI only. Phase 2E adds disabled client/matter form foundations only. Phase 3A adds auth/session hardening and audited persistence enablement only. Phase 3B adds local-only Prisma client/matter repository adapters and guarded DB tests only. Phase 3C adds audited transaction boundary preparation only. Phase 3D adds local/dev audited persistence service composition only. Phase 3E adds production-auth gating and server-action/API mutation design only. Phase 3F adds a production-auth adapter boundary and disabled mutation entrypoint skeletons only. Phase 3G adds dev-only client/matter mutation functions behind explicit local/dev gates only. Do not create active production client/matter UI CRUD, invoice workflows, statement workflows, production auth secrets, production migrations, sending, payment reconciliation, WhatsApp automation or Lexpro import/sync in these phases.
+Phase 2A is a protected, role-aware admin shell UI with placeholder module cards only. Phase 2B adds a read-only dashboard overview with safe demo placeholder data only. Phase 2C adds client/matter service boundaries only. Phase 2D adds read-only client/matter UI only. Phase 2E adds disabled client/matter form foundations only. Phase 3A adds auth/session hardening and audited persistence enablement only. Phase 3B adds local-only Prisma client/matter repository adapters and guarded DB tests only. Phase 3C adds audited transaction boundary preparation only. Phase 3D adds local/dev audited persistence service composition only. Phase 3E adds production-auth gating and server-action/API mutation design only. Phase 3F adds a production-auth adapter boundary and disabled mutation entrypoint skeletons only. Phase 3G adds dev-only client/matter mutation functions behind explicit local/dev gates only. Phase 3H adds safe local DB validation documentation and dev/staging readiness checklist only. Do not create active production client/matter UI CRUD, invoice workflows, statement workflows, production auth secrets, production migrations, sending, payment reconciliation, WhatsApp automation or Lexpro import/sync in these phases.
 
 ## Burgess-Specific Rules
 
@@ -45,6 +45,7 @@ Phase 2A is a protected, role-aware admin shell UI with placeholder module cards
 - Disabled mutation skeletons must not be wired to UI, app routes, Prisma adapters or local/dev composition.
 - Dev-only write paths must require explicit local/dev flags, local/dev composition and fake `DEMO-*` account numbers.
 - Production writes must remain blocked unless production auth readiness and explicit production write approval are configured.
+- Local DB tests must use local PostgreSQL and the guarded `burgess_attorneys_dev` database only.
 
 ## Safe Financial Defaults
 

@@ -1,6 +1,6 @@
 # Technical Architecture
 
-Status: Phase 3G dev-only client/matter write path
+Status: Phase 3H safe local DB validation and readiness checklist
 Date: 2026-06-23
 
 ## Architecture Decision
@@ -93,6 +93,8 @@ Phase 3F also adds disabled server-module skeletons for future client/matter cre
 
 Phase 3G adds dev-only server-module mutation functions for client and matter creation. They require explicit local/dev release gates, local/dev service composition, mutation gate success, audit metadata, transaction boundary and fake `DEMO-*` account numbers. They use the audited client/matter service functions and remain unwired from UI forms or API routes.
 
+Phase 3H adds safe local DB validation documentation, local helper scripts and a dev/staging readiness checklist. It adds no schema changes, routes, UI saves or production writes.
+
 Permission strategy:
 
 - Owner / Principal Attorney has full approval powers.
@@ -149,6 +151,8 @@ Phase 3E keeps live writes blocked by release gates. Audit context and transacti
 Phase 3F keeps the new client/matter mutation skeletons non-writing. Audit metadata and transaction boundary dependencies are validated before the skeleton returns disabled, so future wiring has a tested fail-closed path.
 
 Phase 3G permits local/dev backend writes only through explicit dev gates and audited transaction composition. Production writes remain blocked by production auth readiness and `productionWritesEnabled`.
+
+Phase 3H local DB validation could not run in this execution environment because local PostgreSQL CLI/server tooling is unavailable. DB-only tests remain guarded and optional.
 
 Phase 1B extends audit event categories for:
 

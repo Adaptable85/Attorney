@@ -17,6 +17,18 @@ describe("DB test guard", () => {
     expect(
       isSafeLocalDatabaseUrl("postgresql://user:password@db.example.com:5432/burgess_attorneys_dev")
     ).toBe(false);
+    expect(
+      isSafeLocalDatabaseUrl("postgresql://user:password@railway.internal:5432/burgess_attorneys_dev")
+    ).toBe(false);
+    expect(
+      isSafeLocalDatabaseUrl("postgresql://user:password@aws-0-us-east-1.pooler.supabase.com:5432/burgess_attorneys_dev")
+    ).toBe(false);
+    expect(
+      isSafeLocalDatabaseUrl("postgresql://user:password@ep-demo.neon.tech:5432/burgess_attorneys_dev")
+    ).toBe(false);
+    expect(
+      isSafeLocalDatabaseUrl("postgresql://user:password@oregon-postgres.render.com:5432/burgess_attorneys_dev")
+    ).toBe(false);
     expect(isSafeLocalDatabaseUrl("postgresql://user:password@localhost:5432/production")).toBe(
       false
     );

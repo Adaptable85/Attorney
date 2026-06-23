@@ -18,6 +18,7 @@ Phase 3D local/dev client-matter service composition is implemented without live
 Phase 3E production-auth gating and server-action/API mutation design is implemented without live write entrypoints.
 Phase 3F production-auth adapter boundary and disabled mutation entrypoint skeletons are implemented without live write entrypoints.
 Phase 3G dev-only client/matter write path is implemented for backend tests without production writes or UI saves.
+Phase 3H safe local DB validation documentation and dev/staging readiness checklist are implemented without production writes or UI saves.
 
 ## Current Direction
 
@@ -61,6 +62,8 @@ Phase 3G dev-only client/matter write path is implemented for backend tests with
 - Disabled client/matter mutation skeletons exist as server modules only and remain unwired from UI/routes.
 - Dev-only client/matter mutation functions exist behind explicit local/dev gates and local/dev composition.
 - Dev-only mutation functions require fake `DEMO-*` account numbers.
+- Dev/staging readiness checklist lives at `docs/architecture/dev-staging-readiness-checklist.md`.
+- Local DB helper scripts target only `localhost` and `burgess_attorneys_dev`.
 
 See:
 
@@ -94,6 +97,7 @@ See:
 - Phase 3E mutation gating: design/helper only; no server action, API mutation route, live UI save, production auth provider, migration or production DB operation is exposed.
 - Phase 3F disabled skeletons: server-module tests only; no UI wiring, active server action, API mutation route, live save, migration or production DB operation is exposed.
 - Phase 3G dev-only writes: backend mutation functions only; no UI save, active production save button, API mutation route, production auth provider, migration or production DB operation is exposed.
+- Phase 3H local DB validation: docs/scripts/checklist only; DB tests require local PostgreSQL and remain optional/guarded.
 - Agent service users: blocked from normal admin shell navigation.
 
 ## ADR Candidates

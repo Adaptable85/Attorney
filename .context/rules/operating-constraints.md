@@ -51,6 +51,8 @@
 - Dev-only mutation functions must require explicit local/dev gates, local/dev composition and fake `DEMO-*` account numbers.
 - Production writes must require production auth readiness and explicit production write enablement.
 - Create forms must remain disabled until a separate UI-write phase is accepted.
+- Local DB validation must use local PostgreSQL and a guarded `burgess_attorneys_dev` URL only.
+- Refuse Railway, Supabase, Neon, Render, Vercel, remote hostnames and production database URLs for DB tests.
 
 ## Phase -1 Constraints
 

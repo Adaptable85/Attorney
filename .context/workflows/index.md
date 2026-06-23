@@ -76,6 +76,7 @@ Audited persistence workflow:
 - Dev-only mutation functions must use local/dev composition and fake `DEMO-*` account numbers.
 - Production writes additionally require production auth readiness and explicit production write enablement.
 - Phase 3G keeps create forms disabled and unwired from mutation functions.
+- Phase 3H observed this execution environment has no `psql`, `pg_isready` or `createdb`, so DB tests were skipped here.
 
 Migration workflow:
 
@@ -84,6 +85,8 @@ Migration workflow:
 - Never run production migrations automatically by agent.
 - Review schema diffs, SQL, backup status and rollback strategy before staging/production migrations.
 - Run `pnpm run test:db` only with a safe local/dev `DATABASE_URL`.
+- Use `pnpm run test:db:local` only when local PostgreSQL is available.
+- Use `pnpm run db:migrate:local` only for reviewed local migrations.
 - Do not add an outbox table or schema change without an accepted migration plan.
 - Local/dev composition DB tests must use fake `DEMO-*` data only.
 - Dev-only mutation DB tests must stay behind `pnpm run test:db` and the safe local database guard.

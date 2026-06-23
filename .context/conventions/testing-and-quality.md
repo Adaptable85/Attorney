@@ -135,6 +135,14 @@ Phase 3G critical-path tests cover:
 - DB-only dev mutation tests guarded to safe local `burgess_attorneys_dev`.
 - Guardrails keeping UI forms disabled and free of direct persistence imports.
 
+Phase 3H critical-path checks cover:
+
+- Local DB availability probing with no remote database use.
+- DB guard tests refusing cloud/remote database URLs.
+- Safe local DB helper scripts targeting `localhost` and `burgess_attorneys_dev`.
+- Dev/staging readiness checklist documentation.
+- Normal validation remaining database-free.
+
 ## Future Required Checks
 
 - Add Playwright browser tests when real UI workflows exist.
