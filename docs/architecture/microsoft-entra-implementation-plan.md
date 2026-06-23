@@ -1,11 +1,11 @@
 # Microsoft Entra Implementation Plan
 
-Status: Phase 4C OAuth security skeleton
+Status: Phase 4D storage/cache boundaries
 Date: 2026-06-23
 
 ## Current State
 
-Microsoft Entra ID / Microsoft 365 identity is the accepted production auth provider direction. Phase 4A added a provider-specific skeleton. Phase 4B added staging setup documentation, callback/session architecture, disabled route placeholders and session shape validation. Phase 4C adds OAuth state/nonce helpers, PKCE helpers, JWKS descriptors and token-validation skeletons without live login, secrets, session cookies, production auth readiness or production writes.
+Microsoft Entra ID / Microsoft 365 identity is the accepted production auth provider direction. Phase 4A added a provider-specific skeleton. Phase 4B added staging setup documentation, callback/session architecture, disabled route placeholders and session shape validation. Phase 4C added OAuth state/nonce helpers, PKCE helpers, JWKS descriptors and token-validation skeletons. Phase 4D adds OAuth state storage and JWKS cache boundaries without live login, secrets, session cookies, default network fetches, production auth readiness or production writes.
 
 Implemented skeleton pieces:
 
@@ -22,6 +22,8 @@ Implemented skeleton pieces:
 - `src/auth/oauth/pkce.ts`: PKCE verifier/challenge helpers.
 - `src/auth/entra/entra-token-validation.ts`: fail-closed token-validation skeleton.
 - `src/auth/entra/entra-jwks.ts`: JWKS URL descriptor without network calls.
+- `src/auth/oauth/oauth-state-store.ts`: state store boundary with in-memory test adapter.
+- `src/auth/entra/entra-jwks-cache.ts`: JWKS metadata cache boundary with injectable fetcher.
 
 ## Required Before Live Implementation
 
@@ -59,9 +61,10 @@ Implemented skeleton pieces:
 - No cookies or sessions are created.
 - Auth route handlers return disabled JSON only and do not redirect to Microsoft.
 - Complete placeholder tokens do not authenticate; cryptographic JWKS verification remains required.
-- No JWKS or metadata network fetch exists yet.
+- JWKS cache requires an injected fetcher and makes no network call by default.
+- State store is not wired to cookies or live routes.
 - Create forms remain disabled.
 
 ## Next Phase
 
-The next phase should implement staging-only state/nonce storage and reviewed JWKS metadata fetching behind disabled-by-default readiness gates, still without enabling production writes.
+The next phase should wire staging-only state storage and reviewed JWKS metadata fetching behind disabled-by-default readiness gates, still without enabling production writes.

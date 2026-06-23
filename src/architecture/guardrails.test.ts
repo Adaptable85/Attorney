@@ -246,6 +246,8 @@ describe("architecture guardrails", () => {
     expect(routeSource).not.toContain("Set-Cookie");
     expect(routeSource).not.toContain("cookies()");
     expect(routeSource).not.toContain("fetch(");
+    expect(routeSource).not.toContain("oauth-state-store");
+    expect(routeSource).not.toContain("entra-jwks-cache");
   });
 
   it("keeps Microsoft Entra token skeleton from authenticating unverified tokens", () => {
@@ -257,6 +259,18 @@ describe("architecture guardrails", () => {
     expect(tokenValidation).not.toContain("serviceSuccess");
     expect(tokenValidation).not.toContain("mapEntraClaimsToPrincipal");
     expect(jwks).not.toContain("fetch(");
+  });
+
+  it("keeps Microsoft Entra storage and JWKS cache boundaries non-live", () => {
+    const stateStore = readFileSync(join(root, "src/auth/oauth/oauth-state-store.ts"), "utf8");
+    const jwksCache = readFileSync(join(root, "src/auth/entra/entra-jwks-cache.ts"), "utf8");
+
+    expect(stateStore).toContain("createInMemoryOAuthStateStore");
+    expect(stateStore).not.toContain("cookies()");
+    expect(stateStore).not.toContain("@/db/prisma");
+    expect(jwksCache).toContain("fetcher?: EntraJwksFetcher");
+    expect(jwksCache).not.toContain("fetch(");
+    expect(jwksCache).not.toContain("login.microsoftonline.com");
   });
 
   it("keeps normal tests database-free and DB tests locally guarded", () => {

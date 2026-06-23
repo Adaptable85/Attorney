@@ -1,5 +1,6 @@
 import { type ServiceResult, serviceFailure } from "@/services/service-result";
 import type { EntraAuthConfig } from "./entra-config";
+import type { EntraJwksMetadata } from "./entra-jwks-cache";
 
 export type EntraTokenValidationInput = {
   issuer?: string | null;
@@ -12,6 +13,7 @@ export type EntraTokenValidationInput = {
   subject?: string | null;
   email?: string | null;
   signatureVerified?: boolean;
+  jwksMetadata?: EntraJwksMetadata | null;
 };
 
 export type EntraTokenValidationFailureReason =
@@ -27,6 +29,9 @@ export type EntraTokenValidationFailureReason =
   | "subject_missing"
   | "email_missing"
   | "email_domain_not_allowed"
+  | "jwks_unavailable"
+  | "jwks_issuer_mismatch"
+  | "jwks_expired"
   | "cryptographic_verification_required";
 
 export type EntraTokenValidationFailure = {
@@ -36,7 +41,11 @@ export type EntraTokenValidationFailure = {
 
 function fail(reason: EntraTokenValidationFailureReason, message: string): ServiceResult<never> {
   return serviceFailure({
-    code: reason === "email_domain_not_allowed" || reason === "tenant_mismatch" ? "UNAUTHORIZED" : "SERVICE_CONTEXT_ERROR",
+    code: reason === "email_domain_not_allowed" ||
+      reason === "tenant_mismatch" ||
+      reason === "jwks_issuer_mismatch"
+      ? "UNAUTHORIZED"
+      : "SERVICE_CONTEXT_ERROR",
     message
   });
 }
@@ -108,9 +117,20 @@ export function validateEntraTokenSkeleton(
     return fail("email_domain_not_allowed", "Microsoft Entra token email domain is not allowed.");
   }
 
+  if (!input.jwksMetadata) {
+    return fail("jwks_unavailable", "Microsoft Entra JWKS metadata is required.");
+  }
+
+  if (input.jwksMetadata.issuerUrl !== config.issuerUrl) {
+    return fail("jwks_issuer_mismatch", "Microsoft Entra JWKS metadata issuer is not allowed.");
+  }
+
+  if (input.jwksMetadata.expiresAt <= now) {
+    return fail("jwks_expired", "Microsoft Entra JWKS metadata is expired.");
+  }
+
   return fail(
     "cryptographic_verification_required",
     "Microsoft Entra token requires cryptographic JWKS validation before authentication."
   );
 }
-

@@ -4,7 +4,7 @@ This repository is for the Burgess Attorneys Admin Automation Platform.
 
 ## Current Phase Boundary
 
-Phase 4C adds Microsoft Entra OAuth state/nonce, PKCE, JWKS descriptor and token-validation skeletons only. It adds no live OAuth exchange, Microsoft redirect, network call to Microsoft, JWT signature verification, session cookie creation, real provider secrets, production auth readiness, production writes, live UI save, active production save button, mutation API route, deployment or production database operation.
+Phase 4D adds Microsoft Entra OAuth state/nonce storage and JWKS metadata cache boundaries only. It adds no live OAuth exchange, Microsoft redirect, network call to Microsoft by default, JWT signature verification, session cookie creation, real provider secrets, production auth readiness, production writes, live UI save, active production save button, mutation API route, deployment or production database operation.
 
 Do not build product features yet. Do not build client/matter CRUD, invoice workflow, statement workflow, WhatsApp automation, Lexpro import, website, marketing system, outreach system, production auth, production database models, production file storage, or agent runtime yet.
 
@@ -31,6 +31,7 @@ Phase 3K.1 accepts Microsoft Entra ID / Microsoft 365 identity as the production
 Phase 4A adds Entra config parsing, issuer helpers, claim mapping and adapter skeletons only. It adds no live login, token exchange, session creation, real secrets, production auth readiness, live UI saves, active production save button, API mutation routes, production DB commands, production migrations, deployment, sending or sync.
 Phase 4B adds disabled Entra login/callback/logout placeholders, staging setup docs and callback/session design only. It adds no Microsoft redirects, token exchange, session cookies, real secrets, production auth readiness, live UI saves, active production save button, mutation API routes, production DB commands, production migrations, deployment, sending or sync.
 Phase 4C adds OAuth state/nonce helpers, PKCE helpers, Entra JWKS descriptors and token-validation skeletons only. It adds no Microsoft redirects, token exchange, JWKS fetch, cryptographic token acceptance, session cookies, real secrets, production auth readiness, live UI saves, active production save button, mutation API routes, production DB commands, production migrations, deployment, sending or sync.
+Phase 4D adds OAuth state storage and JWKS metadata cache boundaries only. It adds no Microsoft redirects, token exchange, default JWKS network fetch, cryptographic token acceptance, session cookies, real secrets, production auth readiness, live UI saves, active production save button, mutation API routes, production DB commands, production migrations, deployment, sending or sync.
 
 ## Project Non-Negotiables
 

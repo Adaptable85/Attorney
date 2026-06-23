@@ -19,7 +19,14 @@ const token = {
   nonce: "nonce_11111111111111111111111111111111",
   expectedNonce: "nonce_11111111111111111111111111111111",
   subject: "entra-user-1",
-  email: "owner@example.test"
+  email: "owner@example.test",
+  jwksMetadata: {
+    issuerUrl: config.issuerUrl,
+    jwksUrl: `${config.issuerUrl}/discovery/v2.0/keys`,
+    keyIds: ["fake-key-1"],
+    fetchedAt: new Date("2026-06-23T09:55:00.000Z"),
+    expiresAt: new Date("2026-06-23T10:55:00.000Z")
+  }
 };
 
 describe("Microsoft Entra token validation skeleton", () => {
@@ -101,6 +108,37 @@ describe("Microsoft Entra token validation skeleton", () => {
     });
   });
 
+  it("requires JWKS metadata and rejects wrong or expired metadata", () => {
+    expect(validateEntraTokenSkeleton({ ...token, jwksMetadata: null }, config, now)).toMatchObject({
+      ok: false,
+      error: { code: "SERVICE_CONTEXT_ERROR" }
+    });
+    expect(
+      validateEntraTokenSkeleton({
+        ...token,
+        jwksMetadata: {
+          ...token.jwksMetadata,
+          issuerUrl: "https://issuer.example.test"
+        }
+      }, config, now)
+    ).toMatchObject({
+      ok: false,
+      error: { code: "UNAUTHORIZED" }
+    });
+    expect(
+      validateEntraTokenSkeleton({
+        ...token,
+        jwksMetadata: {
+          ...token.jwksMetadata,
+          expiresAt: new Date("2026-06-23T09:59:59.000Z")
+        }
+      }, config, now)
+    ).toMatchObject({
+      ok: false,
+      error: { code: "SERVICE_CONTEXT_ERROR" }
+    });
+  });
+
   it("does not expose raw token-like values in errors", () => {
     const secretLikeSubject = "raw-token-like-value";
     const result = validateEntraTokenSkeleton({ ...token, subject: secretLikeSubject }, config, now);
@@ -109,4 +147,3 @@ describe("Microsoft Entra token validation skeleton", () => {
     expect(JSON.stringify(result)).not.toContain(secretLikeSubject);
   });
 });
-

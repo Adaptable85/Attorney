@@ -1,6 +1,6 @@
 # Technical Architecture
 
-Status: Phase 4C Microsoft Entra OAuth security skeleton
+Status: Phase 4D Microsoft Entra OAuth storage/cache boundaries
 Date: 2026-06-23
 
 ## Architecture Decision
@@ -102,6 +102,8 @@ Phase 4A adds a Microsoft Entra auth skeleton under `src/auth/entra`. The skelet
 Phase 4B adds disabled Entra login, callback and logout route placeholders plus future session shape validation. The placeholders return disabled JSON only and do not redirect to Microsoft, exchange tokens, create session cookies, enable production auth readiness or enable writes.
 
 Phase 4C adds OAuth state/nonce helpers, PKCE helpers, an Entra JWKS descriptor and a token-validation skeleton. Complete placeholder tokens still fail with cryptographic verification required, and no Microsoft network calls, redirects, token exchanges, session cookies, production auth readiness or writes are enabled.
+
+Phase 4D adds an OAuth state store boundary with an in-memory test adapter and a JWKS metadata cache boundary with an injectable fetcher. These boundaries are not wired to live routes, cookies, sessions or default Microsoft network fetches. Token validation still fails until real cryptographic verification exists.
 
 Permission strategy:
 

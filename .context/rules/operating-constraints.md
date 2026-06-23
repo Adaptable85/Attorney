@@ -57,6 +57,7 @@
 - Microsoft Entra skeleton code must not perform live OAuth, create sessions, expose secrets or imply production readiness.
 - Microsoft Entra route placeholders must return disabled/not-enabled responses and must not redirect to Microsoft, exchange tokens, set cookies or imply production readiness.
 - Microsoft Entra token-validation skeletons must not authenticate users until cryptographic JWKS verification, state/nonce storage and staging validation are implemented and approved.
+- Microsoft Entra state store and JWKS cache boundaries must not be wired to live routes, cookies, sessions or default network fetches until a live auth phase is accepted.
 - Do not enable production auth readiness or production writes until Entra tenant/admin access, MFA policy, allowed users/domains, role claim approach, environment configuration, staging validation and production readiness review are complete.
 
 ## Phase -1 Constraints
