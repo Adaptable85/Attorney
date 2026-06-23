@@ -68,8 +68,9 @@ Date: 2026-06-23
 
 ## Production Write Blockers
 
-- Production auth provider remains pending.
-- Phase 3J provider recommendation remains pending owner approval.
+- Approved direction: Microsoft Entra ID / Microsoft 365 identity.
+- Confirm Burgess Microsoft 365 tenant/admin access before implementation.
+- Confirm MFA availability/enforcement, allowed users/domains, role claim approach and break-glass admin process before implementation.
 - Production release approval remains pending.
 - Production backup/rollback plan remains pending.
 - Owner/principal approval workflow review remains pending.

@@ -76,7 +76,7 @@ Phase 3G dev-only mutation functions also do not change form enablement. Create 
 
 Phase 3H adds no mutation behavior. It documents readiness checks and confirms UI saves remain disabled until release approval.
 
-Phase 3J adds no mutation behavior. Production auth provider recommendation remains pending owner approval, so live mutation routes and UI saves remain blocked.
+Phase 3J adds no mutation behavior. Phase 3K.1 accepts Microsoft Entra ID / Microsoft 365 identity as the production auth provider direction, but live mutation routes and UI saves remain blocked until Entra config, staging validation, audit, transaction and release gates are complete.
 
 ## Test Requirements
 

@@ -1,6 +1,6 @@
 # Production Auth Provider Decision Pack
 
-Status: Pending owner approval
+Status: Approved direction: Microsoft Entra ID / Microsoft 365 identity
 Date: 2026-06-23
 
 ## A. Project Auth Requirements
@@ -30,19 +30,26 @@ Requirements:
 | Microsoft Entra ID / Azure AD / Microsoft 365 identity | Strong enterprise identity fit, especially if Burgess already uses Microsoft 365. | Strong MFA and conditional-access ecosystem. | OIDC claims can be mapped to explicit Burgess roles after review. | Firm-controlled user lifecycle through Microsoft tenant. | Complexity depends on tenant/admin maturity; may use existing subscription. | Works through OIDC/Auth.js or a Microsoft-oriented adapter. | Medium, but aligns with Microsoft workplace identity. | Medium, often lower if the firm already uses Microsoft 365. | Best fit if Burgess already manages staff accounts in Microsoft 365. | Best option for future Microsoft Graph/shared mailbox integration. | Strong staging/prod separation requires app registrations and tenant process. | Sign-in and policy events can be reviewed through Microsoft tooling plus app audit logs. |
 | Auth0 or similar enterprise identity provider | Strong managed identity and mature security controls. | Strong MFA and adaptive/security policy options. | Custom claims/roles are mature but must be namespaced and tested. | Strong admin console and tenant separation. | Higher cost/complexity than Clerk for small teams. | Next.js SDK and OIDC support available. | Medium/high. | Medium. | Good where enterprise auth maturity is needed without Microsoft tenant dependence. | Good federation possible but not as direct as Entra. | Strong tenant/environment separation. | Good provider logs plus app audit integration. |
 
-## C. Recommendation
+## C. Approved Direction
 
-Recommended route, pending owner approval:
+Approved direction: Microsoft Entra ID / Microsoft 365 identity.
 
-1. Use Microsoft Entra ID / Microsoft 365 identity if Burgess Attorneys already uses Microsoft 365 and wants firm-controlled login, MFA and future Microsoft Graph/shared-mailbox integration.
-2. If Burgess does not have a suitable Microsoft 365 identity setup, use a managed provider such as Clerk or Auth0 if fast, secure setup matters more than Microsoft integration.
-3. Avoid fully self-managed auth unless there is a strong cost/control reason and a dedicated security review, because legal-admin production auth carries higher risk than normal internal tooling.
+Use Microsoft Entra ID / Microsoft 365 identity as the production authentication provider direction for firm-controlled login, MFA and future Microsoft Graph/shared-mailbox integration.
 
-This is a recommendation, not an accepted provider decision. The provider remains pending owner approval.
+Still pending before implementation:
+
+- Confirm Burgess Microsoft 365 tenant/admin access.
+- Confirm MFA availability and enforcement policy.
+- Confirm allowed users/domains.
+- Confirm role claim approach.
+- Confirm break-glass admin process.
+- Configure environment variables with secrets stored outside Git.
+- Complete staging validation.
+- Complete production readiness review.
 
 ## D. Implementation Plan
 
-- Phase Auth-1: Provider decision approval.
+- Phase Auth-1: Provider decision approval. Complete via ADR 0007.
 - Phase Auth-2: Environment/config setup with placeholders reviewed and secrets stored outside Git.
 - Phase Auth-3: Provider adapter implementation behind the existing `ProductionAuthAdapter` boundary.
 - Phase Auth-4: Role claim mapping to `OWNER_PRINCIPAL`, `SUPPORT_ADMIN`, `AGENT_SERVICE` and `READ_ONLY_REVIEWER`.

@@ -7,13 +7,13 @@ Date: 2026-06-23
 
 The platform has a provider-neutral auth boundary, session-to-principal mapping and local/dev placeholder auth. Unknown role keys fail closed. The local/dev current-user helper is disabled in production.
 
-Production auth provider selection is pending. No production provider secrets are configured in the repository.
+Approved direction: Microsoft Entra ID / Microsoft 365 identity. No production provider secrets are configured in the repository.
 
 Phase 3F adds a provider-neutral production auth adapter boundary and readiness helpers. The boundary defines supported provider categories and maps provider claims into internal principals only after readiness checks pass. It still does not configure a real provider or commit secrets.
 
-Phase 3G keeps production auth provider selection pending. Dev-only mutation functions rely on local/dev auth principals and do not count as production auth readiness.
+Phase 3G kept production auth provider selection pending. Dev-only mutation functions rely on local/dev auth principals and do not count as production auth readiness.
 
-Phase 3J adds `docs/architecture/production-auth-provider-decision-pack.md`. It recommends Microsoft Entra ID when Burgess Attorneys already uses Microsoft 365 and wants firm-controlled identity, otherwise a managed provider such as Clerk/Auth0 when fast secure setup matters more than Microsoft integration. The recommendation is pending owner approval and does not enable production auth readiness.
+Phase 3J added `docs/architecture/production-auth-provider-decision-pack.md`. Phase 3K.1 accepts Microsoft Entra ID / Microsoft 365 identity as the provider direction in ADR 0007. This does not enable production auth readiness.
 
 ## Production Auth Requirements
 
@@ -49,14 +49,29 @@ Production auth should require MFA for all human users. Owner/principal accounts
 
 ## Provider Options
 
-Provider choice is pending. Options to review:
+Provider direction is accepted:
+
+- Microsoft Entra ID / Microsoft 365 identity.
+
+Still pending before implementation:
+
+- Confirm Burgess Microsoft 365 tenant/admin access.
+- Confirm MFA availability and enforcement.
+- Confirm allowed users/domains.
+- Confirm role claim approach.
+- Confirm break-glass admin process.
+- Configure environment variables outside Git.
+- Complete staging validation.
+- Complete production readiness review.
+
+Options reviewed:
 
 - Microsoft Entra ID / Microsoft 365 identity if Burgess Attorneys already uses Microsoft accounts.
 - Auth0 or Clerk for managed auth and MFA.
 - NextAuth/Auth.js with a reviewed provider configuration.
 - A provider-managed legal/compliance-friendly identity platform if required.
 
-No paid or external provider is selected by this phase.
+No provider integration or secret is added by this phase.
 
 The Phase 3J decision pack compares Auth.js, Clerk, Supabase Auth, Microsoft Entra ID and Auth0-style managed identity providers.
 

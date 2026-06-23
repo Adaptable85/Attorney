@@ -1,6 +1,6 @@
 # Technical Architecture
 
-Status: Phase 3J production auth provider decision pack
+Status: Phase 3K.1 Microsoft Entra production auth decision ADR
 Date: 2026-06-23
 
 ## Architecture Decision
@@ -95,7 +95,7 @@ Phase 3G adds dev-only server-module mutation functions for client and matter cr
 
 Phase 3H adds safe local DB validation documentation, local helper scripts and a dev/staging readiness checklist. It adds no schema changes, routes, UI saves or production writes.
 
-Phase 3J adds a production auth provider decision pack. It recommends Microsoft Entra ID if Burgess Attorneys already uses Microsoft 365, otherwise Clerk/Auth0-style managed auth if fast secure setup matters more than Microsoft integration. The recommendation remains pending owner approval and adds no provider integration, secrets, routes, UI saves or production writes.
+Phase 3J adds a production auth provider decision pack. Phase 3K.1 records Microsoft Entra ID / Microsoft 365 identity as the accepted production auth provider direction. This adds no provider integration, secrets, routes, UI saves, production auth readiness or production writes.
 
 Permission strategy:
 
@@ -156,7 +156,7 @@ Phase 3G permits local/dev backend writes only through explicit dev gates and au
 
 Phase 3H local DB validation could not run in this execution environment because local PostgreSQL CLI/server tooling is unavailable. DB-only tests remain guarded and optional.
 
-Phase 3J does not change persistence. Production writes remain blocked until provider approval, implementation, staging validation, audit/transaction review and release gates are complete.
+Phase 3K.1 does not change persistence. Production writes remain blocked until Entra implementation, tenant/admin access, MFA policy, role mapping, staging validation, audit/transaction review and release gates are complete.
 
 Phase 1B extends audit event categories for:
 

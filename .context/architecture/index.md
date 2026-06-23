@@ -20,6 +20,7 @@ Phase 3F production-auth adapter boundary and disabled mutation entrypoint skele
 Phase 3G dev-only client/matter write path is implemented for backend tests without production writes or UI saves.
 Phase 3H safe local DB validation documentation and dev/staging readiness checklist are implemented without production writes or UI saves.
 Phase 3J production auth provider decision pack is implemented without provider integration, production secrets, production writes or UI saves.
+Phase 3K.1 Microsoft Entra ID / Microsoft 365 identity decision ADR is accepted without provider integration, production secrets, production auth readiness, production writes or UI saves.
 
 ## Current Direction
 
@@ -59,14 +60,14 @@ Phase 3J production auth provider decision pack is implemented without provider 
 - Local/dev service composition wires Prisma client/matter/audit repositories and transaction boundary for backend-only tests.
 - Client/matter write feature and release gates default off.
 - Future mutation entrypoints must pass production-compatible principal, service context, permission, audit metadata, transaction boundary and release-gate checks before service mutation code runs.
-- Production auth adapter/readiness boundary exists, but production provider selection remains pending.
+- Production auth adapter/readiness boundary exists, and Microsoft Entra ID / Microsoft 365 identity is the accepted provider direction.
 - Disabled client/matter mutation skeletons exist as server modules only and remain unwired from UI/routes.
 - Dev-only client/matter mutation functions exist behind explicit local/dev gates and local/dev composition.
 - Dev-only mutation functions require fake `DEMO-*` account numbers.
 - Dev/staging readiness checklist lives at `docs/architecture/dev-staging-readiness-checklist.md`.
 - Local DB helper scripts target only `localhost` and `burgess_attorneys_dev`.
 - Production auth provider decision pack lives at `docs/architecture/production-auth-provider-decision-pack.md`.
-- Recommended auth direction is Microsoft Entra ID if Burgess already uses Microsoft 365; otherwise Clerk/Auth0-style managed auth, pending owner approval.
+- Accepted auth direction is Microsoft Entra ID / Microsoft 365 identity, pending tenant/admin access confirmation, MFA policy, role claim approach, environment configuration, staging validation and production readiness review.
 
 See:
 
@@ -102,6 +103,7 @@ See:
 - Phase 3G dev-only writes: backend mutation functions only; no UI save, active production save button, API mutation route, production auth provider, migration or production DB operation is exposed.
 - Phase 3H local DB validation: docs/scripts/checklist only; DB tests require local PostgreSQL and remain optional/guarded.
 - Phase 3J auth decision pack: docs only; no provider integration, secrets, login flow, production write or UI save is exposed.
+- Phase 3K.1 auth decision ADR: Microsoft Entra ID / Microsoft 365 identity accepted as direction only; no provider integration, secrets, production auth readiness, production write or UI save is exposed.
 - Agent service users: blocked from normal admin shell navigation.
 
 ## ADR Candidates

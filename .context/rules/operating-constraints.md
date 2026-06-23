@@ -53,8 +53,8 @@
 - Create forms must remain disabled until a separate UI-write phase is accepted.
 - Local DB validation must use local PostgreSQL and a guarded `burgess_attorneys_dev` URL only.
 - Refuse Railway, Supabase, Neon, Render, Vercel, remote hostnames and production database URLs for DB tests.
-- Production auth provider recommendation must remain pending owner approval until an accepted decision is recorded.
-- Do not enable production auth readiness or production writes from a recommendation document alone.
+- Microsoft Entra ID / Microsoft 365 identity is the accepted production auth provider direction.
+- Do not enable production auth readiness or production writes until Entra tenant/admin access, MFA policy, allowed users/domains, role claim approach, environment configuration, staging validation and production readiness review are complete.
 
 ## Phase -1 Constraints
 
