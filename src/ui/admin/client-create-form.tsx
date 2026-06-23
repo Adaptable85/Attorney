@@ -5,7 +5,7 @@ export function ClientCreateForm() {
         <div>
           <h1 id="client-create-title">Create Client Foundation</h1>
           <p>
-            Live save requires production auth, audited transaction gate and release approval.
+            Live save remains disabled until production auth provider is selected, audited write release gate is approved, and transaction tests pass.
           </p>
         </div>
         <span>Future phase only</span>

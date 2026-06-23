@@ -9,6 +9,8 @@ The platform has a provider-neutral auth boundary, session-to-principal mapping 
 
 Production auth provider selection is pending. No production provider secrets are configured in the repository.
 
+Phase 3F adds a provider-neutral production auth adapter boundary and readiness helpers. The boundary defines supported provider categories and maps provider claims into internal principals only after readiness checks pass. It still does not configure a real provider or commit secrets.
+
 ## Production Auth Requirements
 
 - Auth must produce a stable subject ID and verified email.
@@ -61,6 +63,9 @@ Live writes create or mutate sensitive legal-admin records. Without production a
 - Session maps to principal with allowed role.
 - Unknown roles fail closed.
 - Missing user fails closed.
+- Production auth readiness defaults false.
+- Local/dev auth does not count as production auth readiness.
+- Provider claims map only through the explicit adapter boundary.
 - Agent and read-only users cannot create client/matter records.
 - Support admin can create only when policy permits.
 - Owner can create only when release gate permits.
@@ -97,4 +102,3 @@ All production secrets must live in approved secret storage.
 - Rotate impacted secrets if needed.
 - Review audit logs for attempted mutations.
 - Keep create forms disabled until incident review is complete.
-

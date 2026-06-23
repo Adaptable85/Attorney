@@ -177,6 +177,20 @@ describe("architecture guardrails", () => {
     expect(appSource).not.toContain("\"use server\"");
   });
 
+  it("keeps disabled mutation skeletons away from direct persistence and active server actions", () => {
+    const skeleton = readFileSync(join(root, "src/server/client-matter-mutations.ts"), "utf8");
+
+    expect(skeleton).not.toContain("\"use server\"");
+    expect(skeleton).not.toContain("@prisma/client");
+    expect(skeleton).not.toContain("@/db/prisma");
+    expect(skeleton).not.toContain("repositories/prisma");
+    expect(skeleton).not.toContain("createPrismaClientsRepository");
+    expect(skeleton).not.toContain("createPrismaMattersRepository");
+    expect(skeleton).not.toContain("local-dev-service-composition");
+    expect(skeleton).not.toContain("createClientRecord(");
+    expect(skeleton).not.toContain("createMatterRecord(");
+  });
+
   it("keeps mutation release gates default-off", () => {
     const flags = readFileSync(join(root, "src/config/feature-flags.ts"), "utf8");
     const gates = readFileSync(join(root, "src/config/release-gates.ts"), "utf8");
@@ -186,6 +200,20 @@ describe("architecture guardrails", () => {
     expect(gates).toContain("client_matter_writes_disabled");
     expect(gates).toContain("production_auth_missing");
     expect(gates).toContain("local_dev_writes_disabled");
+  });
+
+  it("keeps production auth readiness default-off and provider-neutral", () => {
+    const authConfig = readFileSync(join(root, "src/auth/auth-config.ts"), "utf8");
+    const readiness = readFileSync(join(root, "src/auth/auth-readiness.ts"), "utf8");
+
+    expect(authConfig).toContain("BURGESS_PRODUCTION_AUTH_ENABLED");
+    expect(authConfig).toContain("microsoft_entra_id");
+    expect(authConfig).toContain("auth0");
+    expect(authConfig).toContain("clerk");
+    expect(authConfig).toContain("authjs");
+    expect(readiness).toContain("provider_missing");
+    expect(readiness).toContain("provider_not_production");
+    expect(readiness).toContain("explicit_enablement_missing");
   });
 
   it("keeps normal tests database-free and DB tests locally guarded", () => {

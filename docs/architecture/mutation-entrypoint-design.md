@@ -9,6 +9,8 @@ Server actions fit form-driven internal workflows and keep mutation code close t
 
 No entrypoint is enabled in Phase 3E. Server actions or route handlers should be added only after production auth provider selection and release approval.
 
+Phase 3F adds disabled server-module skeletons for client and matter creation. They are not Next server actions, are not API routes and are not wired to forms. They evaluate mutation gates and then still return disabled typed errors instead of writing.
+
 ## Required Mutation Gate Checklist
 
 Every future mutation entrypoint must require:
@@ -64,6 +66,8 @@ Create forms may be enabled only after:
 - Server-side tests cover roles and fail-closed behavior.
 - Release approval is recorded.
 
+The disabled skeletons do not change form enablement. UI wiring remains a future phase.
+
 ## Test Requirements
 
 - Missing user blocked.
@@ -85,4 +89,3 @@ Create forms may be enabled only after:
 - Backup/rollback plan recorded.
 - Owner/principal approval recorded.
 - Create forms reviewed before enabling.
-

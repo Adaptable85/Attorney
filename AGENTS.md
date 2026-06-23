@@ -4,7 +4,7 @@ This repository is for the Burgess Attorneys Admin Automation Platform.
 
 ## Current Phase Boundary
 
-Phase 3E adds production-auth gating and server-action/API mutation design only. It adds default-off release gates and a tested mutation gate helper, but no live write entrypoints.
+Phase 3F adds a production-auth adapter boundary and disabled mutation entrypoint skeletons only. It adds no production auth provider, live UI save, active server action, API mutation route or production database operation.
 
 Do not build product features yet. Do not build client/matter CRUD, invoice workflow, statement workflow, WhatsApp automation, Lexpro import, website, marketing system, outreach system, production auth, production database models, production file storage, or agent runtime yet.
 
@@ -23,6 +23,7 @@ Phase 3B adds local-only Prisma client/matter repository adapters and guarded DB
 Phase 3C adds audited transaction boundary preparation only. It adds no live UI saves, API mutation routes, production DB commands, migrations, deployment, sending or sync.
 Phase 3D adds local/dev audited persistence service composition only. It adds no live UI saves, API mutation routes, server action writes, production DB commands, migrations, deployment, sending or sync.
 Phase 3E adds production auth design, mutation entrypoint design, default-off release gates and a service-layer mutation gate only. It adds no production auth provider, production auth secrets, live UI saves, server action writes, API mutation routes, production DB commands, migrations, deployment, sending or sync.
+Phase 3F adds production auth adapter/readiness boundaries and disabled client/matter mutation skeletons only. It adds no real provider setup, production auth secrets, live UI saves, active server action writes, API mutation routes, production DB commands, migrations, deployment, sending or sync.
 
 ## Project Non-Negotiables
 
@@ -57,6 +58,8 @@ Phase 3E adds production auth design, mutation entrypoint design, default-off re
 - Local/dev service composition must not be imported by app UI routes or used as production persistence.
 - Client/matter write release gates must default off and must require production-auth readiness before production writes are enabled.
 - Future server actions or API mutation routes must pass production-compatible principal, role, service context, permission, audit metadata, transaction boundary and release gate checks before service mutation code can run.
+- Production auth readiness must fail closed unless an accepted production provider is explicitly configured.
+- Disabled mutation skeletons must not be wired to UI, app routes, Prisma adapters or local/dev composition.
 
 ## Safe Financial Defaults
 

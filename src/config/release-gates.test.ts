@@ -42,6 +42,23 @@ describe("release gates", () => {
     ).toEqual({ enabled: false, reason: "production_auth_missing" });
   });
 
+  it("keeps production writes disabled when auth readiness is false even if raw flags are enabled", () => {
+    expect(
+      evaluateClientMatterWriteGate(
+        readReleaseGateConfig({
+          environment: "production",
+          productionAuthReady: false,
+          flags: {
+            clientMatterWritesEnabled: true,
+            productionAuthConfigured: true,
+            auditedPersistenceEnabled: true,
+            localDevWritesEnabled: false
+          }
+        })
+      )
+    ).toEqual({ enabled: false, reason: "production_auth_missing" });
+  });
+
   it("requires every production write gate to be explicitly enabled", () => {
     expect(
       evaluateClientMatterWriteGate(

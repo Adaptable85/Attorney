@@ -9,7 +9,7 @@ describe("matter create form foundation", () => {
 
     expect(html).toContain("Create Matter Foundation");
     expect(html).toContain("Future phase only");
-    expect(html).toContain("Live save requires production auth");
+    expect(html).toContain("Live save remains disabled until production auth provider is selected");
     expect(html).toContain("disabled");
     expect(html).not.toContain("action=");
   });

@@ -5,7 +5,7 @@ export function MatterCreateForm() {
         <div>
           <h1 id="matter-create-title">Create Matter Foundation</h1>
           <p>
-            Live save requires production auth, audited transaction gate and release approval.
+            Live save remains disabled until production auth provider is selected, audited write release gate is approved, and transaction tests pass.
           </p>
         </div>
         <span>Future phase only</span>

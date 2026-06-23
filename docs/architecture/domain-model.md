@@ -1,6 +1,6 @@
 # Domain Model
 
-Status: Phase 3E production auth gating and mutation entrypoint design
+Status: Phase 3F production auth adapter and disabled mutation entrypoints
 Date: 2026-06-23
 
 This document describes the core domain model. Phase 1D adds migration strategy, repository interfaces and seed fixtures on top of the prior schema/domain foundations.
@@ -188,6 +188,18 @@ Phase 3E adds no domain entities. It adds production-auth and mutation-entrypoin
 - Future mutation entrypoints must pass a production-compatible principal, service context, permission check, audit metadata, transaction boundary and release gate before service mutation code can run.
 
 It does not add a production auth provider, UI saves, server actions, API mutation routes, database migrations or production database operations.
+
+## Implemented In Phase 3F
+
+Phase 3F adds no domain entities. It adds production-auth adapter/readiness boundaries and disabled client/matter mutation skeletons:
+
+- Production auth provider readiness defaults false.
+- Provider claims must map through explicit internal role keys.
+- Missing subject, email or role claims fail closed.
+- Disabled client/matter skeletons evaluate release gate, service context, permission, audit metadata and transaction boundary requirements.
+- Skeletons still return disabled typed errors and do not call repositories or persist records.
+
+It does not add a production auth provider, UI saves, active server actions, API mutation routes, database migrations or production database operations.
 
 Repository rules:
 

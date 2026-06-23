@@ -69,6 +69,9 @@ Audited persistence workflow:
 - Future server actions or API mutation routes must evaluate the mutation gate before service mutation code runs.
 - Mutation gate inputs must include a production-compatible principal, service context, permission action, audit metadata and transaction boundary.
 - Phase 3E does not enable server actions, API mutation routes or form saves.
+- Production auth readiness must be explicit and must not treat local/dev auth as production-ready.
+- Disabled mutation skeletons may evaluate gates in tests but must still return disabled until a live-write phase is accepted.
+- Phase 3F does not wire skeletons to UI, app routes, active server actions or API mutation routes.
 
 Migration workflow:
 

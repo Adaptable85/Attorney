@@ -46,6 +46,8 @@
 - Client/matter write release gates must default off and fail closed for missing or unknown flag values.
 - Production client/matter writes must not be enabled until production auth, audited persistence and explicit release approval are configured.
 - Future server actions or API mutation routes must pass production-compatible principal, role, service context, permission, audit metadata, transaction boundary and release-gate checks before service mutation code runs.
+- Production auth readiness must fail closed unless an accepted production provider is explicitly configured.
+- Disabled mutation skeletons must remain unwired from UI, app routes, Prisma adapters and local/dev composition until a live-write phase is accepted.
 
 ## Phase -1 Constraints
 

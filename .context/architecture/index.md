@@ -16,6 +16,7 @@ Phase 3B local-only Prisma client/matter repository adapters and guarded DB inte
 Phase 3C audited transaction boundary is implemented without live UI saves or production database operations.
 Phase 3D local/dev client-matter service composition is implemented without live UI saves or production database operations.
 Phase 3E production-auth gating and server-action/API mutation design is implemented without live write entrypoints.
+Phase 3F production-auth adapter boundary and disabled mutation entrypoint skeletons are implemented without live write entrypoints.
 
 ## Current Direction
 
@@ -55,6 +56,8 @@ Phase 3E production-auth gating and server-action/API mutation design is impleme
 - Local/dev service composition wires Prisma client/matter/audit repositories and transaction boundary for backend-only tests.
 - Client/matter write feature and release gates default off.
 - Future mutation entrypoints must pass production-compatible principal, service context, permission, audit metadata, transaction boundary and release-gate checks before service mutation code runs.
+- Production auth adapter/readiness boundary exists, but production provider selection remains pending.
+- Disabled client/matter mutation skeletons exist as server modules only and remain unwired from UI/routes.
 
 See:
 
@@ -86,6 +89,7 @@ See:
 - Phase 3C transaction boundary: service-layer preparation only; no UI save, server action, API mutation route or production DB operation is exposed.
 - Phase 3D local/dev composition: backend test composition only; app UI routes must not import it.
 - Phase 3E mutation gating: design/helper only; no server action, API mutation route, live UI save, production auth provider, migration or production DB operation is exposed.
+- Phase 3F disabled skeletons: server-module tests only; no UI wiring, active server action, API mutation route, live save, migration or production DB operation is exposed.
 - Agent service users: blocked from normal admin shell navigation.
 
 ## ADR Candidates

@@ -114,6 +114,16 @@ Phase 3E critical-path tests cover:
 - Mutation gate denial for disabled release gates, missing users, agent users, read-only users, missing service context, missing audit metadata and missing transaction boundary.
 - Guardrails preventing create forms or app routes from importing active mutation gates as live save paths.
 
+Phase 3F critical-path tests cover:
+
+- Production auth readiness defaulting false.
+- Unknown and local/dev provider values failing closed.
+- Provider claims mapping only through explicit internal role keys.
+- Missing subject, email or role claims failing closed.
+- Agent role mapping without client/matter write permission.
+- Disabled client/matter mutation skeletons failing closed for missing users, blocked roles, disabled gates, missing audit metadata and missing transaction dependency.
+- Guardrails preventing skeletons from importing Prisma adapters, local/dev composition or active server action markers.
+
 ## Future Required Checks
 
 - Add Playwright browser tests when real UI workflows exist.

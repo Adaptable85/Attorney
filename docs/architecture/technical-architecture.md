@@ -1,6 +1,6 @@
 # Technical Architecture
 
-Status: Phase 3E production auth gating and mutation entrypoint design
+Status: Phase 3F production auth adapter and disabled mutation entrypoints
 Date: 2026-06-23
 
 ## Architecture Decision
@@ -87,6 +87,10 @@ Phase 3D adds a local/dev service composition layer that wires Prisma client, ma
 
 Phase 3E adds production auth design documentation, server-action/API mutation entrypoint design, default-off client/matter write release gates and a service-layer mutation gate helper. The helper requires a production-compatible principal, service context, permission action, audit metadata, transaction boundary and enabled release gate before future mutation entrypoints may call service mutation code. No server action, API route, live UI save, production auth provider or production database command is added.
 
+Phase 3F adds a provider-neutral production auth adapter boundary and auth readiness helpers. Production auth readiness defaults false, local/dev auth does not count as production readiness and unknown providers fail closed. The provider choice remains pending and no secrets are added.
+
+Phase 3F also adds disabled server-module skeletons for future client/matter create entrypoints. They evaluate the mutation gate but still return disabled typed errors and do not call repositories, Prisma adapters, server actions or API routes.
+
 Permission strategy:
 
 - Owner / Principal Attorney has full approval powers.
@@ -139,6 +143,8 @@ Phase 3C resolves the immediate transaction decision in ADR 0006. AuditLog is th
 Phase 3D adds a Prisma AuditLog repository adapter and audit-writer bridge for local/dev composition. DB-specific tests remain optional and guarded to local `burgess_attorneys_dev`.
 
 Phase 3E keeps live writes blocked by release gates. Audit context and transaction dependency are required by the mutation gate before future entrypoints can proceed, but no active entrypoint exists in this phase.
+
+Phase 3F keeps the new client/matter mutation skeletons non-writing. Audit metadata and transaction boundary dependencies are validated before the skeleton returns disabled, so future wiring has a tested fail-closed path.
 
 Phase 1B extends audit event categories for:
 

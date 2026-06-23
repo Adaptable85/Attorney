@@ -28,10 +28,17 @@ export function readReleaseGateConfig(options?: {
   environment?: string;
   flags?: FeatureFlags;
   env?: Partial<Record<string, string | undefined>>;
+  productionAuthReady?: boolean;
 }): ReleaseGateConfig {
+  const flags = options?.flags ?? readFeatureFlags(options?.env);
+
   return {
     environment: environmentName(options?.environment ?? options?.env?.NODE_ENV ?? process.env.NODE_ENV),
-    flags: options?.flags ?? readFeatureFlags(options?.env)
+    flags: {
+      ...flags,
+      productionAuthConfigured:
+        flags.productionAuthConfigured && options?.productionAuthReady !== false
+    }
   };
 }
 
@@ -58,4 +65,3 @@ export function evaluateClientMatterWriteGate(
 
   return { enabled: false, reason: "local_dev_writes_disabled" };
 }
-
