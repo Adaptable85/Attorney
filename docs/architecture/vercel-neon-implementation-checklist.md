@@ -1,6 +1,6 @@
 # Vercel And Neon Implementation Checklist
 
-Status: Phase 5C checklist
+Status: Phase 5D checklist
 Date: 2026-06-23
 
 ADR 0009 accepts Vercel for the secure Next.js app/API and Neon managed PostgreSQL for production database hosting. This checklist is implementation planning only. It does not deploy, create production databases, add secrets, enable live auth, enable UI saves or enable production writes.
@@ -14,6 +14,13 @@ Phase 5C adds dedicated staging setup references:
 
 No Vercel project, Neon database, live resource, provider secret or deployment has been created by Phase 5C.
 
+Phase 5D adds the staging resource creation runbook and approval checklist:
+
+- `docs/architecture/staging-resource-creation-runbook.md`
+- `docs/architecture/staging-resource-approval-checklist.md`
+
+Resource creation still requires explicit approval. No Vercel project, Neon database, provider secret or deployment is created by Phase 5D.
+
 ## Vercel Project Setup
 
 - Create a Vercel project for the secure admin app.
@@ -24,6 +31,7 @@ No Vercel project, Neon database, live resource, provider secret or deployment h
 - Confirm Node.js/runtime settings.
 - Restrict project access to approved maintainers.
 - Use the Phase 5C Vercel staging checklist before creating staging resources.
+- Use the Phase 5D approval checklist before creating staging resources.
 
 ## Neon Project Setup
 
@@ -34,6 +42,7 @@ No Vercel project, Neon database, live resource, provider secret or deployment h
 - Keep credentials in approved secret stores only.
 - Do not commit Neon URLs or credentials.
 - Use the Phase 5C Neon staging checklist before creating staging resources.
+- Use the Phase 5D runbook before creating staging resources.
 
 ## Region Decision
 

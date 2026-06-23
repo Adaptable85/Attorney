@@ -67,6 +67,7 @@
 - Phase 5A hosting/environment documentation must not be treated as deployment approval.
 - Vercel + Neon is the accepted hosting/database direction, but acceptance must not be treated as deployment, production database creation, live auth readiness or production write approval.
 - Phase 5C staging setup documentation must not be treated as approval to create Vercel projects, create Neon databases, add secrets, deploy, enable live auth or enable writes.
+- Phase 5D staging resource runbook must not be treated as approval to create Vercel projects, create Neon databases, add secrets, deploy, run database commands, enable live auth or enable writes.
 - xneelo shared hosting must not host the secure admin app.
 
 ## Phase -1 Constraints

@@ -1,9 +1,11 @@
 # Neon Staging Setup Checklist
 
-Status: Phase 5C planning
+Status: Phase 5D planning
 Date: 2026-06-23
 
 This checklist prepares Neon staging setup only. It does not create a Neon project, create a production database, run production database commands, run production migrations or add secrets.
+
+Phase 5D adds `docs/architecture/staging-resource-creation-runbook.md` and `docs/architecture/staging-resource-approval-checklist.md`. Complete the approval checklist before creating any Neon project, branch or database.
 
 ## Project Recommendation
 
@@ -11,6 +13,7 @@ This checklist prepares Neon staging setup only. It does not create a Neon proje
 - Use separate staging and production database environments.
 - Restrict project access to approved maintainers.
 - Store connection strings only in approved secret stores.
+- Confirm resource creation approval before creating the project.
 
 ## Region Choice Decision
 

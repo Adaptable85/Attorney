@@ -1,6 +1,6 @@
 # Technical Architecture
 
-Status: Phase 5C Vercel/Neon staging setup planning
+Status: Phase 5D staging resource runbook planning
 Date: 2026-06-23
 
 ## Architecture Decision
@@ -120,6 +120,8 @@ Phase 5A adds a production hosting/environment decision pack. It recommends a ma
 Phase 5B accepts Vercel for the secure Next.js app/API and Neon managed PostgreSQL for production database hosting in ADR 0009. xneelo remains a DNS/domain/public website option only unless the client explicitly requires xneelo Cloud/Managed Server infrastructure. This does not deploy, create production databases, add secrets, enable live Entra auth, enable UI saves or enable production writes.
 
 Phase 5C adds Vercel and Neon staging setup plans, environment variable templates and a staging pre-deploy checklist. It does not create live Vercel/Neon resources, deploy, add secrets, enable live Entra auth, enable UI saves or enable production writes.
+
+Phase 5D adds a staging resource creation runbook and approval checklist. It does not create Vercel resources, create Neon resources, deploy, add secrets, run database commands, enable live Entra auth, enable UI saves or enable production writes.
 
 Permission strategy:
 
