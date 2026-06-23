@@ -1,6 +1,6 @@
 # Production Auth Design
 
-Status: Phase 3E design pack
+Status: Phase 4A Microsoft Entra skeleton
 Date: 2026-06-23
 
 ## Current Auth State
@@ -14,6 +14,8 @@ Phase 3F adds a provider-neutral production auth adapter boundary and readiness 
 Phase 3G kept production auth provider selection pending. Dev-only mutation functions rely on local/dev auth principals and do not count as production auth readiness.
 
 Phase 3J added `docs/architecture/production-auth-provider-decision-pack.md`. Phase 3K.1 accepts Microsoft Entra ID / Microsoft 365 identity as the provider direction in ADR 0007. This does not enable production auth readiness.
+
+Phase 4A adds a Microsoft Entra implementation skeleton under `src/auth/entra`. It parses placeholder-safe config, builds issuer URLs, maps Entra-like claims and exposes an adapter skeleton. It does not perform OAuth token exchange, create sessions, add route handlers, add secrets, enable production auth readiness or enable writes.
 
 ## Production Auth Requirements
 
@@ -71,7 +73,7 @@ Options reviewed:
 - NextAuth/Auth.js with a reviewed provider configuration.
 - A provider-managed legal/compliance-friendly identity platform if required.
 
-No provider integration or secret is added by this phase.
+No live provider integration or secret is added by this phase.
 
 The Phase 3J decision pack compares Auth.js, Clerk, Supabase Auth, Microsoft Entra ID and Auth0-style managed identity providers.
 
@@ -109,12 +111,13 @@ All production secrets must live in approved secret storage.
 ## Rollout Plan
 
 1. Select provider through a reviewed decision.
-2. Configure staging auth with fake/test users only.
-3. Verify role mapping and fail-closed behavior.
-4. Enable staging-only mutation gates.
-5. Run security review.
-6. Record release approval.
-7. Enable production gates only after owner/principal approval.
+2. Add provider-specific skeleton and fail-closed tests.
+3. Configure staging auth with fake/test users only.
+4. Verify role mapping and fail-closed behavior.
+5. Enable staging-only mutation gates.
+6. Run security review.
+7. Record release approval.
+8. Enable production gates only after owner/principal approval.
 
 ## Rollback Plan
 

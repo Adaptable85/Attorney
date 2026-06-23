@@ -4,7 +4,7 @@ This repository is for the Burgess Attorneys Admin Automation Platform.
 
 ## Current Phase Boundary
 
-Phase 3K.1 records Microsoft Entra ID / Microsoft 365 identity as the accepted production auth provider direction only. It adds no real provider integration, production secrets, production auth readiness, production writes, live UI save, active production save button, API mutation route, deployment or production database operation.
+Phase 4A adds a Microsoft Entra ID / Microsoft 365 auth implementation skeleton only. It adds no live OAuth exchange, session creation, real provider secrets, production auth readiness, production writes, live UI save, active production save button, API mutation route, deployment or production database operation.
 
 Do not build product features yet. Do not build client/matter CRUD, invoice workflow, statement workflow, WhatsApp automation, Lexpro import, website, marketing system, outreach system, production auth, production database models, production file storage, or agent runtime yet.
 
@@ -28,6 +28,7 @@ Phase 3G adds dev-only client/matter mutation functions behind explicit local/de
 Phase 3H adds safe local DB validation documentation, guarded local DB scripts and dev/staging readiness checklist only. It adds no production auth provider, production auth secrets, live UI saves, active production save button, API mutation routes, production DB commands, production migrations, deployment, sending or sync.
 Phase 3J adds production auth provider comparison, recommendation and implementation-plan documentation only. It adds no real provider setup, production auth secrets, live UI saves, active production save button, API mutation routes, production DB commands, production migrations, deployment, sending or sync.
 Phase 3K.1 accepts Microsoft Entra ID / Microsoft 365 identity as the production auth provider direction only. It adds no provider integration, secrets, production auth readiness, live UI saves, active production save button, API mutation routes, production DB commands, production migrations, deployment, sending or sync.
+Phase 4A adds Entra config parsing, issuer helpers, claim mapping and adapter skeletons only. It adds no live login, token exchange, session creation, real secrets, production auth readiness, live UI saves, active production save button, API mutation routes, production DB commands, production migrations, deployment, sending or sync.
 
 ## Project Non-Negotiables
 

@@ -50,9 +50,9 @@ Still pending before implementation:
 ## D. Implementation Plan
 
 - Phase Auth-1: Provider decision approval. Complete via ADR 0007.
-- Phase Auth-2: Environment/config setup with placeholders reviewed and secrets stored outside Git.
-- Phase Auth-3: Provider adapter implementation behind the existing `ProductionAuthAdapter` boundary.
-- Phase Auth-4: Role claim mapping to `OWNER_PRINCIPAL`, `SUPPORT_ADMIN`, `AGENT_SERVICE` and `READ_ONLY_REVIEWER`.
+- Phase Auth-2: Environment/config skeleton with placeholders only. Phase 4A adds this without secrets or live readiness.
+- Phase Auth-3: Provider adapter skeleton behind the existing `ProductionAuthAdapter` boundary. Phase 4A adds this without OAuth exchange or sessions.
+- Phase Auth-4: Role claim mapping to `OWNER_PRINCIPAL`, `SUPPORT_ADMIN`, `AGENT_SERVICE` and `READ_ONLY_REVIEWER`. Phase 4A adds tested mapping helpers.
 - Phase Auth-5: MFA/session enforcement, including expiry, revocation and secure-cookie behavior.
 - Phase Auth-6: Staging validation with fake/test users only.
 - Phase Auth-7: Production readiness review, including backup, rollback, lockout and audit checks.

@@ -204,6 +204,7 @@ describe("architecture guardrails", () => {
   it("keeps production auth readiness default-off and provider-neutral", () => {
     const authConfig = readFileSync(join(root, "src/auth/auth-config.ts"), "utf8");
     const readiness = readFileSync(join(root, "src/auth/auth-readiness.ts"), "utf8");
+    const envExample = readFileSync(join(root, ".env.example"), "utf8");
 
     expect(authConfig).toContain("BURGESS_PRODUCTION_AUTH_ENABLED");
     expect(authConfig).toContain("microsoft_entra_id");
@@ -213,6 +214,21 @@ describe("architecture guardrails", () => {
     expect(readiness).toContain("provider_missing");
     expect(readiness).toContain("provider_not_production");
     expect(readiness).toContain("explicit_enablement_missing");
+    expect(envExample).toContain("AUTH_PRODUCTION_READY=false");
+  });
+
+  it("keeps Microsoft Entra placeholders secret-free and non-live", () => {
+    const envExample = readFileSync(join(root, ".env.example"), "utf8");
+    const source = projectSource();
+
+    expect(envExample).toContain("AUTH_PROVIDER=entra");
+    expect(envExample).toContain("AUTH_ENTRA_CLIENT_SECRET=");
+    expect(envExample).not.toMatch(/AUTH_ENTRA_CLIENT_SECRET=.+/);
+    expect(envExample).not.toMatch(/AUTH_ENTRA_TENANT_ID=.+/);
+    expect(envExample).not.toMatch(/AUTH_ENTRA_CLIENT_ID=.+/);
+    expect(source).toContain("Microsoft Entra live login is not implemented.");
+    expect(source).not.toContain("client_secret=");
+    expect(source).not.toContain("oauth/token");
   });
 
   it("keeps normal tests database-free and DB tests locally guarded", () => {
