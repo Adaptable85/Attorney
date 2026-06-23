@@ -1,9 +1,11 @@
 # Entra OAuth State Storage Design
 
-Status: Phase 4D storage boundary only
+Status: Phase 4E storage boundary with disabled staging wiring
 Date: 2026-06-23
 
 Phase 4D adds state/nonce storage interfaces and an in-memory test adapter. It does not create cookies, sessions, database records or live login.
+
+Phase 4E composes this state store through disabled-by-default staging wiring. The composition is a dependency bundle for future review only and does not wire state storage to route handlers, cookies, sessions or live login.
 
 ## State / Nonce Lifecycle
 
@@ -55,6 +57,14 @@ No live cookies are created in Phase 4D.
 
 Phase 4D storage requires no database. Production-grade storage choice remains future work.
 
+## Staging Wiring
+
+- `BURGESS_ENTRA_STAGING_AUTH_WIRING_ENABLED=false` by default.
+- Missing config fails closed.
+- Missing cryptographic token verification dependency fails closed.
+- Enabled staging wiring returns a state store dependency but does not enable route behavior.
+- Production auth readiness and production writes remain false.
+
 ## Future Implementation Checklist
 
 - Select cookie/server-side storage approach.
@@ -64,4 +74,3 @@ Phase 4D storage requires no database. Production-grade storage choice remains f
 - Add cleanup for expired state records.
 - Add audit-safe failed-login metadata.
 - Keep routes disabled until staging validation is complete.
-

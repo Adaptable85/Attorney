@@ -82,6 +82,7 @@ Audited persistence workflow:
 - Phase 4B adds disabled Entra route placeholders and session shape validation only; do not treat route existence as live auth readiness.
 - Phase 4C adds OAuth state/nonce, PKCE and token-validation skeletons only; do not treat token claim-shape validation as authenticated login.
 - Phase 4D adds OAuth state storage and JWKS cache boundaries only; do not wire them to live routes or default network fetches.
+- Phase 4E adds disabled-by-default Entra staging dependency wiring only; do not treat wired state/cache dependencies as live auth, route enablement or production write readiness.
 - Do not enable `BURGESS_PRODUCTION_AUTH_ENABLED`, `BURGESS_PRODUCTION_AUTH_CONFIGURED` or `BURGESS_PRODUCTION_WRITES_ENABLED` until Entra tenant/admin access, MFA policy, allowed users/domains, role claim approach, environment configuration, staging validation and production readiness review are complete.
 
 Migration workflow:

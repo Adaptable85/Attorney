@@ -25,6 +25,7 @@ Phase 4A Microsoft Entra auth skeleton is implemented without live OAuth, sessio
 Phase 4B Entra staging setup, callback/session design and disabled route placeholders are implemented without Microsoft redirects, token exchange, session cookies, production auth readiness, production writes or UI saves.
 Phase 4C Entra OAuth state/nonce, PKCE, JWKS descriptor and token-validation skeletons are implemented without Microsoft redirects, token exchange, JWKS network fetch, cryptographic token acceptance, session cookies, production auth readiness, production writes or UI saves.
 Phase 4D Entra OAuth state storage and JWKS metadata cache boundaries are implemented without Microsoft redirects, token exchange, default JWKS network fetch, cryptographic token acceptance, session cookies, production auth readiness, production writes or UI saves.
+Phase 4E disabled-by-default Entra staging dependency wiring is implemented without route enablement, Microsoft redirects, token exchange, default JWKS network fetch, cryptographic token acceptance, session cookies, production auth readiness, production writes or UI saves.
 
 ## Current Direction
 
@@ -76,6 +77,7 @@ Phase 4D Entra OAuth state storage and JWKS metadata cache boundaries are implem
 - Disabled Entra login/callback/logout route placeholders live under `app/api/auth/entra` and return `entra_auth_not_enabled`.
 - OAuth state/nonce and PKCE helpers live under `src/auth/oauth`; Entra token/JWKS skeletons live under `src/auth/entra`.
 - OAuth state store boundary lives at `src/auth/oauth/oauth-state-store.ts`; JWKS cache boundary lives at `src/auth/entra/entra-jwks-cache.ts`.
+- Disabled Entra staging wiring lives at `src/auth/entra/entra-staging-wiring.ts` and route dependency composition lives at `src/auth/entra/entra-route-dependencies.ts`.
 
 See:
 
@@ -116,6 +118,7 @@ See:
 - Phase 4B Entra route placeholders: login/callback/logout routes return disabled JSON only; no Microsoft redirect, token exchange, session cookie, production auth readiness, production write or UI save is exposed.
 - Phase 4C OAuth security skeleton: state/nonce, PKCE and token/JWKS helpers only; complete placeholder tokens still require cryptographic verification and do not authenticate users.
 - Phase 4D storage/cache boundaries: state store and JWKS cache interfaces only; no live cookies, default network fetch, authenticated token, production write or UI save is exposed.
+- Phase 4E staging wiring: dependency composition only; explicit staging wiring does not enable live routes, sessions, production auth readiness, production writes or UI saves.
 - Agent service users: blocked from normal admin shell navigation.
 
 ## ADR Candidates

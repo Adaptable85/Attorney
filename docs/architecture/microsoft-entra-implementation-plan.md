@@ -1,11 +1,11 @@
 # Microsoft Entra Implementation Plan
 
-Status: Phase 4D storage/cache boundaries
+Status: Phase 4E disabled staging wiring
 Date: 2026-06-23
 
 ## Current State
 
-Microsoft Entra ID / Microsoft 365 identity is the accepted production auth provider direction. Phase 4A added a provider-specific skeleton. Phase 4B added staging setup documentation, callback/session architecture, disabled route placeholders and session shape validation. Phase 4C added OAuth state/nonce helpers, PKCE helpers, JWKS descriptors and token-validation skeletons. Phase 4D adds OAuth state storage and JWKS cache boundaries without live login, secrets, session cookies, default network fetches, production auth readiness or production writes.
+Microsoft Entra ID / Microsoft 365 identity is the accepted production auth provider direction. Phase 4A added a provider-specific skeleton. Phase 4B added staging setup documentation, callback/session architecture, disabled route placeholders and session shape validation. Phase 4C added OAuth state/nonce helpers, PKCE helpers, JWKS descriptors and token-validation skeletons. Phase 4D added OAuth state storage and JWKS cache boundaries without live login, secrets, session cookies, default network fetches, production auth readiness or production writes. Phase 4E adds disabled-by-default staging dependency wiring for state storage, JWKS cache, PKCE and token-validation markers while keeping routes disabled.
 
 Implemented skeleton pieces:
 
@@ -24,6 +24,8 @@ Implemented skeleton pieces:
 - `src/auth/entra/entra-jwks.ts`: JWKS URL descriptor without network calls.
 - `src/auth/oauth/oauth-state-store.ts`: state store boundary with in-memory test adapter.
 - `src/auth/entra/entra-jwks-cache.ts`: JWKS metadata cache boundary with injectable fetcher.
+- `src/auth/entra/entra-staging-wiring.ts`: disabled-by-default staging dependency wiring.
+- `src/auth/entra/entra-route-dependencies.ts`: disabled route dependency composition for future handler injection.
 
 ## Required Before Live Implementation
 
@@ -52,6 +54,7 @@ Implemented skeleton pieces:
 - `AUTH_ENTRA_ALLOWED_EMAIL_DOMAINS=`
 - `AUTH_ENTRA_ROLE_CLAIM=`
 - `AUTH_PRODUCTION_READY=false`
+- `BURGESS_ENTRA_STAGING_AUTH_WIRING_ENABLED=false`
 
 ## Non-Live Boundaries
 
@@ -63,8 +66,10 @@ Implemented skeleton pieces:
 - Complete placeholder tokens do not authenticate; cryptographic JWKS verification remains required.
 - JWKS cache requires an injected fetcher and makes no network call by default.
 - State store is not wired to cookies or live routes.
+- Staging wiring is disabled by default and requires `BURGESS_ENTRA_STAGING_AUTH_WIRING_ENABLED=true`, complete placeholder config and a cryptographic verification dependency marker before it returns a non-live dependency bundle.
+- Staging wiring does not enable live login, route behavior, production auth readiness or production writes.
 - Create forms remain disabled.
 
 ## Next Phase
 
-The next phase should wire staging-only state storage and reviewed JWKS metadata fetching behind disabled-by-default readiness gates, still without enabling production writes.
+The next phase should add a reviewed cryptographic token verification dependency plan and staging route design, still without enabling production writes.

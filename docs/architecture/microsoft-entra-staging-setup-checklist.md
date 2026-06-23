@@ -1,6 +1,6 @@
 # Microsoft Entra Staging Setup Checklist
 
-Status: Phase 4C checklist with OAuth skeleton
+Status: Phase 4E checklist with disabled staging wiring
 Date: 2026-06-23
 
 No real tenant, client or secret values belong in this document.
@@ -44,6 +44,7 @@ Placeholder names only:
 - `AUTH_ENTRA_ALLOWED_EMAIL_DOMAINS=`
 - `AUTH_ENTRA_ROLE_CLAIM=`
 - `AUTH_PRODUCTION_READY=false`
+- `BURGESS_ENTRA_STAGING_AUTH_WIRING_ENABLED=false`
 - `BURGESS_PRODUCTION_AUTH_PROVIDER=microsoft_entra_id`
 - `BURGESS_PRODUCTION_AUTH_ENABLED=false`
 - `BURGESS_PRODUCTION_AUTH_CONFIGURED=false`
@@ -68,6 +69,8 @@ Placeholder names only:
 - PKCE verifier and challenge helpers are tested.
 - Token claim-shape checks reject missing or mismatched issuer, audience, tenant, nonce, subject, email and domain.
 - Complete placeholder tokens still require cryptographic JWKS verification.
+- Staging wiring remains disabled unless `BURGESS_ENTRA_STAGING_AUTH_WIRING_ENABLED=true` is explicitly set.
+- Enabled staging wiring returns dependencies only and does not enable live routes, sessions, production auth readiness or production writes.
 - Role mapping rejects unknown role claims.
 - Agent and read-only roles cannot create client/matter records.
 - Production writes remain disabled.

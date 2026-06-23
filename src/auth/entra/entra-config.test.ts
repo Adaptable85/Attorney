@@ -141,7 +141,8 @@ describe("Microsoft Entra config parser", () => {
           productionAuthConfigured: false,
           productionWritesEnabled: false,
           localDevWritesEnabled: false,
-          devMutationEntrypointsEnabled: false
+          devMutationEntrypointsEnabled: false,
+          entraStagingAuthWiringEnabled: false
         }
       })
     );

@@ -1,6 +1,6 @@
 # Technical Architecture
 
-Status: Phase 4D Microsoft Entra OAuth storage/cache boundaries
+Status: Phase 4E Microsoft Entra disabled staging wiring
 Date: 2026-06-23
 
 ## Architecture Decision
@@ -105,6 +105,8 @@ Phase 4C adds OAuth state/nonce helpers, PKCE helpers, an Entra JWKS descriptor 
 
 Phase 4D adds an OAuth state store boundary with an in-memory test adapter and a JWKS metadata cache boundary with an injectable fetcher. These boundaries are not wired to live routes, cookies, sessions or default Microsoft network fetches. Token validation still fails until real cryptographic verification exists.
 
+Phase 4E adds disabled-by-default staging wiring that composes Entra config, OAuth state storage, JWKS cache, PKCE helpers and token-validation dependency markers. It returns a non-live dependency bundle only when the explicit staging flag, complete placeholder config and a crypto verification dependency marker are present. Routes remain disabled and no production auth readiness or production writes are enabled.
+
 Permission strategy:
 
 - Owner / Principal Attorney has full approval powers.
@@ -164,7 +166,7 @@ Phase 3G permits local/dev backend writes only through explicit dev gates and au
 
 Phase 3H local DB validation could not run in this execution environment because local PostgreSQL CLI/server tooling is unavailable. DB-only tests remain guarded and optional.
 
-Phase 4C does not change persistence. Production writes remain blocked until live Entra implementation, tenant/admin access, MFA policy, role mapping, staging validation, cryptographic token verification, audit/transaction review and release gates are complete.
+Phase 4E does not change persistence. Production writes remain blocked until live Entra implementation, tenant/admin access, MFA policy, role mapping, staging validation, cryptographic token verification, audit/transaction review and release gates are complete.
 
 Phase 1B extends audit event categories for:
 

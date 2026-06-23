@@ -4,6 +4,7 @@ export type FeatureFlagName =
   | "auditedPersistenceEnabled"
   | "localDevWritesEnabled"
   | "devMutationEntrypointsEnabled"
+  | "entraStagingAuthWiringEnabled"
   | "productionWritesEnabled";
 
 export type FeatureFlags = Record<FeatureFlagName, boolean>;
@@ -24,6 +25,9 @@ export function readFeatureFlags(environment: FeatureFlagEnvironment = process.e
     localDevWritesEnabled: readBooleanFlag(environment.BURGESS_LOCAL_DEV_WRITES_ENABLED),
     devMutationEntrypointsEnabled: readBooleanFlag(
       environment.BURGESS_DEV_MUTATION_ENTRYPOINTS_ENABLED
+    ),
+    entraStagingAuthWiringEnabled: readBooleanFlag(
+      environment.BURGESS_ENTRA_STAGING_AUTH_WIRING_ENABLED
     ),
     productionWritesEnabled: readBooleanFlag(environment.BURGESS_PRODUCTION_WRITES_ENABLED)
   };

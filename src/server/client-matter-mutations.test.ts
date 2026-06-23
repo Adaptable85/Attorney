@@ -22,6 +22,7 @@ const disabledGate = evaluateClientMatterWriteGate(
       auditedPersistenceEnabled: true,
       localDevWritesEnabled: false,
       devMutationEntrypointsEnabled: false,
+      entraStagingAuthWiringEnabled: false,
       productionWritesEnabled: false
     }
   })
@@ -37,6 +38,7 @@ const enabledGate = evaluateClientMatterWriteGate(
       auditedPersistenceEnabled: true,
       localDevWritesEnabled: false,
       devMutationEntrypointsEnabled: false,
+      entraStagingAuthWiringEnabled: false,
       productionWritesEnabled: true
     }
   })
@@ -51,6 +53,7 @@ const enabledDevGate = evaluateClientMatterWriteGate(
       auditedPersistenceEnabled: true,
       localDevWritesEnabled: true,
       devMutationEntrypointsEnabled: true,
+      entraStagingAuthWiringEnabled: false,
       productionWritesEnabled: false
     }
   })

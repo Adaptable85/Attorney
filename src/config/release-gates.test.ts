@@ -11,6 +11,7 @@ describe("release gates", () => {
       auditedPersistenceEnabled: false,
       localDevWritesEnabled: false,
       devMutationEntrypointsEnabled: false,
+      entraStagingAuthWiringEnabled: false,
       productionWritesEnabled: false
     });
     expect(
@@ -20,6 +21,7 @@ describe("release gates", () => {
         BURGESS_AUDITED_PERSISTENCE_ENABLED: "TRUE",
         BURGESS_LOCAL_DEV_WRITES_ENABLED: "enabled",
         BURGESS_DEV_MUTATION_ENTRYPOINTS_ENABLED: "on",
+        BURGESS_ENTRA_STAGING_AUTH_WIRING_ENABLED: "enabled",
         BURGESS_PRODUCTION_WRITES_ENABLED: "yes"
       })
     ).toEqual({
@@ -28,6 +30,7 @@ describe("release gates", () => {
       auditedPersistenceEnabled: false,
       localDevWritesEnabled: false,
       devMutationEntrypointsEnabled: false,
+      entraStagingAuthWiringEnabled: false,
       productionWritesEnabled: false
     });
   });
@@ -43,6 +46,7 @@ describe("release gates", () => {
             auditedPersistenceEnabled: true,
             localDevWritesEnabled: true,
             devMutationEntrypointsEnabled: true,
+            entraStagingAuthWiringEnabled: false,
             productionWritesEnabled: true
           }
         })
@@ -62,6 +66,7 @@ describe("release gates", () => {
             auditedPersistenceEnabled: true,
             localDevWritesEnabled: false,
             devMutationEntrypointsEnabled: false,
+            entraStagingAuthWiringEnabled: false,
             productionWritesEnabled: true
           }
         })
@@ -81,6 +86,7 @@ describe("release gates", () => {
             auditedPersistenceEnabled: true,
             localDevWritesEnabled: true,
             devMutationEntrypointsEnabled: true,
+            entraStagingAuthWiringEnabled: true,
             productionWritesEnabled: false
           }
         })
@@ -99,6 +105,7 @@ describe("release gates", () => {
             auditedPersistenceEnabled: true,
             localDevWritesEnabled: false,
             devMutationEntrypointsEnabled: false,
+            entraStagingAuthWiringEnabled: true,
             productionWritesEnabled: true
           }
         })
@@ -113,6 +120,7 @@ describe("release gates", () => {
       auditedPersistenceEnabled: true,
       localDevWritesEnabled: false,
       devMutationEntrypointsEnabled: false,
+      entraStagingAuthWiringEnabled: false,
       productionWritesEnabled: false
     };
 
@@ -153,6 +161,7 @@ describe("release gates", () => {
       auditedPersistenceEnabled: true,
       localDevWritesEnabled: true,
       devMutationEntrypointsEnabled: true,
+      entraStagingAuthWiringEnabled: false,
       productionWritesEnabled: false
     };
 

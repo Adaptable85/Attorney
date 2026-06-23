@@ -194,6 +194,7 @@ describe("architecture guardrails", () => {
 
     expect(flags).toContain('const enabledValue = "true"');
     expect(flags).toContain("return value === enabledValue");
+    expect(flags).toContain("BURGESS_ENTRA_STAGING_AUTH_WIRING_ENABLED");
     expect(gates).toContain("client_matter_writes_disabled");
     expect(gates).toContain("production_auth_missing");
     expect(gates).toContain("production_writes_disabled");
@@ -248,6 +249,8 @@ describe("architecture guardrails", () => {
     expect(routeSource).not.toContain("fetch(");
     expect(routeSource).not.toContain("oauth-state-store");
     expect(routeSource).not.toContain("entra-jwks-cache");
+    expect(routeSource).not.toContain("entra-staging-wiring");
+    expect(routeSource).not.toContain("entra-route-dependencies");
   });
 
   it("keeps Microsoft Entra token skeleton from authenticating unverified tokens", () => {
@@ -271,6 +274,27 @@ describe("architecture guardrails", () => {
     expect(jwksCache).toContain("fetcher?: EntraJwksFetcher");
     expect(jwksCache).not.toContain("fetch(");
     expect(jwksCache).not.toContain("login.microsoftonline.com");
+  });
+
+  it("keeps Microsoft Entra staging wiring disabled and non-live", () => {
+    const stagingWiring = readFileSync(join(root, "src/auth/entra/entra-staging-wiring.ts"), "utf8");
+    const routeDependencies = readFileSync(join(root, "src/auth/entra/entra-route-dependencies.ts"), "utf8");
+
+    expect(stagingWiring).toContain("entraStagingAuthWiringEnabled");
+    expect(stagingWiring).toContain("staging_wiring_disabled");
+    expect(stagingWiring).toContain("crypto_verification_missing");
+    expect(stagingWiring).toContain("liveLoginEnabled: false");
+    expect(stagingWiring).toContain("productionAuthReady: false");
+    expect(stagingWiring).toContain("productionWritesEnabled: false");
+    expect(stagingWiring).not.toContain("fetch(");
+    expect(stagingWiring).not.toContain("Set-Cookie");
+    expect(stagingWiring).not.toContain("NextResponse.redirect");
+    expect(stagingWiring).not.toContain("serviceSuccess");
+    expect(routeDependencies).toContain("routeBehavior: \"disabled\"");
+    expect(routeDependencies).toContain("cookiesEnabled: false");
+    expect(routeDependencies).toContain("sessionsEnabled: false");
+    expect(routeDependencies).toContain("redirectsEnabled: false");
+    expect(routeDependencies).toContain("tokenExchangeEnabled: false");
   });
 
   it("keeps normal tests database-free and DB tests locally guarded", () => {

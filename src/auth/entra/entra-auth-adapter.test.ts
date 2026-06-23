@@ -44,7 +44,8 @@ describe("Microsoft Entra auth adapter skeleton", () => {
           productionAuthConfigured: true,
           productionWritesEnabled: false,
           localDevWritesEnabled: false,
-          devMutationEntrypointsEnabled: false
+          devMutationEntrypointsEnabled: false,
+          entraStagingAuthWiringEnabled: false
         }
       })
     );

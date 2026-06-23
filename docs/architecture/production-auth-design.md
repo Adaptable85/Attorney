@@ -1,6 +1,6 @@
 # Production Auth Design
 
-Status: Phase 4C Microsoft Entra OAuth security skeleton
+Status: Phase 4E Microsoft Entra disabled staging wiring
 Date: 2026-06-23
 
 ## Current Auth State
@@ -20,6 +20,10 @@ Phase 4A adds a Microsoft Entra implementation skeleton under `src/auth/entra`. 
 Phase 4B adds staging setup documentation, callback/session architecture, disabled Entra login/callback/logout route placeholders and future session shape validation. The routes return `entra_auth_not_enabled` JSON responses. They do not redirect to Microsoft, exchange tokens, create cookies, create sessions, enable production auth readiness or enable writes.
 
 Phase 4C adds OAuth state/nonce helpers, PKCE helpers, JWKS URL descriptors and a token-validation skeleton. The token skeleton validates expected claim shape and still fails with cryptographic verification required for otherwise complete placeholder tokens. It does not fetch JWKS metadata, verify signatures, authenticate users, enable routes, create sessions or enable writes.
+
+Phase 4D adds OAuth state storage and JWKS cache boundaries without live routes, cookies, sessions, default Microsoft network fetches or authenticated token acceptance.
+
+Phase 4E adds disabled-by-default staging dependency wiring for Entra config, state storage, JWKS cache, PKCE and token-validation markers. It still does not enable live login, route redirects, token exchange, session cookies, production auth readiness or production writes.
 
 ## Production Auth Requirements
 

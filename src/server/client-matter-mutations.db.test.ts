@@ -21,6 +21,7 @@ const enabledDevGate = evaluateClientMatterWriteGate(
       auditedPersistenceEnabled: true,
       localDevWritesEnabled: true,
       devMutationEntrypointsEnabled: true,
+      entraStagingAuthWiringEnabled: false,
       productionWritesEnabled: false
     }
   })
@@ -35,6 +36,7 @@ const disabledGate = evaluateClientMatterWriteGate(
       auditedPersistenceEnabled: true,
       localDevWritesEnabled: true,
       devMutationEntrypointsEnabled: true,
+      entraStagingAuthWiringEnabled: false,
       productionWritesEnabled: false
     }
   })
