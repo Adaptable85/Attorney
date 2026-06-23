@@ -1,11 +1,13 @@
 # Production Hosting And Environment Decision Pack
 
-Status: Phase 5B accepted hosting direction
+Status: Phase 5C staging setup planning
 Date: 2026-06-23
 
 PR #1 was squash merged into `origin/main` at `57dccc1 Review Burgess platform foundation auth (#1)`. Local `main` has been synced to that squash merge. No deployment has been run.
 
 ADR 0009 accepts Vercel for the secure Next.js app/API and Neon managed PostgreSQL for the production database. xneelo remains a DNS/domain/public website option only unless the client explicitly requires xneelo Cloud/Managed Server infrastructure. xneelo shared hosting must not host the secure app.
+
+Phase 5C adds staging setup planning and templates only. It creates no Vercel project, Neon database, live resource, provider secret or deployment. Staging setup remains pending explicit approval.
 
 ## A. Current App State
 
@@ -19,6 +21,9 @@ ADR 0009 accepts Vercel for the secure Next.js app/API and Neon managed PostgreS
 - No production deployment has occurred.
 - No production database command has been run.
 - Production Neon database has not been created or touched by this phase.
+- Vercel project creation remains pending.
+- Neon staging setup remains pending.
+- Environment values remain placeholders only.
 
 ## B. Hosting Options
 
@@ -171,6 +176,8 @@ Real values must be stored only in approved local, staging or production secret 
 - Keep rollback plan available before production deploy.
 - Do not auto-deploy from unreviewed branches.
 - Do not deploy as part of Phase 5A.
+- Do not deploy as part of Phase 5C.
+- Use `docs/architecture/staging-predeploy-checklist.md` before any future staging deploy approval.
 
 ## J. Decisions Needed
 
@@ -185,3 +192,11 @@ Real values must be stored only in approved local, staging or production secret 
 - Production deploy approvers.
 - Production logging/monitoring owner.
 - Future private document storage provider.
+
+## K. Phase 5C Setup References
+
+- Vercel staging checklist: `docs/architecture/vercel-staging-setup-checklist.md`.
+- Neon staging checklist: `docs/architecture/neon-staging-setup-checklist.md`.
+- Environment variable template: `docs/architecture/environment-variable-template.md`.
+- Staging pre-deploy checklist: `docs/architecture/staging-predeploy-checklist.md`.
+- Phase plan: `docs/plans/phase-5c-vercel-neon-staging-setup-plan.md`.

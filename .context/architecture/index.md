@@ -31,6 +31,7 @@ Phase 4G selects `jose` for Entra JWT/JWKS verification and adds a non-live adap
 Phase 4H staging callback/JWKS fetch-cache design is implemented without route enablement, Microsoft redirects, token exchange, default JWKS network fetch, session cookies, production auth readiness, production writes or UI saves.
 Phase 5A production hosting/environment decision pack is implemented without deployment, production database commands, production migrations, production auth readiness, production writes or UI saves.
 Phase 5B accepts Vercel + Neon hosting/database direction in ADR 0009 without deployment, production database creation, production migrations, production auth readiness, production writes or UI saves.
+Phase 5C Vercel + Neon staging setup planning is implemented without creating live Vercel/Neon resources, deployment, secrets, production database commands, production auth readiness, production writes or UI saves.
 
 ## Current Direction
 
@@ -90,6 +91,11 @@ Phase 5B accepts Vercel + Neon hosting/database direction in ADR 0009 without de
 - Phase 5A hosting/environment decision pack lives at `docs/architecture/production-hosting-environment-decision-pack.md`.
 - ADR 0009 accepts Vercel for the secure Next.js app/API and Neon managed PostgreSQL for the production database.
 - Vercel/Neon implementation checklist lives at `docs/architecture/vercel-neon-implementation-checklist.md`.
+- Phase 5C staging setup plan lives at `docs/plans/phase-5c-vercel-neon-staging-setup-plan.md`.
+- Vercel staging checklist lives at `docs/architecture/vercel-staging-setup-checklist.md`.
+- Neon staging checklist lives at `docs/architecture/neon-staging-setup-checklist.md`.
+- Environment variable template lives at `docs/architecture/environment-variable-template.md`.
+- Staging pre-deploy checklist lives at `docs/architecture/staging-predeploy-checklist.md`.
 - xneelo remains DNS/domain/public website only unless xneelo Cloud/Managed Server is explicitly required.
 - Production deployment, production database creation, secrets, live auth and production writes remain pending.
 
@@ -138,6 +144,7 @@ See:
 - Phase 4H callback/JWKS fetch-cache design: documentation and checklists only; no route enablement, Microsoft network fetch, token exchange, session, production auth readiness, production write or UI save is exposed.
 - Phase 5A hosting/environment decision pack: documentation only; no deployment, production database command, production migration, production auth readiness, production write or UI save is exposed.
 - Phase 5B Vercel/Neon direction: accepted architecture decision only; no deployment, production database creation, production migration, live auth, production write or UI save is exposed.
+- Phase 5C staging setup plan: documentation/templates/checklists only; no Vercel project, Neon database, deployment, secret, production database command, live auth, production write or UI save is exposed.
 - Agent service users: blocked from normal admin shell navigation.
 
 ## ADR Candidates
