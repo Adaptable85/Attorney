@@ -89,6 +89,15 @@ Phase 3B critical-path tests cover:
 - Service create paths proving permission denial, validation failure and audit failure prevent repository writes.
 - Guardrails preventing direct UI Prisma/repository-adapter use and normal-test database requirements.
 
+Phase 3C critical-path tests cover:
+
+- Audited mutation requirements for actor context, permission decision and audit metadata.
+- Audit, repository and transaction failure paths returning safe typed errors.
+- Fake transaction boundary commit and rollback behavior in normal tests.
+- Client/matter create service preparation running through an injected transaction boundary.
+- Guarded Prisma transaction DB tests for atomic fake client plus audit-log behavior.
+- Guardrails preventing direct UI transaction-boundary imports.
+
 ## Future Required Checks
 
 - Add Playwright browser tests when real UI workflows exist.

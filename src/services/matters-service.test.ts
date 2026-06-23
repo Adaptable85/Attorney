@@ -11,6 +11,7 @@ import {
   listMatterSummaries
 } from "./matters-service";
 import { createServiceContext } from "./service-context";
+import { createFakeTransactionBoundary } from "./transaction-boundary";
 
 const now = new Date("2026-06-18T00:00:00.000Z");
 
@@ -154,6 +155,7 @@ describe("matters service", () => {
 
   it("emits audit payload before matter create preparation", async () => {
     const context = createTestServiceContext(ownerPrincipal);
+    const transactionBoundary = createFakeTransactionBoundary();
     const result = await createMatterRecord(
       context,
       {
@@ -163,7 +165,7 @@ describe("matters service", () => {
         description: "Fake matter for service validation",
         type: "CONTRACTS"
       },
-      { mattersRepository: createFakeMattersRepository() }
+      { mattersRepository: createFakeMattersRepository(), transactionBoundary }
     );
 
     expect(result).toMatchObject({ ok: true });
@@ -175,6 +177,7 @@ describe("matters service", () => {
         summary: "Matter create requested through audited service boundary"
       })
     );
+    expect(transactionBoundary.events).toEqual(["begin", "commit"]);
   });
 
   it("blocks agent and read-only reviewer users from creating matters", async () => {
@@ -301,6 +304,31 @@ describe("matters service", () => {
         }
       )
     ).resolves.toMatchObject({ ok: false, error: { code: "AUDIT_ERROR" } });
+    expect(create).not.toHaveBeenCalled();
+  });
+
+  it("returns a safe matter service error when the transaction boundary fails", async () => {
+    const create = vi.fn(createFakeMattersRepository().create);
+
+    await expect(
+      createMatterRecord(
+        createTestServiceContext(ownerPrincipal),
+        {
+          clientId: "client_demo_001",
+          accountNumber: "DEMO-MATTER-NEW",
+          name: "Demo Matter New",
+          description: "Fake matter for service validation",
+          type: "CONTRACTS"
+        },
+        {
+          mattersRepository: {
+            ...createFakeMattersRepository(),
+            create
+          },
+          transactionBoundary: createFakeTransactionBoundary({ failBeforeWork: true })
+        }
+      )
+    ).resolves.toMatchObject({ ok: false, error: { code: "TRANSACTION_ERROR" } });
     expect(create).not.toHaveBeenCalled();
   });
 

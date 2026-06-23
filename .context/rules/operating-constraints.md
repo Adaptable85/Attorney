@@ -40,6 +40,8 @@
 - Mutation-capable services must require authenticated actor context, permission checks and audit metadata before repository writes.
 - Local Prisma repository adapters must not be wired to UI saves, API mutation routes or production database operations until production auth and transaction/outbox behavior are explicitly accepted.
 - DB integration tests must use fake data only and must refuse unsafe/non-local database URLs.
+- Live persistence must not be enabled until audited mutations use an injected transaction boundary and production auth is accepted.
+- AuditLog is the immediate internal outbox-equivalent; do not add a separate outbox table without an accepted plan.
 
 ## Phase -1 Constraints
 

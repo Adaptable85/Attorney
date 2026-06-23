@@ -13,6 +13,7 @@ Phase 2D read-only client/matter UI is implemented with safe demo data through s
 Phase 2E disabled client/matter create form foundations are implemented without persistence.
 Phase 3A auth/session hardening and audited persistence enablement are implemented without live UI saves.
 Phase 3B local-only Prisma client/matter repository adapters and guarded DB integration tests are implemented without live UI saves or production database operations.
+Phase 3C audited transaction boundary is implemented without live UI saves or production database operations.
 
 ## Current Direction
 
@@ -47,6 +48,8 @@ Phase 3B local-only Prisma client/matter repository adapters and guarded DB inte
 - Auth sessions map through fail-closed role mapping before becoming domain principals.
 - Mutation-capable service functions require service context, permission checks and audit metadata.
 - Local-only Prisma client/matter repository adapters can be exercised through guarded DB tests.
+- Audited mutations can run audit recording and repository mutation through an injected transaction boundary.
+- ADR 0006 records AuditLog as the immediate internal outbox-equivalent; a separate outbox table is deferred.
 
 See:
 
@@ -75,6 +78,7 @@ See:
 - Audited persistence enablement: service boundary only; forms remain disabled and no live database write is exposed.
 - Phase 3B Prisma adapters: local repository boundary only; no UI save, API mutation route or production DB operation is exposed.
 - DB-specific tests: isolated behind `pnpm run test:db` and guarded to local `burgess_attorneys_dev`.
+- Phase 3C transaction boundary: service-layer preparation only; no UI save, server action, API mutation route or production DB operation is exposed.
 - Agent service users: blocked from normal admin shell navigation.
 
 ## ADR Candidates

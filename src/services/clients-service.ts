@@ -8,6 +8,7 @@ import type { ClientsRepository, ClientRecord } from "@/repositories/clients-rep
 import { ZodError } from "zod";
 import { executeAuditedMutation } from "./audited-service";
 import type { ServiceContext } from "./service-context";
+import type { TransactionBoundary } from "./transaction-boundary";
 import {
   type ServiceResult,
   repositoryFailure,
@@ -24,6 +25,7 @@ export type ClientSummary = {
 
 export type ClientsServiceDependencies = {
   clientsRepository: Pick<ClientsRepository, "create" | "findById" | "listOpen">;
+  transactionBoundary?: TransactionBoundary;
 };
 
 function toClientSummary(record: ClientRecord): ClientSummary {
@@ -115,6 +117,7 @@ export async function createClientRecord(
           status: validated.status
         }
       },
+      transaction: dependencies.transactionBoundary,
       async run() {
         const client = await dependencies.clientsRepository.create(validated, {
           actorId: context.actor.userId,

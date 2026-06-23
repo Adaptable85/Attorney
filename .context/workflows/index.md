@@ -59,6 +59,8 @@ Audited persistence workflow:
 - UI must not write directly to repositories.
 - Local Prisma client/matter adapters may be used only for local development and DB integration tests until production auth and transaction/outbox behavior are reviewed.
 - Client/matter create forms must stay disabled until live audited persistence is explicitly accepted.
+- Future live writes must inject a transaction boundary so audit recording and repository mutation commit or fail together.
+- AuditLog is the current internal outbox-equivalent; separate outbox work waits for external event dispatch.
 
 Migration workflow:
 
@@ -67,6 +69,7 @@ Migration workflow:
 - Never run production migrations automatically by agent.
 - Review schema diffs, SQL, backup status and rollback strategy before staging/production migrations.
 - Run `pnpm run test:db` only with a safe local/dev `DATABASE_URL`.
+- Do not add an outbox table or schema change without an accepted migration plan.
 
 ## Approval Workflow Principle
 

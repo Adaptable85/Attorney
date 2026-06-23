@@ -154,6 +154,8 @@ describe("architecture guardrails", () => {
     expect(createFormSource).not.toContain("repositories/prisma");
     expect(createFormSource).not.toContain("createPrismaClientsRepository");
     expect(createFormSource).not.toContain("createPrismaMattersRepository");
+    expect(createFormSource).not.toContain("transaction-boundary");
+    expect(createFormSource).not.toContain("createPrismaTransactionBoundary");
   });
 
   it("keeps normal tests database-free and DB tests locally guarded", () => {
@@ -182,9 +184,13 @@ describe("architecture guardrails", () => {
 
     expect(clientsService).toContain("context: ServiceContext");
     expect(clientsService).toContain("executeAuditedMutation");
+    expect(clientsService).toContain("transactionBoundary?: TransactionBoundary");
+    expect(clientsService).toContain("transaction: dependencies.transactionBoundary");
     expect(clientsService).toContain("eventType: \"client_created\"");
     expect(mattersService).toContain("context: ServiceContext");
     expect(mattersService).toContain("executeAuditedMutation");
+    expect(mattersService).toContain("transactionBoundary?: TransactionBoundary");
+    expect(mattersService).toContain("transaction: dependencies.transactionBoundary");
     expect(mattersService).toContain("eventType: \"matter_created\"");
   });
 });

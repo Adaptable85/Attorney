@@ -5,8 +5,8 @@ export function ClientCreateForm() {
         <div>
           <h1 id="client-create-title">Create Client Foundation</h1>
           <p>
-            Persistence service is being prepared. Live save remains disabled until production auth
-            and audited transaction checks are complete.
+            Audited transaction boundary is being prepared. Live save remains disabled until
+            production auth and release approval.
           </p>
         </div>
         <span>Future phase only</span>

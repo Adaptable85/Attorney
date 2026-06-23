@@ -8,6 +8,7 @@ import type { MatterRecord, MattersRepository } from "@/repositories/matters-rep
 import { ZodError } from "zod";
 import { executeAuditedMutation } from "./audited-service";
 import type { ServiceContext } from "./service-context";
+import type { TransactionBoundary } from "./transaction-boundary";
 import {
   type ServiceResult,
   repositoryFailure,
@@ -28,6 +29,7 @@ export type MatterSummary = {
 
 export type MattersServiceDependencies = {
   mattersRepository: Pick<MattersRepository, "create" | "findById" | "listOpen">;
+  transactionBoundary?: TransactionBoundary;
 };
 
 function toMatterSummary(record: MatterRecord): MatterSummary {
@@ -125,6 +127,7 @@ export async function createMatterRecord(
           type: validated.type
         }
       },
+      transaction: dependencies.transactionBoundary,
       async run() {
         const matter = await dependencies.mattersRepository.create(validated, {
           actorId: context.actor.userId,

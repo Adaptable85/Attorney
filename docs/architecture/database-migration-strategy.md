@@ -1,6 +1,6 @@
 # Database Migration Strategy
 
-Status: Phase 3B local development repository foundation
+Status: Phase 3C local audited transaction foundation
 Date: 2026-06-23
 
 ## Current State
@@ -28,6 +28,8 @@ Current local flow:
 7. Run repository/service database tests with `pnpm run test:db`.
 
 Phase 3B DB integration tests are local-only. They must run only when `DATABASE_URL` points to local PostgreSQL on `localhost` or `127.0.0.1` and targets a database path containing `burgess_attorneys_dev`. Normal validation must not require `DATABASE_URL`.
+
+Phase 3C adds local-only Prisma transaction tests using existing Client and AuditLog tables. It does not add schema, migrations or a new outbox table. AuditLog is the immediate internal outbox-equivalent until external event dispatch is designed.
 
 Agents may validate the Prisma schema. Agents may generate dev migrations only when explicitly instructed.
 Normal pre-PR checks must not require a running database.

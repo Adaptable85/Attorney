@@ -4,6 +4,7 @@ export type ServiceErrorCode =
   | "VALIDATION_ERROR"
   | "REPOSITORY_ERROR"
   | "AUDIT_ERROR"
+  | "TRANSACTION_ERROR"
   | "SERVICE_CONTEXT_ERROR";
 
 export type ServiceError = {
@@ -47,5 +48,12 @@ export function auditFailure(): ServiceResult<never> {
   return serviceFailure({
     code: "AUDIT_ERROR",
     message: "The requested change could not be audited safely."
+  });
+}
+
+export function transactionFailure(): ServiceResult<never> {
+  return serviceFailure({
+    code: "TRANSACTION_ERROR",
+    message: "The requested change could not be completed atomically."
   });
 }

@@ -1,6 +1,6 @@
 # Technical Architecture
 
-Status: Phase 3B local Prisma repository adapter foundation
+Status: Phase 3C audited transaction boundary foundation
 Date: 2026-06-23
 
 ## Architecture Decision
@@ -81,6 +81,8 @@ Phase 3A also adds audited service context for future writes. Mutation-capable s
 
 Phase 3B adds local-only Prisma repository adapters for clients and matters. These adapters prove fake client/matter create, read, list and matter update behavior against the existing schema through DB-specific tests, but they do not enable live UI saves, API mutation routes or production database operations. Normal validation remains database-free.
 
+Phase 3C adds an audited transaction boundary for future live writes. Audited mutations now require actor context, a permission decision, audit metadata and a transaction boundary before audit recording and repository mutation run. The default boundary is immediate for normal tests; Prisma transaction behavior is isolated to guarded local DB tests. UI saves remain disabled.
+
 Permission strategy:
 
 - Owner / Principal Attorney has full approval powers.
@@ -127,6 +129,8 @@ Phase 1A adds:
 Phase 3A adds an audited mutation executor for service-layer write preparation. It records audit intent before running mutation preparation so future live writes cannot bypass audit context. Real database-backed writes should later use transactions or an outbox pattern when available.
 
 Phase 3B intentionally leaves audit writes and client/matter writes non-atomic in production terms. Before live saves are enabled, the implementation needs a production auth provider plus a reviewed transaction or outbox design.
+
+Phase 3C resolves the immediate transaction decision in ADR 0006. AuditLog is the internal outbox-equivalent for now, and audit recording plus repository mutation must run inside an injected transaction boundary before live persistence is exposed. A separate outbox table remains deferred until external event dispatch exists.
 
 Phase 1B extends audit event categories for:
 
@@ -251,6 +255,8 @@ Phase 2D adds read-only UI pages for client and matter summaries. The current da
 Phase 2E form pages are future-phase placeholders only. Enabling them will require server-side validation, service calls, audit logging and persistence tests.
 
 Phase 3A updates client/matter create service functions to require audited service context. The UI forms remain disabled; no API route, server action or live save is exposed.
+
+Phase 3C adds transaction-boundary injection to client/matter create service preparation. This is still service-layer-only; no API route, server action or UI save is exposed.
 
 ## Seed Strategy
 
