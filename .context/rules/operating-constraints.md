@@ -43,6 +43,9 @@
 - Live persistence must not be enabled until audited mutations use an injected transaction boundary and production auth is accepted.
 - AuditLog is the immediate internal outbox-equivalent; do not add a separate outbox table without an accepted plan.
 - Local/dev service composition must not be imported by UI routes or used as a production persistence path.
+- Client/matter write release gates must default off and fail closed for missing or unknown flag values.
+- Production client/matter writes must not be enabled until production auth, audited persistence and explicit release approval are configured.
+- Future server actions or API mutation routes must pass production-compatible principal, role, service context, permission, audit metadata, transaction boundary and release-gate checks before service mutation code runs.
 
 ## Phase -1 Constraints
 

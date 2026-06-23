@@ -4,7 +4,7 @@ This repository is for the Burgess Attorneys Admin Automation Platform.
 
 ## Current Phase Boundary
 
-Phase 2A adds a protected, role-aware admin shell UI with placeholder module cards only.
+Phase 3E adds production-auth gating and server-action/API mutation design only. It adds default-off release gates and a tested mutation gate helper, but no live write entrypoints.
 
 Do not build product features yet. Do not build client/matter CRUD, invoice workflow, statement workflow, WhatsApp automation, Lexpro import, website, marketing system, outreach system, production auth, production database models, production file storage, or agent runtime yet.
 
@@ -22,6 +22,7 @@ Phase 3A adds auth/session hardening and audited persistence enablement only. It
 Phase 3B adds local-only Prisma client/matter repository adapters and guarded DB tests only. It adds no live UI saves, API mutation routes, production DB commands, migrations, deployment, sending or sync.
 Phase 3C adds audited transaction boundary preparation only. It adds no live UI saves, API mutation routes, production DB commands, migrations, deployment, sending or sync.
 Phase 3D adds local/dev audited persistence service composition only. It adds no live UI saves, API mutation routes, server action writes, production DB commands, migrations, deployment, sending or sync.
+Phase 3E adds production auth design, mutation entrypoint design, default-off release gates and a service-layer mutation gate only. It adds no production auth provider, production auth secrets, live UI saves, server action writes, API mutation routes, production DB commands, migrations, deployment, sending or sync.
 
 ## Project Non-Negotiables
 
@@ -54,6 +55,8 @@ Phase 3D adds local/dev audited persistence service composition only. It adds no
 - Local Prisma repository adapters must not be wired to UI saves or production database operations until production auth and transaction/outbox behavior are explicitly accepted.
 - Future live persistence must use an injected transaction boundary so audit recording and repository mutation commit or fail together.
 - Local/dev service composition must not be imported by app UI routes or used as production persistence.
+- Client/matter write release gates must default off and must require production-auth readiness before production writes are enabled.
+- Future server actions or API mutation routes must pass production-compatible principal, role, service context, permission, audit metadata, transaction boundary and release gate checks before service mutation code can run.
 
 ## Safe Financial Defaults
 

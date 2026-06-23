@@ -1,6 +1,6 @@
 # Database Migration Strategy
 
-Status: Phase 3D local/dev service composition foundation
+Status: Phase 3E production auth gating and mutation entrypoint design
 Date: 2026-06-23
 
 ## Current State
@@ -32,6 +32,8 @@ Phase 3B DB integration tests are local-only. They must run only when `DATABASE_
 Phase 3C adds local-only Prisma transaction tests using existing Client and AuditLog tables. It does not add schema, migrations or a new outbox table. AuditLog is the immediate internal outbox-equivalent until external event dispatch is designed.
 
 Phase 3D composes local/dev Prisma repositories using the existing Client, Matter and AuditLog tables. It adds no schema changes or migrations, and DB tests remain optional/local behind `pnpm run test:db`.
+
+Phase 3E adds release-gate and mutation-gate helpers only. It adds no schema changes, migrations, production database commands, live server actions or API mutation routes. Future live writes remain blocked until production auth, audited transaction wiring and release approval are accepted.
 
 Agents may validate the Prisma schema. Agents may generate dev migrations only when explicitly instructed.
 Normal pre-PR checks must not require a running database.

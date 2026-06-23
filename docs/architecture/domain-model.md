@@ -1,6 +1,6 @@
 # Domain Model
 
-Status: Phase 3D local/dev service composition foundation
+Status: Phase 3E production auth gating and mutation entrypoint design
 Date: 2026-06-23
 
 This document describes the core domain model. Phase 1D adds migration strategy, repository interfaces and seed fixtures on top of the prior schema/domain foundations.
@@ -177,6 +177,17 @@ Phase 3D adds backend composition only:
 - Transaction-scoped client, matter and audit dependencies for DB-only tests.
 
 It does not add domain entities, production auth, UI saves, server actions or API mutation routes.
+
+## Implemented In Phase 3E
+
+Phase 3E adds no domain entities. It adds production-auth and mutation-entrypoint design plus default-off release gates for future client/matter writes:
+
+- Client/matter write feature flags default off.
+- Production writes require production-auth readiness and audited persistence readiness.
+- Local/dev writes require an explicit local/dev write flag.
+- Future mutation entrypoints must pass a production-compatible principal, service context, permission check, audit metadata, transaction boundary and release gate before service mutation code can run.
+
+It does not add a production auth provider, UI saves, server actions, API mutation routes, database migrations or production database operations.
 
 Repository rules:
 

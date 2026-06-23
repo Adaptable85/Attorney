@@ -5,8 +5,7 @@ export function MatterCreateForm() {
         <div>
           <h1 id="matter-create-title">Create Matter Foundation</h1>
           <p>
-            Local/dev audited persistence composition exists. Live save remains disabled until
-            production auth and release approval.
+            Live save requires production auth, audited transaction gate and release approval.
           </p>
         </div>
         <span>Future phase only</span>

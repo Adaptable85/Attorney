@@ -63,6 +63,12 @@ Audited persistence workflow:
 - AuditLog is the current internal outbox-equivalent; separate outbox work waits for external event dispatch.
 - Local/dev service composition may exercise audited persistence in backend tests only.
 - App UI routes must not import local/dev composition until a live-write phase is explicitly accepted.
+- Client/matter write release gates must default off and fail closed for missing or unknown flag values.
+- Future production client/matter writes require production auth readiness, audited persistence readiness and explicit write enablement.
+- Future local/dev write tests require explicit local/dev write enablement.
+- Future server actions or API mutation routes must evaluate the mutation gate before service mutation code runs.
+- Mutation gate inputs must include a production-compatible principal, service context, permission action, audit metadata and transaction boundary.
+- Phase 3E does not enable server actions, API mutation routes or form saves.
 
 Migration workflow:
 

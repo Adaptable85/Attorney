@@ -159,7 +159,9 @@ describe("architecture guardrails", () => {
     expect(createFormSource).not.toContain("transaction-boundary");
     expect(createFormSource).not.toContain("createPrismaTransactionBoundary");
     expect(createFormSource).not.toContain("local-dev-service-composition");
+    expect(createFormSource).not.toContain("mutation-gate");
     expect(uiSource).not.toContain("createLocalDevClientMatterServiceComposition");
+    expect(uiSource).not.toContain("evaluateMutationGate");
   });
 
   it("keeps app UI routes free of local/dev composition and active client/matter mutations", () => {
@@ -171,7 +173,19 @@ describe("architecture guardrails", () => {
     expect(appSource).not.toContain("createPrismaMattersRepository");
     expect(appSource).not.toContain("createClientRecord(");
     expect(appSource).not.toContain("createMatterRecord(");
+    expect(appSource).not.toContain("evaluateMutationGate");
     expect(appSource).not.toContain("\"use server\"");
+  });
+
+  it("keeps mutation release gates default-off", () => {
+    const flags = readFileSync(join(root, "src/config/feature-flags.ts"), "utf8");
+    const gates = readFileSync(join(root, "src/config/release-gates.ts"), "utf8");
+
+    expect(flags).toContain('const enabledValue = "true"');
+    expect(flags).toContain("return value === enabledValue");
+    expect(gates).toContain("client_matter_writes_disabled");
+    expect(gates).toContain("production_auth_missing");
+    expect(gates).toContain("local_dev_writes_disabled");
   });
 
   it("keeps normal tests database-free and DB tests locally guarded", () => {

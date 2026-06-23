@@ -106,6 +106,14 @@ Phase 3D critical-path tests cover:
 - Guarded DB-only composition tests for owner/support success and agent/reviewer denial.
 - Guardrails preventing app/UI imports of local/dev composition.
 
+Phase 3E critical-path tests cover:
+
+- Feature flags defaulting off and failing closed for unknown values.
+- Production client/matter writes requiring production auth readiness and audited persistence readiness.
+- Local/dev writes requiring explicit local/dev write enablement.
+- Mutation gate denial for disabled release gates, missing users, agent users, read-only users, missing service context, missing audit metadata and missing transaction boundary.
+- Guardrails preventing create forms or app routes from importing active mutation gates as live save paths.
+
 ## Future Required Checks
 
 - Add Playwright browser tests when real UI workflows exist.
