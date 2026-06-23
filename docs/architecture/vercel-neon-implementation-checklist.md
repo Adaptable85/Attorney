@@ -21,6 +21,21 @@ Phase 5D adds the staging resource creation runbook and approval checklist:
 
 Resource creation still requires explicit approval. No Vercel project, Neon database, provider secret or deployment is created by Phase 5D.
 
+Phase 5E attempted staging resource creation from this execution environment, but Vercel and Neon CLIs were unavailable. A follow-up manual detail capture was requested, but the provided values were placeholders. Non-secret staging details remain pending.
+
+Current non-secret staging resource details:
+
+- Vercel project name: pending.
+- Vercel staging URL: pending.
+- Neon project name: pending.
+- Neon region: pending.
+- Neon database/branch name: pending.
+- `DATABASE_URL` configured in Vercel: pending yes/no confirmation, value must not be recorded.
+- Write gates confirmed false/off: pending yes/no confirmation.
+- `AUTH_PRODUCTION_READY=false`: pending yes/no confirmation.
+- Production resources: not recorded as created.
+- Production deploy: not run.
+
 ## Vercel Project Setup
 
 - Create a Vercel project for the secure admin app.

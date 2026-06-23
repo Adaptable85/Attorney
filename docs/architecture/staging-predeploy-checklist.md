@@ -16,6 +16,21 @@ Phase 5D adds a resource creation runbook and approval checklist. Staging resour
 - No secrets or real client data are present in Git.
 - Staging resource creation approval is recorded before Vercel/Neon resources are created.
 
+## Staging Resource Details
+
+Manual staging resource details are pending concrete non-secret values.
+
+- Vercel project name: pending.
+- Vercel staging URL: pending.
+- Neon project name: pending.
+- Neon region: pending.
+- Neon database/branch name: pending.
+- `DATABASE_URL` configured in Vercel: pending yes/no confirmation, value must not be recorded.
+- Write gates confirmed false/off: pending yes/no confirmation.
+- `AUTH_PRODUCTION_READY=false`: pending yes/no confirmation.
+- Production resources: not recorded as created.
+- Production deploy: not run.
+
 ## Validation Commands
 
 Run before staging deploy approval:

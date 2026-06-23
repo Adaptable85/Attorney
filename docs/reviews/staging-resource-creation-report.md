@@ -83,3 +83,29 @@ No secret values were printed, stored or committed.
 - Install or otherwise make available an approved Neon CLI session, then rerun the staging-only resource creation procedure.
 - Alternatively, create staging resources manually in the Vercel and Neon dashboards and record project IDs, staging URL, database name/branch and secret names in a follow-up report.
 - Staging migration remains pending until a Neon staging database exists and a staging-only `DATABASE_URL` is available through approved secret handling.
+
+## Manual Staging Details Follow-Up
+
+Date/time: 2026-06-23
+
+Manual staging details were requested for documentation, but the submitted values were placeholders rather than concrete non-secret resource details. No values were invented.
+
+| Item | Non-secret value recorded | Status |
+| --- | --- | --- |
+| Vercel project name | Pending manual value | Pending |
+| Vercel staging URL | Pending manual value | Pending |
+| Neon project name | Pending manual value | Pending |
+| Neon region | Pending manual value | Pending |
+| Neon database/branch name | Pending manual value | Pending |
+| `DATABASE_URL` configured in Vercel | Pending yes/no confirmation; value must not be recorded | Pending |
+| All write gates false/off | Pending yes/no confirmation | Pending |
+| `AUTH_PRODUCTION_READY=false` | Pending yes/no confirmation | Pending |
+
+Safety status remains unchanged:
+
+- No production resources are recorded as created.
+- No production deploy was run.
+- No secrets were committed.
+- Live Microsoft Entra auth remains disabled.
+- UI saves remain disabled.
+- Production writes remain blocked.
