@@ -1,6 +1,6 @@
 # Technical Architecture
 
-Status: Phase 5A production hosting/environment decision pack
+Status: Phase 5B accepted Vercel/Neon hosting direction
 Date: 2026-06-23
 
 ## Architecture Decision
@@ -116,6 +116,8 @@ Phase 4H adds staging callback/JWKS fetch-cache design documentation. It does no
 PR #1 was squash merged into `origin/main` at `57dccc1 Review Burgess platform foundation auth (#1)`, and local `main` has been synced to that squash merge.
 
 Phase 5A adds a production hosting/environment decision pack. It recommends a managed app host plus managed PostgreSQL, with xneelo retained for public website/domain/DNS if required. It does not deploy, run production database commands, run production migrations, configure real secrets, enable live Entra auth, enable UI saves or enable production writes.
+
+Phase 5B accepts Vercel for the secure Next.js app/API and Neon managed PostgreSQL for production database hosting in ADR 0009. xneelo remains a DNS/domain/public website option only unless the client explicitly requires xneelo Cloud/Managed Server infrastructure. This does not deploy, create production databases, add secrets, enable live Entra auth, enable UI saves or enable production writes.
 
 Permission strategy:
 

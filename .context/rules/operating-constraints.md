@@ -65,6 +65,8 @@
 - Do not enable production auth readiness or production writes until Entra tenant/admin access, MFA policy, allowed users/domains, role claim approach, environment configuration, staging validation and production readiness review are complete.
 - Production hosting, production database, DNS, backup and deploy approvals must be accepted before any deployment.
 - Phase 5A hosting/environment documentation must not be treated as deployment approval.
+- Vercel + Neon is the accepted hosting/database direction, but acceptance must not be treated as deployment, production database creation, live auth readiness or production write approval.
+- xneelo shared hosting must not host the secure admin app.
 
 ## Phase -1 Constraints
 

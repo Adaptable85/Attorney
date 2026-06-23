@@ -87,14 +87,16 @@ Audited persistence workflow:
 - Phase 4G selects `jose` and adds a non-live verifier adapter only; do not import it into route handlers or treat it as live callback/session readiness.
 - Phase 4H documents staging callback/JWKS fetch-cache design only; do not implement it, enable routes, fetch Microsoft metadata, exchange tokens, create sessions or treat it as production auth readiness.
 - Phase 5A documents production hosting/environment decisions only; do not deploy, provision production databases, run production migrations, enable live auth, enable UI saves or enable production writes.
+- Phase 5B accepts Vercel + Neon direction only; do not deploy, create production Neon databases, add secrets, enable live auth, enable UI saves or enable production writes.
 - Do not enable `BURGESS_PRODUCTION_AUTH_ENABLED`, `BURGESS_PRODUCTION_AUTH_CONFIGURED` or `BURGESS_PRODUCTION_WRITES_ENABLED` until Entra tenant/admin access, MFA policy, allowed users/domains, role claim approach, environment configuration, staging validation and production readiness review are complete.
 
 Hosting/environment workflow:
 
 - PR #1 is squash merged into `origin/main` at `57dccc1`.
 - Local `main` is synced to the squash merge.
-- Phase 5A recommends a managed app host plus managed PostgreSQL, with xneelo retained for public website/domain/DNS if required.
-- Do not deploy until hosting provider, production DB provider, staging URL, production URL, DNS approach, backup retention, Entra tenant/admin access and deploy approvers are accepted.
+- ADR 0009 accepts Vercel for the secure Next.js app/API and Neon managed PostgreSQL for production database hosting.
+- xneelo remains DNS/domain/public website only unless xneelo Cloud/Managed Server is explicitly required.
+- Do not deploy until Vercel project setup, Neon staging/production setup, URLs, DNS approach, backup retention, Entra tenant/admin access and deploy approvers are accepted.
 
 Migration workflow:
 

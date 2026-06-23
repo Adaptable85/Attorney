@@ -4,7 +4,7 @@ This repository is for the Burgess Attorneys Admin Automation Platform.
 
 ## Current Phase Boundary
 
-Phase 5A adds production hosting, database and environment decision documentation only after PR #1 was squash merged and local `main` was synced to `57dccc1`. It adds no deployment, production database command, production migration, live OAuth exchange, Microsoft redirect, network call to Microsoft, session cookie creation, real provider secrets, production auth readiness, production writes, live UI save, active production save button or mutation API route.
+Phase 5B accepts Vercel for the secure Next.js app/API and Neon managed PostgreSQL for production database hosting in ADR 0009 only. It adds no deployment, production database creation, production database command, production migration, live OAuth exchange, Microsoft redirect, network call to Microsoft, session cookie creation, real provider secrets, production auth readiness, production writes, live UI save, active production save button or mutation API route.
 
 Do not build product features yet. Do not build client/matter CRUD, invoice workflow, statement workflow, WhatsApp automation, Lexpro import, website, marketing system, outreach system, production auth, production database models, production file storage, or agent runtime yet.
 
@@ -37,6 +37,7 @@ Phase 4F adds Entra JWT/JWKS verifier interfaces, key-selection rules and fake/l
 Phase 4G selects `jose` and adds a non-live Entra JWT adapter for fake/local tokens and injected keys only. It adds no route enablement, Microsoft redirects, token exchange, default JWKS network fetch, session cookies, real secrets, production auth readiness, live UI saves, active production save button, mutation API routes, production DB commands, production migrations, deployment, sending or sync.
 Phase 4H adds staging callback/JWKS fetch-cache design and checklists only. It adds no route enablement, Microsoft redirects, token exchange, default JWKS network fetch, session cookies, real secrets, production auth readiness, live UI saves, active production save button, mutation API routes, production DB commands, production migrations, deployment, sending or sync.
 Phase 5A adds hosting/environment decision documentation only. It records PR #1 merged, local `main` synced to the squash merge and production hosting/DB decisions pending. It adds no deployment, production database command, production migration, live auth, UI saves, production writes, sending or sync.
+Phase 5B accepts Vercel + Neon hosting/database direction only. It adds no deployment, production database creation, production database command, production migration, live auth, UI saves, production writes, sending or sync.
 
 ## Project Non-Negotiables
 
@@ -78,6 +79,8 @@ Phase 5A adds hosting/environment decision documentation only. It records PR #1 
 - Local DB tests must use local PostgreSQL and the guarded `burgess_attorneys_dev` database only.
 - Microsoft Entra ID / Microsoft 365 identity is the accepted production auth provider direction, but implementation, secrets, production auth readiness and production writes remain blocked until approved validation is complete.
 - Production hosting, production database, DNS, backup and deployment approvals remain pending after Phase 5A.
+- Vercel + Neon is the accepted hosting/database direction after Phase 5B, but production provisioning and deployment remain blocked until explicitly approved.
+- xneelo shared hosting must not host the secure app.
 
 ## Safe Financial Defaults
 

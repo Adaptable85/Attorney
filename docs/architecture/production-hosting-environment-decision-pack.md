@@ -1,9 +1,11 @@
 # Production Hosting And Environment Decision Pack
 
-Status: Phase 5A decision pack only
+Status: Phase 5B accepted hosting direction
 Date: 2026-06-23
 
 PR #1 was squash merged into `origin/main` at `57dccc1 Review Burgess platform foundation auth (#1)`. Local `main` has been synced to that squash merge. No deployment has been run.
+
+ADR 0009 accepts Vercel for the secure Next.js app/API and Neon managed PostgreSQL for the production database. xneelo remains a DNS/domain/public website option only unless the client explicitly requires xneelo Cloud/Managed Server infrastructure. xneelo shared hosting must not host the secure app.
 
 ## A. Current App State
 
@@ -16,6 +18,7 @@ PR #1 was squash merged into `origin/main` at `57dccc1 Review Burgess platform f
 - Local DB tests passed against `burgess_attorneys_dev`.
 - No production deployment has occurred.
 - No production database command has been run.
+- Production Neon database has not been created or touched by this phase.
 
 ## B. Hosting Options
 
@@ -42,11 +45,13 @@ Comparison criteria:
 - Cost.
 - Future private document storage needs.
 
-## C. Recommended Hosting Direction
+## C. Accepted Hosting Direction
 
-Recommended direction: use a managed app host for the secure Next.js app/API plus managed PostgreSQL.
+Accepted direction: use Vercel for the secure Next.js app/API and Neon managed PostgreSQL for production and staging database environments.
 
-If xneelo hosting is a client requirement, keep the public website, domain or DNS relationship on xneelo where appropriate, but host the secure admin app/API/database on a managed platform better suited for Next.js and PostgreSQL operations.
+If xneelo hosting is a client requirement, keep the public website, domain or DNS relationship on xneelo where appropriate, but host the secure admin app/API/database on Vercel + Neon unless the client explicitly requires xneelo Cloud/Managed Server infrastructure.
+
+xneelo shared hosting must not host the secure admin app.
 
 Avoid a self-managed VPS unless there is a strong operational reason and a named owner accepts patching, backup, monitoring, hardening and incident-response responsibility.
 
@@ -68,6 +73,7 @@ Avoid a self-managed VPS unless there is a strong operational reason and a named
 
 - App URL: approved staging URL.
 - Database: managed staging PostgreSQL.
+- Approved provider direction: Neon staging database.
 - Entra: separate staging app registration and staging redirect URI.
 - Environment variables: platform secret manager.
 - Secrets storage: managed platform secrets only.
@@ -80,6 +86,7 @@ Avoid a self-managed VPS unless there is a strong operational reason and a named
 
 - App URL: approved production URL.
 - Database: managed production PostgreSQL.
+- Approved provider direction: Neon production database.
 - Entra: production app registration and production redirect URI.
 - Environment variables: platform secret manager.
 - Secrets storage: managed platform secrets only with restricted access.
@@ -122,13 +129,14 @@ Real values must be stored only in approved local, staging or production secret 
 - No UI saves until the release gate is explicitly enabled.
 - No migrations without backup, SQL review and rollback review.
 - No `db:push`.
+- No production Neon database command until provisioning/migration is explicitly approved.
 - No real client data in staging.
 - No email or WhatsApp sends until separate approval.
 - No invoice, statement, Lexpro sync or sending workflows until their phases are approved.
 
 ## G. Database Strategy
 
-- Managed PostgreSQL is recommended.
+- Neon managed PostgreSQL is accepted as the production database direction.
 - Automated backups are required.
 - Restore testing is required before production go-live.
 - Staging migration must run before production migration.
@@ -166,12 +174,12 @@ Real values must be stored only in approved local, staging or production secret 
 
 ## J. Decisions Needed
 
-- Hosting provider.
-- Production database provider.
+- Vercel project owner.
+- Neon project owner.
 - Staging URL.
 - Production URL.
 - Domain/DNS approach.
-- Whether xneelo remains DNS/public website only or must host more.
+- Confirm xneelo remains DNS/public website only, unless xneelo Cloud/Managed Server is explicitly required by the client.
 - Microsoft Entra tenant/admin access owner.
 - Backup retention and restore-test cadence.
 - Production deploy approvers.
