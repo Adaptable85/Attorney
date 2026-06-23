@@ -9,6 +9,7 @@ import { ZodError } from "zod";
 import { executeAuditedMutation } from "./audited-service";
 import type { ServiceContext } from "./service-context";
 import type { TransactionBoundary } from "./transaction-boundary";
+import type { AuditEventWriter } from "@/audit/audit-service";
 import {
   type ServiceResult,
   repositoryFailure,
@@ -29,7 +30,11 @@ export type MatterSummary = {
 
 export type MattersServiceDependencies = {
   mattersRepository: Pick<MattersRepository, "create" | "findById" | "listOpen">;
-  transactionBoundary?: TransactionBoundary;
+  transactionBoundary?: TransactionBoundary<unknown>;
+  createMattersRepositoryForTransaction?(
+    scope: unknown
+  ): Pick<MattersRepository, "create" | "findById" | "listOpen">;
+  createAuditWriterForTransaction?(scope: unknown): AuditEventWriter;
 };
 
 function toMatterSummary(record: MatterRecord): MatterSummary {
@@ -128,8 +133,11 @@ export async function createMatterRecord(
         }
       },
       transaction: dependencies.transactionBoundary,
-      async run() {
-        const matter = await dependencies.mattersRepository.create(validated, {
+      createAuditWriterForTransaction: dependencies.createAuditWriterForTransaction,
+      async run(scope) {
+        const repository =
+          dependencies.createMattersRepositoryForTransaction?.(scope) ?? dependencies.mattersRepository;
+        const matter = await repository.create(validated, {
           actorId: context.actor.userId,
           reason: "Audited matter create service"
         });

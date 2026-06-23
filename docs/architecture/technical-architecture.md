@@ -1,6 +1,6 @@
 # Technical Architecture
 
-Status: Phase 3C audited transaction boundary foundation
+Status: Phase 3D local/dev service composition foundation
 Date: 2026-06-23
 
 ## Architecture Decision
@@ -83,6 +83,8 @@ Phase 3B adds local-only Prisma repository adapters for clients and matters. The
 
 Phase 3C adds an audited transaction boundary for future live writes. Audited mutations now require actor context, a permission decision, audit metadata and a transaction boundary before audit recording and repository mutation run. The default boundary is immediate for normal tests; Prisma transaction behavior is isolated to guarded local DB tests. UI saves remain disabled.
 
+Phase 3D adds a local/dev service composition layer that wires Prisma client, matter, audit and transaction adapters together for backend-only testing. It is disabled in production, not imported by app UI routes and does not expose server actions or API mutation routes.
+
 Permission strategy:
 
 - Owner / Principal Attorney has full approval powers.
@@ -131,6 +133,8 @@ Phase 3A adds an audited mutation executor for service-layer write preparation. 
 Phase 3B intentionally leaves audit writes and client/matter writes non-atomic in production terms. Before live saves are enabled, the implementation needs a production auth provider plus a reviewed transaction or outbox design.
 
 Phase 3C resolves the immediate transaction decision in ADR 0006. AuditLog is the internal outbox-equivalent for now, and audit recording plus repository mutation must run inside an injected transaction boundary before live persistence is exposed. A separate outbox table remains deferred until external event dispatch exists.
+
+Phase 3D adds a Prisma AuditLog repository adapter and audit-writer bridge for local/dev composition. DB-specific tests remain optional and guarded to local `burgess_attorneys_dev`.
 
 Phase 1B extends audit event categories for:
 
@@ -257,6 +261,8 @@ Phase 2E form pages are future-phase placeholders only. Enabling them will requi
 Phase 3A updates client/matter create service functions to require audited service context. The UI forms remain disabled; no API route, server action or live save is exposed.
 
 Phase 3C adds transaction-boundary injection to client/matter create service preparation. This is still service-layer-only; no API route, server action or UI save is exposed.
+
+Phase 3D composes those repositories for local/dev backend tests only. Production auth and release approval still block live persistence.
 
 ## Seed Strategy
 

@@ -14,25 +14,28 @@ import {
   immediateTransactionBoundary,
   type TransactionBoundary
 } from "./transaction-boundary";
+import type { AuditEventWriter } from "@/audit/audit-service";
 
 class AuditedMutationAuditError extends Error {}
 class AuditedMutationRepositoryError extends Error {}
 
-export type AuditedMutationConfig<T> = {
+export type AuditedMutationConfig<T, TScope = void> = {
   context: ServiceContext | null;
   requiredPermission: PermissionAction | null;
   audit: Omit<AuditEventInput, "actorId"> | null;
-  transaction?: TransactionBoundary;
-  run(): Promise<T>;
+  transaction?: TransactionBoundary<TScope>;
+  createAuditWriterForTransaction?(scope: TScope): AuditEventWriter;
+  run(scope: TScope): Promise<T>;
 };
 
-export async function executeAuditedMutation<T>({
+export async function executeAuditedMutation<T, TScope = void>({
   context,
   requiredPermission,
   audit,
-  transaction = immediateTransactionBoundary,
+  transaction = immediateTransactionBoundary as TransactionBoundary<TScope>,
+  createAuditWriterForTransaction,
   run
-}: AuditedMutationConfig<T>): Promise<ServiceResult<T>> {
+}: AuditedMutationConfig<T, TScope>): Promise<ServiceResult<T>> {
   if (!context || context.actor.userId.trim() === "") {
     return serviceFailure({
       code: "SERVICE_CONTEXT_ERROR",
@@ -59,9 +62,11 @@ export async function executeAuditedMutation<T>({
   }
 
   try {
-    const data = await transaction.execute(async () => {
+    const data = await transaction.execute(async (scope) => {
       try {
-        await recordAuditEvent(context.auditWriter, {
+        const auditWriter = createAuditWriterForTransaction?.(scope) ?? context.auditWriter;
+
+        await recordAuditEvent(auditWriter, {
           ...audit,
           actorId: context.actor.userId,
           metadata: {
@@ -77,7 +82,7 @@ export async function executeAuditedMutation<T>({
       }
 
       try {
-        return await run();
+        return await run(scope);
       } catch (error) {
         throw new AuditedMutationRepositoryError(
           error instanceof Error ? error.message : "Repository mutation failed"

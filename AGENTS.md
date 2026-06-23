@@ -21,6 +21,7 @@ Phase 2E adds disabled client/matter form foundations only. It adds no submit/sa
 Phase 3A adds auth/session hardening and audited persistence enablement only. It adds no production auth secrets, live UI saves, API mutation routes, production DB commands, deployment, sending or sync.
 Phase 3B adds local-only Prisma client/matter repository adapters and guarded DB tests only. It adds no live UI saves, API mutation routes, production DB commands, migrations, deployment, sending or sync.
 Phase 3C adds audited transaction boundary preparation only. It adds no live UI saves, API mutation routes, production DB commands, migrations, deployment, sending or sync.
+Phase 3D adds local/dev audited persistence service composition only. It adds no live UI saves, API mutation routes, server action writes, production DB commands, migrations, deployment, sending or sync.
 
 ## Project Non-Negotiables
 
@@ -52,6 +53,7 @@ Phase 3C adds audited transaction boundary preparation only. It adds no live UI 
 - Mutation-capable services must require authenticated actor context, permission checks and audit metadata before repository writes.
 - Local Prisma repository adapters must not be wired to UI saves or production database operations until production auth and transaction/outbox behavior are explicitly accepted.
 - Future live persistence must use an injected transaction boundary so audit recording and repository mutation commit or fail together.
+- Local/dev service composition must not be imported by app UI routes or used as production persistence.
 
 ## Safe Financial Defaults
 

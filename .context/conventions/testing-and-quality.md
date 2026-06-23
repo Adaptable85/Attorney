@@ -98,6 +98,14 @@ Phase 3C critical-path tests cover:
 - Guarded Prisma transaction DB tests for atomic fake client plus audit-log behavior.
 - Guardrails preventing direct UI transaction-boundary imports.
 
+Phase 3D critical-path tests cover:
+
+- Prisma AuditLog repository mapping.
+- Local/dev service composition fail-closed behavior.
+- Composed backend client/matter create dependencies using transaction-scoped repositories.
+- Guarded DB-only composition tests for owner/support success and agent/reviewer denial.
+- Guardrails preventing app/UI imports of local/dev composition.
+
 ## Future Required Checks
 
 - Add Playwright browser tests when real UI workflows exist.

@@ -6,6 +6,8 @@ import { describe, expect, it } from "vitest";
 const root = process.cwd();
 const sourceRoots = ["AGENTS.md", "CLAUDE.md", ".context", "app", "docs", "src"];
 const clientMatterUiFiles = [
+  "app/(admin)/admin/clients/new/page.tsx",
+  "app/(admin)/admin/matters/new/page.tsx",
   "src/ui/admin/client-create-form.tsx",
   "src/ui/admin/client-list.tsx",
   "src/ui/admin/matter-create-form.tsx",
@@ -156,6 +158,20 @@ describe("architecture guardrails", () => {
     expect(createFormSource).not.toContain("createPrismaMattersRepository");
     expect(createFormSource).not.toContain("transaction-boundary");
     expect(createFormSource).not.toContain("createPrismaTransactionBoundary");
+    expect(createFormSource).not.toContain("local-dev-service-composition");
+    expect(uiSource).not.toContain("createLocalDevClientMatterServiceComposition");
+  });
+
+  it("keeps app UI routes free of local/dev composition and active client/matter mutations", () => {
+    const appSource = collectTextFiles("app").map((filePath) => readFileSync(filePath, "utf8")).join("\n");
+
+    expect(appSource).not.toContain("local-dev-service-composition");
+    expect(appSource).not.toContain("createLocalDevClientMatterServiceComposition");
+    expect(appSource).not.toContain("createPrismaClientsRepository");
+    expect(appSource).not.toContain("createPrismaMattersRepository");
+    expect(appSource).not.toContain("createClientRecord(");
+    expect(appSource).not.toContain("createMatterRecord(");
+    expect(appSource).not.toContain("\"use server\"");
   });
 
   it("keeps normal tests database-free and DB tests locally guarded", () => {

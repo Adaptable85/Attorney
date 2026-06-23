@@ -5,7 +5,7 @@ export function ClientCreateForm() {
         <div>
           <h1 id="client-create-title">Create Client Foundation</h1>
           <p>
-            Audited transaction boundary is being prepared. Live save remains disabled until
+            Local/dev audited persistence composition exists. Live save remains disabled until
             production auth and release approval.
           </p>
         </div>

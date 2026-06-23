@@ -9,6 +9,10 @@ export type { StatementsRepository } from "./statements-repository";
 export type { TimelineRepository } from "./timeline-repository";
 export type { TransactionBoundary, TransactionWork } from "./unit-of-work";
 export type { UsersRepository } from "./users-repository";
+export {
+  createAuditWriterFromRepository,
+  createPrismaAuditRepository
+} from "./prisma/audit-prisma-repository";
 export { createPrismaClientsRepository } from "./prisma/clients-prisma-repository";
 export { createPrismaMattersRepository } from "./prisma/matters-prisma-repository";
 export { createPrismaTransactionBoundary } from "./prisma/prisma-transaction-boundary";

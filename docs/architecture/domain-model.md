@@ -1,6 +1,6 @@
 # Domain Model
 
-Status: Phase 3C audited transaction boundary foundation
+Status: Phase 3D local/dev service composition foundation
 Date: 2026-06-23
 
 This document describes the core domain model. Phase 1D adds migration strategy, repository interfaces and seed fixtures on top of the prior schema/domain foundations.
@@ -166,6 +166,17 @@ Phase 3C adds an audited transaction boundary, not new domain entities:
 - Prisma transaction behavior is tested only through guarded local DB tests.
 
 ADR 0006 records the decision to use AuditLog as the immediate internal outbox-equivalent. A separate outbox table is deferred until external event dispatch exists. UI forms remain disabled and no live client or matter persistence is exposed.
+
+## Implemented In Phase 3D
+
+Phase 3D adds backend composition only:
+
+- Prisma AuditLog repository adapter.
+- Audit writer bridge from repository to service audit boundary.
+- Local/dev client-matter service composition factory.
+- Transaction-scoped client, matter and audit dependencies for DB-only tests.
+
+It does not add domain entities, production auth, UI saves, server actions or API mutation routes.
 
 Repository rules:
 

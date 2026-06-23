@@ -42,6 +42,7 @@
 - DB integration tests must use fake data only and must refuse unsafe/non-local database URLs.
 - Live persistence must not be enabled until audited mutations use an injected transaction boundary and production auth is accepted.
 - AuditLog is the immediate internal outbox-equivalent; do not add a separate outbox table without an accepted plan.
+- Local/dev service composition must not be imported by UI routes or used as a production persistence path.
 
 ## Phase -1 Constraints
 

@@ -5,7 +5,7 @@ export function MatterCreateForm() {
         <div>
           <h1 id="matter-create-title">Create Matter Foundation</h1>
           <p>
-            Audited transaction boundary is being prepared. Live save remains disabled until
+            Local/dev audited persistence composition exists. Live save remains disabled until
             production auth and release approval.
           </p>
         </div>

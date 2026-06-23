@@ -14,6 +14,7 @@ Phase 2E disabled client/matter create form foundations are implemented without 
 Phase 3A auth/session hardening and audited persistence enablement are implemented without live UI saves.
 Phase 3B local-only Prisma client/matter repository adapters and guarded DB integration tests are implemented without live UI saves or production database operations.
 Phase 3C audited transaction boundary is implemented without live UI saves or production database operations.
+Phase 3D local/dev client-matter service composition is implemented without live UI saves or production database operations.
 
 ## Current Direction
 
@@ -50,6 +51,7 @@ Phase 3C audited transaction boundary is implemented without live UI saves or pr
 - Local-only Prisma client/matter repository adapters can be exercised through guarded DB tests.
 - Audited mutations can run audit recording and repository mutation through an injected transaction boundary.
 - ADR 0006 records AuditLog as the immediate internal outbox-equivalent; a separate outbox table is deferred.
+- Local/dev service composition wires Prisma client/matter/audit repositories and transaction boundary for backend-only tests.
 
 See:
 
@@ -79,6 +81,7 @@ See:
 - Phase 3B Prisma adapters: local repository boundary only; no UI save, API mutation route or production DB operation is exposed.
 - DB-specific tests: isolated behind `pnpm run test:db` and guarded to local `burgess_attorneys_dev`.
 - Phase 3C transaction boundary: service-layer preparation only; no UI save, server action, API mutation route or production DB operation is exposed.
+- Phase 3D local/dev composition: backend test composition only; app UI routes must not import it.
 - Agent service users: blocked from normal admin shell navigation.
 
 ## ADR Candidates

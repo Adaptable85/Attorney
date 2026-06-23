@@ -61,6 +61,8 @@ Audited persistence workflow:
 - Client/matter create forms must stay disabled until live audited persistence is explicitly accepted.
 - Future live writes must inject a transaction boundary so audit recording and repository mutation commit or fail together.
 - AuditLog is the current internal outbox-equivalent; separate outbox work waits for external event dispatch.
+- Local/dev service composition may exercise audited persistence in backend tests only.
+- App UI routes must not import local/dev composition until a live-write phase is explicitly accepted.
 
 Migration workflow:
 
@@ -70,6 +72,7 @@ Migration workflow:
 - Review schema diffs, SQL, backup status and rollback strategy before staging/production migrations.
 - Run `pnpm run test:db` only with a safe local/dev `DATABASE_URL`.
 - Do not add an outbox table or schema change without an accepted migration plan.
+- Local/dev composition DB tests must use fake `DEMO-*` data only.
 
 ## Approval Workflow Principle
 
