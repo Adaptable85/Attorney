@@ -14,8 +14,15 @@ Reviewed commits: 24
 
 ## Validation Results
 
-- `DATABASE_URL=DATABASE_URL_NOT_SET`; DB-only tests were not run in this environment.
+- PostgreSQL DB validation date/time: 2026-06-23 12:37:25 SAST.
+- PostgreSQL availability: `postgresql@16` installed with Homebrew, service started, `psql`, `createdb` and `pg_isready` available.
+- PostgreSQL version: `psql (PostgreSQL) 16.14 (Homebrew)`.
+- DB URL used: `postgresql://adaptable@localhost:5432/burgess_attorneys_dev`.
+- Local DB: `burgess_attorneys_dev`.
 - `pnpm install --frozen-lockfile`: passed.
+- `DATABASE_URL=postgresql://adaptable@localhost:5432/burgess_attorneys_dev pnpm run prisma:validate`: passed.
+- `pnpm run db:migrate:local`: passed; applied `20260618144944_init_burgess_foundation` to local `burgess_attorneys_dev` with no destructive reset prompt.
+- `pnpm run test:db:local`: passed, 7 files / 13 tests.
 - `pnpm run lint`: passed.
 - `pnpm run typecheck`: passed.
 - `pnpm test`: passed, 64 files / 333 tests.
@@ -47,7 +54,10 @@ Reviewed commits: 24
 - No UI saves are enabled.
 - No live Entra login is enabled; login/callback/logout routes remain disabled placeholders.
 - No `db:push` script or command was added.
+- No `db:push` command was run.
 - No production migration command was run.
+- No production database was used; DB validation used only local `localhost` PostgreSQL and `burgess_attorneys_dev`.
+- No real Burgess client data was used.
 - No unsafe migration/schema change was present in the reviewed range.
 - No generated build artifacts were present.
 - No real client data was found.
@@ -55,10 +65,16 @@ Reviewed commits: 24
 - Repository/service tests continue to guard against hard-delete operations.
 - Prohibited messaging, accounting import, invoice and statement workflows remain placeholder-only or out of scope.
 
-## Known Blocker
+## DB Blocker Status
 
-DB-only tests still need a workstation with local PostgreSQL and the guarded `burgess_attorneys_dev` database. The current environment reports `DATABASE_URL_NOT_SET`.
+Resolved for this PR review. The guarded local DB migration and DB-only test suite passed against local PostgreSQL database `burgess_attorneys_dev`.
+
+Remaining DB risks/TODOs:
+
+- Keep DB tests restricted to local PostgreSQL and the guarded `burgess_attorneys_dev` database.
+- Do not treat local DB success as approval for production migrations or production writes.
+- Future schema changes still need explicit migration review before staging or production.
 
 ## Recommendation
 
-The branch is safe for human PR review. Hold merge until the DB-test gap is either accepted as a documented limitation for this review or resolved on a local PostgreSQL workstation. Do not deploy after merge until production auth, production database and hosting decisions are complete and production writes remain explicitly blocked until a later approved phase.
+The branch is safe for human PR review. The DB-test blocker has been resolved for the current PR range. Do not deploy after merge until production auth, production database and hosting decisions are complete and production writes remain explicitly blocked until a later approved phase.
