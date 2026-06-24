@@ -1,9 +1,9 @@
 # Supabase Staging Setup Checklist
 
-Status: Phase 5 database-provider update
+Status: Historical / superseded by ADR 0011
 Date: 2026-06-23
 
-ADR 0010 accepts Supabase Postgres as the managed PostgreSQL direction replacing Neon. This checklist prepares Supabase staging setup only. It does not create a Supabase project, deploy the app, add secrets, enable live auth, enable UI saves or enable production writes.
+ADR 0010 accepted Supabase Postgres as the managed PostgreSQL direction replacing Neon. ADR 0011 supersedes the active staging direction with Railway + Railway Postgres. This checklist is retained as historical context only. Use `docs/architecture/railway-staging-setup-checklist.md` for active staging planning.
 
 ## Project Recommendation
 

@@ -34,6 +34,7 @@ Phase 5B accepts Vercel + Neon hosting/database direction in ADR 0009 without de
 Phase 5C Vercel + Neon staging setup planning is implemented without creating live Vercel/Neon resources, deployment, secrets, production database commands, production auth readiness, production writes or UI saves.
 Phase 5D staging resource creation runbook and approval checklist are implemented without creating live Vercel/Neon resources, deployment, secrets, database commands, production auth readiness, production writes or UI saves.
 Phase 5G accepts Supabase Postgres as the managed PostgreSQL direction replacing Neon without creating Vercel/Supabase resources, deployment, secrets, database commands, production auth readiness, production writes or UI saves.
+Phase 5I accepts Railway + Railway Postgres as the staging direction without creating Railway resources, deployment, secrets, database commands, production auth readiness, production writes or UI saves.
 
 ## Current Direction
 
@@ -91,7 +92,11 @@ Phase 5G accepts Supabase Postgres as the managed PostgreSQL direction replacing
 - Phase 4H callback/JWKS fetch-cache design lives at `docs/architecture/entra-staging-callback-jwks-fetch-cache-design.md` and is documentation-only.
 - PR #1 was squash merged to `origin/main` at `57dccc1`, and local `main` has been synced to that squash merge.
 - Phase 5A hosting/environment decision pack lives at `docs/architecture/production-hosting-environment-decision-pack.md`.
-- ADR 0010 accepts Vercel for the secure Next.js app/API and Supabase Postgres for staging and production PostgreSQL. ADR 0010 supersedes the Neon database-provider part of ADR 0009.
+- ADR 0011 accepts Railway for staging app hosting and Railway Postgres for the staging database. ADR 0011 supersedes the active Vercel + Supabase staging direction.
+- Railway implementation checklist lives at `docs/architecture/railway-implementation-checklist.md`.
+- Railway staging checklist lives at `docs/architecture/railway-staging-setup-checklist.md`.
+- Phase 5I plan lives at `docs/plans/phase-5i-railway-staging-direction.md`.
+- ADR 0010 Vercel + Supabase and ADR 0009 Vercel + Neon remain historical unless later re-approved.
 - Vercel/Supabase implementation checklist lives at `docs/architecture/vercel-supabase-implementation-checklist.md`.
 - Historical Vercel/Neon implementation checklist lives at `docs/architecture/vercel-neon-implementation-checklist.md`.
 - Phase 5C staging setup plan lives at `docs/plans/phase-5c-vercel-neon-staging-setup-plan.md`.
@@ -153,6 +158,7 @@ See:
 - Phase 5C staging setup plan: documentation/templates/checklists only; no Vercel project, Neon database, deployment, secret, production database command, live auth, production write or UI save is exposed.
 - Phase 5D staging resource runbook: documentation/checklists only; no Vercel project, Neon database, deployment, secret, database command, live auth, production write or UI save is exposed.
 - Phase 5G Supabase database-provider direction: accepted architecture decision and checklist updates only; no Supabase project, deployment, secret, database command, live auth, production write or UI save is exposed.
+- Phase 5I Railway staging direction: accepted architecture decision and checklist updates only; no Railway resource, deployment, secret, database command, live auth, production write or UI save is exposed.
 - Agent service users: blocked from normal admin shell navigation.
 
 ## ADR Candidates

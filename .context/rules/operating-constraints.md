@@ -65,10 +65,10 @@
 - Do not enable production auth readiness or production writes until Entra tenant/admin access, MFA policy, allowed users/domains, role claim approach, environment configuration, staging validation and production readiness review are complete.
 - Production hosting, production database, DNS, backup and deploy approvals must be accepted before any deployment.
 - Phase 5A hosting/environment documentation must not be treated as deployment approval.
-- Vercel + Supabase Postgres is the accepted hosting/database direction after ADR 0010, but acceptance must not be treated as deployment, production database creation, live auth readiness or production write approval.
+- Railway + Railway Postgres is the accepted staging hosting/database direction after ADR 0011, but acceptance must not be treated as deployment, Railway resource creation, production database creation, live auth readiness or production write approval.
 - Phase 5C staging setup documentation must not be treated as approval to create provider resources, add secrets, deploy, enable live auth or enable writes.
 - Phase 5D staging resource runbook must not be treated as approval to create provider resources, add secrets, deploy, run database commands, enable live auth or enable writes.
-- Supabase is approved as managed PostgreSQL only; do not enable Supabase Auth, Supabase Storage, generated APIs or public object storage without a later accepted ADR.
+- Vercel/Supabase and Vercel/Neon directions are historical unless later re-approved.
 - xneelo shared hosting must not host the secure admin app.
 
 ## Phase -1 Constraints

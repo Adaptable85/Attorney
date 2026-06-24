@@ -125,6 +125,8 @@ Phase 5D adds a staging resource creation runbook and approval checklist. It doe
 
 ADR 0010 supersedes the Neon database-provider part of ADR 0009 and accepts Supabase Postgres for staging and production PostgreSQL. Vercel remains the accepted secure Next.js app/API host. Supabase Auth and Supabase Storage are not adopted by this decision.
 
+Phase 5I supersedes the active Vercel + Supabase staging direction with Railway + Railway Postgres for staging only in ADR 0011. It does not create Railway resources, deploy, run database commands, add secrets, enable live Entra auth, enable UI saves or enable production writes. Production hosting/database approval remains pending.
+
 Permission strategy:
 
 - Owner / Principal Attorney has full approval powers.
