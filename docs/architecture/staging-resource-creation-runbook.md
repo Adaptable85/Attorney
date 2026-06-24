@@ -1,9 +1,9 @@
 # Staging Resource Creation Runbook
 
-Status: Phase 5G runbook update
+Status: Historical / superseded by ADR 0011
 Date: 2026-06-23
 
-This runbook describes how staging resources should be created later after explicit approval. It does not create Vercel resources, create Supabase resources, deploy, add secrets, run migrations, enable live auth, enable UI saves or enable production writes.
+This runbook describes the earlier Vercel/Supabase staging resource plan. ADR 0011 supersedes the active staging direction with Railway + Railway Postgres. Use `docs/architecture/railway-implementation-checklist.md` and `docs/architecture/railway-staging-setup-checklist.md` for active staging planning.
 
 ADR 0010 supersedes the earlier Neon database-provider direction with Supabase Postgres. Use Supabase as managed PostgreSQL only; Supabase Auth and Supabase Storage are not approved by this runbook.
 

@@ -1,13 +1,13 @@
 # Production Hosting And Environment Decision Pack
 
-Status: Phase 5 database-provider update
-Date: 2026-06-23
+Status: Phase 5I staging-provider update
+Date: 2026-06-24
 
 PR #1 was squash merged into `origin/main` at `57dccc1 Review Burgess platform foundation auth (#1)`. Local `main` has been synced to that squash merge. No deployment has been run.
 
-ADR 0010 accepts Vercel for the secure Next.js app/API and Supabase Postgres for the managed PostgreSQL database. ADR 0010 supersedes the Neon database-provider part of ADR 0009. xneelo remains a DNS/domain/public website option only unless the client explicitly requires xneelo Cloud/Managed Server infrastructure. xneelo shared hosting must not host the secure app.
+ADR 0011 accepts Railway for staging app hosting and Railway Postgres for the staging database. ADR 0011 supersedes the active Vercel + Supabase staging direction from ADR 0010. ADR 0010 and ADR 0009 remain historical unless later re-approved. xneelo remains a DNS/domain/public website option only unless the client explicitly requires xneelo Cloud/Managed Server infrastructure. xneelo shared hosting must not host the secure app.
 
-Phase 5C adds staging setup planning and templates only. It creates no Vercel project, managed database, live resource, provider secret or deployment. Staging setup remains pending explicit approval.
+Phase 5I adds Railway staging direction planning only. It creates no Railway project, managed database, live resource, provider secret or deployment. Staging setup remains pending explicit approval.
 
 ## A. Current App State
 
@@ -20,9 +20,9 @@ Phase 5C adds staging setup planning and templates only. It creates no Vercel pr
 - Local DB tests passed against `burgess_attorneys_dev`.
 - No production deployment has occurred.
 - No production database command has been run.
-- Production Supabase database has not been created or touched by this phase.
-- Vercel project creation remains pending.
-- Supabase staging setup remains pending.
+- Production Railway database has not been created or touched by this phase.
+- Railway project creation remains pending.
+- Railway Postgres staging setup remains pending.
 - Environment values remain placeholders only.
 
 ## B. Hosting Options
@@ -52,9 +52,9 @@ Comparison criteria:
 
 ## C. Accepted Hosting Direction
 
-Accepted direction: use Vercel for the secure Next.js app/API and Supabase Postgres for production and staging database environments.
+Accepted staging direction: use Railway for the secure Next.js app/API staging service and Railway Postgres for the staging database.
 
-If xneelo hosting is a client requirement, keep the public website, domain or DNS relationship on xneelo where appropriate, but host the secure admin app/API/database on Vercel + Supabase Postgres unless the client explicitly requires xneelo Cloud/Managed Server infrastructure.
+Vercel + Supabase is historical for this project unless later re-approved. If xneelo hosting is a client requirement, keep the public website, domain or DNS relationship on xneelo where appropriate, but do not use xneelo shared hosting for the secure admin app.
 
 xneelo shared hosting must not host the secure admin app.
 
@@ -78,7 +78,7 @@ Avoid a self-managed VPS unless there is a strong operational reason and a named
 
 - App URL: approved staging URL.
 - Database: managed staging PostgreSQL.
-- Approved provider direction: Supabase Postgres staging database.
+- Approved provider direction: Railway Postgres staging database.
 - Entra: separate staging app registration and staging redirect URI.
 - Environment variables: platform secret manager.
 - Secrets storage: managed platform secrets only.
@@ -91,7 +91,7 @@ Avoid a self-managed VPS unless there is a strong operational reason and a named
 
 - App URL: approved production URL.
 - Database: managed production PostgreSQL.
-- Approved provider direction: Supabase Postgres production database.
+- Approved production provider direction: pending; Railway production hosting/database require separate production approval.
 - Entra: production app registration and production redirect URI.
 - Environment variables: platform secret manager.
 - Secrets storage: managed platform secrets only with restricted access.
@@ -134,14 +134,14 @@ Real values must be stored only in approved local, staging or production secret 
 - No UI saves until the release gate is explicitly enabled.
 - No migrations without backup, SQL review and rollback review.
 - No `db:push`.
-- No production Supabase database command until provisioning/migration is explicitly approved.
+- No production Railway database command until provisioning/migration is explicitly approved.
 - No real client data in staging.
 - No email or WhatsApp sends until separate approval.
 - No invoice, statement, Lexpro sync or sending workflows until their phases are approved.
 
 ## G. Database Strategy
 
-- Supabase Postgres is accepted as the production database direction.
+- Railway Postgres is accepted for staging only. Production database direction remains pending separate approval.
 - Automated backups are required.
 - Restore testing is required before production go-live.
 - Staging migration must run before production migration.
@@ -181,8 +181,8 @@ Real values must be stored only in approved local, staging or production secret 
 
 ## J. Decisions Needed
 
-- Vercel project owner.
-- Supabase project owner.
+- Railway workspace/project owner.
+- Railway Postgres owner.
 - Staging URL.
 - Production URL.
 - Domain/DNS approach.
@@ -195,10 +195,13 @@ Real values must be stored only in approved local, staging or production secret 
 
 ## K. Phase 5C Setup References
 
-- Vercel staging checklist: `docs/architecture/vercel-staging-setup-checklist.md`.
-- Supabase staging checklist: `docs/architecture/supabase-staging-setup-checklist.md`.
-- Vercel/Supabase implementation checklist: `docs/architecture/vercel-supabase-implementation-checklist.md`.
+- Railway staging checklist: `docs/architecture/railway-staging-setup-checklist.md`.
+- Railway implementation checklist: `docs/architecture/railway-implementation-checklist.md`.
+- Historical Vercel staging checklist: `docs/architecture/vercel-staging-setup-checklist.md`.
+- Historical Supabase staging checklist: `docs/architecture/supabase-staging-setup-checklist.md`.
+- Historical Vercel/Supabase implementation checklist: `docs/architecture/vercel-supabase-implementation-checklist.md`.
 - Environment variable template: `docs/architecture/environment-variable-template.md`.
 - Staging pre-deploy checklist: `docs/architecture/staging-predeploy-checklist.md`.
 - Historical Phase 5C plan: `docs/plans/phase-5c-vercel-neon-staging-setup-plan.md`.
-- Active Phase 5G plan: `docs/plans/phase-5g-vercel-supabase-database-direction.md`.
+- Historical Phase 5G plan: `docs/plans/phase-5g-vercel-supabase-database-direction.md`.
+- Active Phase 5I plan: `docs/plans/phase-5i-railway-staging-direction.md`.

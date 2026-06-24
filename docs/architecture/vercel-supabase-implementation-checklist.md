@@ -1,9 +1,9 @@
 # Vercel And Supabase Implementation Checklist
 
-Status: Phase 5 database-provider update
+Status: Historical / superseded by ADR 0011
 Date: 2026-06-23
 
-ADR 0010 accepts Vercel for the secure Next.js app/API and Supabase Postgres for managed PostgreSQL. This checklist is implementation planning only. It does not deploy, create production databases, add secrets, enable live auth, enable UI saves or enable production writes.
+ADR 0010 accepted Vercel for the secure Next.js app/API and Supabase Postgres for managed PostgreSQL. ADR 0011 supersedes the active staging direction with Railway + Railway Postgres. This checklist is retained as historical context only. Use `docs/architecture/railway-implementation-checklist.md` for active staging planning.
 
 ## Current Direction
 

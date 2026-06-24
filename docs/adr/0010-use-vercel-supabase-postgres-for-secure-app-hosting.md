@@ -1,9 +1,10 @@
 # 0010: Use Vercel And Supabase Postgres For Secure App Hosting
 
-Status: Accepted
+Status: Superseded
 Date: 2026-06-23
 
 Supersedes: ADR 0009 database-provider decision.
+Superseded by: ADR 0011 for the active staging hosting/database direction.
 
 ## Context
 
@@ -16,6 +17,8 @@ The platform handles sensitive legal-admin data. Database hosting must support r
 ## Decision
 
 Use Vercel for the secure Next.js app/API and Supabase Postgres for staging and production PostgreSQL databases.
+
+This direction is superseded by ADR 0011 for the active staging path, which now uses Railway and Railway Postgres. ADR 0010 remains as decision history unless Vercel + Supabase is later re-approved.
 
 Use Supabase as a managed PostgreSQL provider only for now. Do not adopt Supabase Auth, Supabase Storage, Realtime, generated APIs or public object storage as part of this decision.
 

@@ -1,7 +1,9 @@
 # Phase 5G: Vercel + Supabase Database Direction
 
-Status: planned
+Status: historical / superseded by ADR 0011
 Date: 2026-06-23
+
+Phase 5I note: ADR 0011 supersedes this active staging direction with Railway + Railway Postgres. This plan remains as decision history unless Vercel + Supabase is later re-approved.
 
 ## Summary
 
@@ -71,9 +73,9 @@ pnpm run test:db:local
 - ADR 0010 exists and supersedes the Neon database-provider part of ADR 0009.
 - Active staging and implementation checklists point to Supabase Postgres.
 - Historical Neon docs are retained with clear superseded notes.
-- Context and agent instruction files record the active Vercel + Supabase direction.
+- Context and agent instruction files recorded the then-active Vercel + Supabase direction; ADR 0011 later superseded it for staging.
 - No provider resource, deployment, secret, database command, `db:push`, live auth, UI save or production write is created/enabled.
 
 ## Next Decision
 
-Approve actual Vercel + Supabase staging resource creation, or keep the project paused until non-secret staging resource details are available from manual dashboard setup.
+Historical next step was Vercel + Supabase staging resource creation. ADR 0011 now supersedes this with Railway staging resource planning.

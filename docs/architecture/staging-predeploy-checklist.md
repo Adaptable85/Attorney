@@ -1,11 +1,11 @@
 # Staging Pre-Deploy Checklist
 
-Status: Phase 5G planning update
-Date: 2026-06-23
+Status: Phase 5I planning update
+Date: 2026-06-24
 
 This checklist must pass before any future staging deploy. It does not approve deployment by itself.
 
-Phase 5D adds a resource creation runbook and approval checklist. Staging resource creation remains separate from staging deployment approval.
+Phase 5I accepts Railway + Railway Postgres as the active staging direction. Staging resource creation remains separate from staging deployment approval.
 
 ## GitHub Branch / PR Status
 
@@ -14,18 +14,18 @@ Phase 5D adds a resource creation runbook and approval checklist. Staging resour
 - `main` is synced with `origin/main`.
 - No unreviewed feature branches are used for staging.
 - No secrets or real client data are present in Git.
-- Staging resource creation approval is recorded before Vercel/Supabase resources are created.
+- Staging resource creation approval is recorded before Railway resources are created.
 
 ## Staging Resource Details
 
 Manual staging resource details are pending concrete non-secret values.
 
-- Vercel project name: pending.
-- Vercel staging URL: pending.
-- Supabase project name: pending.
-- Supabase region: pending.
-- Supabase database/branch name: pending.
-- `DATABASE_URL` configured in Vercel: pending yes/no confirmation, value must not be recorded.
+- Railway project name: pending.
+- Railway app service name: pending.
+- Railway Postgres service name: pending.
+- Railway environment name: pending.
+- Railway staging URL: pending.
+- `DATABASE_URL` configured in Railway: pending yes/no confirmation, value must not be recorded.
 - Write gates confirmed false/off: pending yes/no confirmation.
 - `AUTH_PRODUCTION_READY=false`: pending yes/no confirmation.
 - Production resources: not recorded as created.
@@ -56,7 +56,7 @@ pnpm run test:db:local
 
 ## Database Migration Status
 
-- Supabase staging database exists only after explicit approval.
+- Railway Postgres staging database exists only after explicit approval.
 - `DATABASE_URL` points to staging only for staging deploy/migration work.
 - Migration SQL has been reviewed.
 - Staging migration command has been approved.
@@ -67,7 +67,7 @@ pnpm run test:db:local
 ## Entra Staging App
 
 - Entra staging app registration is not configured yet.
-- Callback URL is not final until a Vercel staging URL exists.
+- Callback URL is not final until a Railway staging URL exists.
 - Allowed users/domains are not final.
 - Role claim mapping is not final.
 - MFA/break-glass process is not final.
@@ -99,9 +99,9 @@ pnpm run test:db:local
 ## Rollback Plan
 
 - Capture deployment reference before smoke testing.
-- Use Vercel rollback for app regressions.
+- Use Railway rollback/redeploy controls for app regressions.
 - Disable auth/write flags if unexpected behavior appears.
-- Use Supabase restore only after restore procedure is reviewed.
+- Use Railway Postgres restore only after restore procedure is reviewed.
 - Do not run rollback migrations without an approved recovery plan.
 
 ## Data Rules
