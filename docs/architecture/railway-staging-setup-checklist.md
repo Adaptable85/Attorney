@@ -1,17 +1,41 @@
 # Railway Staging Setup Checklist
 
-Status: Phase 5I planning
+Status: Phase 5J resource record
 Date: 2026-06-24
 
-This checklist prepares Railway staging setup only. It does not create Railway resources, deploy the app, add secrets, run database commands, enable live auth, enable UI saves or enable production writes.
+This checklist records the current Railway staging setup state. It does not deploy the app, add secrets, run database commands, enable live auth, enable UI saves or enable production writes.
 
 ## Target Resources
 
+- Railway workspace/account: `adaptable85's Projects`.
 - Railway project name: `burgess-attorneys-staging`.
-- Railway service: Next.js app service.
-- Railway database: Railway Postgres.
+- Railway project ID: `46a94859-6ba1-47b8-8e64-4b66a90dc3fa`.
+- Railway project URL: `https://railway.com/project/46a94859-6ba1-47b8-8e64-4b66a90dc3fa`.
+- Railway environment name: `production`.
+  - Note: this is Railway's default environment name. It is not an approved Attorney production app deployment.
+- Railway environment ID: `e227a158-d3c0-455e-b7d6-747f51c80fdb`.
+- Railway service: Next.js app service not created.
+- Railway database: Railway Postgres created.
+- Railway Postgres service name: `Postgres`.
+- Railway Postgres service ID: `a4293b3b-f036-4ff4-ab3e-584598007a0b`.
+- Railway Postgres status: `Online`.
+- Railway Postgres image: `ghcr.io/railwayapp-templates/postgres-ssl:18`.
+- Railway Postgres volume: `postgres-volume`.
+- Railway region: `sfo`.
+- Railway Postgres deployment ID: `8a6e8714-c85c-4b1b-b3c9-22439f1edce2`.
 - Database purpose: staging only.
-- `DATABASE_URL`: supplied by Railway Postgres through Railway variables.
+- `DATABASE_URL`: available inside Railway through Railway Postgres variables; value must not be recorded.
+- Production domain: not added.
+
+## Current Gaps
+
+- Railway app service is not created.
+- Attorney app is not deployed.
+- Staging migration is pending.
+- Safe/off environment gates are not yet configured.
+- `AUTH_PRODUCTION_READY=false` is not yet configured in Railway.
+- Two Railway projects reportedly share the name `burgess-attorneys-staging`; the active linked project is `46a94859-6ba1-47b8-8e64-4b66a90dc3fa`.
+- Do not delete or modify any duplicate project in this phase.
 
 ## Required Environment Variables
 
@@ -64,8 +88,9 @@ Do not add live Microsoft Entra tenant, client secret or production auth values 
 ## Pre-Deploy Checks
 
 - Repository is clean and on reviewed code.
-- Staging resource creation has explicit approval.
-- Railway project/service/database names are clearly staging-only.
+- Staging app service creation has explicit approval.
+- Railway project/database names are clearly staging-only.
+- Active Railway project ID is `46a94859-6ba1-47b8-8e64-4b66a90dc3fa`.
 - `DATABASE_URL` points only to Railway Postgres staging.
 - Safe/off env vars are configured.
 - Build command is `pnpm run build`.
