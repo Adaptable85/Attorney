@@ -14,7 +14,12 @@ This checklist records the current Railway staging setup state. It does not depl
 - Railway environment name: `production`.
   - Note: this is Railway's default environment name. It is not an approved Attorney production app deployment.
 - Railway environment ID: `e227a158-d3c0-455e-b7d6-747f51c80fdb`.
-- Railway service: Next.js app service not created.
+- Railway service: Next.js app service created as an empty service.
+- Railway app service name: `attorney-web`.
+- Railway app service ID: `de7fc164-c220-4d5a-8c91-754423f8e994`.
+- Railway app service source: none; no GitHub repo or image connected.
+- Railway app deployment status: not deployed.
+- Railway app URL/domain: none.
 - Railway database: Railway Postgres created.
 - Railway Postgres service name: `Postgres`.
 - Railway Postgres service ID: `a4293b3b-f036-4ff4-ab3e-584598007a0b`.
@@ -29,17 +34,18 @@ This checklist records the current Railway staging setup state. It does not depl
 
 ## Current Gaps
 
-- Railway app service is not created.
+- Railway app service exists but is empty.
 - Attorney app is not deployed.
 - Staging migration is pending.
-- Safe/off environment gates are not yet configured.
-- `AUTH_PRODUCTION_READY=false` is not yet configured in Railway.
+- Safe/off environment gates are configured on `attorney-web`.
+- `AUTH_PRODUCTION_READY=false` is configured on `attorney-web`.
+- `DATABASE_URL` linkage from Railway Postgres to `attorney-web` is pending; no value is recorded in Git or docs.
 - Two Railway projects reportedly share the name `burgess-attorneys-staging`; the active linked project is `46a94859-6ba1-47b8-8e64-4b66a90dc3fa`.
 - Do not delete or modify any duplicate project in this phase.
 
 ## Required Environment Variables
 
-Set these in the Railway staging environment only after resource creation is explicitly approved:
+These values are configured on `attorney-web` and must remain unchanged until a later approved live-auth/write phase:
 
 ```text
 AUTH_PROVIDER=entra
@@ -93,6 +99,8 @@ Do not add live Microsoft Entra tenant, client secret or production auth values 
 - Active Railway project ID is `46a94859-6ba1-47b8-8e64-4b66a90dc3fa`.
 - `DATABASE_URL` points only to Railway Postgres staging.
 - Safe/off env vars are configured.
+- `attorney-web` has no deployment ID before the first approved staging deploy.
+- `attorney-web` has no production domain.
 - Build command is `pnpm run build`.
 - Install command is `pnpm install --frozen-lockfile`.
 - Create forms remain disabled.
