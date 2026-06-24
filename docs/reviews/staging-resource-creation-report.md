@@ -165,3 +165,51 @@ Next recommendation:
 - Create the Railway app service only after explicit approval.
 - Configure safe/off environment gates before any staging deploy or staging migration.
 - Keep migration status pending until the app service and staging environment variables are explicitly approved.
+
+## Railway App Service And Safe Gate Confirmation
+
+Date/time: 2026-06-24 16:24:53 SAST
+
+Phase 5K created and confirmed an empty Railway app service for the Attorney staging app and configured only explicit safe/off environment gate values. No app deployment, migration or production command was run.
+
+| Item | Non-secret value recorded | Status |
+| --- | --- | --- |
+| Active Railway project ID | `46a94859-6ba1-47b8-8e64-4b66a90dc3fa` | Confirmed |
+| Railway app service created/confirmed | Yes | Confirmed |
+| Railway app service name | `attorney-web` | Confirmed |
+| Railway app service ID | `de7fc164-c220-4d5a-8c91-754423f8e994` | Confirmed |
+| Railway app service source | None; no GitHub repo or image connected | Confirmed |
+| Railway app deployment ID | None | Confirmed not deployed |
+| Railway app URL/domain | None | Confirmed not added |
+| Safe/off env gates configured | Yes | Confirmed |
+| `DATABASE_URL` linkage | Pending; no value recorded | Pending |
+| Staging migration | Not run | Pending |
+| Production domain | Not added | Confirmed |
+
+Configured non-secret app service values:
+
+```text
+AUTH_PROVIDER=entra
+AUTH_PRODUCTION_READY=false
+BURGESS_ENTRA_STAGING_AUTH_WIRING_ENABLED=false
+BURGESS_CLIENT_MATTER_WRITES_ENABLED=false
+BURGESS_LOCAL_DEV_WRITES_ENABLED=false
+BURGESS_DEV_MUTATION_ENTRYPOINTS_ENABLED=false
+BURGESS_PRODUCTION_WRITES_ENABLED=false
+```
+
+Phase 5K safety status:
+
+- No Attorney app deploy was run.
+- No production deploy was run.
+- No production domain was added.
+- No staging migration, production migration or `db:push` was run.
+- No Railway Postgres `DATABASE_URL`, database password, Railway token, Microsoft client secret or private key was printed or committed.
+- Live Microsoft Entra auth remains disabled.
+- UI saves remain disabled.
+- Production writes remain blocked.
+- Duplicate Railway project risk remains documented; the active linked project remains `46a94859-6ba1-47b8-8e64-4b66a90dc3fa`.
+
+Next recommendation:
+
+- Prepare a first safe staging deploy and staging migration plan only after confirming `DATABASE_URL` linkage strategy and retaining all safe/off gates.
