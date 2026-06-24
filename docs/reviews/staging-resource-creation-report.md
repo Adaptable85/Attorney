@@ -111,3 +111,57 @@ Safety status remains unchanged:
 - Live Microsoft Entra auth remains disabled.
 - UI saves remain disabled.
 - Production writes remain blocked.
+
+## Railway Staging Resource Confirmation
+
+Date/time: 2026-06-24 16:15:24 SAST
+
+Phase 5J confirmed that the approved Railway staging direction has one Railway project and one Railway Postgres database available for staging-only follow-up work. This report records non-secret resource details only.
+
+| Item | Non-secret value recorded | Status |
+| --- | --- | --- |
+| Railway workspace/account | `adaptable85's Projects` | Confirmed |
+| Railway project name | `burgess-attorneys-staging` | Confirmed |
+| Railway project ID | `46a94859-6ba1-47b8-8e64-4b66a90dc3fa` | Confirmed |
+| Railway project URL | `https://railway.com/project/46a94859-6ba1-47b8-8e64-4b66a90dc3fa` | Confirmed |
+| Railway environment name | `production`; Railway default environment name only, not an approved Attorney production app deployment | Confirmed |
+| Railway environment ID | `e227a158-d3c0-455e-b7d6-747f51c80fdb` | Confirmed |
+| Railway Postgres service name | `Postgres` | Confirmed |
+| Railway Postgres service ID | `a4293b3b-f036-4ff4-ab3e-584598007a0b` | Confirmed |
+| Railway Postgres status | `Online` | Confirmed |
+| Railway Postgres image | `ghcr.io/railwayapp-templates/postgres-ssl:18` | Confirmed |
+| Railway Postgres volume | `postgres-volume` | Confirmed |
+| Railway region | `sfo` | Confirmed |
+| Railway Postgres deployment ID | `8a6e8714-c85c-4b1b-b3c9-22439f1edce2` | Confirmed |
+| `DATABASE_URL` available inside Railway | Yes; value not recorded | Confirmed |
+| Railway app service created | No | Pending |
+| Railway app deployed | No | Pending |
+| Staging migration | Not run | Pending |
+| Environment gates configured | Not yet configured | Pending |
+| Production domain | Not added | Confirmed |
+
+Safety status:
+
+- No Attorney app deploy was run.
+- No production deploy was run.
+- No production domain was added.
+- No production database command or production migration was run.
+- `db:push` was not run.
+- No secrets, database URLs, database passwords, Railway tokens, private keys or Microsoft client secrets were printed or committed.
+- Live Microsoft Entra auth remains disabled.
+- UI saves remain disabled.
+- Production writes remain blocked.
+- No Vercel, Supabase or Neon resources were created in this phase.
+
+Known risk:
+
+- `railway list` reportedly shows two projects named `burgess-attorneys-staging`.
+- The active linked Railway project for this setup is `46a94859-6ba1-47b8-8e64-4b66a90dc3fa`.
+- Do not delete or modify any duplicate Railway project in this phase.
+
+Next recommendation:
+
+- Resolve or document the duplicate project naming risk if needed.
+- Create the Railway app service only after explicit approval.
+- Configure safe/off environment gates before any staging deploy or staging migration.
+- Keep migration status pending until the app service and staging environment variables are explicitly approved.
