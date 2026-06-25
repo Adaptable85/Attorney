@@ -1,9 +1,9 @@
 # Railway Implementation Checklist
 
-Status: Phase 5J resource record
-Date: 2026-06-24
+Status: Phase 5L deploy plan prepared
+Date: 2026-06-25
 
-ADR 0011 accepts Railway for staging app hosting and Railway Postgres for the staging database. Phase 5J confirmed the Railway staging project and Railway Postgres database. Phase 5K created the empty `attorney-web` app service and configured safe/off environment gates. The Attorney app is not deployed. This checklist does not add secrets, run migrations, enable live auth, enable UI saves or enable production writes.
+ADR 0011 accepts Railway for staging app hosting and Railway Postgres for the staging database. Phase 5J confirmed the Railway staging project and Railway Postgres database. Phase 5K created the empty `attorney-web` app service and configured safe/off environment gates. Phase 5L linked `DATABASE_URL` to `attorney-web` through a Railway Postgres reference and prepared the first staging deploy plan. The Attorney app is not deployed. This checklist does not add secrets, run migrations, enable live auth, enable UI saves or enable production writes.
 
 ## Project Creation
 
@@ -34,7 +34,7 @@ ADR 0011 accepts Railway for staging app hosting and Railway Postgres for the st
 - Railway Postgres volume: `postgres-volume`.
 - Railway region: `sfo`.
 - Railway Postgres deployment ID: `8a6e8714-c85c-4b1b-b3c9-22439f1edce2`.
-- Use the Railway-provided `DATABASE_URL` through Railway variables.
+- `attorney-web` uses the Railway-provided `DATABASE_URL` through a Railway Postgres reference.
 - Do not copy database URLs into Git, docs, screenshots or chat.
 - Do not use real Burgess client data.
 - Confirm backup/restore expectations before production planning.
@@ -61,7 +61,7 @@ Confirm before any staging deploy:
 - All write gates remain false/off.
 - No production variables are configured.
 - Current status: these safe/off variables are configured on `attorney-web` and must remain false/off before any staging deploy or staging migration.
-- `DATABASE_URL` linkage from Railway Postgres to `attorney-web` remains pending; do not record the value in Git, docs, screenshots or chat.
+- `DATABASE_URL` linkage from Railway Postgres to `attorney-web` is configured; do not record the value in Git, docs, screenshots or chat.
 
 ## Migration Checklist
 
@@ -73,12 +73,13 @@ Confirm before any staging deploy:
 - Record command, timestamp, target environment and result without recording secrets.
 - Current status: migration is pending and was not run in Phase 5J.
 - Phase 5K status: migration remains pending and was not run.
+- Phase 5L status: migration remains pending and was not run.
 
 ## Staging Deploy Checklist
 
 - Deploy only after staging resources and env vars are approved.
 - `attorney-web` exists as an empty service.
-- Confirm `DATABASE_URL` linkage strategy before deploy and do not print the value.
+- `DATABASE_URL` linkage is configured through Railway Postgres reference; do not print the value.
 - Build must pass locally before deploy.
 - Railway build/install commands must match the repo:
   - install: `pnpm install --frozen-lockfile`
@@ -87,6 +88,20 @@ Confirm before any staging deploy:
 - Create forms remain disabled.
 - No production domain is attached.
 - No production deploy is run.
+
+First deploy command for later explicit approval:
+
+```sh
+railway up
+```
+
+First staging migration command for later explicit approval only after target service and database env are reconfirmed:
+
+```sh
+railway run pnpm exec prisma migrate deploy
+```
+
+Never use `db:push`, destructive migration reset, production migration, production database, live auth, UI saves or production writes to recover from a failed staging deploy.
 
 ## Rollback And Logs Checklist
 

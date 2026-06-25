@@ -213,3 +213,78 @@ Phase 5K safety status:
 Next recommendation:
 
 - Prepare a first safe staging deploy and staging migration plan only after confirming `DATABASE_URL` linkage strategy and retaining all safe/off gates.
+
+## Railway Database Linkage And First Deploy Plan
+
+Date/time: 2026-06-25 09:22:07 SAST
+
+Phase 5L linked `DATABASE_URL` to `attorney-web` using a Railway reference to the existing Railway Postgres service. The raw value was not printed, recorded or committed. This phase prepared a first staging deploy and migration plan only. No app deploy or migration was run.
+
+| Item | Non-secret value recorded | Status |
+| --- | --- | --- |
+| Active Railway project ID | `46a94859-6ba1-47b8-8e64-4b66a90dc3fa` | Confirmed |
+| Railway app service name | `attorney-web` | Confirmed |
+| Railway app service ID | `de7fc164-c220-4d5a-8c91-754423f8e994` | Confirmed |
+| `DATABASE_URL` linkage | Configured through Railway Postgres reference; value not recorded | Confirmed |
+| Safe/off env gates | Configured on `attorney-web` | Confirmed |
+| Railway app deployment ID | None | Confirmed not deployed |
+| Railway app URL/domain | None | Confirmed not added |
+| Staging migration | Not run | Pending |
+| First staging deploy plan | Prepared only | Pending approval |
+| First staging migration plan | Prepared only | Pending approval |
+
+First staging deploy preconditions:
+
+- Active Railway project ID remains `46a94859-6ba1-47b8-8e64-4b66a90dc3fa`.
+- `attorney-web` is selected as the target service.
+- `DATABASE_URL` is linked from Railway Postgres without exposing the value.
+- `AUTH_PRODUCTION_READY=false`.
+- All write gates remain false/off.
+- No production domain is attached.
+- No real Burgess client data is loaded.
+- Create forms remain disabled.
+- Live Microsoft Entra auth remains disabled.
+
+First deploy command for later explicit approval:
+
+```sh
+railway up
+```
+
+First staging migration command for later explicit approval:
+
+```sh
+railway run pnpm exec prisma migrate deploy
+```
+
+The migration command may be used only if Railway injects the approved `attorney-web` service environment safely and the target database is confirmed as Railway Postgres staging. Do not run it in this planning phase.
+
+Explicitly forbidden during first deploy/migration approval:
+
+- Do not run `db:push`.
+- Do not run destructive migration reset commands.
+- Do not run production migrations.
+- Do not use a production database.
+- Do not enable live auth.
+- Do not enable UI saves.
+- Do not enable production writes.
+
+Rollback and check plan:
+
+- Capture the Railway deployment reference before smoke testing.
+- Check Railway deployment logs and runtime logs.
+- Check the health page if available.
+- Stop if build or runtime checks fail.
+- Do not retry by loosening auth/write gates.
+- Do not run rollback migrations without an approved recovery plan.
+
+Phase 5L safety status:
+
+- No Attorney app deploy was run.
+- No staging migration, production migration or `db:push` was run.
+- No production deploy or production domain was added.
+- No Railway Postgres `DATABASE_URL`, database password, Railway token, Microsoft client secret or private key was printed or committed.
+- Live Microsoft Entra auth remains disabled.
+- UI saves remain disabled.
+- Production writes remain blocked.
+- Duplicate Railway project risk remains documented; the active linked project remains `46a94859-6ba1-47b8-8e64-4b66a90dc3fa`.
