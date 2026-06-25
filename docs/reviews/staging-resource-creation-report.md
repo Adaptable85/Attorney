@@ -375,3 +375,64 @@ Next recommendation:
 - Keep all auth/write gates false/off.
 - Reattempt staging deploy only after the start-command fix is reviewed and merged.
 - Run staging Prisma migration only in a separate explicitly approved phase after the app deploy is healthy.
+
+## Controlled Railway Staging Deploy Retry
+
+Date/time: 2026-06-25 10:17:43 SAST
+
+Phase 5O retried the controlled Railway staging deploy to `attorney-web` after the reviewed start-command fix was merged. The deployment completed successfully and the Railway service reported online. No Prisma migration, `db:push`, production database command, production migration, production/custom domain or secret change was run.
+
+| Item | Non-secret value recorded | Status |
+| --- | --- | --- |
+| Active Railway project ID | `46a94859-6ba1-47b8-8e64-4b66a90dc3fa` | Confirmed |
+| Target service | `attorney-web` | Confirmed |
+| Railway app service ID | `de7fc164-c220-4d5a-8c91-754423f8e994` | Confirmed |
+| Deploy command | `railway up --service attorney-web --message "Phase 5O controlled Attorney staging deploy retry after start config"` | Completed |
+| Deployment ID | `7c05f3a4-38b4-489c-a1a7-f97b3e02426f` | Success |
+| Build status | Railpack detected Node/pnpm, used `railway.json`, ran `pnpm run build` successfully | Success |
+| Runtime status | Online; Next.js started with `pnpm start` and reported ready | Success |
+| Generated Railway staging URL | Not confirmed by CLI output | Pending |
+| Staging migration | Not run | Pending |
+| Production domain | Not added | Confirmed |
+
+Pre-deploy validation passed before the retry:
+
+- `pnpm install --frozen-lockfile`
+- `pnpm run lint`
+- `pnpm run typecheck`
+- `pnpm test`
+- `pnpm run test:coverage`
+- `pnpm run prisma:validate`
+- `pnpm run build`
+- `./scripts/check-agent-context.sh`
+- `./scripts/check-adr-needed.sh`
+- `./scripts/pre-pr-review.sh`
+- `pnpm run test:db:local`
+
+Safe/off environment gate names were confirmed on `attorney-web` before deploy without printing values:
+
+- `DATABASE_URL` is configured by Railway reference; raw value not printed or recorded.
+- `AUTH_PROVIDER=entra`.
+- `AUTH_PRODUCTION_READY=false`.
+- `BURGESS_ENTRA_STAGING_AUTH_WIRING_ENABLED=false`.
+- `BURGESS_CLIENT_MATTER_WRITES_ENABLED=false`.
+- `BURGESS_LOCAL_DEV_WRITES_ENABLED=false`.
+- `BURGESS_DEV_MUTATION_ENTRYPOINTS_ENABLED=false`.
+- `BURGESS_PRODUCTION_WRITES_ENABLED=false`.
+
+Phase 5O safety status:
+
+- No Prisma migration was run.
+- `db:push` was not run.
+- No production deploy or production/custom domain was added.
+- No Railway Postgres `DATABASE_URL`, database password, Railway token, Microsoft client secret or private key was printed or committed.
+- Live Microsoft Entra auth remains disabled.
+- UI saves remain disabled.
+- Production writes remain blocked.
+- No real Burgess client data was used.
+
+Next recommendation:
+
+- Open a review PR for this Phase 5O result documentation.
+- If a public Railway staging URL is required, approve a separate Railway-generated staging domain step.
+- Approve Railway staging migration separately only after confirming the online app target, database target and rollback plan.
