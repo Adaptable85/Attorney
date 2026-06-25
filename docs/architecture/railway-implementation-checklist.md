@@ -1,9 +1,9 @@
 # Railway Implementation Checklist
 
-Status: Phase 5M deploy attempted; start command fix needed
+Status: Phase 5N start command config prepared for review
 Date: 2026-06-25
 
-ADR 0011 accepts Railway for staging app hosting and Railway Postgres for the staging database. Phase 5J confirmed the Railway staging project and Railway Postgres database. Phase 5K created the empty `attorney-web` app service and configured safe/off environment gates. Phase 5L linked `DATABASE_URL` to `attorney-web` through a Railway Postgres reference and prepared the first staging deploy plan. Phase 5M attempted the first controlled staging deploy, but Railway/Railpack failed the build because no start command was detected. The Attorney app is not running on Railway. This checklist does not add secrets, run migrations, enable live auth, enable UI saves or enable production writes.
+ADR 0011 accepts Railway for staging app hosting and Railway Postgres for the staging database. Phase 5J confirmed the Railway staging project and Railway Postgres database. Phase 5K created the empty `attorney-web` app service and configured safe/off environment gates. Phase 5L linked `DATABASE_URL` to `attorney-web` through a Railway Postgres reference and prepared the first staging deploy plan. Phase 5M attempted the first controlled staging deploy, but Railway/Railpack failed the build because no start command was detected. Phase 5N adds a minimal reviewed start-command configuration for a future deploy retry. The Attorney app is not running on Railway. This checklist does not add secrets, run migrations, enable live auth, enable UI saves or enable production writes.
 
 ## Project Creation
 
@@ -76,6 +76,7 @@ Confirm before any staging deploy:
 - Phase 5K status: migration remains pending and was not run.
 - Phase 5L status: migration remains pending and was not run.
 - Phase 5M status: migration remains pending and was not run.
+- Phase 5N status: migration remains pending and was not run.
 
 ## Staging Deploy Checklist
 
@@ -86,6 +87,7 @@ Confirm before any staging deploy:
 - Railway build/install commands must match the repo:
   - install: `pnpm install --frozen-lockfile`
   - build: `pnpm run build`
+  - start: `pnpm start`
 - Entra login/callback/logout routes remain disabled unless a later live-auth phase approves them.
 - Create forms remain disabled.
 - No production domain is attached.
@@ -104,6 +106,13 @@ Phase 5M result:
 - Failure cause: Railpack detected Node/pnpm but no start command.
 - Staging URL: none.
 - Required next fix: add or configure a Railway-compatible start command in a separate reviewed phase.
+
+Phase 5N start-command fix prepared for review:
+
+- `package.json` adds `start`: `next start -p ${PORT:-3000}`.
+- `railway.json` sets Railpack as the builder and `pnpm start` as the deploy start command.
+- No deploy retry was run after adding this config.
+- Retry staging deploy only after the config fix is reviewed and merged.
 
 First staging migration command for later explicit approval only after target service and database env are reconfirmed:
 
