@@ -1,9 +1,9 @@
 # Railway Staging Setup Checklist
 
-Status: Phase 5N start command config prepared for review
+Status: Phase 5O staging deploy retry successful; migration pending
 Date: 2026-06-25
 
-This checklist records the current Railway staging setup state, the first staging deploy attempt and the reviewed start-command fix prepared in Phase 5N. It does not add secrets, run database commands, retry deployment, enable live auth, enable UI saves or enable production writes.
+This checklist records the current Railway staging setup state, the first staging deploy attempt, the reviewed start-command fix prepared in Phase 5N and the successful Phase 5O staging deploy retry. It does not add secrets, run database commands, enable live auth, enable UI saves or enable production writes.
 
 ## Target Resources
 
@@ -18,9 +18,9 @@ This checklist records the current Railway staging setup state, the first stagin
 - Railway app service name: `attorney-web`.
 - Railway app service ID: `de7fc164-c220-4d5a-8c91-754423f8e994`.
 - Railway app service source: none; no GitHub repo or image connected.
-- Railway app deployment status: attempted and failed before runtime.
-- Railway app deployment ID: `39710650-fe18-4bf9-a6ea-a068a6c0d57e`.
-- Railway app URL/domain: none.
+- Railway app deployment status: online after Phase 5O deploy retry.
+- Railway app deployment ID: `7c05f3a4-38b4-489c-a1a7-f97b3e02426f`.
+- Railway app URL/domain: not confirmed by CLI output.
 - Railway database: Railway Postgres created.
 - Railway Postgres service name: `Postgres`.
 - Railway Postgres service ID: `a4293b3b-f036-4ff4-ab3e-584598007a0b`.
@@ -35,8 +35,8 @@ This checklist records the current Railway staging setup state, the first stagin
 
 ## Current Gaps
 
-- Railway app service exists but is empty.
-- Attorney app is not running; first deploy attempt failed during Railpack build because no start command was detected.
+- Railway app service exists and is online after the Phase 5O deploy retry.
+- First deploy attempt failed during Railpack build because no start command was detected.
 - Phase 5N prepared a minimal Railway start-command config for review.
 - Staging migration is pending.
 - Safe/off environment gates are configured on `attorney-web`.
@@ -130,6 +130,16 @@ Phase 5M result:
 - Migration: not run.
 - Required next fix: add or configure a Railway-compatible start command in a separate reviewed phase.
 
+Phase 5O result:
+
+- Deployment ID: `7c05f3a4-38b4-489c-a1a7-f97b3e02426f`.
+- Build status: successful.
+- Runtime status: online.
+- Start command: `pnpm start`.
+- Generated Railway staging URL: not confirmed by CLI output.
+- Migration: not run.
+- Production domain: not added.
+
 ## Explicitly Forbidden
 
 - No production deployment.
@@ -169,3 +179,24 @@ The prepared fix is:
 - `railway.json`: Railpack builder retained and deploy start command set to `pnpm start`.
 
 Do not retry deploy until this change is reviewed and merged. Do not run migrations as part of the start-command fix.
+
+## Phase 5O Staging Deploy Retry
+
+Phase 5O retried the controlled Railway staging deploy only after the Phase 5N start-command fix was merged. Railway used `railway.json`, built the Next.js app successfully and started the app with `pnpm start`.
+
+Deploy command used:
+
+```sh
+railway up --service attorney-web --message "Phase 5O controlled Attorney staging deploy retry after start config"
+```
+
+Result:
+
+- Deployment ID: `7c05f3a4-38b4-489c-a1a7-f97b3e02426f`.
+- Service status: online.
+- Runtime log: Next.js started and reported ready.
+- Staging URL: not confirmed by CLI output.
+- Staging migration: not run.
+- Production/custom domain: not added.
+
+Do not run staging migration until a separate phase explicitly approves it.

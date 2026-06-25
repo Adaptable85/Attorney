@@ -82,3 +82,29 @@ This does not deploy the app. It only gives Railpack an explicit runtime command
 ## Next Recommendation
 
 Open a review PR for this config fix. Retry the Railway staging deploy only after this fix is reviewed and merged, with safe/off environment gates reconfirmed and without running migrations unless a separate staging migration phase explicitly approves it.
+
+## Phase 5O Follow-Up
+
+Date/time: 2026-06-25 10:17:43 SAST
+
+The Phase 5N config fix was merged in PR #13 and Phase 5O retried the controlled Railway staging deploy to `attorney-web`.
+
+Result:
+
+- Deploy command: `railway up --service attorney-web --message "Phase 5O controlled Attorney staging deploy retry after start config"`.
+- Deployment ID: `7c05f3a4-38b4-489c-a1a7-f97b3e02426f`.
+- Build status: successful; Railpack detected the custom `pnpm start` command and ran `pnpm run build`.
+- Runtime status: online; Next.js started and reported ready.
+- Generated Railway staging URL: not confirmed by CLI output.
+- Migration status: not run and still pending.
+- Production/custom domain: not added.
+
+Safety status remains unchanged:
+
+- No Prisma migration was run.
+- `db:push` was not run.
+- No production database command or production migration was run.
+- No secrets, raw database URL, database password, Railway token or Microsoft client secret was printed or committed.
+- Live Microsoft Entra auth remains disabled.
+- UI saves remain disabled.
+- Production writes remain blocked.
