@@ -1,9 +1,9 @@
 # Railway Implementation Checklist
 
-Status: Phase 5L deploy plan prepared
+Status: Phase 5M deploy attempted; start command fix needed
 Date: 2026-06-25
 
-ADR 0011 accepts Railway for staging app hosting and Railway Postgres for the staging database. Phase 5J confirmed the Railway staging project and Railway Postgres database. Phase 5K created the empty `attorney-web` app service and configured safe/off environment gates. Phase 5L linked `DATABASE_URL` to `attorney-web` through a Railway Postgres reference and prepared the first staging deploy plan. The Attorney app is not deployed. This checklist does not add secrets, run migrations, enable live auth, enable UI saves or enable production writes.
+ADR 0011 accepts Railway for staging app hosting and Railway Postgres for the staging database. Phase 5J confirmed the Railway staging project and Railway Postgres database. Phase 5K created the empty `attorney-web` app service and configured safe/off environment gates. Phase 5L linked `DATABASE_URL` to `attorney-web` through a Railway Postgres reference and prepared the first staging deploy plan. Phase 5M attempted the first controlled staging deploy, but Railway/Railpack failed the build because no start command was detected. The Attorney app is not running on Railway. This checklist does not add secrets, run migrations, enable live auth, enable UI saves or enable production writes.
 
 ## Project Creation
 
@@ -17,7 +17,8 @@ ADR 0011 accepts Railway for staging app hosting and Railway Postgres for the st
 - Next.js app service: `attorney-web`.
 - Railway app service ID: `de7fc164-c220-4d5a-8c91-754423f8e994`.
 - Railway app service source: none; no GitHub repo or image connected.
-- Railway app service deployment status: not deployed.
+- Railway app service deployment status: attempted and failed before runtime.
+- Railway app deployment ID: `39710650-fe18-4bf9-a6ea-a068a6c0d57e`.
 - Railway app service URL/domain: none.
 - Production domain: not added.
 - Production resources: not created.
@@ -74,6 +75,7 @@ Confirm before any staging deploy:
 - Current status: migration is pending and was not run in Phase 5J.
 - Phase 5K status: migration remains pending and was not run.
 - Phase 5L status: migration remains pending and was not run.
+- Phase 5M status: migration remains pending and was not run.
 
 ## Staging Deploy Checklist
 
@@ -89,11 +91,19 @@ Confirm before any staging deploy:
 - No production domain is attached.
 - No production deploy is run.
 
-First deploy command for later explicit approval:
+Phase 5M deploy command attempted:
 
 ```sh
-railway up
+railway up --service attorney-web --message "Phase 5M first controlled Attorney staging deploy"
 ```
+
+Phase 5M result:
+
+- Build status: failed.
+- Runtime status: not started.
+- Failure cause: Railpack detected Node/pnpm but no start command.
+- Staging URL: none.
+- Required next fix: add or configure a Railway-compatible start command in a separate reviewed phase.
 
 First staging migration command for later explicit approval only after target service and database env are reconfirmed:
 

@@ -1,9 +1,9 @@
 # Railway Staging Setup Checklist
 
-Status: Phase 5L deploy plan prepared
+Status: Phase 5M deploy attempted; start command fix needed
 Date: 2026-06-25
 
-This checklist records the current Railway staging setup state and the first staging deploy plan. It does not deploy the app, add secrets, run database commands, enable live auth, enable UI saves or enable production writes.
+This checklist records the current Railway staging setup state and the first staging deploy attempt. It does not add secrets, run database commands, enable live auth, enable UI saves or enable production writes.
 
 ## Target Resources
 
@@ -18,7 +18,8 @@ This checklist records the current Railway staging setup state and the first sta
 - Railway app service name: `attorney-web`.
 - Railway app service ID: `de7fc164-c220-4d5a-8c91-754423f8e994`.
 - Railway app service source: none; no GitHub repo or image connected.
-- Railway app deployment status: not deployed.
+- Railway app deployment status: attempted and failed before runtime.
+- Railway app deployment ID: `39710650-fe18-4bf9-a6ea-a068a6c0d57e`.
 - Railway app URL/domain: none.
 - Railway database: Railway Postgres created.
 - Railway Postgres service name: `Postgres`.
@@ -35,7 +36,7 @@ This checklist records the current Railway staging setup state and the first sta
 ## Current Gaps
 
 - Railway app service exists but is empty.
-- Attorney app is not deployed.
+- Attorney app is not running; first deploy attempt failed during Railpack build because no start command was detected.
 - Staging migration is pending.
 - Safe/off environment gates are configured on `attorney-web`.
 - `AUTH_PRODUCTION_READY=false` is configured on `attorney-web`.
@@ -81,7 +82,7 @@ Do not add live Microsoft Entra tenant, client secret or production auth values 
 
 ## First Staging Deploy Plan
 
-This plan is prepared only. Do not execute it until a later phase explicitly approves staging deploy.
+Phase 5M executed the first controlled deploy attempt. It failed before runtime because Railway/Railpack did not detect a start command. Do not retry until a reviewed start-command/config fix is merged.
 
 Preconditions:
 
@@ -97,10 +98,10 @@ Preconditions:
 - UI saves remain disabled.
 - Production writes remain blocked.
 
-Deploy command for later approval:
+Deploy command used in Phase 5M:
 
 ```sh
-railway up
+railway up --service attorney-web --message "Phase 5M first controlled Attorney staging deploy"
 ```
 
 Migration command for later approval only after deploy target and database env are reconfirmed:
@@ -118,6 +119,15 @@ Rollback/check steps:
 - Check the health page if available.
 - Stop on build or runtime failure.
 - Do not retry by loosening gates.
+
+Phase 5M result:
+
+- Deployment ID: `39710650-fe18-4bf9-a6ea-a068a6c0d57e`.
+- Build status: failed.
+- Runtime status: not started.
+- Staging URL: none.
+- Migration: not run.
+- Required next fix: add or configure a Railway-compatible start command in a separate reviewed phase.
 
 ## Explicitly Forbidden
 
@@ -139,7 +149,7 @@ Rollback/check steps:
 - Active Railway project ID is `46a94859-6ba1-47b8-8e64-4b66a90dc3fa`.
 - `DATABASE_URL` points only to Railway Postgres staging.
 - Safe/off env vars are configured.
-- `attorney-web` has no deployment ID before the first approved staging deploy.
+- `attorney-web` has failed deployment ID `39710650-fe18-4bf9-a6ea-a068a6c0d57e`; no successful running deployment exists yet.
 - `attorney-web` has no production domain.
 - Build command is `pnpm run build`.
 - Install command is `pnpm install --frozen-lockfile`.

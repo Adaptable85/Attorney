@@ -288,3 +288,54 @@ Phase 5L safety status:
 - UI saves remain disabled.
 - Production writes remain blocked.
 - Duplicate Railway project risk remains documented; the active linked project remains `46a94859-6ba1-47b8-8e64-4b66a90dc3fa`.
+
+## First Controlled Railway Staging Deploy Attempt
+
+Date/time: 2026-06-25 09:43:11 SAST
+
+Phase 5M attempted the first controlled Railway staging deploy to `attorney-web` only. The deploy did not complete successfully. Railway/Railpack failed the build before runtime because no start command was detected. No staging URL was created and no runtime smoke test was possible.
+
+| Item | Non-secret value recorded | Status |
+| --- | --- | --- |
+| Active Railway project ID | `46a94859-6ba1-47b8-8e64-4b66a90dc3fa` | Confirmed |
+| Target service | `attorney-web` | Confirmed |
+| Railway app service ID | `de7fc164-c220-4d5a-8c91-754423f8e994` | Confirmed |
+| Deploy command | `railway up --service attorney-web --message "Phase 5M first controlled Attorney staging deploy"` | Attempted |
+| Deployment ID | `39710650-fe18-4bf9-a6ea-a068a6c0d57e` | Failed |
+| Build status | Failed: Railpack detected Node/pnpm but no start command | Failed |
+| Runtime status | Not started; zero running replicas | Failed |
+| Generated Railway staging URL | None | Not available |
+| Staging migration | Not run | Pending |
+| Production domain | Not added | Confirmed |
+
+Pre-deploy validation passed before the attempt:
+
+- `pnpm install --frozen-lockfile`
+- `pnpm run lint`
+- `pnpm run typecheck`
+- `pnpm test`
+- `pnpm run test:coverage`
+- `pnpm run prisma:validate`
+- `pnpm run build`
+- `./scripts/check-agent-context.sh`
+- `./scripts/check-adr-needed.sh`
+- `./scripts/pre-pr-review.sh`
+- `pnpm run test:db:local`
+
+Phase 5M safety status:
+
+- No Prisma migration was run.
+- `db:push` was not run.
+- No production deploy or production/custom domain was added.
+- No Railway Postgres `DATABASE_URL`, database password, Railway token, Microsoft client secret or private key was printed or committed.
+- Live Microsoft Entra auth remains disabled.
+- UI saves remain disabled.
+- Production writes remain blocked.
+- No real Burgess client data was used.
+
+Next recommendation:
+
+- Add or configure a Railway-compatible start command in a separate reviewed phase.
+- Keep all auth/write gates false/off.
+- Reattempt staging deploy only after the start-command fix is reviewed and merged.
+- Run staging Prisma migration only in a separate explicitly approved phase after the app deploy is healthy.
