@@ -1,9 +1,9 @@
 # Railway Staging Setup Checklist
 
-Status: Phase 5J resource record
-Date: 2026-06-24
+Status: Phase 5L deploy plan prepared
+Date: 2026-06-25
 
-This checklist records the current Railway staging setup state. It does not deploy the app, add secrets, run database commands, enable live auth, enable UI saves or enable production writes.
+This checklist records the current Railway staging setup state and the first staging deploy plan. It does not deploy the app, add secrets, run database commands, enable live auth, enable UI saves or enable production writes.
 
 ## Target Resources
 
@@ -29,7 +29,7 @@ This checklist records the current Railway staging setup state. It does not depl
 - Railway region: `sfo`.
 - Railway Postgres deployment ID: `8a6e8714-c85c-4b1b-b3c9-22439f1edce2`.
 - Database purpose: staging only.
-- `DATABASE_URL`: available inside Railway through Railway Postgres variables; value must not be recorded.
+- `DATABASE_URL`: linked to `attorney-web` through Railway Postgres reference; value must not be recorded.
 - Production domain: not added.
 
 ## Current Gaps
@@ -39,7 +39,7 @@ This checklist records the current Railway staging setup state. It does not depl
 - Staging migration is pending.
 - Safe/off environment gates are configured on `attorney-web`.
 - `AUTH_PRODUCTION_READY=false` is configured on `attorney-web`.
-- `DATABASE_URL` linkage from Railway Postgres to `attorney-web` is pending; no value is recorded in Git or docs.
+- `DATABASE_URL` linkage from Railway Postgres to `attorney-web` is configured; no value is recorded in Git or docs.
 - Two Railway projects reportedly share the name `burgess-attorneys-staging`; the active linked project is `46a94859-6ba1-47b8-8e64-4b66a90dc3fa`.
 - Do not delete or modify any duplicate project in this phase.
 
@@ -78,6 +78,46 @@ Do not add live Microsoft Entra tenant, client secret or production auth values 
 - Do not run production migrations.
 - Do not use a production database URL.
 - Do not load real Burgess client data.
+
+## First Staging Deploy Plan
+
+This plan is prepared only. Do not execute it until a later phase explicitly approves staging deploy.
+
+Preconditions:
+
+- Active Railway project ID is `46a94859-6ba1-47b8-8e64-4b66a90dc3fa`.
+- Target service is `attorney-web`.
+- `DATABASE_URL` is linked from Railway Postgres and the value is not printed.
+- Safe/off env vars are configured.
+- `AUTH_PRODUCTION_READY=false`.
+- No production domain is attached.
+- No real Burgess client data is loaded.
+- Create forms remain disabled.
+- Live Microsoft Entra auth remains disabled.
+- UI saves remain disabled.
+- Production writes remain blocked.
+
+Deploy command for later approval:
+
+```sh
+railway up
+```
+
+Migration command for later approval only after deploy target and database env are reconfirmed:
+
+```sh
+railway run pnpm exec prisma migrate deploy
+```
+
+Do not run `db:push`, destructive resets, production migrations, production database commands, live auth, UI saves or production writes.
+
+Rollback/check steps:
+
+- Capture the Railway deployment reference.
+- Check Railway deployment logs and runtime logs.
+- Check the health page if available.
+- Stop on build or runtime failure.
+- Do not retry by loosening gates.
 
 ## Explicitly Forbidden
 
