@@ -1,9 +1,9 @@
 # Railway Staging Setup Checklist
 
-Status: Phase 5M deploy attempted; start command fix needed
+Status: Phase 5N start command config prepared for review
 Date: 2026-06-25
 
-This checklist records the current Railway staging setup state and the first staging deploy attempt. It does not add secrets, run database commands, enable live auth, enable UI saves or enable production writes.
+This checklist records the current Railway staging setup state, the first staging deploy attempt and the reviewed start-command fix prepared in Phase 5N. It does not add secrets, run database commands, retry deployment, enable live auth, enable UI saves or enable production writes.
 
 ## Target Resources
 
@@ -37,6 +37,7 @@ This checklist records the current Railway staging setup state and the first sta
 
 - Railway app service exists but is empty.
 - Attorney app is not running; first deploy attempt failed during Railpack build because no start command was detected.
+- Phase 5N prepared a minimal Railway start-command config for review.
 - Staging migration is pending.
 - Safe/off environment gates are configured on `attorney-web`.
 - `AUTH_PRODUCTION_READY=false` is configured on `attorney-web`.
@@ -153,6 +154,18 @@ Phase 5M result:
 - `attorney-web` has no production domain.
 - Build command is `pnpm run build`.
 - Install command is `pnpm install --frozen-lockfile`.
+- Start command prepared for review is `pnpm start`.
 - Create forms remain disabled.
 - Entra routes remain disabled until a later live-auth phase.
 - No secrets are committed to Git.
+
+## Phase 5N Start Command Fix
+
+Railway build logs for deployment `39710650-fe18-4bf9-a6ea-a068a6c0d57e` confirmed Railpack detected Node and pnpm but stopped with `No start command detected`.
+
+The prepared fix is:
+
+- `package.json`: `start` script set to `next start -p ${PORT:-3000}`.
+- `railway.json`: Railpack builder retained and deploy start command set to `pnpm start`.
+
+Do not retry deploy until this change is reviewed and merged. Do not run migrations as part of the start-command fix.

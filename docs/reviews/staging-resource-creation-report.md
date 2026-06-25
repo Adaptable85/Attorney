@@ -214,6 +214,42 @@ Next recommendation:
 
 - Prepare a first safe staging deploy and staging migration plan only after confirming `DATABASE_URL` linkage strategy and retaining all safe/off gates.
 
+## Railway Railpack Build Failure Diagnosis And Start Config
+
+Date/time: 2026-06-25 10:01:02 SAST
+
+Phase 5N diagnosed the failed Railway staging deployment `39710650-fe18-4bf9-a6ea-a068a6c0d57e` and prepared a minimal start-command configuration for review. No deploy retry, migration or database push was run.
+
+| Item | Non-secret value recorded | Status |
+| --- | --- | --- |
+| Railway deployment diagnosed | `39710650-fe18-4bf9-a6ea-a068a6c0d57e` | Confirmed |
+| Failure type | Railpack missing start command | Confirmed |
+| Local package manager | `pnpm` | Confirmed |
+| Local build script | `pnpm run build` | Confirmed |
+| Start script before Phase 5N | Missing | Confirmed |
+| Start script prepared | `pnpm start` | Pending review |
+| Railway config prepared | `railway.json` with Railpack builder and `pnpm start` deploy command | Pending review |
+| Deploy retry | Not run | Confirmed |
+| Migration | Not run | Confirmed |
+| `db:push` | Not run | Confirmed |
+| Staging URL | None | Pending |
+| Production domain | Not added | Confirmed |
+
+Safety status remains unchanged:
+
+- No production deploy was run.
+- No Railway deploy retry was run.
+- No production database command or production migration was run.
+- No secrets, `DATABASE_URL` values, database passwords, Railway tokens, private keys or Microsoft client secrets were printed or committed.
+- Live Microsoft Entra auth remains disabled.
+- UI saves remain disabled.
+- Production writes remain blocked.
+
+Next recommendation:
+
+- Open a review PR for the start-command/config fix.
+- Retry the Railway staging deploy only after the fix is reviewed and merged.
+
 ## Railway Database Linkage And First Deploy Plan
 
 Date/time: 2026-06-25 09:22:07 SAST
