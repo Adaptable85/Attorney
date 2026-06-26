@@ -1,9 +1,9 @@
 # Railway Implementation Checklist
 
-Status: Phase 5P Railway staging URL generated; migration pending
+Status: Phase 5Q read-only staging review passed; migration pending
 Date: 2026-06-26
 
-ADR 0011 accepts Railway for staging app hosting and Railway Postgres for the staging database. Phase 5J confirmed the Railway staging project and Railway Postgres database. Phase 5K created the empty `attorney-web` app service and configured safe/off environment gates. Phase 5L linked `DATABASE_URL` to `attorney-web` through a Railway Postgres reference and prepared the first staging deploy plan. Phase 5M attempted the first controlled staging deploy, but Railway/Railpack failed the build because no start command was detected. Phase 5N added a minimal reviewed start-command configuration. Phase 5O retried the controlled staging deploy successfully and the Attorney app is online on Railway. Phase 5P generated a Railway-provided staging URL and performed read-only smoke checks. This checklist does not add secrets, run migrations, enable live auth, enable UI saves or enable production writes.
+ADR 0011 accepts Railway for staging app hosting and Railway Postgres for the staging database. Phase 5J confirmed the Railway staging project and Railway Postgres database. Phase 5K created the empty `attorney-web` app service and configured safe/off environment gates. Phase 5L linked `DATABASE_URL` to `attorney-web` through a Railway Postgres reference and prepared the first staging deploy plan. Phase 5M attempted the first controlled staging deploy, but Railway/Railpack failed the build because no start command was detected. Phase 5N added a minimal reviewed start-command configuration. Phase 5O retried the controlled staging deploy successfully and the Attorney app is online on Railway. Phase 5P generated a Railway-provided staging URL and performed read-only smoke checks. Phase 5Q completed a read-only staging review without observed schema errors. This checklist does not add secrets, run migrations, enable live auth, enable UI saves or enable production writes.
 
 ## Project Creation
 
@@ -80,6 +80,7 @@ Confirm before any staging deploy:
 - Phase 5N status: migration remains pending and was not run.
 - Phase 5O status: migration remains pending and was not run.
 - Phase 5P status: migration remains pending and was not run.
+- Phase 5Q status: migration remains pending and was not run.
 
 ## Staging Deploy Checklist
 
@@ -139,6 +140,17 @@ Phase 5P Railway-provided staging URL result:
 - Database/schema error: none observed in read-only smoke checks.
 - Migration: not run.
 - Production domain: not added.
+
+Phase 5Q read-only staging review result:
+
+- Root and health routes load successfully.
+- Admin/dashboard/client/matter routes render safe not-authorized state for unauthenticated access.
+- Create routes render safe not-authorized state and expose no active save/submit marker in fetched HTML.
+- Live Entra login/callback remain disabled.
+- Entra logout rejects `GET`.
+- No invoice, statement, WhatsApp, Lexpro or email workflow appeared active.
+- No database/schema error appeared.
+- Migration remains not run and pending separate approval only if a later database-backed route requires it.
 
 First staging migration command for later explicit approval only after target service and database env are reconfirmed:
 

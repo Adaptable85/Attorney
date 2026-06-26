@@ -477,3 +477,43 @@ Next recommendation:
 - Open a review PR for this Phase 5P result documentation.
 - Proceed to a staging review checklist if the Railway URL remains healthy.
 - Approve Railway staging migration separately only if later staging checks require database-backed routes.
+
+## Railway Staging Read-Only Review
+
+Date/time: 2026-06-26 10:26:00 SAST
+
+Phase 5Q performed a read-only staging review of `https://attorney-web-production.up.railway.app`. No deploy, migration, `db:push`, production database command, production migration, custom/production domain or secret change was run.
+
+| Item | Non-secret value recorded | Status |
+| --- | --- | --- |
+| Staging URL reviewed | `https://attorney-web-production.up.railway.app` | Confirmed |
+| Active Railway project ID | `46a94859-6ba1-47b8-8e64-4b66a90dc3fa` | Confirmed |
+| Target service | `attorney-web` | Confirmed |
+| Root route | `200 OK` | Passed |
+| Health endpoint | `200 OK`; technical-foundation payload | Passed |
+| Admin routes | `200 OK`; safe not-authorized state | Passed |
+| Create client route | `200 OK`; safe not-authorized state; no active submit/action markers observed | Passed |
+| Create matter route | `200 OK`; safe not-authorized state; no active submit/action markers observed | Passed |
+| Matter detail route | `200 OK`; safe not-authorized state | Passed |
+| Entra login/callback | `503`; live Entra auth not enabled | Passed |
+| Entra logout `GET` | `405` | Passed |
+| Database/schema error | None observed | Not observed |
+| Staging migration | Not run | Pending |
+| Production/custom domain | Not added | Confirmed |
+
+Phase 5Q safety status:
+
+- No deploy was run.
+- No Prisma migration was run.
+- `db:push` was not run.
+- No production database command or production migration was run.
+- No Railway Postgres `DATABASE_URL`, database password, Railway token, Microsoft client secret or private key was printed or committed.
+- Live Microsoft Entra auth remains disabled.
+- UI saves remain disabled.
+- Production writes remain blocked.
+- No real Burgess client data was used.
+
+Next recommendation:
+
+- Continue staging UX/read-only review.
+- Do not run staging migration yet because the read-only routes did not show schema errors.
