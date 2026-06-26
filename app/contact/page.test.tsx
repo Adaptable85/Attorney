@@ -11,7 +11,9 @@ describe("contact public page", () => {
     expect(html).toContain("078 749 6223");
     expect(html).toContain("10 Nuxia Street, Kuilsriver");
     expect(html).toContain("href=\"mailto:stephanie@burgessinc.co.za\"");
+    expect(html).toContain("Contact Us");
     expect(html).not.toContain("<form");
+    expect(html).not.toContain("action=");
     expect(html).not.toContain("type=\"submit\"");
     expect(html.length).toBeGreaterThan(1400);
   });
