@@ -12,7 +12,7 @@ Phase 8B deployed this workspace to Railway staging at `https://attorney-web-pro
 | --- | --- | --- | --- |
 | Review workspace | `/admin` | Private read-only overview and checklist | Confirm the admin structure and section order |
 | Dashboard | `/admin/dashboard` | Demo placeholder dashboard | Confirm workload, next-step and audit summary shape |
-| Clients | `/admin/clients` | Demo placeholder client list | Confirm client fields and labels |
+| Clients | `/admin/clients` | Full read-only Clients Review module with demo-only client detail previews at `/admin/clients/[demo-slug]` | Confirm client fields, statuses, contact rules, linked-matter expectations and archive/search behavior |
 | Matters | `/admin/matters` | Demo placeholder matter list/detail | Confirm matter fields, status labels and next-step shape |
 | Documents | `/admin/documents` | Private-document placeholder | Confirm document categories, privacy labels and audit expectations |
 | Billing | `/admin/billing` | Invoice/statement structure placeholder | Confirm approval fields and statement summary shape |
@@ -31,6 +31,7 @@ Phase 8B deployed this workspace to Railway staging at `https://attorney-web-pro
 - No production writes.
 - No public admin link from public website routes.
 - Railway staging verification confirmed these routes return read-only content after password access.
+- Phase 8C expands Clients locally only; no deployment was run for that phase.
 
 ## Billing Boundary
 

@@ -88,3 +88,17 @@ The Phase 8A workspace was deployed to Railway staging in Phase 8B.
 - No migration, `db:push`, DNS change, Railway environment change or secret exposure occurred.
 
 Recommended next phase: review the Clients section first with Stephanie.
+
+## Phase 8C Clients Review Module
+
+Date/time: 2026-06-26 17:02:49 SAST
+
+Phase 8C expands `/admin/clients` into a full read-only Clients Review module.
+
+- Demo client records now cover individual, company, trust/estate, repeat commercial and archive-candidate scenarios.
+- `/admin/clients/[slug]` provides demo-only client detail previews for approved demo records.
+- `/admin/clients/new` remains blocked/non-writing.
+- The Clients page includes Stephanie review prompts and a future workflow preview.
+- No real data entry, client write path, UI save, migration, `db:push` or deployment was added.
+
+Recommended next section after Clients: Matters.

@@ -4,7 +4,7 @@ This repository is for the Burgess Attorneys Admin Automation Platform.
 
 ## Current Phase Boundary
 
-Phase 8A adds a read-only admin review workspace and section-by-section review structure only. It adds no deployment, Railway command, database command, `db:push`, production migration, live OAuth exchange, Microsoft redirect, network call to Microsoft, session cookie creation beyond the existing staging password access, real provider secrets, production auth readiness, production writes, live UI save, active production save button, mutation API route, payment gateway, Yoco, Payfast, shop or checkout functionality.
+Phase 8C adds a read-only Clients Review module and demo-only client detail previews only. It adds no deployment, Railway command, database command, `db:push`, production migration, live OAuth exchange, Microsoft redirect, network call to Microsoft, session cookie creation beyond the existing staging password access, real provider secrets, production auth readiness, production writes, live UI save, active production save button, mutation API route, payment gateway, Yoco, Payfast, shop, checkout or membership functionality.
 
 Do not build product features yet. Do not build client/matter CRUD, invoice workflow, statement workflow, WhatsApp automation, Lexpro import, website, marketing system, outreach system, production auth, production database models, production file storage, or agent runtime yet.
 
@@ -43,6 +43,7 @@ Phase 5D adds a staging resource creation runbook and approval checklist only. I
 Phase 5G accepts Supabase Postgres as the managed PostgreSQL direction replacing Neon. It adds no Vercel project creation, Supabase project creation, deployment, secrets, database command, production migration, live auth, UI saves, production writes, sending or sync.
 Phase 5I accepts Railway + Railway Postgres as the staging direction. It adds no Railway resource creation, deployment, secrets, database command, production migration, live auth, UI saves, production writes, sending or sync.
 Phase 8A adds the read-only admin review workspace, private section review pages and section review map only. It adds no deploy, migration, `db:push`, live auth, UI saves, production writes, active create/save/submit actions, payment gateway, Yoco, Payfast, shop, checkout, invoice workflow, WhatsApp, Lexpro import or email sending.
+Phase 8C adds the read-only Clients Review module, demo-only client records and demo-only client detail previews only. It adds no deploy, migration, `db:push`, live auth, UI saves, production writes, active create/save/edit/archive/upload/submit actions, payment gateway, Yoco, Payfast, shop, checkout, membership, invoice workflow, WhatsApp, Lexpro import or email sending.
 
 ## Project Non-Negotiables
 
@@ -90,6 +91,7 @@ Phase 8A adds the read-only admin review workspace, private section review pages
 - Vercel/Supabase and Vercel/Neon documents remain historical unless later re-approved.
 - xneelo shared hosting must not host the secure app.
 - Phase 8A admin review pages must remain private, read-only and demo/placeholder-only. They must not expose public admin links, active save/create/submit buttons, payment gateway copy, Yoco, Payfast, shop or checkout functionality.
+- Phase 8C Clients Review pages must remain private, read-only and demo-only. They must not expose real client data entry, public admin links, active save/create/edit/archive/upload/submit buttons, payment gateway copy, Yoco, Payfast, shop, checkout or membership functionality.
 
 ## Safe Financial Defaults
 

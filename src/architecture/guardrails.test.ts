@@ -6,10 +6,13 @@ import { describe, expect, it } from "vitest";
 const root = process.cwd();
 const sourceRoots = ["AGENTS.md", "CLAUDE.md", ".context", "app", "docs", "src"];
 const clientMatterUiFiles = [
+  "app/(admin)/admin/clients/[slug]/page.tsx",
   "app/(admin)/admin/clients/new/page.tsx",
   "app/(admin)/admin/matters/new/page.tsx",
   "src/ui/admin/client-create-form.tsx",
+  "src/ui/admin/client-detail-preview.tsx",
   "src/ui/admin/client-list.tsx",
+  "src/ui/admin/clients-review-data.ts",
   "src/ui/admin/matter-create-form.tsx",
   "src/ui/admin/matter-detail.tsx",
   "src/ui/admin/matter-list.tsx"

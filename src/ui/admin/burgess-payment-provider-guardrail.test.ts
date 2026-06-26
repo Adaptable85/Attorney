@@ -8,9 +8,13 @@ const blockedProviderB = ["Pay", "fast"].join("");
 const filesToCheck = [
   "app/page.tsx",
   "app/(admin)/admin/page.tsx",
+  "app/(admin)/admin/clients/page.tsx",
+  "app/(admin)/admin/clients/[slug]/page.tsx",
   "src/ui/admin/admin-shell.tsx",
   "src/ui/admin/admin-section-review-data.ts",
+  "src/ui/admin/client-detail-preview.tsx",
   "src/ui/admin/client-list.tsx",
+  "src/ui/admin/clients-review-data.ts",
   "src/ui/admin/matter-list.tsx"
 ];
 
@@ -25,5 +29,6 @@ describe("Burgess payment-provider guardrail", () => {
     expect(combinedSource).not.toMatch(/payment\s+gateway/i);
     expect(combinedSource).not.toMatch(/check\s*out/i);
     expect(combinedSource).not.toMatch(/sh[o]p/i);
+    expect(combinedSource).not.toContain(["member", "ship"].join(""));
   });
 });
