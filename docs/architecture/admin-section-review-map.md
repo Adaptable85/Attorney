@@ -4,6 +4,8 @@ Date/time: 2026-06-26 16:11:18 SAST
 
 Phase 8A adds a read-only admin review workspace for structure review only. It does not approve writes, live authentication, migrations, deployment or production data entry.
 
+Phase 8B deployed this workspace to Railway staging at `https://attorney-web-production.up.railway.app` and verified the route map as read-only. Deployment ID `e4e41b91-cfc8-42db-b0a9-771c77219b1a` reached `SUCCESS`.
+
 ## Sections
 
 | Section | Route | Current state | Future review focus |
@@ -28,6 +30,7 @@ Phase 8A adds a read-only admin review workspace for structure review only. It d
 - No UI saves.
 - No production writes.
 - No public admin link from public website routes.
+- Railway staging verification confirmed these routes return read-only content after password access.
 
 ## Billing Boundary
 

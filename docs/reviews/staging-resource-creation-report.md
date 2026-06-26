@@ -778,3 +778,36 @@ Next recommendation:
 - Open a review PR for this Phase 6B result documentation.
 - After merge, send Stephanie the Railway staging URL for public website review.
 - Decide revisions before any custom domain or DNS change.
+
+## Phase 8B Admin Review Workspace Staging Deploy
+
+Date/time: 2026-06-26 16:37:54 SAST
+
+Phase 8B deployed the merged Phase 8A read-only admin review workspace to the existing Railway staging app service. This was an app deploy only. No migration, `db:push`, production database command, Railway environment variable change, DNS change, custom/production domain change, live auth, UI save or production write was run or enabled.
+
+| Item | Non-secret value recorded | Status |
+| --- | --- | --- |
+| Active Railway project ID | `46a94859-6ba1-47b8-8e64-4b66a90dc3fa` | Confirmed |
+| Railway app service | `attorney-web` | Confirmed |
+| Deployment ID | `e4e41b91-cfc8-42db-b0a9-771c77219b1a` | `SUCCESS` |
+| Deploy command | `railway up --service attorney-web --message "Phase 8B deploy read-only admin review workspace"` | Completed |
+| Staging URL | `https://attorney-web-production.up.railway.app` | Confirmed |
+| Public routes | `/`, `/about`, `/services`, `/team`, `/testimonials`, `/contact` returned `200` | Passed |
+| `/api/health` | Returned `{"ok":true,"phase":"0","scope":"technical-foundation"}` | Passed |
+| Admin workspace | `/admin` rendered the read-only review workspace after password sign-in | Passed |
+| Admin section routes | Dashboard, clients, matters, documents, billing, Lexpro, audit and access returned `200` with read-only content | Passed |
+| Create routes | `/admin/clients/new` and `/admin/matters/new` remained blocked/non-writing | Passed |
+| Live Entra routes | Login and callback returned disabled `503` responses | Passed |
+| Migration | Not run | Confirmed |
+| `db:push` | Not run | Confirmed |
+| Custom/production domain or DNS | Not changed | Confirmed |
+| Secrets | No secret values recorded | Confirmed |
+
+Safety status:
+
+- Live Microsoft Entra auth remains disabled.
+- UI saves remain disabled.
+- Production writes remain blocked.
+- No payment gateway, Yoco, Payfast, shop, checkout or membership functionality was added.
+- No real Burgess client data was entered.
+- No client, matter, invoice, WhatsApp, Lexpro or email workflow was started.

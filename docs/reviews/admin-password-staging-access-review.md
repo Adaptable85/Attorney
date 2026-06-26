@@ -172,3 +172,33 @@ Planned review behavior:
 - Client and matter create routes remain blocked/non-writing for reviewers.
 - Public website pages remain free of admin links.
 - No deploy, migration, `db:push`, Railway environment change, live auth, UI save or production write is approved by this phase.
+
+## Phase 8B Admin Review Workspace Staging Verification
+
+Date/time: 2026-06-26 16:37:54 SAST
+
+Phase 8B deployed the merged Phase 8A review workspace to Railway staging and verified the password-backed read-only admin review path.
+
+| Item | Result |
+| --- | --- |
+| Staging URL | `https://attorney-web-production.up.railway.app` |
+| Railway deployment ID | `e4e41b91-cfc8-42db-b0a9-771c77219b1a` |
+| `/admin` without session | `200`, password screen rendered |
+| Correct password POST | `303`, relative `Location: /admin`; cookie present but not recorded |
+| `/admin` with session | `200`, admin review workspace rendered |
+| Role display | `Read-Only Reviewer` |
+| Section routes | Dashboard, clients, matters, documents, billing, Lexpro, audit and access returned `200` |
+| Create routes | Client and matter create routes remained blocked/non-writing |
+| Entra routes | Login and callback remained disabled with `503` |
+
+Safety status:
+
+- The private admin password and session cookie were not printed or recorded.
+- No migration was run.
+- `db:push` was not run.
+- No Railway environment variable was changed.
+- No custom/production domain or DNS change was made.
+- Live Microsoft Entra auth remains disabled.
+- UI saves remain disabled.
+- Production writes remain blocked.
+- No payment gateway, Yoco, Payfast, shop, checkout or membership copy appeared in the admin smoke check.
