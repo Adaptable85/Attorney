@@ -545,3 +545,57 @@ Next recommendation:
 
 - Open a review PR for the Phase 5R client-facing pack.
 - After merge, send Stephanie the reviewed email draft and staging link.
+
+## Public Website Staging Deploy
+
+Date/time: 2026-06-26 12:15:07 SAST
+
+Phase 6B deployed the merged public Burgess Attorneys website to the existing Railway staging app service. No further deploy, migration, `db:push`, production database command, production migration, custom/production domain, DNS change or secret change should be run as part of this record phase.
+
+| Item | Non-secret value recorded | Status |
+| --- | --- | --- |
+| Active Railway project ID | `46a94859-6ba1-47b8-8e64-4b66a90dc3fa` | Confirmed |
+| Target service | `attorney-web` | Confirmed |
+| Railway service status | Online | Confirmed |
+| Deployment ID | `ce11f354-28a5-4568-8da4-7727623e2d6b` | Active |
+| Staging URL | `https://attorney-web-production.up.railway.app` | Confirmed |
+| Deploy command used | `railway up --service attorney-web --message "Phase 6B deploy public Burgess Attorneys website to staging"` | Completed with CLI timeout after upload |
+| Deploy result | Railway dashboard showed active deployment and the user confirmed the public site was visible | Passed |
+| Start command | `next start -p ${PORT:-3000}` | Confirmed from deployment view |
+| `/` | `200 OK`; public homepage markers visible | Passed |
+| `/about` | `200 OK`; public about page markers visible | Passed |
+| `/services` | `200 OK`; service page markers visible | Passed |
+| `/team` | `200 OK`; Stephanie/team markers visible | Passed |
+| `/contact` | `200 OK`; contact page markers visible; no active form markup found | Passed |
+| `/api/health` | `200 OK`; returned `{"ok":true,"phase":"0","scope":"technical-foundation"}` | Passed |
+| `/admin` | `200 OK`; rendered safe `Not authorized` state for unauthenticated access | Passed |
+| Staging migration | Not run successfully; remains pending separate approval | Pending |
+| `db:push` | Not run successfully; no such script exists | Blocked |
+| Production/custom domain | Not added | Confirmed |
+
+Accidental command attempts recorded transparently:
+
+- `pnpm exec prisma migrate deploy` was attempted locally and targeted localhost. It failed with `P1010: User was denied access`; no Railway migration completed.
+- `pnpm run db:push` was attempted and failed because no such package script exists; no `db:push` completed.
+- `railway deploy` opened a template prompt and was not completed.
+- `railway up` produced the active staging deployment listed above.
+
+Phase 6B safety status:
+
+- No additional deploy was run during this record phase.
+- No Railway migration completed.
+- No successful `db:push` occurred.
+- No production database command or production migration was run.
+- No custom/production domain or DNS change was added.
+- No Railway Postgres `DATABASE_URL`, database password, Railway token, Microsoft client secret or private key was printed or committed.
+- Live Microsoft Entra auth remains disabled.
+- UI saves remain disabled.
+- Production writes remain blocked.
+- No real Burgess client data was entered.
+- No active contact form backend exists.
+
+Next recommendation:
+
+- Open a review PR for this Phase 6B result documentation.
+- After merge, send Stephanie the Railway staging URL for public website review.
+- Decide revisions before any custom domain or DNS change.
