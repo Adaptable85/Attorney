@@ -258,6 +258,42 @@ Safety status:
 - No real Burgess client data was entered.
 - No client, matter, invoice, WhatsApp, Lexpro or email workflow was started.
 
+## Railway Deployed Admin Password Verification
+
+Date/time: 2026-06-26 15:44:04 SAST
+
+Phase 7F records read-only verification of the manually deployed Phase 7E admin password redirect hardening on Railway staging. No deploy, migration, `db:push`, Railway environment change, DNS change or custom/production domain change was run in this phase.
+
+| Item | Non-secret value recorded | Status |
+| --- | --- | --- |
+| Active Railway project ID | `46a94859-6ba1-47b8-8e64-4b66a90dc3fa` | Confirmed |
+| Railway app service | `attorney-web` | Confirmed |
+| Deployment ID | `468e1a25-4fe2-45d3-bbd8-a76ba4fefd59` | Confirmed |
+| Staging URL | `https://attorney-web-production.up.railway.app` | Confirmed |
+| Public routes | `/`, `/about`, `/services`, `/team`, `/testimonials`, `/contact` returned `200` and no public admin links were detected | Passed |
+| `/api/health` | Returned `{"ok":true,"phase":"0","scope":"technical-foundation"}` | Passed |
+| `/admin` | Returned `200`; user manually confirmed password access and admin shell | Passed |
+| Correct-password redirect | Relative `/admin`, manually confirmed | Passed |
+| Failure redirect | Relative `/admin/sign-in?error=invalid`, manually confirmed after Phase 7E deploy | Passed |
+| Role badge | `Read-Only Reviewer`, manually confirmed | Passed |
+| Matters page | Read-only, manually confirmed | Passed |
+| `/admin/clients/new` | Blocked/non-writing, manually confirmed | Passed |
+| `/admin/matters/new` | Blocked/non-writing, manually confirmed | Passed |
+| Save/create/write flow | No active flow, manually confirmed | Passed |
+| Migration | Not run | Confirmed |
+| `db:push` | Not run | Confirmed |
+| Custom/production domain or DNS | Not changed | Confirmed |
+| Secrets/cookies | No secret or cookie values recorded | Confirmed |
+
+Safety status:
+
+- Live Microsoft Entra auth remains disabled.
+- UI saves remain disabled.
+- Production writes remain blocked.
+- Demo/placeholder data only was reviewed.
+- No real Burgess client data was entered.
+- No client, matter, invoice, WhatsApp, Lexpro or email workflow was started.
+
 ## Railway Admin Password Redirect Fix Staging Deploy
 
 Date/time: 2026-06-26 14:21:16 SAST

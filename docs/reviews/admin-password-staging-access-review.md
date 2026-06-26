@@ -107,3 +107,53 @@ Result:
 
 - Open and review the Phase 7D documentation PR.
 - Phase 7E should make the incorrect-password failure redirect relative as well. It currently sets no session cookie and grants no access.
+
+## Phase 7F Deployed Verification
+
+Date/time: 2026-06-26 15:44:04 SAST
+
+Phase 7F records deployed admin-password verification after the Phase 7E failure-redirect hardening was manually deployed to Railway staging. This phase did not run a deploy, migration, `db:push`, Railway environment change, DNS change or production-domain change.
+
+| Item | Result |
+| --- | --- |
+| Staging URL | `https://attorney-web-production.up.railway.app` |
+| Railway project ID | `46a94859-6ba1-47b8-8e64-4b66a90dc3fa` |
+| Railway service | `attorney-web` |
+| Railway deployment ID | `468e1a25-4fe2-45d3-bbd8-a76ba4fefd59` |
+| `/` | `200`, no public admin link detected |
+| `/about` | `200`, no public admin link detected |
+| `/services` | `200`, no public admin link detected |
+| `/team` | `200`, no public admin link detected |
+| `/testimonials` | `200`, no public admin link detected |
+| `/contact` | `200`, no public admin link detected |
+| `/api/health` | `{"ok":true,"phase":"0","scope":"technical-foundation"}` |
+| `/admin` | `200`; password screen/manual admin access review confirmed |
+
+User-provided manual verification confirmed:
+
+- Public website is visible.
+- `/admin` password login works.
+- Correct password redirects to `/admin`.
+- Incorrect-password/failure path is hardened to `/admin/sign-in?error=invalid`.
+- Admin shell loads.
+- Role badge shows `Read-Only Reviewer`.
+- Matters page loads as read-only.
+- Demo/placeholder data only is visible.
+- `/admin/clients/new` is blocked.
+- `/admin/matters/new` is blocked.
+- No create/save/write flow is active.
+
+Safety status:
+
+- Live Microsoft Entra auth remains disabled.
+- UI saves remain disabled.
+- Production writes remain blocked.
+- No migration was run.
+- No `db:push` was run.
+- No custom/production domain or DNS change was made.
+- No password, session secret, raw database URL, cookie, Railway token, private key or Microsoft client secret was recorded.
+
+Next recommendation:
+
+- Open and review the Phase 7F documentation PR.
+- After merge, decide whether to run a final read-only client-review pass or proceed to the next approved feature-planning phase.

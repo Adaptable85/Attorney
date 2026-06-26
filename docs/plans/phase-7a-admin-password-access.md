@@ -73,4 +73,17 @@ Phase 7D redeployed the merged redirect fix to Railway staging and verified the 
 
 Phase 7E hardens the incorrect-password and fail-closed redirect path to use relative `/admin/sign-in?error=invalid`. It does not change password validation, session cookie signing, roles, Railway configuration, deployment state, live auth, UI saves or production writes.
 
+Phase 7F records deployed verification after the Phase 7E hardening was manually deployed to Railway staging:
+
+- Public routes load and do not expose admin navigation links.
+- `/admin` password login works.
+- Correct password redirects to `/admin`.
+- Incorrect-password/failure path redirects to `/admin/sign-in?error=invalid`.
+- Admin shell loads as `Read-Only Reviewer`.
+- Matter/admin review remains read-only with demo/placeholder data only.
+- `/admin/clients/new` and `/admin/matters/new` remain blocked/non-writing.
+- No save/create/write flow is active.
+- Live Microsoft Entra auth, UI saves and production writes remain disabled.
+- No migration, `db:push`, DNS or custom/production domain change was run.
+
 Do not put password values in Git or chat.
