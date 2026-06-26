@@ -561,6 +561,87 @@ a {
   background: var(--burgess-panel);
 }
 
+.admin-password-page {
+  display: grid;
+  min-height: 100vh;
+  place-items: center;
+  padding: 28px;
+}
+
+.admin-password-panel {
+  display: grid;
+  gap: 16px;
+  width: min(100%, 460px);
+  border: 1px solid var(--burgess-border);
+  border-radius: 8px;
+  background: var(--burgess-panel);
+  padding: 26px;
+  box-shadow: 0 18px 42px rgba(42, 63, 82, 0.1);
+}
+
+.admin-password-panel h1,
+.admin-password-panel p {
+  margin: 0;
+}
+
+.admin-password-panel h1 {
+  color: var(--burgess-charcoal);
+  font-size: 28px;
+  font-weight: 500;
+}
+
+.admin-password-panel > p:not(.public-eyebrow),
+.admin-password-panel__note {
+  color: var(--burgess-muted);
+  line-height: 1.55;
+}
+
+.admin-password-panel form {
+  display: grid;
+  gap: 12px;
+}
+
+.admin-password-panel label {
+  display: grid;
+  gap: 7px;
+  color: var(--burgess-charcoal);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.admin-password-panel input {
+  min-height: 44px;
+  border: 1px solid var(--burgess-border);
+  border-radius: 4px;
+  padding: 9px 11px;
+  color: var(--burgess-charcoal);
+  font: inherit;
+}
+
+.admin-password-panel button {
+  min-height: 44px;
+  border: 0;
+  border-radius: 4px;
+  background: var(--burgess-accent);
+  color: #ffffff;
+  font: inherit;
+  font-weight: 800;
+}
+
+.admin-password-panel input:disabled,
+.admin-password-panel button:disabled {
+  cursor: not-allowed;
+  opacity: 0.62;
+}
+
+.admin-password-panel__error {
+  border: 1px solid #c27f7f;
+  border-radius: 6px;
+  background: #fff4f4;
+  padding: 10px 12px;
+  color: #7a2d2d;
+}
+
 .status-card {
   padding: 16px;
 }

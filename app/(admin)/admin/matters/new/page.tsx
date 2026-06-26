@@ -1,5 +1,6 @@
-import { requireAdminAccess } from "@/auth/admin-access";
+import { requireAdminRouteAccess } from "@/auth/admin-route-access";
 import { canAccessClientMatterCreateForms } from "@/auth/admin-create-access";
+import { AdminAccessDenied } from "@/ui/admin/admin-access-denied";
 import { AdminHeader } from "@/ui/admin/admin-header";
 import { getVisibleAdminModules } from "@/ui/admin/admin-modules";
 import { AdminNav } from "@/ui/admin/admin-nav";
@@ -7,10 +8,14 @@ import { AdminNotAuthorized } from "@/ui/admin/admin-not-authorized";
 import { MatterCreateForm } from "@/ui/admin/matter-create-form";
 
 export default async function AdminMatterCreateFoundationPage() {
-  const access = await requireAdminAccess();
+  const access = await requireAdminRouteAccess();
 
-  if (!access.allowed || !access.principal || !canAccessClientMatterCreateForms(access.principal)) {
-    return <AdminNotAuthorized reason={access.reason === "allowed" ? "missing_admin_role" : access.reason} />;
+  if (!access.allowed || !access.principal) {
+    return <AdminAccessDenied reason={access.reason} />;
+  }
+
+  if (!canAccessClientMatterCreateForms(access.principal)) {
+    return <AdminNotAuthorized reason="missing_admin_role" />;
   }
 
   return (

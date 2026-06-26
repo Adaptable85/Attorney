@@ -258,6 +258,32 @@ Safety status:
 - No real Burgess client data was entered.
 - No client, matter, invoice, WhatsApp, Lexpro or email workflow was started.
 
+## Phase 7A Admin Password Access Preparation
+
+Date/time: 2026-06-26
+
+Phase 7A prepares a staging/review-only password gate for the admin area. It records environment variable names only and does not configure Railway secrets, deploy, run migrations or enable writes.
+
+| Item | Non-secret value recorded | Status |
+| --- | --- | --- |
+| Public admin link | No public header/footer link to `/admin` is expected | Guarded by tests |
+| Password access gate | `BURGESS_ADMIN_PASSWORD_ACCESS_ENABLED` | Defaults off |
+| Password value | `BURGESS_ADMIN_PASSWORD` | Not recorded |
+| Session secret | `BURGESS_ADMIN_SESSION_SECRET` | Not recorded |
+| Password-session role | `READ_ONLY_REVIEWER` | Read-only |
+| Microsoft Entra live auth | Not enabled | Confirmed |
+| UI saves | Not enabled | Confirmed |
+| Production writes | Not enabled | Confirmed |
+| Migration | Not run | Confirmed |
+| `db:push` | Not run | Confirmed |
+| Deploy | Not run | Confirmed |
+
+Next recommendation:
+
+- Review and merge the Phase 7A password-gate PR.
+- Configure the password and session secret in Railway only in a later approved phase.
+- Deploy only after the Railway env variables are configured and reviewed.
+
 ## Railway Railpack Build Failure Diagnosis And Start Config
 
 Date/time: 2026-06-25 10:01:02 SAST

@@ -7,6 +7,9 @@ export type AdminAccessDecision = {
   reason:
     | "allowed"
     | "missing_user"
+    | "password_access_disabled"
+    | "password_access_unconfigured"
+    | "password_required"
     | "agent_service_blocked"
     | "missing_admin_role";
   principal: AuthenticatedPrincipal | null;

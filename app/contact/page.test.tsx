@@ -15,6 +15,8 @@ describe("contact public page", () => {
     expect(html).not.toContain("<form");
     expect(html).not.toContain("action=");
     expect(html).not.toContain("type=\"submit\"");
+    expect(html).not.toContain("href=\"/admin\"");
+    expect(html).not.toContain("/admin/sign-in");
     expect(html.length).toBeGreaterThan(1400);
   });
 });

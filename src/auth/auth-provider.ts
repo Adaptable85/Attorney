@@ -1,6 +1,9 @@
 import type { RoleKey } from "@/domain/roles";
 
-export type AuthProviderKind = "local_dev_placeholder" | "future_provider_backed";
+export type AuthProviderKind =
+  | "local_dev_placeholder"
+  | "future_provider_backed"
+  | "staging_admin_password";
 
 export type AuthenticatedPrincipal = {
   userId: string;
@@ -24,4 +27,3 @@ export function createLocalDevAuthProvider(
     }
   };
 }
-

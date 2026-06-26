@@ -1,24 +1,24 @@
-import { requireAdminAccess } from "@/auth/admin-access";
+import { requireAdminRouteAccess } from "@/auth/admin-route-access";
 import {
   demoClientsRepository,
   demoMattersRepository
 } from "@/services/demo-client-matter-data";
 import { listClientSummaries } from "@/services/clients-service";
 import { getMatterSummary } from "@/services/matters-service";
+import { AdminAccessDenied } from "@/ui/admin/admin-access-denied";
 import { AdminHeader } from "@/ui/admin/admin-header";
 import { getVisibleAdminModules } from "@/ui/admin/admin-modules";
 import { AdminNav } from "@/ui/admin/admin-nav";
-import { AdminNotAuthorized } from "@/ui/admin/admin-not-authorized";
 import { createMatterDetailItem } from "@/ui/admin/client-matter-read-model";
 import { MatterDetail } from "@/ui/admin/matter-detail";
 
 export default async function AdminMatterDetailPage({
   params
 }: Readonly<{ params: Promise<{ id: string }> }>) {
-  const access = await requireAdminAccess();
+  const access = await requireAdminRouteAccess();
 
   if (!access.allowed || !access.principal) {
-    return <AdminNotAuthorized reason={access.reason} />;
+    return <AdminAccessDenied reason={access.reason} />;
   }
 
   const { id } = await params;

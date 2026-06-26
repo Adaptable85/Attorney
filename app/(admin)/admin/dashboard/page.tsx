@@ -1,16 +1,16 @@
-import { requireAdminAccess } from "@/auth/admin-access";
+import { requireAdminRouteAccess } from "@/auth/admin-route-access";
 import { getAdminDashboardModel } from "@/domain/admin-dashboard";
+import { AdminAccessDenied } from "@/ui/admin/admin-access-denied";
 import { AdminHeader } from "@/ui/admin/admin-header";
 import { getVisibleAdminModules } from "@/ui/admin/admin-modules";
 import { AdminNav } from "@/ui/admin/admin-nav";
-import { AdminNotAuthorized } from "@/ui/admin/admin-not-authorized";
 import { DashboardOverview } from "@/ui/admin/dashboard-overview";
 
 export default async function AdminDashboardPage() {
-  const access = await requireAdminAccess();
+  const access = await requireAdminRouteAccess();
 
   if (!access.allowed || !access.principal) {
-    return <AdminNotAuthorized reason={access.reason} />;
+    return <AdminAccessDenied reason={access.reason} />;
   }
 
   return (
