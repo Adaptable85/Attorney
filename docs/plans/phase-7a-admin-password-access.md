@@ -13,6 +13,7 @@ Phase 7A adds a staging/review-only password gate for the Attorney admin area. I
 - Staging password access is disabled by default.
 - Missing password or session-secret environment variables fail closed.
 - Correct password creates a signed, httpOnly, sameSite `lax` admin session cookie only when the explicit gate is enabled.
+- Correct password redirects to relative `/admin`, not an absolute internal host.
 - Password session maps to `READ_ONLY_REVIEWER`.
 - Read-only admin pages may render after password access.
 - Client and matter create foundations remain blocked for the password-session reviewer.
@@ -59,4 +60,6 @@ pnpm run test:db:local
 
 ## Next Phase
 
-After review and merge, configure the staging admin password and session secret in Railway environment variables, then deploy in a separate approved phase. Do not put password values in Git or chat.
+Phase 7B configured Railway password environment variables and deployed the password gate, but staging smoke testing found the successful redirect pointed at an internal `localhost` URL. Phase 7C fixes the redirect to relative `/admin`.
+
+After Phase 7C review and merge, redeploy in a separate approved phase and rerun the admin password smoke check. Do not put password values in Git or chat.

@@ -33,7 +33,12 @@ export async function POST(request: Request) {
     return redirectToSignIn(request, "invalid");
   }
 
-  const response = NextResponse.redirect(new URL("/admin", request.url));
+  const response = new NextResponse(null, {
+    status: 303,
+    headers: {
+      Location: "/admin"
+    }
+  });
   response.cookies.set(
     adminPasswordSessionCookieName,
     cookieValue,
