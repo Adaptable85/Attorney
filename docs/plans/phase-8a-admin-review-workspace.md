@@ -68,3 +68,23 @@ Also perform local route checks:
 - The workspace is still demo-only and must not be interpreted as live operational data.
 - Stephanie feedback should drive the next admin structure iteration.
 - Any future write phase still requires production-auth readiness, audited persistence, explicit release gates and owner approval.
+
+## Phase 8B Staging Verification
+
+Date/time: 2026-06-26 16:37:54 SAST
+
+The Phase 8A workspace was deployed to Railway staging in Phase 8B.
+
+- Staging URL: `https://attorney-web-production.up.railway.app`
+- Deployment ID: `e4e41b91-cfc8-42db-b0a9-771c77219b1a`
+- Deployment status: `SUCCESS`
+- Public pages returned `200` and exposed no admin link.
+- `/admin` rendered the password screen without a session.
+- Password-backed `/admin` rendered the read-only review workspace.
+- Dashboard, clients, matters, documents, billing, Lexpro, audit and access routes rendered read-only content.
+- Client and matter create routes remained blocked/non-writing.
+- Live Microsoft Entra auth remained disabled.
+- UI saves and production writes remained disabled.
+- No migration, `db:push`, DNS change, Railway environment change or secret exposure occurred.
+
+Recommended next phase: review the Clients section first with Stephanie.
