@@ -157,3 +157,18 @@ Next recommendation:
 
 - Open and review the Phase 7F documentation PR.
 - After merge, decide whether to run a final read-only client-review pass or proceed to the next approved feature-planning phase.
+
+## Phase 8A Admin Review Workspace Note
+
+Date/time: 2026-06-26 16:11:18 SAST
+
+Phase 8A builds on the verified admin-password staging access path by improving the authenticated admin review experience. The admin workspace remains read-only and uses the existing password/session boundary for staging review.
+
+Planned review behavior:
+
+- `/admin` renders a section-by-section review workspace after password access.
+- The role badge continues to show `Read-Only Reviewer`.
+- Dashboard, clients, matters, documents, billing, Lexpro boundary, audit and access sections are reviewable as private admin routes.
+- Client and matter create routes remain blocked/non-writing for reviewers.
+- Public website pages remain free of admin links.
+- No deploy, migration, `db:push`, Railway environment change, live auth, UI save or production write is approved by this phase.

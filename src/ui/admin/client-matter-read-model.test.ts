@@ -52,7 +52,7 @@ describe("client matter read model", () => {
       latestInvoiceStatusPlaceholder: "Demo invoice status: not connected",
       latestStatementBalancePlaceholder: "Demo statement balance: R0.00 placeholder",
       lastCommunicationPlaceholder: "Demo last communication: not connected",
-      paymentStatusPlaceholder: "Demo payment status: Lexpro remains source of truth"
+      accountingStatusPlaceholder: "Demo accounting status: Lexpro remains source of truth"
     });
   });
 

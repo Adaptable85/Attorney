@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import type { AdminModule } from "./admin-modules";
 
 export function ModuleCard({ module }: Readonly<{ module: AdminModule }>) {
@@ -9,6 +11,9 @@ export function ModuleCard({ module }: Readonly<{ module: AdminModule }>) {
         <span className="module-card__tag">{module.status}</span>
         <span className="module-card__tag">{module.phaseLabel}</span>
       </div>
+      <Link className="module-card__link" href={module.href}>
+        Review section
+      </Link>
     </article>
   );
 }

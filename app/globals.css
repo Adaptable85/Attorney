@@ -673,6 +673,14 @@ a {
   line-height: 1.5;
 }
 
+.module-card__link {
+  display: inline-flex;
+  margin-top: 14px;
+  color: var(--burgess-accent);
+  font-size: 14px;
+  font-weight: 700;
+}
+
 .module-card__meta {
   display: flex;
   flex-wrap: wrap;
@@ -687,6 +695,127 @@ a {
   color: var(--burgess-warning);
   font-size: 12px;
   font-weight: 700;
+}
+
+.review-hero,
+.review-checklist,
+.section-review__header,
+.section-review-card {
+  border: 1px solid var(--burgess-border);
+  border-radius: 8px;
+  background: var(--burgess-panel);
+}
+
+.review-hero {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 18px;
+  padding: 18px;
+}
+
+.review-hero__eyebrow {
+  margin: 0 0 8px;
+  color: var(--burgess-accent);
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.review-hero h2,
+.review-checklist h2,
+.section-review__header h1,
+.section-review-card h2 {
+  margin: 0;
+  color: var(--burgess-charcoal);
+}
+
+.review-hero h2,
+.section-review__header h1 {
+  font-size: 24px;
+  line-height: 1.2;
+}
+
+.review-hero p:not(.review-hero__eyebrow),
+.review-checklist li,
+.section-review__header p,
+.section-review-card li {
+  color: var(--burgess-muted);
+  line-height: 1.5;
+}
+
+.review-hero p:not(.review-hero__eyebrow),
+.section-review__header p {
+  margin: 8px 0 0;
+}
+
+.review-hero__badge,
+.section-review__header span {
+  border-radius: 999px;
+  background: var(--burgess-accent-soft);
+  padding: 7px 10px;
+  color: var(--burgess-accent);
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.review-checklist {
+  margin-bottom: 18px;
+  padding: 18px;
+}
+
+.review-checklist ul,
+.section-review-card ul {
+  display: grid;
+  gap: 8px;
+  margin: 12px 0 0;
+  padding-left: 20px;
+}
+
+.section-review {
+  display: grid;
+  gap: 16px;
+}
+
+.section-review__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px;
+}
+
+.section-review__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.section-review-card {
+  padding: 18px;
+}
+
+.section-review-card h2 {
+  font-size: 18px;
+}
+
+.section-review-card dl {
+  display: grid;
+  gap: 12px;
+  margin: 14px 0 0;
+}
+
+.section-review-card dt {
+  color: var(--burgess-muted);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.section-review-card dd {
+  margin: 4px 0 0;
+  line-height: 1.45;
 }
 
 .dashboard-overview {
@@ -1053,6 +1182,7 @@ a {
   .module-grid,
   .dashboard-grid,
   .dashboard-metrics,
+  .section-review__grid,
   .read-list__grid,
   .read-card dl,
   .read-detail dl {
@@ -1060,8 +1190,10 @@ a {
   }
 
   .admin-header,
+  .review-hero,
   .dashboard-overview__header,
   .dashboard-section__header,
+  .section-review__header,
   .read-list__header,
   .read-card__title-row {
     display: grid;

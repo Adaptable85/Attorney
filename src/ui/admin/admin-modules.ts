@@ -1,9 +1,6 @@
 import {
-  canApproveInvoices,
-  canApproveStatements,
   canCreateAgentDraftSuggestions,
   canPublishMarketing,
-  canViewAuditLogs,
   canViewDocumentMetadata,
   canViewFinancialRecords
 } from "@/domain/permission-policy";
@@ -15,6 +12,7 @@ export type AdminModule = {
   id: string;
   title: string;
   navLabel: string;
+  href: string;
   description: string;
   status: "Not implemented yet";
   phaseLabel: "Coming in later phase";
@@ -23,72 +21,90 @@ export type AdminModule = {
 
 export const adminModules: readonly AdminModule[] = [
   {
-    id: "active-matters",
-    title: "Active Matters",
+    id: "clients",
+    title: "Client Review",
+    navLabel: "Clients",
+    href: "/admin/clients",
+    description: "Read-only demo client list for structure review. No create, edit or delete action is available.",
+    status: "Not implemented yet",
+    phaseLabel: "Coming in later phase",
+    isVisibleForRole: canViewFinancialRecords
+  },
+  {
+    id: "matters",
+    title: "Matter Review",
     navLabel: "Matters",
-    description: "Placeholder for future matter overview and file administration.",
+    href: "/admin/matters",
+    description: "Read-only demo matter list for workflow review. No edit, delete, send or approval action is available.",
     status: "Not implemented yet",
     phaseLabel: "Coming in later phase",
-    isVisibleForRole: (role) => canViewFinancialRecords(role) || canViewDocumentMetadata(role)
-  },
-  {
-    id: "pending-invoice-approvals",
-    title: "Pending Invoice Approvals",
-    navLabel: "Invoice Approvals",
-    description: "Owner approval workflow placeholder. No invoice approval action exists here.",
-    status: "Not implemented yet",
-    phaseLabel: "Coming in later phase",
-    isVisibleForRole: canApproveInvoices
-  },
-  {
-    id: "pending-statement-approvals",
-    title: "Pending Statement Approvals",
-    navLabel: "Statement Approvals",
-    description: "Owner statement approval placeholder. No statement sending action exists here.",
-    status: "Not implemented yet",
-    phaseLabel: "Coming in later phase",
-    isVisibleForRole: canApproveStatements
+    isVisibleForRole: canViewFinancialRecords
   },
   {
     id: "document-review",
     title: "Document Review",
     navLabel: "Documents",
-    description: "Metadata-only review placeholder. No upload or download is available.",
+    href: "/admin/documents",
+    description: "Private-document review placeholder. No upload, download or public storage is available.",
     status: "Not implemented yet",
     phaseLabel: "Coming in later phase",
     isVisibleForRole: canViewDocumentMetadata
   },
   {
-    id: "audit-log",
-    title: "Audit Log",
-    navLabel: "Audit",
-    description: "Audit visibility placeholder for future sensitive action review.",
+    id: "pending-invoice-approvals",
+    title: "Billing Review",
+    navLabel: "Billing",
+    href: "/admin/billing",
+    description: "Invoice and statement structure placeholder. No approval, numbering, sending or external collection action exists.",
     status: "Not implemented yet",
     phaseLabel: "Coming in later phase",
-    isVisibleForRole: canViewAuditLogs
+    isVisibleForRole: canViewFinancialRecords
+  },
+  {
+    id: "lexpro-boundary",
+    title: "Lexpro Boundary",
+    navLabel: "Lexpro",
+    href: "/admin/lexpro",
+    description: "Accounting boundary placeholder only. Lexpro remains the accounting source of truth.",
+    status: "Not implemented yet",
+    phaseLabel: "Coming in later phase",
+    isVisibleForRole: canViewFinancialRecords
+  },
+  {
+    id: "audit-log",
+    title: "Audit Trail",
+    navLabel: "Audit",
+    href: "/admin/audit",
+    description: "Sensitive-action review placeholder. Live audit events are not displayed yet.",
+    status: "Not implemented yet",
+    phaseLabel: "Coming in later phase",
+    isVisibleForRole: canViewFinancialRecords
+  },
+  {
+    id: "access-control",
+    title: "Settings / Access Control",
+    navLabel: "Access",
+    href: "/admin/access",
+    description: "Role and gate review placeholder. Live Microsoft Entra auth and production writes remain disabled.",
+    status: "Not implemented yet",
+    phaseLabel: "Coming in later phase",
+    isVisibleForRole: canViewFinancialRecords
   },
   {
     id: "agent-drafts",
     title: "Agent Drafts",
     navLabel: "Agent Drafts",
+    href: "/admin/dashboard",
     description: "Draft routing placeholder. Agents cannot access this admin shell.",
     status: "Not implemented yet",
     phaseLabel: "Coming in later phase",
     isVisibleForRole: canCreateAgentDraftSuggestions
   },
   {
-    id: "lexpro-boundary",
-    title: "Lexpro Boundary / Accounting Sync Placeholder",
-    navLabel: "Lexpro Boundary",
-    description: "Boundary placeholder only. Lexpro remains accounting source of truth.",
-    status: "Not implemented yet",
-    phaseLabel: "Coming in later phase",
-    isVisibleForRole: canViewFinancialRecords
-  },
-  {
     id: "website-marketing",
     title: "Website / Marketing Placeholder",
     navLabel: "Marketing",
+    href: "/admin/dashboard",
     description: "Marketing approval placeholder. No publishing or outreach action exists here.",
     status: "Not implemented yet",
     phaseLabel: "Coming in later phase",

@@ -8,7 +8,7 @@ export type ClientListItem = {
   statusLabel: string;
   matterCountLabel: string;
   latestStatementBalancePlaceholder: string;
-  paymentStatusPlaceholder: string;
+  accountingStatusPlaceholder: string;
   demoLabel: "Demo placeholder data";
 };
 
@@ -25,7 +25,7 @@ export type MatterListItem = {
   latestInvoiceStatusPlaceholder: string;
   latestStatementBalancePlaceholder: string;
   lastCommunicationPlaceholder: string;
-  paymentStatusPlaceholder: string;
+  accountingStatusPlaceholder: string;
   demoLabel: "Demo placeholder data";
 };
 
@@ -60,7 +60,7 @@ export function createClientListItems(
     statusLabel: client.status,
     matterCountLabel: matterCountLabel(matters.filter((matter) => matter.clientId === client.id).length),
     latestStatementBalancePlaceholder: "Demo statement balance: R0.00 placeholder",
-    paymentStatusPlaceholder: "Demo payment status: Lexpro remains source of truth",
+    accountingStatusPlaceholder: "Demo accounting status: Lexpro remains source of truth",
     demoLabel: "Demo placeholder data"
   }));
 }
@@ -82,7 +82,7 @@ export function createMatterListItems(
     latestInvoiceStatusPlaceholder: "Demo invoice status: not connected",
     latestStatementBalancePlaceholder: "Demo statement balance: R0.00 placeholder",
     lastCommunicationPlaceholder: "Demo last communication: not connected",
-    paymentStatusPlaceholder: "Demo payment status: Lexpro remains source of truth",
+    accountingStatusPlaceholder: "Demo accounting status: Lexpro remains source of truth",
     demoLabel: "Demo placeholder data"
   }));
 }

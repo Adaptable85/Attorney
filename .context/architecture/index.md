@@ -35,6 +35,7 @@ Phase 5C Vercel + Neon staging setup planning is implemented without creating li
 Phase 5D staging resource creation runbook and approval checklist are implemented without creating live Vercel/Neon resources, deployment, secrets, database commands, production auth readiness, production writes or UI saves.
 Phase 5G accepts Supabase Postgres as the managed PostgreSQL direction replacing Neon without creating Vercel/Supabase resources, deployment, secrets, database commands, production auth readiness, production writes or UI saves.
 Phase 5I accepts Railway + Railway Postgres as the staging direction without creating Railway resources, deployment, secrets, database commands, production auth readiness, production writes or UI saves.
+Phase 8A read-only admin review workspace is implemented without deployment, database commands, live auth, UI saves, production writes, payment gateways or product workflow actions.
 
 ## Current Direction
 
@@ -66,6 +67,8 @@ Phase 5I accepts Railway + Railway Postgres as the staging direction without cre
 - Client/matter service functions wrap repository interfaces with admin access checks and safe typed errors.
 - Protected `/admin/clients`, `/admin/matters` and `/admin/matters/[id]` read-only pages use safe demo repositories.
 - Protected `/admin/clients/new` and `/admin/matters/new` render disabled future-phase form foundations only.
+- Protected `/admin` renders a read-only admin review workspace with a section-by-section review checklist.
+- Protected admin section routes exist for documents, billing, Lexpro boundary, audit trail and access control as read-only placeholders.
 - Auth sessions map through fail-closed role mapping before becoming domain principals.
 - Mutation-capable service functions require service context, permission checks and audit metadata.
 - Local-only Prisma client/matter repository adapters can be exercised through guarded DB tests.
@@ -96,6 +99,8 @@ Phase 5I accepts Railway + Railway Postgres as the staging direction without cre
 - Railway implementation checklist lives at `docs/architecture/railway-implementation-checklist.md`.
 - Railway staging checklist lives at `docs/architecture/railway-staging-setup-checklist.md`.
 - Phase 5I plan lives at `docs/plans/phase-5i-railway-staging-direction.md`.
+- Phase 8A plan lives at `docs/plans/phase-8a-admin-review-workspace.md`.
+- Admin section review map lives at `docs/architecture/admin-section-review-map.md`.
 - ADR 0010 Vercel + Supabase and ADR 0009 Vercel + Neon remain historical unless later re-approved.
 - Vercel/Supabase implementation checklist lives at `docs/architecture/vercel-supabase-implementation-checklist.md`.
 - Historical Vercel/Neon implementation checklist lives at `docs/architecture/vercel-neon-implementation-checklist.md`.
@@ -159,6 +164,7 @@ See:
 - Phase 5D staging resource runbook: documentation/checklists only; no Vercel project, Neon database, deployment, secret, database command, live auth, production write or UI save is exposed.
 - Phase 5G Supabase database-provider direction: accepted architecture decision and checklist updates only; no Supabase project, deployment, secret, database command, live auth, production write or UI save is exposed.
 - Phase 5I Railway staging direction: accepted architecture decision and checklist updates only; no Railway resource, deployment, secret, database command, live auth, production write or UI save is exposed.
+- Phase 8A admin review workspace: private admin review UI only; no deploy, migration, `db:push`, live auth, UI save, production write, payment gateway, Yoco, Payfast, shop, checkout, invoice workflow, WhatsApp, Lexpro import or email sending is exposed.
 - Agent service users: blocked from normal admin shell navigation.
 
 ## ADR Candidates

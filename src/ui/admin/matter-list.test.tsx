@@ -16,7 +16,7 @@ const matter = {
   latestInvoiceStatusPlaceholder: "Demo invoice status: not connected",
   latestStatementBalancePlaceholder: "Demo statement balance: R0.00 placeholder",
   lastCommunicationPlaceholder: "Demo last communication: not connected",
-  paymentStatusPlaceholder: "Demo payment status: Lexpro remains source of truth",
+  accountingStatusPlaceholder: "Demo accounting status: Lexpro remains source of truth",
   demoLabel: "Demo placeholder data" as const
 };
 
@@ -34,7 +34,7 @@ describe("matter list", () => {
     expect(html).toContain("Demo invoice status: not connected");
     expect(html).toContain("Demo statement balance: R0.00 placeholder");
     expect(html).toContain("Demo last communication: not connected");
-    expect(html).toContain("Demo payment status: Lexpro remains source of truth");
+    expect(html).toContain("Demo accounting status: Lexpro remains source of truth");
   });
 
   it("does not render active matter workflow actions", () => {
@@ -45,5 +45,6 @@ describe("matter list", () => {
     expect(html).not.toContain("Delete matter");
     expect(html).not.toContain("Send statement");
     expect(html).not.toContain("Approve invoice");
+    expect(html).not.toContain("Save");
   });
 });
