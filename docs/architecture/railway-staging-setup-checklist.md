@@ -1,9 +1,9 @@
 # Railway Staging Setup Checklist
 
-Status: Phase 5P Railway staging URL generated; migration pending
+Status: Phase 5Q read-only staging review passed; migration pending
 Date: 2026-06-26
 
-This checklist records the current Railway staging setup state, the first staging deploy attempt, the reviewed start-command fix prepared in Phase 5N, the successful Phase 5O staging deploy retry and the Phase 5P Railway-provided staging URL. It does not add secrets, run database commands, deploy, enable live auth, enable UI saves or enable production writes.
+This checklist records the current Railway staging setup state, the first staging deploy attempt, the reviewed start-command fix prepared in Phase 5N, the successful Phase 5O staging deploy retry, the Phase 5P Railway-provided staging URL and the Phase 5Q read-only staging review. It does not add secrets, run database commands, deploy, enable live auth, enable UI saves or enable production writes.
 
 ## Target Resources
 
@@ -40,6 +40,7 @@ This checklist records the current Railway staging setup state, the first stagin
 - First deploy attempt failed during Railpack build because no start command was detected.
 - Phase 5N prepared a minimal Railway start-command config for review.
 - Phase 5P generated the Railway-provided staging URL.
+- Phase 5Q read-only review passed without observed schema errors.
 - Staging migration is pending.
 - Safe/off environment gates are configured on `attorney-web`.
 - `AUTH_PRODUCTION_READY=false` is configured on `attorney-web`.
@@ -154,6 +155,18 @@ Phase 5P result:
 - Migration: not run.
 - Production domain: not added.
 
+Phase 5Q result:
+
+- Root route: `200 OK`.
+- Health endpoint: `200 OK`.
+- Admin/dashboard/client/matter routes: safe not-authorized state.
+- Create client and create matter routes: safe not-authorized state; no active submit/action markers observed.
+- Entra login/callback: disabled with `503`.
+- Entra logout `GET`: `405`.
+- Database/schema error: none observed.
+- Migration: not run.
+- Production/custom domain: not added.
+
 ## Explicitly Forbidden
 
 - No production deployment.
@@ -237,3 +250,36 @@ Read-only smoke results:
 - Production writes remain blocked.
 
 Do not add a custom domain, run deployment, run migration or enable live auth/write gates as part of this URL-generation step.
+
+## Phase 5Q Read-Only Staging Review
+
+Phase 5Q reviewed the live Railway staging URL without logging in, submitting forms or testing writes.
+
+Checked routes:
+
+- `/`
+- `/api/health`
+- `/admin`
+- `/admin/dashboard`
+- `/admin/clients`
+- `/admin/matters`
+- `/admin/clients/new`
+- `/admin/matters/new`
+- `/admin/matters/matter_demo_001`
+- `/api/auth/entra/login`
+- `/api/auth/entra/callback`
+- `/api/auth/entra/logout`
+
+Result:
+
+- The app and health endpoint load.
+- Admin and create routes fail closed to a safe not-authorized state for unauthenticated access.
+- Live Entra login/callback remain disabled.
+- No active save/submit marker was observed in fetched create-route HTML.
+- No invoice, statement, WhatsApp, Lexpro or email workflow appeared active.
+- No database/schema error appeared in read-only checks.
+
+Migration assessment:
+
+- Do not run staging migration yet.
+- Keep migration as a separate approval phase only if a later database-backed route needs it.
