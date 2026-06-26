@@ -1,6 +1,6 @@
 # Context Index
 
-Status: Phase 2A protected admin shell foundation
+Status: Phase 8A read-only admin review workspace
 
 Read order:
 

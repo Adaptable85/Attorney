@@ -24,13 +24,15 @@ pnpm run pre-pr
 
 Admin shell workflow:
 
-- `/admin` is a protected placeholder shell only.
+- `/admin` is a protected read-only review workspace for section-by-section admin review.
 - `/admin/dashboard` is a protected read-only placeholder dashboard only.
+- `/admin/documents`, `/admin/billing`, `/admin/lexpro`, `/admin/audit` and `/admin/access` are protected read-only section review placeholders only.
 - Role-aware navigation must follow the tested permission policy.
 - Owner-only approval placeholders must not be visible to support admin by default.
 - Dashboard demo values must stay clearly labelled and must not imply live operational counts.
 - Agent service users must not receive normal admin navigation.
 - Do not add CRUD, send, approve, publish, upload, download or sync actions until their phases are accepted.
+- Do not add payment gateway, Yoco, Payfast, shop or checkout copy/functionality to Burgess public or admin code.
 
 Client/matter service workflow:
 
@@ -92,6 +94,7 @@ Audited persistence workflow:
 - Phase 5D documents staging resource creation runbook and approval checklist only; do not create Vercel projects, create Neon databases, deploy, add secrets, run database commands, enable live auth, enable UI saves or enable production writes.
 - Phase 5G accepts Supabase Postgres as the managed PostgreSQL direction replacing Neon; do not create Supabase projects, deploy, add secrets, enable Supabase Auth/Storage, enable live auth, enable UI saves or enable production writes.
 - Phase 5I accepts Railway + Railway Postgres as the staging direction; do not create Railway resources, deploy, add secrets, run database commands, enable live auth, enable UI saves or enable production writes.
+- Phase 8A adds a read-only admin review workspace only; do not deploy, run database commands, add secrets, enable live auth, enable UI saves, enable production writes or add active save/create/submit controls.
 - Do not enable `BURGESS_PRODUCTION_AUTH_ENABLED`, `BURGESS_PRODUCTION_AUTH_CONFIGURED` or `BURGESS_PRODUCTION_WRITES_ENABLED` until Entra tenant/admin access, MFA policy, allowed users/domains, role claim approach, environment configuration, staging validation and production readiness review are complete.
 
 Hosting/environment workflow:

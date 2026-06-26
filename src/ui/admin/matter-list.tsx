@@ -58,8 +58,8 @@ export function MatterList({ matters }: Readonly<{ matters: readonly MatterListI
                 <dd>{matter.lastCommunicationPlaceholder}</dd>
               </div>
               <div>
-                <dt>Payment status</dt>
-                <dd>{matter.paymentStatusPlaceholder}</dd>
+                <dt>Accounting status</dt>
+                <dd>{matter.accountingStatusPlaceholder}</dd>
               </div>
             </dl>
             <Link className="read-card__link" href={`/admin/matters/${matter.id}`}>

@@ -258,6 +258,22 @@ Safety status:
 - No real Burgess client data was entered.
 - No client, matter, invoice, WhatsApp, Lexpro or email workflow was started.
 
+## Phase 8A Read-Only Admin Workspace Status
+
+Date/time: 2026-06-26 16:11:18 SAST
+
+Phase 8A is a local code/documentation phase for the admin review workspace only. It does not create or alter Railway resources, deploy the app, configure Railway variables, run migrations, run `db:push`, change DNS or enable production features.
+
+Staging resource status remains unchanged:
+
+- Railway staging URL remains `https://attorney-web-production.up.railway.app`.
+- No new Railway resource is created by Phase 8A.
+- No Railway app deploy is approved by Phase 8A.
+- Railway Postgres remains untouched by Phase 8A.
+- Live Microsoft Entra auth remains disabled.
+- UI saves remain disabled.
+- Production writes remain blocked.
+
 ## Railway Deployed Admin Password Verification
 
 Date/time: 2026-06-26 15:44:04 SAST

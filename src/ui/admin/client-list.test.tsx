@@ -15,7 +15,7 @@ describe("client list", () => {
             statusLabel: "ACTIVE",
             matterCountLabel: "1 demo matter",
             latestStatementBalancePlaceholder: "Demo statement balance: R0.00 placeholder",
-            paymentStatusPlaceholder: "Demo payment status: Lexpro remains source of truth",
+            accountingStatusPlaceholder: "Demo accounting status: Lexpro remains source of truth",
             demoLabel: "Demo placeholder data"
           }
         ]}
@@ -34,5 +34,6 @@ describe("client list", () => {
     expect(html).not.toContain("<button");
     expect(html).not.toContain("Edit client");
     expect(html).not.toContain("Delete client");
+    expect(html).not.toContain("Save");
   });
 });

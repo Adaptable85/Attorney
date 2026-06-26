@@ -140,22 +140,22 @@ Permission strategy:
 
 ## Admin Shell
 
-Phase 2A adds `/admin` as a protected internal shell.
+Phase 2A adds `/admin` as a protected internal shell. Phase 8A extends it into a protected read-only review workspace.
 
-The shell includes placeholder cards for:
+The shell includes section review cards and private review routes for:
 
-- Active Matters.
-- Pending Invoice Approvals.
-- Pending Statement Approvals.
-- Document Review.
-- Audit Log.
-- Agent Drafts.
-- Lexpro Boundary / Accounting Sync Placeholder.
-- Website / Marketing Placeholder.
+- Dashboard.
+- Clients.
+- Matters.
+- Documents.
+- Billing, invoices and statements.
+- Lexpro boundary.
+- Audit trail.
+- Settings and access control.
 
 Every module card is labelled `Not implemented yet` and `Coming in later phase`.
 
-The shell does not display real client, matter, document or financial data. It does not include CRUD, approval, send, publish, upload, download, Lexpro sync or payment reconciliation actions.
+The shell does not display real client, matter, document or financial data. It does not include CRUD, approval, send, publish, upload, download, Lexpro sync, payment gateway, checkout or payment reconciliation actions.
 
 Phase 2B adds `/admin/dashboard` as a protected read-only overview. Dashboard sections are role-filtered and clearly labelled as demo placeholder data. Owner/principal users can see pending approval placeholders, while support admins see preparation placeholders without owner-only controls. The dashboard does not expose create, edit, delete, approve, send, publish, upload, download, Lexpro sync or payment reconciliation actions.
 

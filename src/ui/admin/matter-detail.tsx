@@ -48,8 +48,8 @@ export function MatterDetail({ matter }: Readonly<{ matter: MatterDetailItem }>)
           <dd>{matter.lastCommunicationPlaceholder}</dd>
         </div>
         <div>
-          <dt>Payment status</dt>
-          <dd>{matter.paymentStatusPlaceholder}</dd>
+          <dt>Accounting status</dt>
+          <dd>{matter.accountingStatusPlaceholder}</dd>
         </div>
       </dl>
       <p className="read-detail__future">{matter.futureActionsLabel}</p>

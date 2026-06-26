@@ -35,8 +35,8 @@ export function ClientList({ clients }: Readonly<{ clients: readonly ClientListI
                 <dd>{client.latestStatementBalancePlaceholder}</dd>
               </div>
               <div>
-                <dt>Payment status</dt>
-                <dd>{client.paymentStatusPlaceholder}</dd>
+                <dt>Accounting status</dt>
+                <dd>{client.accountingStatusPlaceholder}</dd>
               </div>
             </dl>
           </article>

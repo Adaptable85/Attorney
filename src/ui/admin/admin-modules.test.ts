@@ -11,9 +11,10 @@ describe("admin module visibility", () => {
       provider: "local_dev_placeholder"
     });
 
-    expect(modules.map((module) => module.title)).not.toContain("Pending Invoice Approvals");
-    expect(modules.map((module) => module.title)).not.toContain("Pending Statement Approvals");
+    expect(modules.map((module) => module.id)).not.toContain("agent-drafts");
+    expect(modules.map((module) => module.navLabel)).not.toContain("Marketing");
     expect(modules.map((module) => module.title)).toContain("Document Review");
+    expect(modules.map((module) => module.title)).toContain("Billing Review");
   });
 
   it("hides all admin items from agent service users", () => {
@@ -37,9 +38,8 @@ describe("admin module visibility", () => {
 
     expect(modules.map((module) => module.title)).toEqual(
       expect.arrayContaining([
-        "Pending Invoice Approvals",
-        "Pending Statement Approvals",
-        "Audit Log"
+        "Billing Review",
+        "Audit Trail"
       ])
     );
   });
@@ -54,5 +54,20 @@ describe("admin module visibility", () => {
 
     expect(modules.every((module) => module.status === "Not implemented yet")).toBe(true);
     expect(modules.every((module) => module.phaseLabel === "Coming in later phase")).toBe(true);
+  });
+
+  it("uses private admin routes without duplicate navigation targets", () => {
+    const modules = getVisibleAdminModules({
+      userId: "reviewer",
+      email: "reviewer@example.test",
+      roles: ["READ_ONLY_REVIEWER"],
+      provider: "local_dev_placeholder"
+    });
+
+    const hrefs = modules.map((module) => module.href);
+
+    expect(hrefs).toEqual(expect.arrayContaining(["/admin/clients", "/admin/matters", "/admin/documents"]));
+    expect(new Set(hrefs).size).toBe(hrefs.length);
+    expect(hrefs.every((href) => href.startsWith("/admin"))).toBe(true);
   });
 });

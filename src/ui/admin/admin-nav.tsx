@@ -3,33 +3,27 @@ import Link from "next/link";
 import type { AdminModule } from "./admin-modules";
 
 export function AdminNav({ modules }: Readonly<{ modules: readonly AdminModule[] }>) {
+  const navItems = [
+    { href: "/admin", label: "Review Workspace" },
+    { href: "/admin/dashboard", label: "Dashboard" },
+    ...modules.map((module) => ({ href: module.href, label: module.navLabel }))
+  ];
+  const uniqueNavItems = navItems.filter(
+    (item, index, items) => items.findIndex((candidate) => candidate.href === item.href) === index
+  );
+
   return (
     <nav className="admin-nav" aria-label="Admin modules">
       <div className="admin-nav__brand">
         <p className="admin-nav__brand-name">Burgess Attorneys</p>
-        <p className="admin-nav__brand-label">Internal admin shell</p>
+        <p className="admin-nav__brand-label">Read-only review workspace</p>
       </div>
       <ul className="admin-nav__list">
-        <li>
-          <Link className="admin-nav__link" href="/admin/dashboard">
-            Dashboard
-          </Link>
-        </li>
-        <li>
-          <Link className="admin-nav__link" href="/admin/clients">
-            Clients
-          </Link>
-        </li>
-        <li>
-          <Link className="admin-nav__link" href="/admin/matters">
-            Matters
-          </Link>
-        </li>
-        {modules.map((module) => (
-          <li key={module.id}>
-            <a className="admin-nav__link" href={`#${module.id}`}>
-              {module.navLabel}
-            </a>
+        {uniqueNavItems.map((item) => (
+          <li key={item.href}>
+            <Link className="admin-nav__link" href={item.href}>
+              {item.label}
+            </Link>
           </li>
         ))}
       </ul>
