@@ -78,3 +78,25 @@ Location: /admin/sign-in?error=invalid
 ```
 
 The failure path sets no session cookie, grants no access and no longer derives the redirect from the incoming request host.
+
+## Phase 7F Deployed Verification
+
+Date/time: 2026-06-26 15:44:04 SAST
+
+Phase 7F records that the Phase 7E redirect hardening was manually deployed to Railway staging and verified without exposing secrets.
+
+- Deployment ID: `468e1a25-4fe2-45d3-bbd8-a76ba4fefd59`
+- Staging URL: `https://attorney-web-production.up.railway.app`
+- Public routes: `/`, `/about`, `/services`, `/team`, `/testimonials`, `/contact` returned `200`
+- Public admin links: not detected
+- `/admin`: returned `200`
+- Health check: `{"ok":true,"phase":"0","scope":"technical-foundation"}`
+- User manual verification: admin password login works, admin shell loads and role badge shows `Read-Only Reviewer`
+- Redirect behavior: correct password redirects to `/admin`; failure path is hardened to `/admin/sign-in?error=invalid`
+- Create/write safety: `/admin/clients/new` and `/admin/matters/new` remain blocked/non-writing; no save/create/write flow is active
+- Live Microsoft Entra auth: disabled
+- UI saves and production writes: disabled/blocked
+- Migration: not run
+- `db:push`: not run
+- Custom/production domain or DNS: not changed
+- Secrets/cookies: not recorded

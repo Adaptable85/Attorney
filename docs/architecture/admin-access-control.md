@@ -97,3 +97,21 @@ Phase 7D did not run a migration, `db:push`, DNS change, custom domain change, l
 Phase 7E hardens the incorrect-password and fail-closed password-session paths so they also return relative redirects. Failed password sign-in now returns `303` with `Location: /admin/sign-in?error=invalid`.
 
 This keeps failure behavior generic, sets no session cookie and avoids deriving redirect targets from internal platform hostnames.
+
+## Phase 7F Deployed Verification
+
+Phase 7F records read-only verification of the deployed Phase 7E admin password hardening on Railway staging deployment `468e1a25-4fe2-45d3-bbd8-a76ba4fefd59`.
+
+Verification confirmed:
+
+- Public routes load and do not expose admin navigation links.
+- `/admin` loads the password access screen.
+- Correct password sign-in redirects to `/admin`.
+- Failed password sign-in redirects to `/admin/sign-in?error=invalid`.
+- Admin shell loads after password access.
+- Role badge shows `Read-Only Reviewer`.
+- Matter/admin review remains read-only with demo/placeholder data.
+- Client and matter create routes remain blocked/non-writing.
+- No save/create/write flow is active.
+
+Phase 7F did not run a deploy, migration, `db:push`, Railway environment change, DNS change, custom/production domain change, live Microsoft Entra auth enablement, UI save enablement or production write enablement.
