@@ -214,6 +214,50 @@ Next recommendation:
 
 - Prepare a first safe staging deploy and staging migration plan only after confirming `DATABASE_URL` linkage strategy and retaining all safe/off gates.
 
+## Railway Brand-Aligned Public Website Staging Deploy
+
+Date/time: 2026-06-26 13:01:10 SAST
+
+Phase 6D deployed the merged brand-aligned Burgess Attorneys public website to the existing Railway staging app service. This was an app deploy only. No migration, `db:push`, custom domain, DNS change, live auth, UI save or production write was run or enabled.
+
+| Item | Non-secret value recorded | Status |
+| --- | --- | --- |
+| Active Railway project ID | `46a94859-6ba1-47b8-8e64-4b66a90dc3fa` | Confirmed |
+| Railway app service | `attorney-web` | Confirmed |
+| Deployment ID | `77e9131b-71a3-4474-a4fa-65a96b285162` | Confirmed |
+| Deploy command | `railway up --service attorney-web --message "Phase 6D deploy brand-aligned Burgess website to staging"` | Completed |
+| Staging URL | `https://attorney-web-production.up.railway.app` | Confirmed |
+| Deployment status | `SUCCESS`, running | Confirmed |
+| Public routes | `/`, `/about`, `/services`, `/team`, `/testimonials`, `/contact` returned `200` | Passed |
+| `/api/health` | Returned `{"ok":true,"phase":"0","scope":"technical-foundation"}` | Passed |
+| `/admin` | Returned `200` with safe unauthenticated `Not authorized` state | Passed |
+| Contact form backend | No `<form>` or submit control observed in fetched contact page HTML | Confirmed absent |
+| Migration | Not run | Confirmed |
+| `db:push` | Not run | Confirmed |
+| Custom/production domain or DNS | Not changed | Confirmed |
+| Secrets | No secret values recorded | Confirmed |
+
+Configured gate status was checked by name/status only:
+
+```text
+DATABASE_URL=present (value redacted)
+AUTH_PROVIDER=entra
+AUTH_PRODUCTION_READY=false
+BURGESS_ENTRA_STAGING_AUTH_WIRING_ENABLED=false
+BURGESS_CLIENT_MATTER_WRITES_ENABLED=false
+BURGESS_LOCAL_DEV_WRITES_ENABLED=false
+BURGESS_DEV_MUTATION_ENTRYPOINTS_ENABLED=false
+BURGESS_PRODUCTION_WRITES_ENABLED=false
+```
+
+Safety status:
+
+- Live Microsoft Entra auth remains disabled.
+- UI saves remain disabled.
+- Production writes remain blocked.
+- No real Burgess client data was entered.
+- No client, matter, invoice, WhatsApp, Lexpro or email workflow was started.
+
 ## Railway Railpack Build Failure Diagnosis And Start Config
 
 Date/time: 2026-06-25 10:01:02 SAST

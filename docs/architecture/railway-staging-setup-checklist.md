@@ -1,9 +1,9 @@
 # Railway Staging Setup Checklist
 
-Status: Phase 6B public website staging deploy recorded; migration pending
+Status: Phase 6D brand-aligned public website staging deploy recorded; migration pending
 Date: 2026-06-26
 
-This checklist records the current Railway staging setup state, the first staging deploy attempt, the reviewed start-command fix prepared in Phase 5N, the successful Phase 5O staging deploy retry, the Phase 5P Railway-provided staging URL, the Phase 5Q read-only staging review and the Phase 6B public website staging deploy result. It does not add secrets, run database commands, deploy during this record phase, enable live auth, enable UI saves or enable production writes.
+This checklist records the current Railway staging setup state, the first staging deploy attempt, the reviewed start-command fix prepared in Phase 5N, the successful Phase 5O staging deploy retry, the Phase 5P Railway-provided staging URL, the Phase 5Q read-only staging review, the Phase 6B public website staging deploy result and the Phase 6D brand-aligned public website staging deploy result. It does not add secrets, run database commands, enable live auth, enable UI saves or enable production writes.
 
 ## Target Resources
 
@@ -18,8 +18,8 @@ This checklist records the current Railway staging setup state, the first stagin
 - Railway app service name: `attorney-web`.
 - Railway app service ID: `de7fc164-c220-4d5a-8c91-754423f8e994`.
 - Railway app service source: none; no GitHub repo or image connected.
-- Railway app deployment status: online after Phase 6B public website deploy.
-- Railway app deployment ID: `ce11f354-28a5-4568-8da4-7727623e2d6b`.
+- Railway app deployment status: online after Phase 6D brand-aligned public website deploy.
+- Railway app deployment ID: `77e9131b-71a3-4474-a4fa-65a96b285162`.
 - Railway app URL/domain: `https://attorney-web-production.up.railway.app`.
   - This is a Railway-generated staging URL under `*.up.railway.app`, not a custom or production Burgess domain.
 - Railway database: Railway Postgres created.
@@ -42,6 +42,7 @@ This checklist records the current Railway staging setup state, the first stagin
 - Phase 5P generated the Railway-provided staging URL.
 - Phase 5Q read-only review passed without observed schema errors.
 - Phase 6B deployed the merged public Burgess Attorneys website to Railway staging.
+- Phase 6D deployed the merged brand-aligned Burgess Attorneys public website to Railway staging.
 - Staging migration is pending.
 - Safe/off environment gates are configured on `attorney-web`.
 - `AUTH_PRODUCTION_READY=false` is configured on `attorney-web`.
@@ -185,6 +186,23 @@ Phase 6B result:
 - Migration: not run successfully and remains pending separate approval.
 - Production/custom domain: not added.
 - DNS: not changed.
+
+Phase 6D result:
+
+- Deployment ID: `77e9131b-71a3-4474-a4fa-65a96b285162`.
+- Deployment status: active and online in Railway.
+- Staging URL: `https://attorney-web-production.up.railway.app`.
+- Deploy command used: `railway up --service attorney-web --message "Phase 6D deploy brand-aligned Burgess website to staging"`.
+- Public routes `/`, `/about`, `/services`, `/team`, `/testimonials` and `/contact`: `200 OK`.
+- Homepage markers confirmed: Burgess Attorneys brand text, official logo asset path and current navigation labels.
+- Contact page: `200 OK`, static contact details visible, no `<form>` or submit control observed.
+- `/api/health`: `200 OK`.
+- `/admin`: `200 OK`, safe unauthenticated `Not authorized` state.
+- Migration: not run and remains pending separate approval.
+- `db:push`: not run.
+- Production/custom domain: not added.
+- DNS: not changed.
+- Live Microsoft Entra auth, UI saves and production writes remain disabled.
 
 ## Explicitly Forbidden
 
