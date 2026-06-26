@@ -62,4 +62,12 @@ pnpm run test:db:local
 
 Phase 7B configured Railway password environment variables and deployed the password gate, but staging smoke testing found the successful redirect pointed at an internal `localhost` URL. Phase 7C fixes the redirect to relative `/admin`.
 
-After Phase 7C review and merge, redeploy in a separate approved phase and rerun the admin password smoke check. Do not put password values in Git or chat.
+Phase 7D redeployed the merged redirect fix to Railway staging and verified the successful admin password sign-in path:
+
+- `/admin` without a session shows the password screen.
+- Correct password sign-in returns `303` with relative `Location: /admin`.
+- Cookie-backed `/admin` renders the read-only admin shell as `Read-Only Reviewer`.
+- Client and matter create routes remain blocked/non-writing.
+- Live Microsoft Entra auth, UI saves and production writes remain disabled.
+
+Do not put password values in Git or chat. A future hardening phase may also make the incorrect-password failure redirect relative, although it currently grants no access and sets no session cookie.

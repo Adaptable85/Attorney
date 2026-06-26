@@ -258,6 +258,63 @@ Safety status:
 - No real Burgess client data was entered.
 - No client, matter, invoice, WhatsApp, Lexpro or email workflow was started.
 
+## Railway Admin Password Redirect Fix Staging Deploy
+
+Date/time: 2026-06-26 14:21:16 SAST
+
+Phase 7D deployed the merged admin password redirect fix to the existing Railway staging app service and verified the admin password access path. This was an app deploy and read-only smoke check only. No migration, `db:push`, custom domain, DNS change, live Microsoft Entra auth, UI save or production write was run or enabled.
+
+| Item | Non-secret value recorded | Status |
+| --- | --- | --- |
+| Active Railway project ID | `46a94859-6ba1-47b8-8e64-4b66a90dc3fa` | Confirmed |
+| Railway app service | `attorney-web` | Confirmed |
+| Deployment ID | `5f07b9eb-c988-47d8-9758-29fbc99a4f86` | Confirmed |
+| Deploy command | `railway up --service attorney-web --message "Phase 7D deploy admin password redirect fix"` | Completed |
+| Deployment status | `SUCCESS` | Confirmed |
+| Staging URL | `https://attorney-web-production.up.railway.app` | Confirmed |
+| Public routes | `/`, `/about`, `/services`, `/team`, `/testimonials`, `/contact` returned `200` and no public admin links were detected | Passed |
+| `/api/health` | Returned `{"ok":true,"phase":"0","scope":"technical-foundation"}` | Passed |
+| `/admin` without session | Returned `200` with password screen | Passed |
+| Incorrect password POST | Returned no session cookie and did not grant access | Passed |
+| Correct password POST | Returned `303` with relative `Location: /admin`; no `localhost` in the successful redirect | Passed |
+| Cookie-backed `/admin` | Returned `200` with admin shell and `Read-Only Reviewer` | Passed |
+| `/admin/clients/new` | Returned `200` but remained blocked/disabled with no active save detected | Passed |
+| `/admin/matters/new` | Returned `200` but remained blocked/disabled with no active save detected | Passed |
+| Entra login/callback | `/api/auth/entra/login` and `/api/auth/entra/callback` returned `503` | Passed |
+| Migration | Not run | Confirmed |
+| `db:push` | Not run | Confirmed |
+| Custom/production domain or DNS | Not changed | Confirmed |
+| Secrets | No secret values recorded | Confirmed |
+
+Configured gate status was checked by name/status only:
+
+```text
+BURGESS_ADMIN_PASSWORD_ACCESS_ENABLED=present true
+BURGESS_ADMIN_PASSWORD=present; value not recorded
+BURGESS_ADMIN_SESSION_SECRET=present; value not recorded
+DATABASE_URL=present; value not recorded
+AUTH_PROVIDER=present
+AUTH_PRODUCTION_READY=false
+BURGESS_ENTRA_STAGING_AUTH_WIRING_ENABLED=false
+BURGESS_CLIENT_MATTER_WRITES_ENABLED=false
+BURGESS_LOCAL_DEV_WRITES_ENABLED=false
+BURGESS_DEV_MUTATION_ENTRYPOINTS_ENABLED=false
+BURGESS_PRODUCTION_WRITES_ENABLED=false
+```
+
+Operational note:
+
+- The `DATABASE_URL` value exists in Railway and was not printed or recorded. The CLI redacted check saw it as a direct Postgres URL rather than a literal Railway reference expression, so a future environment hygiene pass should decide whether to convert it to a Railway variable reference.
+- Incorrect-password redirect behavior remains generic and non-authenticating, but the redirect header still resolves through the internal request host. That path grants no access and sets no cookie; a later small hardening phase may make the failure redirect relative as well.
+
+Safety status:
+
+- Live Microsoft Entra auth remains disabled.
+- UI saves remain disabled.
+- Production writes remain blocked.
+- No real Burgess client data was entered.
+- No client, matter, invoice, WhatsApp, Lexpro or email workflow was started.
+
 ## Phase 7A Admin Password Access Preparation
 
 Date/time: 2026-06-26

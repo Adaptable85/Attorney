@@ -74,3 +74,19 @@ Microsoft Entra remains the accepted production auth direction. A future phase m
 Phase 7B staging smoke testing found that the password session was set correctly, but the successful redirect was built from Railway's internal request host and pointed to `https://localhost:8080/admin`. Phase 7C fixes the route to return a relative `/admin` redirect after successful password verification.
 
 This fix does not change password validation, session signing, admin roles, Microsoft Entra behavior, write gates, database access, migrations, DNS or deployment state.
+
+## Phase 7D Staging Verification
+
+Phase 7D deployed the Phase 7C redirect fix to Railway staging deployment `5f07b9eb-c988-47d8-9758-29fbc99a4f86` on the `attorney-web` service.
+
+Staging verification confirmed:
+
+- Public pages load and do not expose admin navigation links.
+- `/admin` without a session shows the password screen.
+- Correct password sign-in returns `303` with relative `Location: /admin`.
+- Correct password sign-in does not redirect to `localhost`.
+- Cookie-backed `/admin` renders the read-only admin shell as `Read-Only Reviewer`.
+- Client and matter create routes remain blocked/non-writing.
+- Microsoft Entra live login remains disabled.
+
+Phase 7D did not run a migration, `db:push`, DNS change, custom domain change, live auth enablement, UI save enablement or production write enablement.
