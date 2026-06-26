@@ -8,14 +8,15 @@ import {
   verifyAdminPassword
 } from "@/auth/admin-password-access";
 
-function redirectToSignIn(request: Request, error?: "invalid") {
-  const url = new URL("/admin/sign-in", request.url);
+function redirectToSignIn(error?: "invalid") {
+  const location = error ? "/admin/sign-in?error=invalid" : "/admin/sign-in";
 
-  if (error) {
-    url.searchParams.set("error", error);
-  }
-
-  return NextResponse.redirect(url);
+  return new NextResponse(null, {
+    status: 303,
+    headers: {
+      Location: location
+    }
+  });
 }
 
 export async function POST(request: Request) {
@@ -24,13 +25,13 @@ export async function POST(request: Request) {
   const password = formData.get("password");
 
   if (typeof password !== "string" || !verifyAdminPassword(password, config)) {
-    return redirectToSignIn(request, "invalid");
+    return redirectToSignIn("invalid");
   }
 
   const cookieValue = createAdminPasswordSessionCookieValue(config);
 
   if (!cookieValue) {
-    return redirectToSignIn(request, "invalid");
+    return redirectToSignIn("invalid");
   }
 
   const response = new NextResponse(null, {

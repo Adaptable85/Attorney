@@ -32,7 +32,8 @@ Behavior:
 - The session cookie is `httpOnly`, `sameSite=lax`, scoped to `/admin` and secure when running in production mode.
 - The password-session principal is `READ_ONLY_REVIEWER`.
 - Successful password sign-in redirects with a relative `Location: /admin` header.
-- The password sign-in route must not build the success redirect from internal platform hostnames such as `localhost`.
+- Failed password sign-in redirects with a relative `Location: /admin/sign-in?error=invalid` header.
+- The password sign-in route must not build success or failure redirects from internal platform hostnames such as `localhost`.
 
 ## Safety Boundaries
 
@@ -90,3 +91,9 @@ Staging verification confirmed:
 - Microsoft Entra live login remains disabled.
 
 Phase 7D did not run a migration, `db:push`, DNS change, custom domain change, live auth enablement, UI save enablement or production write enablement.
+
+## Phase 7E Failure Redirect Hardening
+
+Phase 7E hardens the incorrect-password and fail-closed password-session paths so they also return relative redirects. Failed password sign-in now returns `303` with `Location: /admin/sign-in?error=invalid`.
+
+This keeps failure behavior generic, sets no session cookie and avoids deriving redirect targets from internal platform hostnames.

@@ -18,10 +18,15 @@ describe("admin password session route", () => {
   });
 
   it("fails closed when password access is not configured", async () => {
-    const response = await POST(createPasswordRequest("anything"));
+    const response = await POST(createPasswordRequest(
+      "anything",
+      "https://localhost:8080/admin/password-session"
+    ));
 
-    expect(response.status).toBe(307);
-    expect(response.headers.get("location")).toContain("/admin/sign-in?error=invalid");
+    expect(response.status).toBe(303);
+    expect(response.headers.get("location")).toBe("/admin/sign-in?error=invalid");
+    expect(response.headers.get("location")).not.toContain("localhost:8080");
+    expect(response.headers.get("location")).not.toContain("admin.example.test");
     expect(response.headers.get("set-cookie")).toBeNull();
   });
 
@@ -30,10 +35,15 @@ describe("admin password session route", () => {
     vi.stubEnv("BURGESS_ADMIN_PASSWORD", "correct-password");
     vi.stubEnv("BURGESS_ADMIN_SESSION_SECRET", "session-secret");
 
-    const response = await POST(createPasswordRequest("wrong-password"));
+    const response = await POST(createPasswordRequest(
+      "wrong-password",
+      "https://localhost:8080/admin/password-session"
+    ));
 
-    expect(response.status).toBe(307);
-    expect(response.headers.get("location")).toContain("/admin/sign-in?error=invalid");
+    expect(response.status).toBe(303);
+    expect(response.headers.get("location")).toBe("/admin/sign-in?error=invalid");
+    expect(response.headers.get("location")).not.toContain("localhost:8080");
+    expect(response.headers.get("location")).not.toContain("admin.example.test");
     expect(response.headers.get("set-cookie")).toBeNull();
   });
 

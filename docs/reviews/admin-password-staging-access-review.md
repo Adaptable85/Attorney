@@ -106,4 +106,4 @@ Result:
 ## Follow-Up
 
 - Open and review the Phase 7D documentation PR.
-- Consider a small future hardening phase to make the incorrect-password failure redirect relative as well. It currently sets no session cookie and grants no access.
+- Phase 7E should make the incorrect-password failure redirect relative as well. It currently sets no session cookie and grants no access.

@@ -14,6 +14,7 @@ Phase 7A adds a staging/review-only password gate for the Attorney admin area. I
 - Missing password or session-secret environment variables fail closed.
 - Correct password creates a signed, httpOnly, sameSite `lax` admin session cookie only when the explicit gate is enabled.
 - Correct password redirects to relative `/admin`, not an absolute internal host.
+- Incorrect password redirects to relative `/admin/sign-in?error=invalid`, not an absolute internal host, and sets no session cookie.
 - Password session maps to `READ_ONLY_REVIEWER`.
 - Read-only admin pages may render after password access.
 - Client and matter create foundations remain blocked for the password-session reviewer.
@@ -70,4 +71,6 @@ Phase 7D redeployed the merged redirect fix to Railway staging and verified the 
 - Client and matter create routes remain blocked/non-writing.
 - Live Microsoft Entra auth, UI saves and production writes remain disabled.
 
-Do not put password values in Git or chat. A future hardening phase may also make the incorrect-password failure redirect relative, although it currently grants no access and sets no session cookie.
+Phase 7E hardens the incorrect-password and fail-closed redirect path to use relative `/admin/sign-in?error=invalid`. It does not change password validation, session cookie signing, roles, Railway configuration, deployment state, live auth, UI saves or production writes.
+
+Do not put password values in Git or chat.

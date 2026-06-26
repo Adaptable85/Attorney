@@ -65,4 +65,16 @@ Phase 7D deployed the merged redirect fix to Railway staging.
 - DNS/custom domain: not changed
 - Secrets: not recorded
 
-Residual note: incorrect-password POST still uses the existing generic failure redirect and may include the internal request host, but it sets no session cookie and grants no access. A later hardening phase can convert the failure redirect to a relative path too.
+Residual note: incorrect-password POST still used the existing generic failure redirect and could include the internal request host, but it set no session cookie and granted no access. Phase 7E hardens that failure redirect to a relative path too.
+
+## Phase 7E Failure Redirect Hardening
+
+Date: 2026-06-26
+
+Phase 7E updates incorrect-password and fail-closed password-session redirects to return:
+
+```text
+Location: /admin/sign-in?error=invalid
+```
+
+The failure path sets no session cookie, grants no access and no longer derives the redirect from the incoming request host.
