@@ -517,3 +517,31 @@ Next recommendation:
 
 - Continue staging UX/read-only review.
 - Do not run staging migration yet because the read-only routes did not show schema errors.
+
+## Client-Facing Staging Review Pack
+
+Date/time: 2026-06-26 10:39:03 SAST
+
+Phase 5R prepared a client-facing staging review pack for Stephanie Burgess. It explains the live staging URL, what can be safely reviewed, what remains intentionally disabled, and what decisions are needed before enabling login, real data or production workflows.
+
+Files prepared:
+
+- `docs/client/stephanie-staging-review-pack.md`
+- `docs/client/stephanie-staging-review-email-draft.md`
+
+Safety status remains unchanged:
+
+- No deploy was run.
+- No migration was run.
+- `db:push` was not run.
+- No production database command or production migration was run.
+- No custom/production domain was added.
+- No secrets, raw database URL, database password, Railway token or Microsoft client secret were printed or committed.
+- Live Microsoft Entra auth remains disabled.
+- UI saves remain disabled.
+- Production writes remain blocked.
+
+Next recommendation:
+
+- Open a review PR for the Phase 5R client-facing pack.
+- After merge, send Stephanie the reviewed email draft and staging link.
