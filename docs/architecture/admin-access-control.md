@@ -31,6 +31,8 @@ Behavior:
 - The session cookie is signed with `BURGESS_ADMIN_SESSION_SECRET`.
 - The session cookie is `httpOnly`, `sameSite=lax`, scoped to `/admin` and secure when running in production mode.
 - The password-session principal is `READ_ONLY_REVIEWER`.
+- Successful password sign-in redirects with a relative `Location: /admin` header.
+- The password sign-in route must not build the success redirect from internal platform hostnames such as `localhost`.
 
 ## Safety Boundaries
 
@@ -66,3 +68,9 @@ No public navigation item links to `/admin`, `/admin/*` or `/admin/sign-in`.
 ## Future Production Auth
 
 Microsoft Entra remains the accepted production auth direction. A future phase must validate tenant configuration, callback/session behavior, audit events and production-readiness gates before live Microsoft login or production writes can be enabled.
+
+## Phase 7C Redirect Fix
+
+Phase 7B staging smoke testing found that the password session was set correctly, but the successful redirect was built from Railway's internal request host and pointed to `https://localhost:8080/admin`. Phase 7C fixes the route to return a relative `/admin` redirect after successful password verification.
+
+This fix does not change password validation, session signing, admin roles, Microsoft Entra behavior, write gates, database access, migrations, DNS or deployment state.
