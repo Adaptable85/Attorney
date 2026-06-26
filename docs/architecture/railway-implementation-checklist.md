@@ -1,9 +1,9 @@
 # Railway Implementation Checklist
 
-Status: Phase 5O staging deploy retry successful; migration pending
-Date: 2026-06-25
+Status: Phase 5P Railway staging URL generated; migration pending
+Date: 2026-06-26
 
-ADR 0011 accepts Railway for staging app hosting and Railway Postgres for the staging database. Phase 5J confirmed the Railway staging project and Railway Postgres database. Phase 5K created the empty `attorney-web` app service and configured safe/off environment gates. Phase 5L linked `DATABASE_URL` to `attorney-web` through a Railway Postgres reference and prepared the first staging deploy plan. Phase 5M attempted the first controlled staging deploy, but Railway/Railpack failed the build because no start command was detected. Phase 5N added a minimal reviewed start-command configuration. Phase 5O retried the controlled staging deploy successfully and the Attorney app is online on Railway. This checklist does not add secrets, run migrations, enable live auth, enable UI saves or enable production writes.
+ADR 0011 accepts Railway for staging app hosting and Railway Postgres for the staging database. Phase 5J confirmed the Railway staging project and Railway Postgres database. Phase 5K created the empty `attorney-web` app service and configured safe/off environment gates. Phase 5L linked `DATABASE_URL` to `attorney-web` through a Railway Postgres reference and prepared the first staging deploy plan. Phase 5M attempted the first controlled staging deploy, but Railway/Railpack failed the build because no start command was detected. Phase 5N added a minimal reviewed start-command configuration. Phase 5O retried the controlled staging deploy successfully and the Attorney app is online on Railway. Phase 5P generated a Railway-provided staging URL and performed read-only smoke checks. This checklist does not add secrets, run migrations, enable live auth, enable UI saves or enable production writes.
 
 ## Project Creation
 
@@ -19,7 +19,8 @@ ADR 0011 accepts Railway for staging app hosting and Railway Postgres for the st
 - Railway app service source: none; no GitHub repo or image connected.
 - Railway app service deployment status: online after Phase 5O deploy retry.
 - Railway app deployment ID: `7c05f3a4-38b4-489c-a1a7-f97b3e02426f`.
-- Railway app service URL/domain: not confirmed by CLI output.
+- Railway app service URL/domain: `https://attorney-web-production.up.railway.app`.
+  - This is a Railway-generated staging URL under `*.up.railway.app`, not a custom or production Burgess domain.
 - Production domain: not added.
 - Production resources: not created.
 - Duplicate project risk: two Railway projects reportedly appear with the name `burgess-attorneys-staging`; the active linked project is `46a94859-6ba1-47b8-8e64-4b66a90dc3fa`.
@@ -78,6 +79,7 @@ Confirm before any staging deploy:
 - Phase 5M status: migration remains pending and was not run.
 - Phase 5N status: migration remains pending and was not run.
 - Phase 5O status: migration remains pending and was not run.
+- Phase 5P status: migration remains pending and was not run.
 
 ## Staging Deploy Checklist
 
@@ -123,6 +125,18 @@ Phase 5O controlled deploy retry result:
 - Runtime status: online.
 - Start command: `pnpm start`.
 - Staging URL: not confirmed by CLI output.
+- Migration: not run.
+- Production domain: not added.
+
+Phase 5P Railway-provided staging URL result:
+
+- URL: `https://attorney-web-production.up.railway.app`.
+- URL type: Railway-generated `*.up.railway.app`; no custom or production domain.
+- App root: `200 OK`.
+- Admin route: `200 OK`.
+- Health endpoint: `200 OK`.
+- Create/save routes: safe not-authorized state; no active submit/action markers observed.
+- Database/schema error: none observed in read-only smoke checks.
 - Migration: not run.
 - Production domain: not added.
 
