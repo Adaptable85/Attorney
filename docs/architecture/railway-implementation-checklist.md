@@ -1,9 +1,9 @@
 # Railway Implementation Checklist
 
-Status: Phase 6B public website staging deploy recorded; migration pending
+Status: Phase 6D brand-aligned public website staging deploy recorded; migration pending
 Date: 2026-06-26
 
-ADR 0011 accepts Railway for staging app hosting and Railway Postgres for the staging database. Phase 5J confirmed the Railway staging project and Railway Postgres database. Phase 5K created the empty `attorney-web` app service and configured safe/off environment gates. Phase 5L linked `DATABASE_URL` to `attorney-web` through a Railway Postgres reference and prepared the first staging deploy plan. Phase 5M attempted the first controlled staging deploy, but Railway/Railpack failed the build because no start command was detected. Phase 5N added a minimal reviewed start-command configuration. Phase 5O retried the controlled staging deploy successfully and the Attorney app is online on Railway. Phase 5P generated a Railway-provided staging URL and performed read-only smoke checks. Phase 5Q completed a read-only staging review without observed schema errors. Phase 6B deployed the merged public Burgess Attorneys website to Railway staging and this record phase documents the result without further deploy or migration activity. This checklist does not add secrets, run migrations, enable live auth, enable UI saves or enable production writes.
+ADR 0011 accepts Railway for staging app hosting and Railway Postgres for the staging database. Phase 5J confirmed the Railway staging project and Railway Postgres database. Phase 5K created the empty `attorney-web` app service and configured safe/off environment gates. Phase 5L linked `DATABASE_URL` to `attorney-web` through a Railway Postgres reference and prepared the first staging deploy plan. Phase 5M attempted the first controlled staging deploy, but Railway/Railpack failed the build because no start command was detected. Phase 5N added a minimal reviewed start-command configuration. Phase 5O retried the controlled staging deploy successfully and the Attorney app is online on Railway. Phase 5P generated a Railway-provided staging URL and performed read-only smoke checks. Phase 5Q completed a read-only staging review without observed schema errors. Phase 6B deployed the merged public Burgess Attorneys website to Railway staging. Phase 6D deployed the merged brand-aligned public website to Railway staging. This checklist does not add secrets, run migrations, enable live auth, enable UI saves or enable production writes.
 
 ## Project Creation
 
@@ -17,8 +17,8 @@ ADR 0011 accepts Railway for staging app hosting and Railway Postgres for the st
 - Next.js app service: `attorney-web`.
 - Railway app service ID: `de7fc164-c220-4d5a-8c91-754423f8e994`.
 - Railway app service source: none; no GitHub repo or image connected.
-- Railway app service deployment status: online after Phase 6B public website deploy.
-- Railway app deployment ID: `ce11f354-28a5-4568-8da4-7727623e2d6b`.
+- Railway app service deployment status: online after Phase 6D brand-aligned public website deploy.
+- Railway app deployment ID: `77e9131b-71a3-4474-a4fa-65a96b285162`.
 - Railway app service URL/domain: `https://attorney-web-production.up.railway.app`.
   - This is a Railway-generated staging URL under `*.up.railway.app`, not a custom or production Burgess domain.
 - Production domain: not added.
@@ -82,6 +82,7 @@ Confirm before any staging deploy:
 - Phase 5P status: migration remains pending and was not run.
 - Phase 5Q status: migration remains pending and was not run.
 - Phase 6B status: a local `pnpm exec prisma migrate deploy` attempt failed against localhost with `P1010`; no Railway migration completed and migration remains pending separate approval.
+- Phase 6D status: migration was not run and remains pending separate approval.
 
 ## Staging Deploy Checklist
 
@@ -167,6 +168,23 @@ Phase 6B public website staging deploy result:
 - Accidental local migration attempt: `pnpm exec prisma migrate deploy` failed against localhost with `P1010`; no Railway migration completed.
 - Accidental `db:push` attempt: `pnpm run db:push` failed because the script does not exist; no `db:push` completed.
 - Accidental `railway deploy` attempt: opened a template prompt and was not completed.
+- Production/custom domain: not added.
+- DNS: not changed.
+- Live Microsoft Entra auth, UI saves and production writes remain disabled.
+
+Phase 6D brand-aligned public website staging deploy result:
+
+- Deploy command: `railway up --service attorney-web --message "Phase 6D deploy brand-aligned Burgess website to staging"`.
+- Deployment ID: `77e9131b-71a3-4474-a4fa-65a96b285162`.
+- Deployment status: successful and running.
+- Staging URL: `https://attorney-web-production.up.railway.app`.
+- Public routes `/`, `/about`, `/services`, `/team`, `/testimonials` and `/contact`: `200 OK`.
+- Brand/logo markers: official logo asset path and current navigation labels present on the homepage.
+- `/api/health`: `200 OK`.
+- `/admin`: `200 OK`, safe unauthenticated `Not authorized` state.
+- Contact form backend: absent; no `<form>` or submit control observed in fetched contact page HTML.
+- Migration: not run.
+- `db:push`: not run.
 - Production/custom domain: not added.
 - DNS: not changed.
 - Live Microsoft Entra auth, UI saves and production writes remain disabled.
