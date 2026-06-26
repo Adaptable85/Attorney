@@ -46,3 +46,23 @@ This avoids trusting platform-internal hostnames and avoids leaking `localhost` 
 ## Next Phase
 
 After review and merge, redeploy the Phase 7C fix to Railway staging and rerun Phase 7B-style admin password smoke checks.
+
+## Phase 7D Staging Result
+
+Date/time: 2026-06-26 14:21:16 SAST
+
+Phase 7D deployed the merged redirect fix to Railway staging.
+
+- Deployment ID: `5f07b9eb-c988-47d8-9758-29fbc99a4f86`
+- Staging URL: `https://attorney-web-production.up.railway.app`
+- Correct password POST: `303` with relative `Location: /admin`
+- Correct password redirect contained `localhost`: no
+- Cookie-backed `/admin`: rendered admin shell as `Read-Only Reviewer`
+- `/admin/clients/new` and `/admin/matters/new`: remained blocked/disabled with no active save detected
+- Microsoft Entra login/callback: remained disabled with `503`
+- Migration: not run
+- `db:push`: not run
+- DNS/custom domain: not changed
+- Secrets: not recorded
+
+Residual note: incorrect-password POST still uses the existing generic failure redirect and may include the internal request host, but it sets no session cookie and grants no access. A later hardening phase can convert the failure redirect to a relative path too.
