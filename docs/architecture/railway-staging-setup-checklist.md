@@ -1,9 +1,9 @@
 # Railway Staging Setup Checklist
 
-Status: Phase 5O staging deploy retry successful; migration pending
-Date: 2026-06-25
+Status: Phase 5P Railway staging URL generated; migration pending
+Date: 2026-06-26
 
-This checklist records the current Railway staging setup state, the first staging deploy attempt, the reviewed start-command fix prepared in Phase 5N and the successful Phase 5O staging deploy retry. It does not add secrets, run database commands, enable live auth, enable UI saves or enable production writes.
+This checklist records the current Railway staging setup state, the first staging deploy attempt, the reviewed start-command fix prepared in Phase 5N, the successful Phase 5O staging deploy retry and the Phase 5P Railway-provided staging URL. It does not add secrets, run database commands, deploy, enable live auth, enable UI saves or enable production writes.
 
 ## Target Resources
 
@@ -20,7 +20,8 @@ This checklist records the current Railway staging setup state, the first stagin
 - Railway app service source: none; no GitHub repo or image connected.
 - Railway app deployment status: online after Phase 5O deploy retry.
 - Railway app deployment ID: `7c05f3a4-38b4-489c-a1a7-f97b3e02426f`.
-- Railway app URL/domain: not confirmed by CLI output.
+- Railway app URL/domain: `https://attorney-web-production.up.railway.app`.
+  - This is a Railway-generated staging URL under `*.up.railway.app`, not a custom or production Burgess domain.
 - Railway database: Railway Postgres created.
 - Railway Postgres service name: `Postgres`.
 - Railway Postgres service ID: `a4293b3b-f036-4ff4-ab3e-584598007a0b`.
@@ -38,6 +39,7 @@ This checklist records the current Railway staging setup state, the first stagin
 - Railway app service exists and is online after the Phase 5O deploy retry.
 - First deploy attempt failed during Railpack build because no start command was detected.
 - Phase 5N prepared a minimal Railway start-command config for review.
+- Phase 5P generated the Railway-provided staging URL.
 - Staging migration is pending.
 - Safe/off environment gates are configured on `attorney-web`.
 - `AUTH_PRODUCTION_READY=false` is configured on `attorney-web`.
@@ -140,6 +142,18 @@ Phase 5O result:
 - Migration: not run.
 - Production domain: not added.
 
+Phase 5P result:
+
+- Railway-provided staging URL: `https://attorney-web-production.up.railway.app`.
+- URL type: Railway-generated `*.up.railway.app`; no custom or production domain.
+- App root: `200 OK`.
+- Admin route: `200 OK`, safe not-authorized/admin state.
+- Health endpoint: `200 OK`.
+- Create/save routes: safe not-authorized state; no active submit/action markers observed.
+- Database/schema error: none observed in read-only smoke checks.
+- Migration: not run.
+- Production domain: not added.
+
 ## Explicitly Forbidden
 
 - No production deployment.
@@ -200,3 +214,26 @@ Result:
 - Production/custom domain: not added.
 
 Do not run staging migration until a separate phase explicitly approves it.
+
+## Phase 5P Railway-Provided Staging URL
+
+Phase 5P generated a Railway-provided staging URL for `attorney-web` only:
+
+```text
+https://attorney-web-production.up.railway.app
+```
+
+Read-only smoke results:
+
+- `/`: `200 OK`.
+- `/admin`: `200 OK`.
+- `/api/health`: `200 OK` with technical-foundation health payload.
+- `/admin/clients/new`: `200 OK`, safe not-authorized state.
+- `/admin/matters/new`: `200 OK`, safe not-authorized state.
+- No database/schema error was observed.
+- No active create/save submit action was observed in fetched HTML.
+- Live auth remains disabled.
+- UI saves remain disabled.
+- Production writes remain blocked.
+
+Do not add a custom domain, run deployment, run migration or enable live auth/write gates as part of this URL-generation step.

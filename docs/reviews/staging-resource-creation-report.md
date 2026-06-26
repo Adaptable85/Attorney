@@ -436,3 +436,44 @@ Next recommendation:
 - Open a review PR for this Phase 5O result documentation.
 - If a public Railway staging URL is required, approve a separate Railway-generated staging domain step.
 - Approve Railway staging migration separately only after confirming the online app target, database target and rollback plan.
+
+## Railway-Provided Staging URL
+
+Date/time: 2026-06-26 10:10:57 SAST
+
+Phase 5P generated a Railway-provided staging URL for `attorney-web` only. No deploy, migration, `db:push`, production database command, production migration, custom domain, DNS change or secret change was run.
+
+| Item | Non-secret value recorded | Status |
+| --- | --- | --- |
+| Active Railway project ID | `46a94859-6ba1-47b8-8e64-4b66a90dc3fa` | Confirmed |
+| Target service | `attorney-web` | Confirmed |
+| Railway app service ID | `de7fc164-c220-4d5a-8c91-754423f8e994` | Confirmed |
+| Deployment ID | `7c05f3a4-38b4-489c-a1a7-f97b3e02426f` | Online |
+| Railway-provided staging URL | `https://attorney-web-production.up.railway.app` | Generated |
+| URL type | Railway-generated `*.up.railway.app`; not a custom or production Burgess domain | Confirmed |
+| App root | `200 OK` | Passed |
+| Admin route | `200 OK`; rendered safe not-authorized/admin state | Passed |
+| Health endpoint | `200 OK`; returned `{"ok":true,"phase":"0","scope":"technical-foundation"}` | Passed |
+| Create/save routes | Returned safe not-authorized state; no submit/action markers found in fetched HTML | Passed |
+| Database/schema error | None observed in read-only smoke checks | Not observed |
+| Staging migration | Not run | Pending |
+| Production/custom domain | Not added | Confirmed |
+
+Phase 5P safety status:
+
+- No Railway deploy was run.
+- No Prisma migration was run.
+- `db:push` was not run.
+- No production database command or production migration was run.
+- No production/custom domain or DNS change was added.
+- No Railway Postgres `DATABASE_URL`, database password, Railway token, Microsoft client secret or private key was printed or committed.
+- Live Microsoft Entra auth remains disabled.
+- UI saves remain disabled.
+- Production writes remain blocked.
+- No real Burgess client data was used.
+
+Next recommendation:
+
+- Open a review PR for this Phase 5P result documentation.
+- Proceed to a staging review checklist if the Railway URL remains healthy.
+- Approve Railway staging migration separately only if later staging checks require database-backed routes.
