@@ -1,9 +1,9 @@
 # Railway Implementation Checklist
 
-Status: Phase 5Q read-only staging review passed; migration pending
+Status: Phase 6B public website staging deploy recorded; migration pending
 Date: 2026-06-26
 
-ADR 0011 accepts Railway for staging app hosting and Railway Postgres for the staging database. Phase 5J confirmed the Railway staging project and Railway Postgres database. Phase 5K created the empty `attorney-web` app service and configured safe/off environment gates. Phase 5L linked `DATABASE_URL` to `attorney-web` through a Railway Postgres reference and prepared the first staging deploy plan. Phase 5M attempted the first controlled staging deploy, but Railway/Railpack failed the build because no start command was detected. Phase 5N added a minimal reviewed start-command configuration. Phase 5O retried the controlled staging deploy successfully and the Attorney app is online on Railway. Phase 5P generated a Railway-provided staging URL and performed read-only smoke checks. Phase 5Q completed a read-only staging review without observed schema errors. This checklist does not add secrets, run migrations, enable live auth, enable UI saves or enable production writes.
+ADR 0011 accepts Railway for staging app hosting and Railway Postgres for the staging database. Phase 5J confirmed the Railway staging project and Railway Postgres database. Phase 5K created the empty `attorney-web` app service and configured safe/off environment gates. Phase 5L linked `DATABASE_URL` to `attorney-web` through a Railway Postgres reference and prepared the first staging deploy plan. Phase 5M attempted the first controlled staging deploy, but Railway/Railpack failed the build because no start command was detected. Phase 5N added a minimal reviewed start-command configuration. Phase 5O retried the controlled staging deploy successfully and the Attorney app is online on Railway. Phase 5P generated a Railway-provided staging URL and performed read-only smoke checks. Phase 5Q completed a read-only staging review without observed schema errors. Phase 6B deployed the merged public Burgess Attorneys website to Railway staging and this record phase documents the result without further deploy or migration activity. This checklist does not add secrets, run migrations, enable live auth, enable UI saves or enable production writes.
 
 ## Project Creation
 
@@ -17,8 +17,8 @@ ADR 0011 accepts Railway for staging app hosting and Railway Postgres for the st
 - Next.js app service: `attorney-web`.
 - Railway app service ID: `de7fc164-c220-4d5a-8c91-754423f8e994`.
 - Railway app service source: none; no GitHub repo or image connected.
-- Railway app service deployment status: online after Phase 5O deploy retry.
-- Railway app deployment ID: `7c05f3a4-38b4-489c-a1a7-f97b3e02426f`.
+- Railway app service deployment status: online after Phase 6B public website deploy.
+- Railway app deployment ID: `ce11f354-28a5-4568-8da4-7727623e2d6b`.
 - Railway app service URL/domain: `https://attorney-web-production.up.railway.app`.
   - This is a Railway-generated staging URL under `*.up.railway.app`, not a custom or production Burgess domain.
 - Production domain: not added.
@@ -81,6 +81,7 @@ Confirm before any staging deploy:
 - Phase 5O status: migration remains pending and was not run.
 - Phase 5P status: migration remains pending and was not run.
 - Phase 5Q status: migration remains pending and was not run.
+- Phase 6B status: a local `pnpm exec prisma migrate deploy` attempt failed against localhost with `P1010`; no Railway migration completed and migration remains pending separate approval.
 
 ## Staging Deploy Checklist
 
@@ -151,6 +152,24 @@ Phase 5Q read-only staging review result:
 - No invoice, statement, WhatsApp, Lexpro or email workflow appeared active.
 - No database/schema error appeared.
 - Migration remains not run and pending separate approval only if a later database-backed route requires it.
+
+Phase 6B public website staging deploy result:
+
+- Deploy command: `railway up --service attorney-web --message "Phase 6B deploy public Burgess Attorneys website to staging"`.
+- Deployment ID: `ce11f354-28a5-4568-8da4-7727623e2d6b`.
+- Deployment status: active and online.
+- Staging URL: `https://attorney-web-production.up.railway.app`.
+- Public routes `/`, `/about`, `/services`, `/team` and `/contact`: `200 OK`.
+- `/api/health`: `200 OK`.
+- `/admin`: `200 OK`, safe `Not authorized` state.
+- Contact form backend: not present.
+- Deploy note: CLI reported a timeout after upload, while Railway dashboard showed the active deployment and the user confirmed the public website was visible.
+- Accidental local migration attempt: `pnpm exec prisma migrate deploy` failed against localhost with `P1010`; no Railway migration completed.
+- Accidental `db:push` attempt: `pnpm run db:push` failed because the script does not exist; no `db:push` completed.
+- Accidental `railway deploy` attempt: opened a template prompt and was not completed.
+- Production/custom domain: not added.
+- DNS: not changed.
+- Live Microsoft Entra auth, UI saves and production writes remain disabled.
 
 First staging migration command for later explicit approval only after target service and database env are reconfirmed:
 
