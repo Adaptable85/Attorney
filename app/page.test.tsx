@@ -8,11 +8,17 @@ describe("home page", () => {
     const html = renderToStaticMarkup(<Home />);
 
     expect(html).toContain("Burgess Attorneys");
-    expect(html).toContain("Boutique legal services in Kuils River");
+    expect(html).toContain("%2Fbrand%2Fburgess-logo-header.png");
+    expect(html).toContain("Welcome to Burgess Attorneys");
+    expect(html).toContain("How can we be of assistance?");
+    expect(html).toContain("Analysing Your Case");
+    expect(html).toContain("Taking Steps Forward");
+    expect(html).toContain("Court Of Law Success");
     expect(html).toContain("Contact Us");
     expect(html).toContain("Stephanie Burgess");
+    expect(html).toContain("Testimonials");
     expect(html).toContain("href=\"/services\"");
     expect(html).not.toContain("Admin Platform Foundation");
-    expect(html.length).toBeGreaterThan(2500);
+    expect(html.length).toBeGreaterThan(3200);
   });
 });

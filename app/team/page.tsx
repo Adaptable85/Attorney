@@ -15,7 +15,7 @@ export default function TeamPage() {
     <PublicShell>
       <main className="public-main public-main--narrow" aria-labelledby="team-title">
         <section className="page-hero">
-          <p className="public-eyebrow">Our Team</p>
+          <p className="public-eyebrow">Ladies with a passion for justice</p>
           <h1 id="team-title">{stephanieProfile.name}</h1>
           <p>{stephanieProfile.summary}</p>
         </section>
@@ -26,11 +26,11 @@ export default function TeamPage() {
           </div>
           <div>
             <p className="public-eyebrow">{stephanieProfile.title}</p>
-            <h2 id="profile-title">Boutique practice, direct attorney attention</h2>
+            <h2 id="profile-title">Pretoria to Cape Town</h2>
             <p>
-              Stephanie&apos;s professional path includes study at the University of Pretoria,
-              admission as an attorney, practice experience in Pretoria, Stellenbosch and Cape Town,
-              and further insolvency law and practice training.
+              After many years of practicing in Pretoria and Cape Town, Stephanie settled in Cape
+              Town and the firm found its home in the Northern Suburbs. As a boutique firm, Burgess
+              Attorneys strives to deliver personal, attention-to-detail legal solutions.
             </p>
             <ul>
               {stephanieProfile.highlights.map((highlight) => (

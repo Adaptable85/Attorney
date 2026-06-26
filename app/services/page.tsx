@@ -16,11 +16,11 @@ export default function ServicesPage() {
     <PublicShell>
       <main className="public-main" aria-labelledby="services-title">
         <section className="page-hero">
-          <p className="public-eyebrow">Legal services</p>
-          <h1 id="services-title">Clear guidance across a broad legal practice</h1>
+          <p className="public-eyebrow">Have a look at</p>
+          <h1 id="services-title">Our Services</h1>
           <p>
-            Burgess Attorneys assists individuals, families and businesses with practical legal
-            support. Contact the firm for advice tailored to your circumstances.
+            Providing timely and reliable service that is focused and sensitive to each
+            client&apos;s specific needs and instructions.
           </p>
         </section>
 

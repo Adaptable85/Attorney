@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
 
@@ -5,10 +6,11 @@ import { contactDetails } from "./public-content";
 
 const navItems = [
   { href: "/", label: "Home" },
-  { href: "/about", label: "About" },
+  { href: "/about", label: "About Us" },
   { href: "/services", label: "Services" },
-  { href: "/team", label: "Team" },
-  { href: "/contact", label: "Contact" }
+  { href: "/team", label: "Our Team" },
+  { href: "/testimonials", label: "Testimonials" },
+  { href: "/contact", label: "Contact Us" }
 ] as const;
 
 export function PublicShell({ children }: Readonly<{ children: ReactNode }>) {
@@ -16,8 +18,14 @@ export function PublicShell({ children }: Readonly<{ children: ReactNode }>) {
     <div className="public-site">
       <header className="public-header">
         <Link className="public-brand" href="/" aria-label="Burgess Attorneys home">
-          <span className="public-brand__name">Burgess Attorneys</span>
-          <span className="public-brand__meta">Kuils River · Cape Town</span>
+          <Image
+            className="public-brand__logo"
+            src="/brand/burgess-logo-header.png"
+            alt="Burgess Attorneys"
+            width={254}
+            height={182}
+            priority
+          />
         </Link>
         <nav className="public-nav" aria-label="Public navigation">
           {navItems.map((item) => (
@@ -30,8 +38,14 @@ export function PublicShell({ children }: Readonly<{ children: ReactNode }>) {
       {children}
       <footer className="public-footer">
         <div>
-          <p className="public-footer__brand">Burgess Attorneys Inc</p>
-          <p>Boutique legal services with personal attention and practical guidance.</p>
+          <Image
+            className="public-footer__logo"
+            src="/brand/burgess-logo-header.png"
+            alt="Burgess Attorneys"
+            width={254}
+            height={182}
+          />
+          <p>Traditional values applied innovatively, with personal attention to detail.</p>
         </div>
         <address>
           <a href={`mailto:${contactDetails.email}`}>{contactDetails.email}</a>

@@ -3,8 +3,8 @@ import Link from "next/link";
 import { contactDetails } from "./public-content";
 
 export function ContactCta({
-  eyebrow = "Speak to Burgess Attorneys",
-  title = "Need practical legal guidance?"
+  eyebrow = "Connect With Us",
+  title = "Legal representation at your finger tips"
 }: Readonly<{ eyebrow?: string; title?: string }>) {
   return (
     <section className="contact-cta" aria-labelledby="contact-cta-title">

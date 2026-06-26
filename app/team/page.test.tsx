@@ -8,8 +8,10 @@ describe("team public page", () => {
     const html = renderToStaticMarkup(<TeamPage />);
 
     expect(html).toContain("Stephanie Burgess");
+    expect(html).toContain("Ladies with a passion for justice");
+    expect(html).toContain("Pretoria to Cape Town");
     expect(html).toContain("University of Pretoria");
-    expect(html).toContain("Admitted attorney");
+    expect(html).toContain("Admitted Attorney of the High Court in Cape Town");
     expect(html).toContain("Insolvency Practitioner");
     expect(html).not.toContain("Production writes");
     expect(html.length).toBeGreaterThan(1700);

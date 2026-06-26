@@ -1,17 +1,17 @@
 :root {
-  --burgess-bg: #f6f7f4;
+  --burgess-bg: #f5f7fa;
   --burgess-panel: #ffffff;
-  --burgess-panel-muted: #f0f3ef;
-  --burgess-border: #d8ded5;
-  --burgess-ink: #17201a;
-  --burgess-muted: #5a665e;
-  --burgess-accent: #245f46;
-  --burgess-accent-soft: #e4eee8;
-  --burgess-charcoal: #111715;
-  --burgess-gold: #b98b3a;
-  --burgess-gold-soft: #f5eddf;
-  --burgess-warning: #7a4b11;
-  --burgess-warning-soft: #fff4df;
+  --burgess-panel-muted: #eef2f6;
+  --burgess-border: #d9e1ea;
+  --burgess-ink: #24313d;
+  --burgess-muted: #637181;
+  --burgess-accent: #266a9a;
+  --burgess-accent-soft: #e7f1f8;
+  --burgess-charcoal: #1f2a34;
+  --burgess-gold: #8fa9bd;
+  --burgess-gold-soft: #edf3f7;
+  --burgess-warning: #6d5b3f;
+  --burgess-warning-soft: #f5f2ea;
 }
 
 * {
@@ -37,7 +37,7 @@ a {
 .public-site {
   min-height: 100vh;
   background:
-    linear-gradient(180deg, #ffffff 0%, var(--burgess-bg) 44%, #ffffff 100%);
+    linear-gradient(180deg, #ffffff 0%, #f7f9fb 46%, #ffffff 100%);
 }
 
 .public-header,
@@ -51,28 +51,20 @@ a {
 }
 
 .public-header {
-  min-height: 82px;
+  min-height: 104px;
   border-bottom: 1px solid var(--burgess-border);
+  background: rgba(255, 255, 255, 0.92);
 }
 
 .public-brand {
-  display: grid;
-  gap: 3px;
+  display: inline-flex;
+  align-items: center;
   text-decoration: none;
 }
 
-.public-brand__name,
-.public-footer__brand {
-  color: var(--burgess-charcoal);
-  font-size: 18px;
-  font-weight: 800;
-}
-
-.public-brand__meta {
-  color: var(--burgess-muted);
-  font-size: 12px;
-  font-weight: 700;
-  text-transform: uppercase;
+.public-brand__logo {
+  width: 168px;
+  height: auto;
 }
 
 .public-nav {
@@ -83,17 +75,19 @@ a {
 }
 
 .public-nav a {
-  border-radius: 6px;
-  padding: 9px 10px;
-  color: var(--burgess-muted);
-  font-size: 14px;
+  border-bottom: 2px solid transparent;
+  padding: 9px 4px;
+  color: var(--burgess-charcoal);
+  font-size: 13px;
   font-weight: 700;
   text-decoration: none;
+  text-transform: uppercase;
 }
 
 .public-nav a:hover,
 .public-nav a:focus {
-  background: var(--burgess-accent-soft);
+  border-bottom-color: var(--burgess-accent);
+  background: transparent;
   color: var(--burgess-accent);
   outline: none;
 }
@@ -112,10 +106,10 @@ a {
 
 .public-hero {
   display: grid;
-  grid-template-columns: minmax(0, 1.08fr) minmax(320px, 0.92fr);
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 0.86fr);
   align-items: stretch;
   gap: 34px;
-  min-height: 520px;
+  min-height: 500px;
 }
 
 .public-hero__copy,
@@ -128,8 +122,9 @@ a {
 .public-eyebrow {
   margin: 0;
   color: var(--burgess-accent);
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 700;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
@@ -137,8 +132,9 @@ a {
 .page-hero h1 {
   margin: 0;
   color: var(--burgess-charcoal);
-  font-size: clamp(42px, 6vw, 76px);
-  line-height: 0.98;
+  font-size: clamp(38px, 5vw, 64px);
+  font-weight: 500;
+  line-height: 1.05;
 }
 
 .page-hero h1 {
@@ -167,7 +163,12 @@ a {
 .public-hero__copy > p:not(.public-eyebrow),
 .page-hero > p {
   max-width: 680px;
-  font-size: 19px;
+  font-size: 18px;
+}
+
+.public-hero__logo {
+  width: min(254px, 72vw);
+  height: auto;
 }
 
 .public-hero__actions,
@@ -183,7 +184,7 @@ a {
   justify-content: center;
   min-height: 44px;
   border: 1px solid transparent;
-  border-radius: 6px;
+  border-radius: 3px;
   padding: 10px 16px;
   font-weight: 800;
   text-decoration: none;
@@ -202,26 +203,33 @@ a {
 
 .public-hero__visual {
   display: grid;
-  align-content: end;
-  gap: 12px;
-  border: 1px solid color-mix(in srgb, var(--burgess-gold) 42%, var(--burgess-border));
+  align-content: center;
+  gap: 14px;
+  border: 1px solid var(--burgess-border);
   border-radius: 8px;
-  background:
-    linear-gradient(150deg, rgba(17, 23, 21, 0.84), rgba(36, 95, 70, 0.72)),
-    repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0 1px, transparent 1px 24px),
-    var(--burgess-charcoal);
+  background: #ffffff;
   padding: 28px;
-  box-shadow: 0 24px 60px rgba(17, 23, 21, 0.14);
+  box-shadow: 0 18px 42px rgba(42, 63, 82, 0.1);
+}
+
+.public-hero__visual article {
+  display: grid;
+  gap: 5px;
+  border-left: 3px solid var(--burgess-accent);
+  background: var(--burgess-accent-soft);
+  padding: 14px 16px;
 }
 
 .public-hero__visual span {
-  display: block;
-  border-left: 3px solid var(--burgess-gold);
-  background: rgba(255, 255, 255, 0.1);
-  padding: 12px 14px;
-  color: #ffffff;
-  font-size: 18px;
+  color: var(--burgess-charcoal);
+  font-size: 16px;
   font-weight: 800;
+}
+
+.public-hero__visual p {
+  color: var(--burgess-muted);
+  font-size: 14px;
+  line-height: 1.45;
 }
 
 .public-section,
@@ -265,7 +273,37 @@ a {
   margin: 0;
   color: var(--burgess-charcoal);
   font-size: 28px;
+  font-weight: 500;
   line-height: 1.16;
+}
+
+.process-strip {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.process-strip article {
+  display: grid;
+  gap: 8px;
+  border: 1px solid var(--burgess-border);
+  border-radius: 8px;
+  background: #ffffff;
+  padding: 20px;
+  box-shadow: 0 12px 28px rgba(42, 63, 82, 0.06);
+}
+
+.process-strip h2 {
+  margin: 0;
+  color: var(--burgess-accent);
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.process-strip p {
+  margin: 0;
+  color: var(--burgess-muted);
+  line-height: 1.55;
 }
 
 .service-grid {
@@ -315,7 +353,7 @@ a {
 
 .profile-highlight {
   border-radius: 8px;
-  background: var(--burgess-gold-soft);
+  background: var(--burgess-accent-soft);
   padding: 20px;
 }
 
@@ -326,7 +364,7 @@ a {
 
 .testimonial-section blockquote {
   margin: 0;
-  border-left: 4px solid var(--burgess-gold);
+  border-left: 4px solid var(--burgess-accent);
   padding-left: 18px;
 }
 
@@ -340,7 +378,7 @@ a {
 
 .contact-cta {
   background:
-    linear-gradient(135deg, rgba(36, 95, 70, 0.08), rgba(185, 139, 58, 0.12)),
+    linear-gradient(135deg, rgba(38, 106, 154, 0.08), rgba(143, 169, 189, 0.13)),
     #ffffff;
 }
 
@@ -389,6 +427,11 @@ a {
   align-items: flex-start;
   border-top: 1px solid var(--burgess-border);
   padding: 28px 0 34px;
+}
+
+.public-footer__logo {
+  width: 150px;
+  height: auto;
 }
 
 .public-footer address {
@@ -885,6 +928,7 @@ a {
   .public-footer,
   .public-hero,
   .public-split,
+  .process-strip,
   .service-grid,
   .service-grid--wide,
   .profile-card,
