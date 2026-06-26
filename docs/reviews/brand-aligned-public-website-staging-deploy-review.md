@@ -104,7 +104,7 @@ Admin/backend safety:
 - UI saves: disabled.
 - Production writes: blocked.
 - Real Burgess client data: not entered.
-- Command Center: not touched.
+- External repositories: not touched.
 
 ## Recommendation
 
