@@ -28,7 +28,7 @@ describe("admin create form access", () => {
         userId: "reviewer",
         email: "reviewer@example.test",
         roles: ["READ_ONLY_REVIEWER"],
-        provider: "local_dev_placeholder"
+        provider: "staging_admin_password"
       })
     ).toBe(false);
     expect(

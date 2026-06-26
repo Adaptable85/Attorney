@@ -18,6 +18,9 @@ describe("home page", () => {
     expect(html).toContain("Stephanie Burgess");
     expect(html).toContain("Testimonials");
     expect(html).toContain("href=\"/services\"");
+    expect(html).not.toContain("href=\"/admin\"");
+    expect(html).not.toContain("href=\"/admin/");
+    expect(html).not.toContain("/admin/sign-in");
     expect(html).not.toContain("Admin Platform Foundation");
     expect(html.length).toBeGreaterThan(3200);
   });
