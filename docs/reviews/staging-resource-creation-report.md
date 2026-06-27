@@ -272,6 +272,41 @@ Phase 8C is a local code/docs change only. It expands the private Clients, Matte
 - No secrets were printed or committed.
 - No document upload, download or storage workflow was enabled.
 
+## Phase 8D Core Admin Review Modules Staging Deploy
+
+Date/time: 2026-06-27 08:13:39 SAST
+
+Phase 8D deployed the merged Phase 8C core admin review modules to Railway staging for read-only smoke verification.
+
+| Item | Non-secret value recorded | Status |
+| --- | --- | --- |
+| Railway project | `burgess-attorneys-staging` | Confirmed |
+| Railway project ID | `46a94859-6ba1-47b8-8e64-4b66a90dc3fa` | Confirmed |
+| Railway service | `attorney-web` | Confirmed |
+| Staging URL | `https://attorney-web-production.up.railway.app` | Confirmed |
+| Deployment ID | `0f13e881-ce79-4439-ae83-8d325ba9d3c3` | Online |
+| Public routes | `/`, `/about`, `/services`, `/team`, `/testimonials`, `/contact` returned `200` | Passed |
+| Health endpoint | `/api/health` returned OK | Passed |
+| Admin workspace | Password-backed access worked; `Read-Only Reviewer` visible | Passed |
+| Clients review | `/admin/clients` and `/admin/clients/demo-family-trust` returned `200` | Passed |
+| Matters review | `/admin/matters` and `/admin/matters/demo-property-transfer` returned `200` | Passed |
+| Documents review | `/admin/documents` and `/admin/documents/demo-fica-pack` returned `200` | Passed |
+| Create routes | `/admin/clients/new` and `/admin/matters/new` remained blocked/non-writing | Passed |
+| Microsoft Entra live auth | Login/callback remained disabled | Passed |
+
+Safety status:
+
+- No migration was run.
+- No `db:push` was run.
+- No Railway environment variable was configured.
+- No custom/production domain or DNS change was made.
+- No secrets, cookies, raw `DATABASE_URL`, Railway tokens or private keys were recorded.
+- UI saves remain disabled.
+- Production writes remain blocked.
+- No payment gateway, Yoco, Payfast, shop, checkout or membership functionality was added.
+
+Next recommendation: Billing + Lexpro + Audit review pack.
+
 ## Phase 8A Read-Only Admin Workspace Status
 
 Date/time: 2026-06-26 16:11:18 SAST
