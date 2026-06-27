@@ -1268,6 +1268,48 @@ a {
   font-weight: 700;
 }
 
+.access-matrix {
+  display: grid;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.access-matrix__header,
+.access-matrix__row {
+  display: grid;
+  grid-template-columns: minmax(210px, 1.2fr) repeat(9, minmax(126px, 1fr));
+  gap: 8px;
+  min-width: 1320px;
+}
+
+.access-matrix__header span,
+.access-matrix__row span {
+  border: 1px solid var(--burgess-border);
+  border-radius: 6px;
+  background: var(--burgess-panel-muted);
+  padding: 10px;
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.access-matrix__header span {
+  color: var(--burgess-charcoal);
+  font-weight: 800;
+}
+
+.access-matrix__row span {
+  background: var(--burgess-panel);
+}
+
+.access-matrix__row small {
+  display: block;
+  margin-top: 6px;
+  color: var(--burgess-muted);
+  font-size: 12px;
+  line-height: 1.35;
+}
+
 .form-foundation {
   display: grid;
   gap: 16px;

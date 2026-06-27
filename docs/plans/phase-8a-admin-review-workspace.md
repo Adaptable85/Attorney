@@ -118,3 +118,23 @@ Phase 8C now expands the admin core pack across Clients, Matters and Documents.
 - No real data entry, client/matter/document write path, UI save, migration, `db:push` or deployment was added.
 
 Recommended next section after the core pack: Billing/Lexpro review.
+
+## Phase 8E Back-Office Review Pack
+
+Date/time: 2026-06-27 08:45:25 SAST
+
+Phase 8E expands the read-only admin review workspace across Billing, Lexpro, Audit and Access.
+
+- `/admin/billing` now shows a demo-only Billing Review module with at least six draft billing review records and a demo detail preview.
+- `/admin/lexpro` now shows a demo-only Lexpro Boundary Review module with source-of-truth boundaries and a demo detail preview.
+- `/admin/audit` now shows a demo-only Audit Trail Review module with at least eight timeline records and a demo event preview.
+- `/admin/access` now shows a proposal-only access-control matrix for the expected Burgess roles.
+- Billing is not payment collection, and no payment gateway exists or is planned for Burgess.
+- Lexpro remains the source of truth for legal/trust accounting and compliance where applicable.
+- No live Lexpro integration exists.
+- Microsoft Entra live auth remains disabled.
+- Access matrix permissions are proposal-only.
+- No deployment was done in this phase.
+- No billing, invoice, statement, Lexpro, audit or access write path is enabled.
+
+Recommended next phase: deploy the read-only back-office review pack to Railway staging and run smoke checks, then ask Stephanie to review the section structure.
