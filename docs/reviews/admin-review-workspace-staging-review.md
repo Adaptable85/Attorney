@@ -87,3 +87,19 @@ The admin pages showed `Read-Only Reviewer`, contained no active save/create/del
 ## Recommendation
 
 Review the Clients section first with Stephanie, because it is the safest next structure discussion before any matter, billing or write-path work is approved.
+## Phase 8D Core Module Verification
+
+Date/time: 2026-06-27 08:13:39 SAST
+
+The Phase 8C core admin review modules were deployed to Railway staging in Phase 8D.
+
+- Deployment ID: `0f13e881-ce79-4439-ae83-8d325ba9d3c3`
+- Staging URL: `https://attorney-web-production.up.railway.app`
+- `/admin` continued to render the password-backed read-only workspace.
+- `Read-Only Reviewer` was visible after sign-in.
+- Admin navigation included Dashboard, Clients, Matters, Documents, Billing, Lexpro, Audit and Access.
+- Clients, Matters and Documents review routes rendered successfully.
+- Demo detail routes rendered successfully for client, matter and document examples.
+- Client/matter create routes remained blocked/non-writing.
+- No active save/create/upload/download/approve/send/write flow was verified.
+- No migration, `db:push`, DNS change, Railway variable change or secret exposure occurred.

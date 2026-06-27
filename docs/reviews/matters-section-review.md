@@ -57,3 +57,14 @@ No write path is enabled in this phase.
 ## Next Recommended Section
 
 Review the Documents section alongside Clients and Matters, then move to Billing/Lexpro review.
+
+## Phase 8D Staging Verification
+
+Date/time: 2026-06-27 08:13:39 SAST
+
+- `/admin/matters` returned `200` on Railway staging and rendered `Matters Review`.
+- `/admin/matters/demo-property-transfer` returned `200` and rendered the demo matter detail preview.
+- Matter detail linked to related demo client routes and showed linked document summaries.
+- `/admin/matters/new` remained blocked/non-writing.
+- No real matter data was entered.
+- No matter write path, UI save, migration, `db:push` or deployment-side configuration change was enabled.

@@ -51,3 +51,13 @@ Documents are metadata-only in this review phase.
 ## Next Recommended Section
 
 After Clients, Matters and Documents are reviewed together, the next section should be Billing/Lexpro review.
+
+## Phase 8D Staging Verification
+
+Date/time: 2026-06-27 08:13:39 SAST
+
+- `/admin/documents` returned `200` on Railway staging and rendered `Documents Review`.
+- `/admin/documents/demo-fica-pack` returned `200` and rendered the demo document detail preview.
+- Document detail linked to related demo client and matter routes.
+- No real document metadata was entered.
+- No upload, download, storage, document write path, UI save, migration, `db:push` or deployment-side configuration change was enabled.

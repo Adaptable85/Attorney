@@ -8,6 +8,8 @@ Phase 8B deployed this workspace to Railway staging at `https://attorney-web-pro
 
 Phase 8C builds the local admin core review pack for Clients, Matters and Documents. No deployment was run for Phase 8C.
 
+Phase 8D deployed the core admin review pack to Railway staging. Deployment ID `0f13e881-ce79-4439-ae83-8d325ba9d3c3` reached `Online`, and read-only smoke checks passed for public routes, admin workspace, Clients, Matters, Documents and demo detail routes.
+
 ## Sections
 
 | Section | Route | Current state | Future review focus |

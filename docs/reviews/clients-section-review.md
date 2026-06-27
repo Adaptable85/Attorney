@@ -56,3 +56,14 @@ No write path is enabled in this phase.
 ## Next Recommended Section
 
 Review the Matters section next, using the same private, read-only, demo-only approach.
+
+## Phase 8D Staging Verification
+
+Date/time: 2026-06-27 08:13:39 SAST
+
+- `/admin/clients` returned `200` on Railway staging and rendered `Clients Review`.
+- `/admin/clients/demo-family-trust` returned `200` and rendered the demo client detail preview.
+- Linked demo matters and linked demo document metadata were visible.
+- `/admin/clients/new` remained blocked/non-writing.
+- No real client data was entered.
+- No client write path, UI save, migration, `db:push` or deployment-side configuration change was enabled.
