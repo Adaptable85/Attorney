@@ -36,6 +36,7 @@ Phase 5D staging resource creation runbook and approval checklist are implemente
 Phase 5G accepts Supabase Postgres as the managed PostgreSQL direction replacing Neon without creating Vercel/Supabase resources, deployment, secrets, database commands, production auth readiness, production writes or UI saves.
 Phase 5I accepts Railway + Railway Postgres as the staging direction without creating Railway resources, deployment, secrets, database commands, production auth readiness, production writes or UI saves.
 Phase 8A read-only admin review workspace is implemented without deployment, database commands, live auth, UI saves, production writes, payment gateways or product workflow actions.
+Phase 8C read-only admin core review modules are implemented with demo-only Clients, Matters and Documents records and demo detail previews, without deployment, database commands, live auth, UI saves, production writes, file storage or client/matter/document CRUD.
 
 ## Current Direction
 
@@ -65,7 +66,9 @@ Phase 8A read-only admin review workspace is implemented without deployment, dat
 - Local/dev auth boundary for shell protection; production auth remains unresolved.
 - Protected `/admin/dashboard` route with read-only, role-filtered demo placeholder sections.
 - Client/matter service functions wrap repository interfaces with admin access checks and safe typed errors.
-- Protected `/admin/clients`, `/admin/matters` and `/admin/matters/[id]` read-only pages use safe demo repositories.
+- Protected `/admin/clients` renders a read-only Clients Review module using fake demo records, and `/admin/clients/[slug]` renders approved demo-only client detail previews.
+- Protected `/admin/matters` renders a read-only Matters Review module using fake demo records, and `/admin/matters/[id]` renders approved demo-only matter detail previews.
+- Protected `/admin/documents` renders a read-only Documents Review module using fake metadata records, and `/admin/documents/[slug]` renders approved demo-only document detail previews.
 - Protected `/admin/clients/new` and `/admin/matters/new` render disabled future-phase form foundations only.
 - Protected `/admin` renders a read-only admin review workspace with a section-by-section review checklist.
 - Protected admin section routes exist for documents, billing, Lexpro boundary, audit trail and access control as read-only placeholders.
@@ -165,6 +168,7 @@ See:
 - Phase 5G Supabase database-provider direction: accepted architecture decision and checklist updates only; no Supabase project, deployment, secret, database command, live auth, production write or UI save is exposed.
 - Phase 5I Railway staging direction: accepted architecture decision and checklist updates only; no Railway resource, deployment, secret, database command, live auth, production write or UI save is exposed.
 - Phase 8A admin review workspace: private admin review UI only; no deploy, migration, `db:push`, live auth, UI save, production write, payment gateway, Yoco, Payfast, shop, checkout, invoice workflow, WhatsApp, Lexpro import or email sending is exposed.
+- Phase 8C admin core review modules: private read-only demo UI only; no deploy, migration, `db:push`, real client/matter/document data entry, document upload/download/storage, live auth, UI save, production write, payment gateway, invoice workflow, WhatsApp, Lexpro import or email sending is exposed.
 - Agent service users: blocked from normal admin shell navigation.
 
 ## ADR Candidates

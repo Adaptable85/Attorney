@@ -1067,6 +1067,207 @@ a {
   font-weight: 700;
 }
 
+.client-review {
+  display: grid;
+  gap: 18px;
+}
+
+.client-review__hero {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+  border: 1px solid var(--burgess-border);
+  border-radius: 8px;
+  background: var(--burgess-panel);
+  padding: 22px;
+}
+
+.client-review__hero h1 {
+  margin: 0;
+  font-size: 28px;
+}
+
+.client-review__hero p {
+  max-width: 760px;
+  margin: 10px 0 0;
+  color: var(--burgess-muted);
+  line-height: 1.55;
+}
+
+.client-review__hero > span,
+.client-review-card .read-card__title-row span {
+  border-radius: 999px;
+  background: var(--burgess-accent-soft);
+  padding: 7px 10px;
+  color: var(--burgess-accent);
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.client-safety-banner {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  border: 1px solid var(--burgess-warning);
+  border-radius: 8px;
+  background: var(--burgess-warning-soft);
+  padding: 14px;
+  color: var(--burgess-warning);
+  font-size: 14px;
+}
+
+.client-safety-banner span,
+.client-safety-banner strong {
+  line-height: 1.4;
+}
+
+.client-review__summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.client-review__summary article,
+.client-review-card {
+  border: 1px solid var(--burgess-border);
+  border-radius: 8px;
+  background: var(--burgess-panel);
+  padding: 18px;
+}
+
+.client-review__summary span {
+  display: block;
+  color: var(--burgess-muted);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.client-review__summary strong {
+  display: block;
+  margin-top: 8px;
+  font-size: 26px;
+}
+
+.client-review__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.client-review-card {
+  display: grid;
+  gap: 14px;
+}
+
+.client-review-card h2 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.client-review-card p {
+  margin: 0;
+  color: var(--burgess-muted);
+  line-height: 1.5;
+}
+
+.client-review-card dl {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin: 0;
+}
+
+.client-review-card dt {
+  color: var(--burgess-muted);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.client-review-card dd {
+  margin: 4px 0 0;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.client-review-list,
+.client-disabled-actions {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding-left: 20px;
+}
+
+.client-review-list li,
+.client-disabled-actions li {
+  line-height: 1.45;
+}
+
+.client-review-list strong {
+  display: block;
+}
+
+.client-review-list span {
+  display: inline-flex;
+  margin: 6px 0;
+  border-radius: 999px;
+  background: var(--burgess-panel-muted);
+  padding: 4px 8px;
+  color: var(--burgess-muted);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.client-review-list--steps {
+  counter-reset: client-steps;
+  list-style: none;
+  padding-left: 0;
+}
+
+.client-review-list--steps li {
+  counter-increment: client-steps;
+  display: flex;
+  gap: 10px;
+}
+
+.client-review-list--steps li::before {
+  content: counter(client-steps);
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  background: var(--burgess-accent-soft);
+  color: var(--burgess-accent);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.client-disabled-actions {
+  list-style: none;
+  padding-left: 0;
+}
+
+.client-disabled-actions li {
+  border: 1px dashed var(--burgess-border);
+  border-radius: 6px;
+  background: var(--burgess-panel-muted);
+  padding: 9px 10px;
+  color: var(--burgess-muted);
+  font-weight: 700;
+}
+
+.client-review-note {
+  border-radius: 8px;
+  background: var(--burgess-warning-soft);
+  padding: 12px;
+  color: var(--burgess-warning) !important;
+  font-weight: 700;
+}
+
 .form-foundation {
   display: grid;
   gap: 16px;
@@ -1183,6 +1384,9 @@ a {
   .dashboard-grid,
   .dashboard-metrics,
   .section-review__grid,
+  .client-review__grid,
+  .client-review__summary,
+  .client-review-card dl,
   .read-list__grid,
   .read-card dl,
   .read-detail dl {
@@ -1194,6 +1398,7 @@ a {
   .dashboard-overview__header,
   .dashboard-section__header,
   .section-review__header,
+  .client-review__hero,
   .read-list__header,
   .read-card__title-row {
     display: grid;

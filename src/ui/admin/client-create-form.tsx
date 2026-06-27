@@ -3,12 +3,14 @@ export function ClientCreateForm() {
     <section className="form-foundation" aria-labelledby="client-create-title">
       <div className="read-list__header">
         <div>
-          <h1 id="client-create-title">Create Client Foundation</h1>
+          <h1 id="client-create-title">Client Creation Disabled</h1>
           <p>
-            Live save remains disabled until production auth provider is selected, audited write release gate is approved, and transaction tests pass.
+            Read-only review is active. Do not enter real client data. Future
+            client creation requires explicit approval, production auth readiness,
+            audited write gates and transaction validation.
           </p>
         </div>
-        <span>Future phase only</span>
+        <span>No write access</span>
       </div>
       <form aria-label="Disabled client create foundation">
         <label>
@@ -26,7 +28,7 @@ export function ClientCreateForm() {
           </select>
         </label>
         <button type="button" disabled>
-          Future phase only - no save action
+          Disabled - no save action
         </button>
       </form>
     </section>

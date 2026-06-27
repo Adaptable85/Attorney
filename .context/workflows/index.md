@@ -27,12 +27,18 @@ Admin shell workflow:
 - `/admin` is a protected read-only review workspace for section-by-section admin review.
 - `/admin/dashboard` is a protected read-only placeholder dashboard only.
 - `/admin/documents`, `/admin/billing`, `/admin/lexpro`, `/admin/audit` and `/admin/access` are protected read-only section review placeholders only.
+- `/admin/clients` is a protected read-only Clients Review module with demo-only records and no write controls.
+- `/admin/clients/[slug]` is a protected read-only demo client preview route for approved fake demo slugs only.
+- `/admin/matters` is a protected read-only Matters Review module with demo-only records and no write controls.
+- `/admin/matters/[id]` is a protected read-only demo matter preview route for approved fake demo slugs only.
+- `/admin/documents` is a protected read-only Documents Review module with demo-only metadata and no upload/download/storage controls.
+- `/admin/documents/[slug]` is a protected read-only demo document metadata preview route for approved fake demo slugs only.
 - Role-aware navigation must follow the tested permission policy.
 - Owner-only approval placeholders must not be visible to support admin by default.
 - Dashboard demo values must stay clearly labelled and must not imply live operational counts.
 - Agent service users must not receive normal admin navigation.
 - Do not add CRUD, send, approve, publish, upload, download or sync actions until their phases are accepted.
-- Do not add payment gateway, Yoco, Payfast, shop or checkout copy/functionality to Burgess public or admin code.
+- Do not add payment gateway, Yoco, Payfast, shop, checkout or membership copy/functionality to Burgess public or admin code.
 
 Client/matter service workflow:
 
@@ -95,6 +101,7 @@ Audited persistence workflow:
 - Phase 5G accepts Supabase Postgres as the managed PostgreSQL direction replacing Neon; do not create Supabase projects, deploy, add secrets, enable Supabase Auth/Storage, enable live auth, enable UI saves or enable production writes.
 - Phase 5I accepts Railway + Railway Postgres as the staging direction; do not create Railway resources, deploy, add secrets, run database commands, enable live auth, enable UI saves or enable production writes.
 - Phase 8A adds a read-only admin review workspace only; do not deploy, run database commands, add secrets, enable live auth, enable UI saves, enable production writes or add active save/create/submit controls.
+- Phase 8C expands Clients, Matters and Documents for read-only review only; do not deploy, run database commands, enter real client/matter/document data, enable document upload/download/storage, enable live auth, enable UI saves, enable production writes or add active create/edit/archive/upload/download controls.
 - Do not enable `BURGESS_PRODUCTION_AUTH_ENABLED`, `BURGESS_PRODUCTION_AUTH_CONFIGURED` or `BURGESS_PRODUCTION_WRITES_ENABLED` until Entra tenant/admin access, MFA policy, allowed users/domains, role claim approach, environment configuration, staging validation and production readiness review are complete.
 
 Hosting/environment workflow:

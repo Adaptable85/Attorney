@@ -7,9 +7,11 @@ describe("client create form foundation", () => {
   it("renders disabled future-phase client fields", () => {
     const html = renderToStaticMarkup(<ClientCreateForm />);
 
-    expect(html).toContain("Create Client Foundation");
-    expect(html).toContain("Future phase only");
-    expect(html).toContain("Live save remains disabled until production auth provider is selected");
+    expect(html).toContain("Client Creation Disabled");
+    expect(html).toContain("Read-only review is active.");
+    expect(html).toContain("Do not enter real client data.");
+    expect(html).toContain("Future client creation requires explicit approval");
+    expect(html).toContain("Disabled - no save action");
     expect(html).toContain("disabled");
     expect(html).not.toContain("action=");
   });
