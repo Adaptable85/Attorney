@@ -1,0 +1,46 @@
+# Access Control Review
+
+Date/time: 2026-06-27 08:45:25 SAST
+
+## Summary
+
+Phase 8E expands `/admin/access` into a read-only Access Control Review module. It presents a proposal-only role matrix for review while keeping staging password access, Microsoft Entra and production write gates unchanged.
+
+## Proposed Roles
+
+- Principal Attorney / Owner.
+- Attorney / Professional Staff.
+- Admin / Reception.
+- Finance / Billing Reviewer.
+- Build Support.
+- Draft-only Assistant / Service User.
+- Read-Only Reviewer.
+
+## Safety Status
+
+- Staging password access remains read-only.
+- Microsoft Entra live auth is not enabled.
+- Production auth is not enabled.
+- No role changes.
+- No user management.
+- No invites.
+- No password display.
+- No secrets.
+- No UI saves.
+- No production writes.
+
+## Review Questions
+
+- Who should be the production owner?
+- Which staff roles are needed first?
+- Who may view all clients and matters?
+- Who may view billing summaries?
+- Who may approve invoices/statements later?
+- Who may manage users?
+- Should build support have time-limited access?
+- Should assistant/service users be draft-only?
+- What should happen when a staff member leaves?
+
+## Next Step
+
+Deploy/smoke this read-only module in a later staging phase, then review the proposed matrix with Stephanie before production auth or user management is considered.

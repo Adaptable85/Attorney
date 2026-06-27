@@ -10,6 +10,8 @@ Phase 8C builds the local admin core review pack for Clients, Matters and Docume
 
 Phase 8D deployed the core admin review pack to Railway staging. Deployment ID `0f13e881-ce79-4439-ae83-8d325ba9d3c3` reached `Online`, and read-only smoke checks passed for public routes, admin workspace, Clients, Matters, Documents and demo detail routes.
 
+Phase 8E builds the local back-office review pack for Billing, Lexpro, Audit and Access. No deployment was run for Phase 8E.
+
 ## Sections
 
 | Section | Route | Current state | Future review focus |
@@ -19,10 +21,10 @@ Phase 8D deployed the core admin review pack to Railway staging. Deployment ID `
 | Clients | `/admin/clients` | Full read-only Clients Review module with demo-only client detail previews at `/admin/clients/[demo-slug]` | Confirm client fields, statuses, contact rules, linked-matter expectations and archive/search behavior |
 | Matters | `/admin/matters` | Full read-only Matters Review module with demo-only matter detail previews at `/admin/matters/[demo-slug]` | Confirm matter fields, statuses, key dates, document tracking and closure expectations |
 | Documents | `/admin/documents` | Full read-only Documents Review module with demo-only metadata previews at `/admin/documents/[demo-slug]` | Confirm document categories, privacy labels, required flags and audit expectations |
-| Billing | `/admin/billing` | Invoice/statement structure placeholder | Confirm approval fields and statement summary shape |
-| Lexpro boundary | `/admin/lexpro` | Accounting boundary placeholder | Confirm source-of-truth wording and future reconciliation visibility |
-| Audit trail | `/admin/audit` | Sensitive-action placeholder | Confirm actor/action/timestamp/reason expectations |
-| Settings/access control | `/admin/access` | Role and gate placeholder | Confirm user roles and release-gate review expectations |
+| Billing | `/admin/billing` | Full read-only Billing Review module with demo billing detail previews at `/admin/billing/[demo-slug]` | Confirm draft invoice/statement review, principal approval boundaries, Lexpro boundaries and client-query handling |
+| Lexpro boundary | `/admin/lexpro` | Full read-only Lexpro Boundary Review module with demo boundary detail previews at `/admin/lexpro/[demo-slug]` | Confirm source-of-truth wording, trust/accounting boundaries and any future display-only summaries |
+| Audit trail | `/admin/audit` | Full read-only Audit Trail Review module with demo event previews at `/admin/audit/[demo-slug]` | Confirm actor/action/timestamp/reason expectations, retention and export approval boundaries |
+| Settings/access control | `/admin/access` | Full read-only Access Control Review module with proposal-only role matrix | Confirm staff roles, owner powers, build support limits and service-user boundaries |
 
 ## Read-Only Guarantees
 
@@ -37,14 +39,18 @@ Phase 8D deployed the core admin review pack to Railway staging. Deployment ID `
 - Railway staging verification confirmed these routes return read-only content after password access.
 - Phase 8C expands Clients, Matters and Documents locally only; no deployment was run for that phase.
 - Document pages expose metadata review only; no upload, download or storage action is enabled.
+- Phase 8E expands Billing, Lexpro, Audit and Access locally only; no deployment was run for that phase.
+- Billing, Lexpro, Audit and Access pages remain demo-only and read-only.
 
 ## Billing Boundary
 
-The billing section is limited to invoice and statement structure review. It includes no payment provider, checkout flow, online collection route or third-party commerce integration. Lexpro remains the accounting source of truth for trust, bookkeeping and reconciled records.
+The billing section is limited to invoice and statement structure review. It includes no payment provider, checkout flow, online collection route or third-party commerce integration. Billing is not payment collection. Lexpro remains the accounting source of truth for trust, bookkeeping and reconciled records.
 
 ## Access Boundary
 
 The staging password path grants the `READ_ONLY_REVIEWER` role for review. Microsoft Entra remains the accepted production auth direction, but live redirect, token exchange, session readiness and production writes remain disabled until separately approved.
+
+The Phase 8E access matrix is proposal-only. It does not enable invites, role changes, user removal, Microsoft login, SSO configuration, secret viewing, UI saves or production writes.
 
 ## Future Preconditions Before Writes
 
