@@ -34,3 +34,14 @@ Any future Lexpro integration requires a separate security review, data mapping,
 ## Next Step
 
 Deploy/smoke this read-only boundary review in a later staging phase, then ask Stephanie which data must remain only in Lexpro and which read-only summaries would be useful.
+
+## Phase 8F Staging Verification
+
+Date/time: 2026-06-27 14:02:07 SAST
+
+Phase 8F deployed the Lexpro Boundary Review module to Railway staging deployment `2a1c589e-59aa-4b24-946f-09d05c2056f4`.
+
+- `/admin/lexpro` returned `200` and rendered `Lexpro Boundary Review`.
+- `/admin/lexpro/demo-trust-accounting-boundary` returned `200` and rendered the demo trust/accounting boundary detail.
+- Demo-only/read-only markers were visible.
+- No live Lexpro connect, sync, import, export, credential configuration, reconciliation or write-back control was active.

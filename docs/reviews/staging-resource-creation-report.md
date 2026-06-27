@@ -880,3 +880,40 @@ Safety status:
 - No payment gateway, Yoco, Payfast, shop, checkout or membership functionality was added.
 - No real Burgess client data was entered.
 - No client, matter, invoice, WhatsApp, Lexpro or email workflow was started.
+
+## Phase 8F Full Admin Review Workspace Staging Deploy
+
+Date/time: 2026-06-27 14:02:07 SAST
+
+Phase 8F deployed the merged full read-only admin review workspace to Railway staging and completed public/admin smoke checks.
+
+| Item | Non-secret value recorded | Status |
+| --- | --- | --- |
+| Staging URL | `https://attorney-web-production.up.railway.app` | Confirmed |
+| Railway project | `burgess-attorneys-staging` | Confirmed |
+| Railway project ID | `46a94859-6ba1-47b8-8e64-4b66a90dc3fa` | Confirmed |
+| Railway service | `attorney-web` | Confirmed |
+| Railway service ID | `de7fc164-c220-4d5a-8c91-754423f8e994` | Confirmed |
+| Deployment ID | `2a1c589e-59aa-4b24-946f-09d05c2056f4` | Confirmed |
+| Public routes | `/`, `/about`, `/services`, `/team`, `/testimonials`, `/contact` returned `200` | Passed |
+| Health endpoint | `{"ok":true,"phase":"0","scope":"technical-foundation"}` | Passed |
+| Admin workspace | Password-backed read-only workspace rendered | Passed |
+| Read-only reviewer role | `Read-Only Reviewer` visible | Passed |
+| Core modules | Clients, Matters and Documents routes/details rendered | Passed |
+| Back-office modules | Billing, Lexpro, Audit and Access routes/details rendered | Passed |
+| Create routes | `/admin/clients/new` and `/admin/matters/new` remained blocked/non-writing | Passed |
+| Microsoft Entra routes | Login/callback remained disabled with `entra_auth_not_enabled` | Passed |
+
+Safety status:
+
+- No migration was run.
+- `db:push` was not run.
+- No Railway environment variable was changed.
+- No custom/production domain or DNS change was made.
+- No secrets, cookies, raw `DATABASE_URL`, Railway tokens or private keys were printed or committed.
+- Live Microsoft Entra auth remains disabled.
+- UI saves remain disabled.
+- Production writes remain blocked.
+- No active billing/payment collection, Lexpro connect/sync/import/export/write-back, upload/download, approval, send, user invite, role-change or SSO configuration control was found.
+
+Next recommendation: Stephanie review of the full read-only admin workspace, then decide which section to adjust first.

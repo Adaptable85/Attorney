@@ -44,3 +44,15 @@ Phase 8E expands `/admin/billing` into a read-only Billing Review module for Ste
 ## Next Step
 
 Deploy/smoke this read-only module in a later staging phase, then collect Stephanie's review feedback before any billing workflow or write path is considered.
+
+## Phase 8F Staging Verification
+
+Date/time: 2026-06-27 14:02:07 SAST
+
+Phase 8F deployed the Billing Review module to Railway staging deployment `2a1c589e-59aa-4b24-946f-09d05c2056f4`.
+
+- `/admin/billing` returned `200` and rendered `Billing Review`.
+- `/admin/billing/demo-statement-review` returned `200` and rendered the demo billing detail.
+- Demo-only/read-only markers were visible.
+- No active billing write, invoice creation, statement creation, approval, send, PDF, paid-status or payment collection control was found.
+- No Yoco, Payfast, payment gateway, shop, checkout or membership copy appeared.

@@ -46,3 +46,14 @@ Any future Lexpro integration requires:
 - Compliance records.
 - Official accounting outputs.
 - Any write-back to Lexpro.
+
+## Phase 8F Staging Verification
+
+Date/time: 2026-06-27 14:02:07 SAST
+
+Railway staging deployment `2a1c589e-59aa-4b24-946f-09d05c2056f4` verified the Lexpro boundary review pages as read-only:
+
+- `/admin/lexpro`
+- `/admin/lexpro/demo-trust-accounting-boundary`
+
+No live Lexpro integration, API call, sync, import, export, credential configuration, reconciliation or write-back was active.

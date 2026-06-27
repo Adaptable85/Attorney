@@ -42,3 +42,14 @@ Phase 8E expands `/admin/audit` into a read-only Audit Trail Review module. It u
 ## Next Step
 
 Deploy/smoke this read-only module in a later staging phase and use Stephanie's feedback to shape the future audit policy before write paths are enabled.
+
+## Phase 8F Staging Verification
+
+Date/time: 2026-06-27 14:02:07 SAST
+
+Phase 8F deployed the Audit Trail Review module to Railway staging deployment `2a1c589e-59aa-4b24-946f-09d05c2056f4`.
+
+- `/admin/audit` returned `200` and rendered `Audit Trail Review`.
+- `/admin/audit/demo-client-viewed` returned `200` and rendered the demo audit event detail.
+- Demo-only/read-only markers were visible.
+- No audit export, evidence download, resolve, comment, escalation or delete control was active.

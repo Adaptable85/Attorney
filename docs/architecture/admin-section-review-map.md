@@ -12,6 +12,8 @@ Phase 8D deployed the core admin review pack to Railway staging. Deployment ID `
 
 Phase 8E builds the local back-office review pack for Billing, Lexpro, Audit and Access. No deployment was run for Phase 8E.
 
+Phase 8F deployed the full read-only admin review workspace to Railway staging. Deployment ID `2a1c589e-59aa-4b24-946f-09d05c2056f4` reached `Online`, and read-only smoke checks passed for public routes, admin workspace, Clients, Matters, Documents, Billing, Lexpro, Audit, Access and demo detail routes.
+
 ## Sections
 
 | Section | Route | Current state | Future review focus |
@@ -41,6 +43,7 @@ Phase 8E builds the local back-office review pack for Billing, Lexpro, Audit and
 - Document pages expose metadata review only; no upload, download or storage action is enabled.
 - Phase 8E expands Billing, Lexpro, Audit and Access locally only; no deployment was run for that phase.
 - Billing, Lexpro, Audit and Access pages remain demo-only and read-only.
+- Phase 8F verifies the full workspace on Railway staging. The verification did not run migrations, `db:push`, Railway variable changes, DNS changes, live auth, UI saves or production writes.
 
 ## Billing Boundary
 
