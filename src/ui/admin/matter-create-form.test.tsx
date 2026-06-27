@@ -7,9 +7,11 @@ describe("matter create form foundation", () => {
   it("renders disabled future-phase matter fields", () => {
     const html = renderToStaticMarkup(<MatterCreateForm />);
 
-    expect(html).toContain("Create Matter Foundation");
-    expect(html).toContain("Future phase only");
-    expect(html).toContain("Live save remains disabled until production auth provider is selected");
+    expect(html).toContain("Matter Creation Disabled");
+    expect(html).toContain("Read-only review is active.");
+    expect(html).toContain("Do not enter real matter data.");
+    expect(html).toContain("Future matter creation requires explicit approval");
+    expect(html).toContain("Disabled - no save action");
     expect(html).toContain("disabled");
     expect(html).not.toContain("action=");
   });

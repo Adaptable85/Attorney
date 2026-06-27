@@ -258,11 +258,11 @@ Safety status:
 - No real Burgess client data was entered.
 - No client, matter, invoice, WhatsApp, Lexpro or email workflow was started.
 
-## Phase 8C Clients Review Module Status
+## Phase 8C Admin Core Review Pack Status
 
-Date/time: 2026-06-26 17:02:49 SAST
+Date/time: 2026-06-27 07:44:27 SAST
 
-Phase 8C is a local code/docs change only. It expands the private Clients admin section for read-only review and does not change Railway staging state.
+Phase 8C is a local code/docs change only. It expands the private Clients, Matters and Documents admin sections for read-only review and does not change Railway staging state.
 
 - Staging remains at the last approved deployed state until a separate deploy phase is accepted.
 - No Railway deploy command was run.
@@ -270,6 +270,7 @@ Phase 8C is a local code/docs change only. It expands the private Clients admin 
 - No Railway environment variable was configured.
 - No custom/production domain or DNS change was made.
 - No secrets were printed or committed.
+- No document upload, download or storage workflow was enabled.
 
 ## Phase 8A Read-Only Admin Workspace Status
 

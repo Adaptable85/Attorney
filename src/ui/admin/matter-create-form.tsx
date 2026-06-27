@@ -3,12 +3,14 @@ export function MatterCreateForm() {
     <section className="form-foundation" aria-labelledby="matter-create-title">
       <div className="read-list__header">
         <div>
-          <h1 id="matter-create-title">Create Matter Foundation</h1>
+          <h1 id="matter-create-title">Matter Creation Disabled</h1>
           <p>
-            Live save remains disabled until production auth provider is selected, audited write release gate is approved, and transaction tests pass.
+            Read-only review is active. Do not enter real matter data. Future
+            matter creation requires explicit approval, production auth readiness,
+            audited write gates and transaction validation.
           </p>
         </div>
-        <span>Future phase only</span>
+        <span>No write access</span>
       </div>
       <form aria-label="Disabled matter create foundation">
         <label>
@@ -34,7 +36,7 @@ export function MatterCreateForm() {
           </select>
         </label>
         <button type="button" disabled>
-          Future phase only - no save action
+          Disabled - no save action
         </button>
       </form>
     </section>

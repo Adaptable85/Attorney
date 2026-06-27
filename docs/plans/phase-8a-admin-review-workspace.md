@@ -101,4 +101,20 @@ Phase 8C expands `/admin/clients` into a full read-only Clients Review module.
 - The Clients page includes Stephanie review prompts and a future workflow preview.
 - No real data entry, client write path, UI save, migration, `db:push` or deployment was added.
 
-Recommended next section after Clients: Matters.
+## Phase 8C Admin Core Review Pack
+
+Date/time: 2026-06-27 07:44:27 SAST
+
+Phase 8C now expands the admin core pack across Clients, Matters and Documents.
+
+- Clients remain the read-only review module from the first Phase 8C commit.
+- Matters now have a read-only review list and demo detail previews.
+- Documents now have a read-only metadata review list and demo detail previews.
+- Client detail pages show linked demo matters and linked demo document metadata where available.
+- Matter detail pages show linked clients and linked document summaries.
+- Document detail pages show linked clients and linked matters.
+- `/admin/clients/new` and `/admin/matters/new` remain blocked/non-writing.
+- Document pages have no upload, download or storage workflow enabled.
+- No real data entry, client/matter/document write path, UI save, migration, `db:push` or deployment was added.
+
+Recommended next section after the core pack: Billing/Lexpro review.

@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { demoDocumentReviewRecords } from "./documents-review-data";
 import {
   disabledClientFutureActions,
   type DemoClientReviewRecord
@@ -8,6 +9,10 @@ import {
 export function ClientDetailPreview({
   client
 }: Readonly<{ client: DemoClientReviewRecord }>) {
+  const linkedDocuments = demoDocumentReviewRecords.filter(
+    (document) => document.linkedClient === client.displayName
+  );
+
   return (
     <section className="client-review" aria-labelledby="client-detail-title">
       <div className="client-review__hero">
@@ -66,6 +71,23 @@ export function ClientDetailPreview({
           </ul>
         </article>
       </div>
+
+      <article className="client-review-card">
+        <h2>Linked demo documents</h2>
+        {linkedDocuments.length > 0 ? (
+          <ul className="client-review-list">
+            {linkedDocuments.map((document) => (
+              <li key={document.slug}>
+                <strong>{document.name}</strong>
+                <span>{document.status}</span>
+                <p>{document.category}</p>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>No linked demo document metadata for this client preview.</p>
+        )}
+      </article>
 
       <div className="client-review__grid">
         <article className="client-review-card">

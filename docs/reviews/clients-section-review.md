@@ -1,8 +1,8 @@
 # Clients Section Review
 
-Date/time: 2026-06-26 17:02:49 SAST
+Date/time: 2026-06-27 07:44:27 SAST
 
-Phase 8C builds the Clients section into a read-only review module for Stephanie. It is demo-only and does not enable client creation, editing, archiving, uploads, saves, production writes, migrations or deployment.
+Phase 8C builds the Clients section into a read-only review module for Stephanie. The Clients work is now part of the larger Phase 8C Admin Core Review Pack with Matters and Documents. It is demo-only and does not enable client creation, editing, archiving, uploads, saves, production writes, migrations or deployment.
 
 ## Scope Completed
 
@@ -10,6 +10,7 @@ Phase 8C builds the Clients section into a read-only review module for Stephanie
 - The page shows five fake demo client records covering individual, company, trust/estate, repeat commercial and archive-candidate scenarios.
 - Each demo record shows client name, type/category, contact person, placeholder email and phone, matter counts, status, review note, relationship/context note and responsible internal person placeholder.
 - `/admin/clients/[slug]` renders a demo-only client detail preview for approved demo slugs.
+- Client detail previews show linked demo matters and linked demo document metadata where available.
 - The detail preview shows linked demo matters, key context, document status summary, billing/statement summary placeholder, audit/review note and disabled future action labels.
 - `/admin/clients/new` remains blocked/non-writing with clearer disabled-copy.
 

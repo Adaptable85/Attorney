@@ -1,10 +1,12 @@
 # Admin Section Review Map
 
-Date/time: 2026-06-26 16:11:18 SAST
+Date/time: 2026-06-27 07:44:27 SAST
 
 Phase 8A adds a read-only admin review workspace for structure review only. It does not approve writes, live authentication, migrations, deployment or production data entry.
 
 Phase 8B deployed this workspace to Railway staging at `https://attorney-web-production.up.railway.app` and verified the route map as read-only. Deployment ID `e4e41b91-cfc8-42db-b0a9-771c77219b1a` reached `SUCCESS`.
+
+Phase 8C builds the local admin core review pack for Clients, Matters and Documents. No deployment was run for Phase 8C.
 
 ## Sections
 
@@ -13,8 +15,8 @@ Phase 8B deployed this workspace to Railway staging at `https://attorney-web-pro
 | Review workspace | `/admin` | Private read-only overview and checklist | Confirm the admin structure and section order |
 | Dashboard | `/admin/dashboard` | Demo placeholder dashboard | Confirm workload, next-step and audit summary shape |
 | Clients | `/admin/clients` | Full read-only Clients Review module with demo-only client detail previews at `/admin/clients/[demo-slug]` | Confirm client fields, statuses, contact rules, linked-matter expectations and archive/search behavior |
-| Matters | `/admin/matters` | Demo placeholder matter list/detail | Confirm matter fields, status labels and next-step shape |
-| Documents | `/admin/documents` | Private-document placeholder | Confirm document categories, privacy labels and audit expectations |
+| Matters | `/admin/matters` | Full read-only Matters Review module with demo-only matter detail previews at `/admin/matters/[demo-slug]` | Confirm matter fields, statuses, key dates, document tracking and closure expectations |
+| Documents | `/admin/documents` | Full read-only Documents Review module with demo-only metadata previews at `/admin/documents/[demo-slug]` | Confirm document categories, privacy labels, required flags and audit expectations |
 | Billing | `/admin/billing` | Invoice/statement structure placeholder | Confirm approval fields and statement summary shape |
 | Lexpro boundary | `/admin/lexpro` | Accounting boundary placeholder | Confirm source-of-truth wording and future reconciliation visibility |
 | Audit trail | `/admin/audit` | Sensitive-action placeholder | Confirm actor/action/timestamp/reason expectations |
@@ -31,7 +33,8 @@ Phase 8B deployed this workspace to Railway staging at `https://attorney-web-pro
 - No production writes.
 - No public admin link from public website routes.
 - Railway staging verification confirmed these routes return read-only content after password access.
-- Phase 8C expands Clients locally only; no deployment was run for that phase.
+- Phase 8C expands Clients, Matters and Documents locally only; no deployment was run for that phase.
+- Document pages expose metadata review only; no upload, download or storage action is enabled.
 
 ## Billing Boundary
 

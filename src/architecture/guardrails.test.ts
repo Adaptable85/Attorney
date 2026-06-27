@@ -8,14 +8,22 @@ const sourceRoots = ["AGENTS.md", "CLAUDE.md", ".context", "app", "docs", "src"]
 const clientMatterUiFiles = [
   "app/(admin)/admin/clients/[slug]/page.tsx",
   "app/(admin)/admin/clients/new/page.tsx",
+  "app/(admin)/admin/documents/[slug]/page.tsx",
+  "app/(admin)/admin/documents/page.tsx",
+  "app/(admin)/admin/matters/[id]/page.tsx",
   "app/(admin)/admin/matters/new/page.tsx",
+  "app/(admin)/admin/matters/page.tsx",
   "src/ui/admin/client-create-form.tsx",
   "src/ui/admin/client-detail-preview.tsx",
   "src/ui/admin/client-list.tsx",
   "src/ui/admin/clients-review-data.ts",
+  "src/ui/admin/document-detail-preview.tsx",
+  "src/ui/admin/document-list.tsx",
+  "src/ui/admin/documents-review-data.ts",
   "src/ui/admin/matter-create-form.tsx",
   "src/ui/admin/matter-detail.tsx",
-  "src/ui/admin/matter-list.tsx"
+  "src/ui/admin/matter-list.tsx",
+  "src/ui/admin/matters-review-data.ts"
 ];
 
 function collectTextFiles(path: string): string[] {
@@ -127,7 +135,9 @@ describe("architecture guardrails", () => {
     const source = [
       readFileSync(join(root, "src/ui/admin/client-list.tsx"), "utf8"),
       readFileSync(join(root, "src/ui/admin/matter-list.tsx"), "utf8"),
-      readFileSync(join(root, "src/ui/admin/matter-detail.tsx"), "utf8")
+      readFileSync(join(root, "src/ui/admin/matter-detail.tsx"), "utf8"),
+      readFileSync(join(root, "src/ui/admin/document-list.tsx"), "utf8"),
+      readFileSync(join(root, "src/ui/admin/document-detail-preview.tsx"), "utf8")
     ].join("\n");
 
     expect(source).not.toMatch(/<button[^>]*>(?:Approve|Send|Delete|Edit)/);

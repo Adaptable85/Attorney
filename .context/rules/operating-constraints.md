@@ -35,6 +35,8 @@
 - Admin review workspace pages must remain private, read-only, demo/placeholder-only and free of active save/create/submit controls.
 - Burgess public/admin code must not add payment gateway, Yoco, Payfast, shop, checkout or membership copy/functionality.
 - Clients Review pages must remain private, read-only and demo-only; they must not accept real client data or expose active create, edit, archive, upload, save or submit controls.
+- Matters Review pages must remain private, read-only and demo-only; they must not accept real matter data or expose active create, edit, close, upload, approval, save or submit controls.
+- Documents Review pages must remain private, read-only and demo-metadata-only; they must not expose real upload, download, storage, replacement, archive, save or submit controls.
 - Admin dashboard demo values must not imply live operational counts or implemented workflow actions.
 - Agent service users must not receive normal admin shell navigation by default.
 - Client/matter service routes or UI must not bypass server-side service permission checks.

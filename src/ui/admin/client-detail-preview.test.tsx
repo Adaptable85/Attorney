@@ -16,7 +16,9 @@ describe("client detail preview", () => {
     expect(html).toContain("Trust / estate");
     expect(html).toContain("Demo Trustee Contact");
     expect(html).toContain("Linked demo matters");
+    expect(html).toContain("Linked demo documents");
     expect(html).toContain("Demo estate planning review");
+    expect(html).toContain("Demo Signed Mandate");
     expect(html).toContain("Document status summary");
     expect(html).toContain("Billing/statement summary");
     expect(html).toContain("Audit/review note");
