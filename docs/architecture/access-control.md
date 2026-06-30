@@ -55,3 +55,15 @@ Production access control requires:
 - Owner/principal control over high-risk roles.
 - Time-limited support-access policy.
 - Staff departure/offboarding policy.
+
+## Phase 8F Staging Verification
+
+Date/time: 2026-06-27 14:02:07 SAST
+
+Railway staging deployment `2a1c589e-59aa-4b24-946f-09d05c2056f4` verified the access-control review page as read-only:
+
+- `/admin/access`
+- Proposal-only role matrix visible.
+- Current admin role remains `Read-Only Reviewer`.
+- Microsoft Entra login/callback remains disabled.
+- No invite, role change, user removal, SSO configuration, secret view, UI save or production write was active.

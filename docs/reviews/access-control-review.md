@@ -44,3 +44,15 @@ Phase 8E expands `/admin/access` into a read-only Access Control Review module. 
 ## Next Step
 
 Deploy/smoke this read-only module in a later staging phase, then review the proposed matrix with Stephanie before production auth or user management is considered.
+
+## Phase 8F Staging Verification
+
+Date/time: 2026-06-27 14:02:07 SAST
+
+Phase 8F deployed the Access Control Review module to Railway staging deployment `2a1c589e-59aa-4b24-946f-09d05c2056f4`.
+
+- `/admin/access` returned `200` and rendered `Access Control Review`.
+- The proposal-only role matrix rendered, including `Principal Attorney / Owner` and `Read-Only Reviewer`.
+- Demo-only/read-only markers were visible.
+- No user invite, role change, user removal, Microsoft login enablement, SSO configuration or secret view control was active.
+- Microsoft Entra login/callback remained disabled.

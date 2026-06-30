@@ -65,3 +65,16 @@ Phase 8D deployed the merged Phase 8C core admin review modules to Railway stagi
 ## Next Recommendation
 
 Next phase should be a Billing + Lexpro + Audit review pack, still read-only and demo-only.
+
+## Phase 8F Reverification
+
+Date/time: 2026-06-27 14:02:07 SAST
+
+The Phase 8F full workspace deploy reverified the core modules on Railway staging deployment `2a1c589e-59aa-4b24-946f-09d05c2056f4`.
+
+- `/admin/clients` and `/admin/clients/demo-family-trust` returned `200`.
+- `/admin/matters` and `/admin/matters/demo-property-transfer` returned `200`.
+- `/admin/documents` and `/admin/documents/demo-fica-pack` returned `200`.
+- `Clients Review`, `Matters Review` and `Documents Review` remained visible.
+- Create routes remained blocked/non-writing.
+- No upload/download, save, approval, send, migration, `db:push`, live auth or production write was enabled.

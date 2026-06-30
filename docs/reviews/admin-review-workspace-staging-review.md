@@ -87,6 +87,22 @@ The admin pages showed `Read-Only Reviewer`, contained no active save/create/del
 ## Recommendation
 
 Review the Clients section first with Stephanie, because it is the safest next structure discussion before any matter, billing or write-path work is approved.
+
+## Phase 8F Full Workspace Verification
+
+Date/time: 2026-06-27 14:02:07 SAST
+
+Phase 8F deployed the full read-only admin review workspace to Railway staging.
+
+- Deployment ID: `2a1c589e-59aa-4b24-946f-09d05c2056f4`
+- Staging URL: `https://attorney-web-production.up.railway.app`
+- Admin password sign-in returned `303` with relative `Location: /admin`.
+- Admin shell rendered as `Read-Only Reviewer`.
+- Admin navigation included Dashboard, Clients, Matters, Documents, Billing, Lexpro, Audit and Access.
+- Public pages returned `200` and exposed no `/admin` link.
+- `/admin/clients/new` and `/admin/matters/new` remained blocked/non-writing.
+- Microsoft Entra login/callback remained disabled.
+- No migration, `db:push`, Railway variable change, DNS change, custom/production domain change, live auth, UI save or production write was run or enabled.
 ## Phase 8D Core Module Verification
 
 Date/time: 2026-06-27 08:13:39 SAST
