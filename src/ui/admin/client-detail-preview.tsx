@@ -16,16 +16,17 @@ export function ClientDetailPreview({
           <p className="review-hero__eyebrow">Demo client file</p>
           <h1 id="client-detail-title">{client.displayName}</h1>
           <p>
-            Read-only preview of a single client file. Matters, documents,
-            notes, draft invoice items, invoices, statements and audit history
-            are shown here as demo structure only.
+            Read-only preview of a single client file. Client-level documents,
+            matter list, reusable billing templates, client statement and audit
+            history are shown here as demo structure only. Matter notes,
+            voice-note summaries and draft invoices belong inside each matter.
           </p>
         </div>
         <span>Client file first</span>
       </div>
 
       <div className="client-file-tabs" aria-label="Client file sections">
-        {["Overview", "Matters", "Documents", "Notes / Voice Notes", "Billing Items", "Invoices", "Statements", "Audit"].map(
+        {["Overview", "Matters", "Client General Documents", "Billing Item Library", "Client Statement", "Audit"].map(
           (tab) => (
             <span key={tab}>{tab}</span>
           )
@@ -70,6 +71,10 @@ export function ClientDetailPreview({
 
         <article className="client-review-card" aria-labelledby="client-matters-title">
           <h2 id="client-matters-title">Matters inside this file</h2>
+          <p>
+            Open a matter to work with its matter-specific documents, notes,
+            voice-note summaries, draft billing lines and draft invoices.
+          </p>
           <ul className="client-review-list">
             {client.linkedMatters.map((matter) => (
               <li key={matter.name}>
@@ -84,10 +89,11 @@ export function ClientDetailPreview({
 
       <div className="client-review__grid">
         <article className="client-review-card" aria-labelledby="client-documents-title">
-          <h2 id="client-documents-title">Documents</h2>
+          <h2 id="client-documents-title">Client General Documents</h2>
           <p>
-            Uploads are not active. The naming guide shows how files should be
-            saved once document storage is approved.
+            Use this area for general client documents such as ID, proof of
+            address, FICA, mandates and general correspondence. Matter-specific
+            documents belong inside the relevant matter.
           </p>
           <ul className="client-review-list">
             {client.fileDocuments.map((document) => (
@@ -101,31 +107,11 @@ export function ClientDetailPreview({
           </ul>
         </article>
 
-        <article className="client-review-card" aria-labelledby="client-notes-title">
-          <h2 id="client-notes-title">Notes / Voice Notes</h2>
-          <p>
-            Notes are source material for case history and future AI draft
-            billing suggestions. No transcription or LLM call is active.
-          </p>
-          <ul className="client-review-list">
-            {client.fileNotes.map((note) => (
-              <li key={`${note.source}-${note.title}`}>
-                <strong>{note.title}</strong>
-                <span>{note.source}</span>
-                <p>{note.linkedMatter} - {note.status}</p>
-                <p>{note.agentDraftUse}</p>
-              </li>
-            ))}
-          </ul>
-        </article>
-      </div>
-
-      <div className="client-review__grid">
         <article className="client-review-card" aria-labelledby="client-billing-items-title">
-          <h2 id="client-billing-items-title">Billing Items</h2>
+          <h2 id="client-billing-items-title">Billing Item Library</h2>
           <p>
-            AI may later suggest draft line items from notes. These examples are
-            draft-only and cannot become official invoices without review.
+            These reusable billing examples are shared building blocks. Matter
+            draft invoice lines are created inside each matter.
           </p>
           <ul className="client-review-list">
             {client.billingDrafts.map((draft) => (
@@ -161,25 +147,12 @@ export function ClientDetailPreview({
       </div>
 
       <div className="client-review__grid">
-        <article className="client-review-card" aria-labelledby="client-invoices-title">
-          <h2 id="client-invoices-title">Draft Invoices</h2>
-          <p>
-            Invoice drafts are not official invoices. No invoice number is
-            assigned before owner/principal approval.
-          </p>
-          <ul className="client-review-list">
-            {client.billingDrafts.map((draft) => (
-              <li key={`invoice-${draft.title}`}>
-                <strong>{draft.title}</strong>
-                <span>Draft only</span>
-                <p>Not approved. Not sent. No invoice number assigned.</p>
-              </li>
-            ))}
-          </ul>
-        </article>
-
         <article className="client-review-card" aria-labelledby="client-statements-title">
-          <h2 id="client-statements-title">Draft Statements</h2>
+          <h2 id="client-statements-title">Client Statement</h2>
+          <p>
+            Draft matter invoices pull through here for client-level statement
+            review. No statement can be sent from this preview.
+          </p>
           <ul className="client-review-list">
             {client.statementDrafts.map((statement) => (
               <li key={statement.title}>

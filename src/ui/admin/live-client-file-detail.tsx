@@ -68,11 +68,9 @@ export function LiveClientFileDetail({
         {[
           ["#overview", "Overview"],
           ["#matters", "Matters"],
-          ["#documents", "Documents"],
-          ["#notes", "Notes / Voice Notes"],
-          ["#billing-items", "Billing Items"],
-          ["#invoices", "Invoices"],
-          ["#statements", "Statements"],
+          ["#documents", "Client General Documents"],
+          ["#billing-items", "Billing Item Library"],
+          ["#statements", "Client Statement"],
           ["#audit", "Audit"]
         ].map(([href, tab]) => (
           <a key={href} href={href}>
@@ -121,8 +119,8 @@ export function LiveClientFileDetail({
             <li data-disabled={documentUploadsEnabled ? "false" : "true"}>
               {documentUploadsEnabled ? "Test document upload enabled" : "Document upload unavailable"}
             </li>
-            <li data-disabled="true">LLM note processing unavailable</li>
-            <li data-disabled="true">Invoice approval unavailable</li>
+            <li data-disabled="true">Matter voice-note transcription unavailable</li>
+            <li data-disabled="true">Official invoice approval unavailable</li>
             <li data-disabled="true">Statement sending unavailable</li>
           </ul>
         </article>
@@ -139,8 +137,9 @@ export function LiveClientFileDetail({
             ) : null}
           </div>
           <p>
-            Matters are saved inside this client file. Editing, closing,
-            invoicing and statement actions remain disabled.
+            Matters are saved inside this client file. Open a matter to add
+            matter-specific documents, notes, voice-note summaries, billing
+            lines and draft invoices.
           </p>
           {matterCreated ? (
             <div className="client-success-banner" role="status">
@@ -296,24 +295,16 @@ export function LiveClientFileDetail({
       </div>
 
       <div className="client-review__grid">
-        <article className="client-review-card" id="notes">
-          <h2>Notes / Voice Notes</h2>
-          <p>
-            Opening notes are recorded as staging timeline context only. Voice
-            note upload, transcription and LLM processing are not active.
-          </p>
-        </article>
-
         <article className="client-review-card" id="billing-items">
           <div className="read-card__title-row">
-            <h2>Billing Items</h2>
+            <h2>Billing Item Library</h2>
             <Link className="read-card__link" href="/admin/invoice-items">
               Manage list
             </Link>
           </div>
           <p>
-            Reusable staging billing templates can be managed from the sidebar
-            list. They do not create official invoices.
+            Reusable staging billing templates can be managed here. Matter
+            invoices are created inside each matter, not from the client overview.
           </p>
           {billingItems.length > 0 ? (
             <ul className="client-review-list">
@@ -338,19 +329,11 @@ export function LiveClientFileDetail({
       </div>
 
       <div className="client-review__grid">
-        <article className="client-review-card" id="invoices">
-          <h2>Invoices</h2>
-          <p>
-            Draft invoice preparation remains inactive. No official invoice
-            number can be assigned and nothing can be approved or sent.
-          </p>
-        </article>
-
         <article className="client-review-card" id="statements">
-          <h2>Statements</h2>
+          <h2>Client Statement</h2>
           <p>
-            Draft statement lines pull through from matter draft invoices. Draft
-            only - not approved, not sent.
+            Draft statement lines pull through from draft invoices created inside
+            this client&apos;s matters. Draft only - not approved, not sent.
           </p>
           {statementLines.length ? (
             <div className="client-file-table" role="table" aria-label="Client draft statement lines">

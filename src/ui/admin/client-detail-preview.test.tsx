@@ -16,18 +16,17 @@ describe("client detail preview", () => {
     expect(html).toContain("Trust / estate");
     expect(html).toContain("Demo Trustee Contact");
     expect(html).toContain("Matters inside this file");
-    expect(html).toContain("Documents");
-    expect(html).toContain("Notes / Voice Notes");
-    expect(html).toContain("Billing Items");
-    expect(html).toContain("Draft Invoices");
-    expect(html).toContain("Draft Statements");
+    expect(html).toContain("Client General Documents");
+    expect(html).toContain("Billing Item Library");
+    expect(html).toContain("Client Statement");
+    expect(html).toContain("voice-note summaries and draft invoices belong inside each matter");
     expect(html).toContain("Audit History");
     expect(html).toContain("Demo estate planning review");
     expect(html).toContain("Demo Signed Mandate");
     expect(html).toContain("Demo_Family_Trust_Demo_Property_Transfer_Mandate_2026-06-18");
-    expect(html).toContain("Transfer follow-up call summary");
     expect(html).toContain("Draft transfer correspondence line");
-    expect(html).toContain("No invoice number assigned");
+    expect(html).not.toContain("Notes / Voice Notes");
+    expect(html).not.toContain("Draft Invoices");
     expect(html).toContain("Future actions disabled");
   });
 

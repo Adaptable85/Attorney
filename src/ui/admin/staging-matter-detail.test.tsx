@@ -106,9 +106,12 @@ describe("staging matter detail", () => {
     expect(html).toContain("TEST_Matter_File.pdf");
     expect(html).toContain("/admin/matters/matter_1/documents/document_1/view");
     expect(html).toContain("/admin/matters/matter_1/documents/document_1/download");
-    expect(html).toContain("Staging legal timeline form");
-    expect(html).toContain("Enter the note, instruction, voice-note summary or next-step context.");
-    expect(html).toContain("Add Timeline Note");
+    expect(html).toContain("Notes / Voice Notes");
+    expect(html).toContain("Matter Notes / Voice Notes");
+    expect(html).toContain("Staging matter notes and voice-note summary form");
+    expect(html).toContain("Type the details for this matter.");
+    expect(html).toContain("Audio upload and automatic transcription are not active yet.");
+    expect(html).toContain("Add Matter Note");
     expect(html).toContain("Consultation held");
     expect(html).toContain("Billing Items");
     expect(html).toContain("Staging matter billing line form");
@@ -151,7 +154,7 @@ describe("staging matter detail", () => {
     expect(html).toContain("Saved client");
     expect(html).toContain("Not set");
     expect(html).toContain("Document upload unavailable");
-    expect(html).toContain("Legal timeline unavailable");
+    expect(html).toContain("Matter notes unavailable");
     expect(html).toContain("Matter invoice gate off");
     expect(html).toContain("Draft invoice action unavailable.");
     expect(html).toContain("Document gate test error");

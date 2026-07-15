@@ -81,6 +81,8 @@ describe("live client file detail", () => {
     expect(html).toContain("/admin/clients/client_test_1/matters/new");
     expect(html).toContain("TEST Matter - Delete Later");
     expect(html).toContain("/admin/matters/matter_1");
+    expect(html).toContain("Open a matter to add");
+    expect(html).toContain("matter-specific documents, notes, voice-note summaries");
     expect(html).toContain("Staging matter opened and added to this client file.");
     expect(html).toContain("Test document upload enabled");
     expect(html).toContain("Staging document upload form");
@@ -98,8 +100,12 @@ describe("live client file detail", () => {
     expect(html).not.toContain("Matter/reference label");
     expect(html).toContain("Consultation");
     expect(html).toContain("Edit list");
-    expect(html).toContain("LLM note processing unavailable");
-    expect(html).toContain("Invoice approval unavailable");
+    expect(html).toContain("Matter voice-note transcription unavailable");
+    expect(html).toContain("Official invoice approval unavailable");
+    expect(html).toContain("Billing Item Library");
+    expect(html).toContain("Matter invoices are created inside each matter");
+    expect(html).not.toContain("href=\"#notes\"");
+    expect(html).not.toContain("href=\"#invoices\"");
     expect(html).toContain("Draft only - not approved, not sent");
     expect(html).toContain("Client draft statement lines");
     expect(html).toContain("TEST-MATTER-001");
