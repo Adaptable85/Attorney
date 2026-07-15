@@ -4,7 +4,6 @@ import {
   disabledClientFutureActions,
   type DemoClientReviewRecord
 } from "./clients-review-data";
-import { demoInvoiceItemTemplates, formatPlaceholderRand } from "./invoice-items-review-data";
 
 export function ClientDetailPreview({
   client
@@ -26,7 +25,7 @@ export function ClientDetailPreview({
       </div>
 
       <div className="client-file-tabs" aria-label="Client file sections">
-        {["Overview", "Matters", "Client General Documents", "Billing Item Library", "Client Statement", "Audit"].map(
+        {["Overview", "Matters", "Client General Documents", "Client Statement", "Audit"].map(
           (tab) => (
             <span key={tab}>{tab}</span>
           )
@@ -107,43 +106,6 @@ export function ClientDetailPreview({
           </ul>
         </article>
 
-        <article className="client-review-card" aria-labelledby="client-billing-items-title">
-          <h2 id="client-billing-items-title">Billing Item Library</h2>
-          <p>
-            These reusable billing examples are shared building blocks. Matter
-            draft invoice lines are created inside each matter.
-          </p>
-          <ul className="client-review-list">
-            {client.billingDrafts.map((draft) => (
-              <li key={draft.title}>
-                <strong>{draft.title}</strong>
-                <span>{draft.status}</span>
-                <p>Source: {draft.sourceNote}</p>
-                <p>{draft.amountPlaceholder} - {draft.approvalState}</p>
-              </li>
-            ))}
-          </ul>
-        </article>
-
-        <article className="client-review-card" aria-labelledby="client-invoice-library-title">
-          <h2 id="client-invoice-library-title">Reusable Invoice Items</h2>
-          <p>
-            These are shared billing building blocks. Amounts are represented as
-            cents and VAT remains configurable.
-          </p>
-          <ul className="client-review-list">
-            {demoInvoiceItemTemplates.slice(0, 4).map((item) => (
-              <li key={item.slug}>
-                <strong>{item.label}</strong>
-                <span>{item.category}</span>
-                <p>{formatPlaceholderRand(item.amountCentsPlaceholder)} - {item.vatTreatment}</p>
-              </li>
-            ))}
-          </ul>
-          <Link className="read-card__link" href="/admin/invoice-items">
-            Review invoice item library
-          </Link>
-        </article>
       </div>
 
       <div className="client-review__grid">

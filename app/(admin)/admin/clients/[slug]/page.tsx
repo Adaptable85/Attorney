@@ -7,10 +7,8 @@ import { ClientDetailPreview } from "@/ui/admin/client-detail-preview";
 import { getDemoClientReviewRecord } from "@/ui/admin/clients-review-data";
 import { loadStagingClientFileDetail } from "@/server/staging-client-files";
 import { LiveClientFileDetail } from "@/ui/admin/live-client-file-detail";
-import { loadBillingItemTemplates } from "@/server/staging-billing-items";
 import { loadClientDocuments } from "@/server/staging-documents";
 import {
-  evaluateStagingBillingItemsGate,
   evaluateStagingDocumentUploadGate,
   evaluateStagingMatterWritesGate
 } from "@/config/staging-admin-live-gates";
@@ -42,10 +40,8 @@ export default async function AdminClientDetailPreviewPage({
   const matters = liveClient ? await loadStagingMatters({ clientId: liveClient.id }) : [];
   const documents = liveClient ? await loadClientDocuments(liveClient.id) : [];
   const statementLines = liveClient ? await loadClientDraftStatementLines(liveClient.id) : [];
-  const billingItems = await loadBillingItemTemplates({ activeOnly: true, limit: 8 });
   const matterWritesEnabled = evaluateStagingMatterWritesGate(access.principal).enabled;
   const documentUploadsEnabled = evaluateStagingDocumentUploadGate(access.principal).enabled;
-  const billingItemsEnabled = evaluateStagingBillingItemsGate(access.principal).enabled;
 
   return (
     <div className="admin-shell">
@@ -58,10 +54,8 @@ export default async function AdminClientDetailPreviewPage({
             matters={matters}
             documents={documents}
             statementLines={statementLines}
-            billingItems={billingItems}
             matterWritesEnabled={matterWritesEnabled}
             documentUploadsEnabled={documentUploadsEnabled}
-            billingItemsEnabled={billingItemsEnabled}
             uploaded={query?.uploaded === "1"}
             matterCreated={query?.matterCreated === "1"}
             matterError={query?.matterError}

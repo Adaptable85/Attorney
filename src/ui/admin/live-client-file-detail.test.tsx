@@ -14,19 +14,6 @@ describe("live client file detail", () => {
     primaryContactEmail: "test@example.test",
     primaryContactPhone: "+27 00 000 0000"
   };
-  const billingItems = [
-    {
-      id: "billing_template_1",
-      label: "Consultation",
-      category: "TIME" as const,
-      description: "Consultation item",
-      amountCents: 85000,
-      currency: "ZAR",
-      vatTreatment: "VAT_ON_FEES" as const,
-      status: "ACTIVE" as const,
-      updatedAt: new Date("2026-07-15T09:00:00.000Z")
-    }
-  ];
   const matters = [
     {
       id: "matter_1",
@@ -62,10 +49,8 @@ describe("live client file detail", () => {
         matters={matters}
         documents={[]}
         statementLines={statementLines}
-        billingItems={billingItems}
         matterWritesEnabled={true}
         documentUploadsEnabled={true}
-        billingItemsEnabled={true}
         uploaded={false}
         matterCreated={true}
       />
@@ -98,14 +83,15 @@ describe("live client file detail", () => {
     expect(html).toContain("Suggested format: ClientName_ClientDocumentType_Date");
     expect(html).toContain("TEST_Client_File_Delete_Later_Identity_Document_");
     expect(html).not.toContain("Matter/reference label");
-    expect(html).toContain("Consultation");
-    expect(html).toContain("Edit list");
     expect(html).toContain("Matter voice-note transcription unavailable");
     expect(html).toContain("Official invoice approval unavailable");
-    expect(html).toContain("Billing Item Library");
-    expect(html).toContain("Matter invoices are created inside each matter");
+    expect(html).not.toContain("Billing Item Library");
+    expect(html).not.toContain("Reusable Billing Items");
+    expect(html).not.toContain("Manage list");
+    expect(html).not.toContain("Edit list");
     expect(html).not.toContain("href=\"#notes\"");
     expect(html).not.toContain("href=\"#invoices\"");
+    expect(html).not.toContain("href=\"#billing-items\"");
     expect(html).toContain("Draft only - not approved, not sent");
     expect(html).toContain("Client draft statement lines");
     expect(html).toContain("TEST-MATTER-001");
@@ -127,10 +113,8 @@ describe("live client file detail", () => {
         matters={[]}
         documents={[]}
         statementLines={[]}
-        billingItems={[]}
         matterWritesEnabled={false}
         documentUploadsEnabled={false}
-        billingItemsEnabled={false}
         uploaded={false}
       />
     );
@@ -163,10 +147,8 @@ describe("live client file detail", () => {
           }
         ]}
         statementLines={[]}
-        billingItems={[]}
         matterWritesEnabled={false}
         documentUploadsEnabled={true}
-        billingItemsEnabled={false}
         uploaded={true}
         uploadError="Upload test error"
       />
@@ -181,6 +163,6 @@ describe("live client file detail", () => {
     expect(html).toContain("/admin/clients/client_test_1/documents/document_1/download");
     expect(html).toContain("View");
     expect(html).toContain("Download");
-    expect(html).toContain("Billing item edit gate off.");
+    expect(html).not.toContain("Billing item edit gate off.");
   });
 });

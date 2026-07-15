@@ -1,11 +1,5 @@
 import Link from "next/link";
 
-import type { BillingItemTemplateListItem } from "@/server/staging-billing-items";
-import {
-  formatBillingCategory,
-  formatRandFromCents,
-  formatVatTreatment
-} from "@/server/staging-billing-items";
 import type { ClientDocumentListItem } from "@/server/staging-documents";
 import {
   formatDraftInvoiceMoney,
@@ -20,10 +14,8 @@ export function LiveClientFileDetail({
   matters,
   documents,
   statementLines,
-  billingItems,
   matterWritesEnabled,
   documentUploadsEnabled,
-  billingItemsEnabled,
   uploaded,
   matterCreated,
   matterError,
@@ -33,10 +25,8 @@ export function LiveClientFileDetail({
   matters: readonly StagingMatterListItem[];
   documents: readonly ClientDocumentListItem[];
   statementLines: readonly StagingClientStatementLine[];
-  billingItems: readonly BillingItemTemplateListItem[];
   matterWritesEnabled: boolean;
   documentUploadsEnabled: boolean;
-  billingItemsEnabled: boolean;
   uploaded: boolean;
   matterCreated?: boolean;
   matterError?: string;
@@ -69,7 +59,6 @@ export function LiveClientFileDetail({
           ["#overview", "Overview"],
           ["#matters", "Matters"],
           ["#documents", "Client General Documents"],
-          ["#billing-items", "Billing Item Library"],
           ["#statements", "Client Statement"],
           ["#audit", "Audit"]
         ].map(([href, tab]) => (
@@ -295,40 +284,6 @@ export function LiveClientFileDetail({
       </div>
 
       <div className="client-review__grid">
-        <article className="client-review-card" id="billing-items">
-          <div className="read-card__title-row">
-            <h2>Billing Item Library</h2>
-            <Link className="read-card__link" href="/admin/invoice-items">
-              Manage list
-            </Link>
-          </div>
-          <p>
-            Reusable staging billing templates can be managed here. Matter
-            invoices are created inside each matter, not from the client overview.
-          </p>
-          {billingItems.length > 0 ? (
-            <ul className="client-review-list">
-              {billingItems.map((item) => (
-                <li key={item.id}>
-                  <strong>{item.label}</strong>
-                  <span>{formatBillingCategory(item.category)}</span>
-                  <p>{formatRandFromCents(item.amountCents)} - {formatVatTreatment(item.vatTreatment)}</p>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p>No reusable billing items have been saved yet.</p>
-          )}
-          {!billingItemsEnabled ? (
-            <div className="client-safety-banner" role="note">
-              <strong>Billing item edit gate off.</strong>
-              <span>Set BURGESS_STAGING_BILLING_ITEMS_ENABLED=true to edit reusable billing items.</span>
-            </div>
-          ) : null}
-        </article>
-      </div>
-
-      <div className="client-review__grid">
         <article className="client-review-card" id="statements">
           <h2>Client Statement</h2>
           <p>
@@ -363,32 +318,10 @@ export function LiveClientFileDetail({
       <article className="client-review-card" id="audit">
         <h2>Audit</h2>
         <p>
-          Client creation, test document uploads and billing template edits are
-          audit logged in staging.
+          Client creation, matter opening, test document uploads and draft
+          matter billing activity are audit logged in staging.
         </p>
       </article>
-
-      <aside className="client-review-card billing-sidebar" aria-labelledby="billing-sidebar-title">
-        <div className="read-card__title-row">
-          <h2 id="billing-sidebar-title">Reusable Billing Items</h2>
-          <Link className="read-card__link" href="/admin/invoice-items">
-            Edit list
-          </Link>
-        </div>
-        {billingItems.length > 0 ? (
-          <ul className="client-review-list">
-            {billingItems.slice(0, 5).map((item) => (
-              <li key={item.id}>
-                <strong>{item.label}</strong>
-                <span>{formatBillingCategory(item.category)}</span>
-                <p>{formatRandFromCents(item.amountCents)} - {formatVatTreatment(item.vatTreatment)}</p>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p>No billing items saved yet. Use the manage list action to add test templates.</p>
-        )}
-      </aside>
 
       <Link className="read-card__link" href="/admin/clients">
         Back to Client Files
