@@ -11,11 +11,12 @@ export function ClientList({ clients }: Readonly<{ clients: readonly DemoClientR
     <section className="client-review" aria-labelledby="clients-title">
       <div className="client-review__hero">
         <div>
-          <p className="review-hero__eyebrow">Read-only structure review</p>
-          <h1 id="clients-title">Clients Review</h1>
+          <p className="review-hero__eyebrow">Main workspace</p>
+          <h1 id="clients-title">Client Files</h1>
           <p>
-            Review the proposed Burgess client record structure before live client
-            data, client creation or write access is enabled.
+            Start here. Each client file brings together the client details,
+            matters, documents, notes, billing drafts, invoices, statements and
+            audit history in one read-only review workspace.
           </p>
         </div>
         <span>Read-only review mode</span>
@@ -24,7 +25,7 @@ export function ClientList({ clients }: Readonly<{ clients: readonly DemoClientR
       <div className="client-safety-banner" role="note">
         <strong>Demo data only.</strong>
         <span>Do not enter real client data.</span>
-        <span>Create, edit, delete and archive actions are disabled.</span>
+        <span>Create, edit, upload, save and archive actions are disabled.</span>
         <span>Client write paths are not enabled.</span>
       </div>
 
@@ -34,7 +35,7 @@ export function ClientList({ clients }: Readonly<{ clients: readonly DemoClientR
           <strong>{clients.length}</strong>
         </article>
         <article>
-          <span>Open demo matters</span>
+          <span>Open matters inside files</span>
           <strong>{clients.reduce((total, client) => total + client.openMatterCount, 0)}</strong>
         </article>
         <article>
@@ -73,6 +74,10 @@ export function ClientList({ clients }: Readonly<{ clients: readonly DemoClientR
                 <dd>{client.matterCount}</dd>
               </div>
               <div>
+                <dt>File workspace includes</dt>
+                <dd>Matters, documents, notes, billing drafts, invoices and statements</dd>
+              </div>
+              <div>
                 <dt>Active/open matter count</dt>
                 <dd>{client.openMatterCount}</dd>
               </div>
@@ -90,14 +95,14 @@ export function ClientList({ clients }: Readonly<{ clients: readonly DemoClientR
               </div>
             </dl>
             <Link className="read-card__link" href={`/admin/clients/${client.slug}`}>
-              Review demo client
+              Open demo client file
             </Link>
           </article>
         ))}
       </div>
 
       <section className="client-review-card" aria-labelledby="client-review-prompts-title">
-        <h2 id="client-review-prompts-title">Questions for Stephanie</h2>
+        <h2 id="client-review-prompts-title">Client-file questions for Stephanie</h2>
         <ol className="client-review-list">
           {clientReviewPrompts.map((prompt) => (
             <li key={prompt}>{prompt}</li>
@@ -108,7 +113,8 @@ export function ClientList({ clients }: Readonly<{ clients: readonly DemoClientR
       <section className="client-review-card" aria-labelledby="client-future-workflow-title">
         <h2 id="client-future-workflow-title">Future client workflow</h2>
         <p>
-          This workflow is not live yet. No write path is enabled in this phase.
+          This workflow is not live yet. No write path, upload, LLM call or save
+          action is enabled in this phase.
         </p>
         <ol className="client-review-list client-review-list--steps">
           {clientFutureWorkflowSteps.map((step) => (

@@ -13,8 +13,8 @@ describe("admin module visibility", () => {
 
     expect(modules.map((module) => module.id)).not.toContain("agent-drafts");
     expect(modules.map((module) => module.navLabel)).not.toContain("Marketing");
-    expect(modules.map((module) => module.title)).toContain("Document Review");
-    expect(modules.map((module) => module.title)).toContain("Billing Review");
+    expect(modules.map((module) => module.title)).toContain("Client Files");
+    expect(modules.map((module) => module.title)).toContain("Invoice Items");
   });
 
   it("hides all admin items from agent service users", () => {
@@ -38,7 +38,7 @@ describe("admin module visibility", () => {
 
     expect(modules.map((module) => module.title)).toEqual(
       expect.arrayContaining([
-        "Billing Review",
+        "Invoice Items",
         "Audit Trail"
       ])
     );
@@ -66,7 +66,10 @@ describe("admin module visibility", () => {
 
     const hrefs = modules.map((module) => module.href);
 
-    expect(hrefs).toEqual(expect.arrayContaining(["/admin/clients", "/admin/matters", "/admin/documents"]));
+    expect(hrefs).toEqual(expect.arrayContaining(["/admin/clients", "/admin/invoice-items"]));
+    expect(hrefs).not.toContain("/admin/matters");
+    expect(hrefs).not.toContain("/admin/documents");
+    expect(hrefs).not.toContain("/admin/billing");
     expect(new Set(hrefs).size).toBe(hrefs.length);
     expect(hrefs.every((href) => href.startsWith("/admin"))).toBe(true);
   });

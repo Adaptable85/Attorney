@@ -1123,6 +1123,22 @@ a {
   line-height: 1.4;
 }
 
+.client-file-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.client-file-tabs span {
+  border: 1px solid var(--burgess-border);
+  border-radius: 999px;
+  background: var(--burgess-panel);
+  padding: 8px 11px;
+  color: var(--burgess-charcoal);
+  font-size: 13px;
+  font-weight: 700;
+}
+
 .client-review__summary {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -1217,6 +1233,22 @@ a {
   color: var(--burgess-muted);
   font-size: 12px;
   font-weight: 700;
+}
+
+.client-review-list code {
+  display: block;
+  overflow-wrap: anywhere;
+  border: 1px dashed var(--burgess-border);
+  border-radius: 6px;
+  background: var(--burgess-panel-muted);
+  padding: 8px;
+  color: var(--burgess-charcoal);
+  font-family:
+    "SFMono-Regular",
+    Consolas,
+    "Liberation Mono",
+    monospace;
+  font-size: 12px;
 }
 
 .client-review-list--steps {

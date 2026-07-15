@@ -24,11 +24,12 @@ pnpm run pre-pr
 
 Admin shell workflow:
 
-- `/admin` is a protected read-only review workspace for section-by-section admin review.
+- `/admin` is a protected read-only review workspace for client-file-first admin review.
 - `/admin/dashboard` is a protected read-only placeholder dashboard only.
 - `/admin/documents`, `/admin/billing`, `/admin/lexpro`, `/admin/audit` and `/admin/access` are protected read-only section review placeholders only.
-- `/admin/clients` is a protected read-only Clients Review module with demo-only records and no write controls.
-- `/admin/clients/[slug]` is a protected read-only demo client preview route for approved fake demo slugs only.
+- `/admin/clients` is the primary protected read-only Client Files module with demo-only records and no write controls.
+- `/admin/clients/[slug]` is a protected read-only client file preview route for approved fake demo slugs only. Matters, documents, notes, billing items, draft invoices, draft statements and audit history are reviewed inside the client file.
+- `/admin/invoice-items` is a protected read-only reusable Invoice Items review module with no create/edit/apply/approve/send controls.
 - `/admin/matters` is a protected read-only Matters Review module with demo-only records and no write controls.
 - `/admin/matters/[id]` is a protected read-only demo matter preview route for approved fake demo slugs only.
 - `/admin/documents` is a protected read-only Documents Review module with demo-only metadata and no upload/download/storage controls.
@@ -102,6 +103,7 @@ Audited persistence workflow:
 - Phase 5I accepts Railway + Railway Postgres as the staging direction; do not create Railway resources, deploy, add secrets, run database commands, enable live auth, enable UI saves or enable production writes.
 - Phase 8A adds a read-only admin review workspace only; do not deploy, run database commands, add secrets, enable live auth, enable UI saves, enable production writes or add active save/create/submit controls.
 - Phase 8C expands Clients, Matters and Documents for read-only review only; do not deploy, run database commands, enter real client/matter/document data, enable document upload/download/storage, enable live auth, enable UI saves, enable production writes or add active create/edit/archive/upload/download controls.
+- Phase 8G simplifies the admin review workspace around Client Files and Invoice Items only; do not deploy, run database commands, enter real data, enable document uploads, call an LLM, enable live auth, enable UI saves, enable production writes or add active create/edit/archive/upload/approve/send controls.
 - Do not enable `BURGESS_PRODUCTION_AUTH_ENABLED`, `BURGESS_PRODUCTION_AUTH_CONFIGURED` or `BURGESS_PRODUCTION_WRITES_ENABLED` until Entra tenant/admin access, MFA policy, allowed users/domains, role claim approach, environment configuration, staging validation and production readiness review are complete.
 
 Hosting/environment workflow:

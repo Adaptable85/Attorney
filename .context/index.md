@@ -1,6 +1,6 @@
 # Context Index
 
-Status: Phase 8A read-only admin review workspace
+Status: Phase 8G read-only client-file-first admin workspace
 
 Read order:
 

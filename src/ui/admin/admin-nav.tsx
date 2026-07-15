@@ -4,8 +4,7 @@ import type { AdminModule } from "./admin-modules";
 
 export function AdminNav({ modules }: Readonly<{ modules: readonly AdminModule[] }>) {
   const navItems = [
-    { href: "/admin", label: "Review Workspace" },
-    { href: "/admin/dashboard", label: "Dashboard" },
+    { href: "/admin", label: "Admin Home" },
     ...modules.map((module) => ({ href: module.href, label: module.navLabel }))
   ];
   const uniqueNavItems = navItems.filter(
@@ -16,7 +15,7 @@ export function AdminNav({ modules }: Readonly<{ modules: readonly AdminModule[]
     <nav className="admin-nav" aria-label="Admin modules">
       <div className="admin-nav__brand">
         <p className="admin-nav__brand-name">Burgess Attorneys</p>
-        <p className="admin-nav__brand-label">Read-only review workspace</p>
+        <p className="admin-nav__brand-label">Client-file review workspace</p>
       </div>
       <ul className="admin-nav__list">
         {uniqueNavItems.map((item) => (

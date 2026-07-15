@@ -18,10 +18,10 @@ describe("admin shell", () => {
       <AdminShell principal={ownerPrincipal} modules={getVisibleAdminModules(ownerPrincipal)} />
     );
 
-    expect(html).toContain("Admin review workspace");
+    expect(html).toContain("Admin client file workspace");
     expect(html).toContain("Read-only Reviewer mode");
-    expect(html).toContain("Client Review");
-    expect(html).toContain("Billing Review");
+    expect(html).toContain("Client Files");
+    expect(html).toContain("Invoice Items");
     expect(html).toContain("Not implemented yet");
     expect(html).toContain("Coming in later phase");
   });
@@ -35,7 +35,7 @@ describe("admin shell", () => {
     expect(html).not.toContain("Send statement");
     expect(html).not.toContain("Upload document");
     expect(html).not.toContain("Sync Lexpro");
-    expect(html).toContain("No save, create, approval, sending, upload, sync or external collection actions exist");
+    expect(html).toContain("No save, create, approval, sending, upload, LLM call, sync or external collection actions exist");
   });
 
   it("renders the header safely even when a principal has no primary role", () => {

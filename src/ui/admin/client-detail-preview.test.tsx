@@ -10,18 +10,24 @@ describe("client detail preview", () => {
   it("renders a demo-only client detail preview", () => {
     const html = renderToStaticMarkup(<ClientDetailPreview client={demoClient} />);
 
-    expect(html).toContain("Demo client preview");
+    expect(html).toContain("Demo client file");
     expect(html).toContain("Demo Family Trust");
-    expect(html).toContain("Demo only");
+    expect(html).toContain("Client file first");
     expect(html).toContain("Trust / estate");
     expect(html).toContain("Demo Trustee Contact");
-    expect(html).toContain("Linked demo matters");
-    expect(html).toContain("Linked demo documents");
+    expect(html).toContain("Matters inside this file");
+    expect(html).toContain("Documents");
+    expect(html).toContain("Notes / Voice Notes");
+    expect(html).toContain("Billing Items");
+    expect(html).toContain("Draft Invoices");
+    expect(html).toContain("Draft Statements");
+    expect(html).toContain("Audit History");
     expect(html).toContain("Demo estate planning review");
     expect(html).toContain("Demo Signed Mandate");
-    expect(html).toContain("Document status summary");
-    expect(html).toContain("Billing/statement summary");
-    expect(html).toContain("Audit/review note");
+    expect(html).toContain("Demo_Family_Trust_Demo_Property_Transfer_Mandate_2026-06-18");
+    expect(html).toContain("Transfer follow-up call summary");
+    expect(html).toContain("Draft transfer correspondence line");
+    expect(html).toContain("No invoice number assigned");
     expect(html).toContain("Future actions disabled");
   });
 
@@ -29,10 +35,12 @@ describe("client detail preview", () => {
     const html = renderToStaticMarkup(<ClientDetailPreview client={demoClient} />);
 
     expect(html).toContain('data-disabled="true"');
-    expect(html).toContain("Add client");
-    expect(html).toContain("Edit client");
-    expect(html).toContain("Archive client");
+    expect(html).toContain("Create client file");
+    expect(html).toContain("Edit client details");
+    expect(html).toContain("Archive client file");
     expect(html).toContain("Upload document");
+    expect(html).toContain("Invoice approval unavailable");
+    expect(html).toContain("Statement sending unavailable");
     expect(html).not.toContain("<button");
     expect(html).not.toContain("<form");
     expect(html).not.toContain("action=");

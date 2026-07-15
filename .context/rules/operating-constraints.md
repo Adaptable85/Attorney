@@ -34,6 +34,7 @@
 - Admin shell placeholders must not imply that CRUD, approval, sending, publishing, upload, download or sync workflows are implemented.
 - Admin review workspace pages must remain private, read-only, demo/placeholder-only and free of active save/create/submit controls.
 - Burgess public/admin code must not add payment gateway, Yoco, Payfast, shop, checkout or membership copy/functionality.
+- Client Files are the primary future admin workspace; matters, documents, notes, draft billing, draft invoices, draft statements and audit history should be reviewed from the client file before separate top-level workflow sections are expanded.
 - Clients Review pages must remain private, read-only and demo-only; they must not accept real client data or expose active create, edit, archive, upload, save or submit controls.
 - Matters Review pages must remain private, read-only and demo-only; they must not accept real matter data or expose active create, edit, close, upload, approval, save or submit controls.
 - Documents Review pages must remain private, read-only and demo-metadata-only; they must not expose real upload, download, storage, replacement, archive, save or submit controls.

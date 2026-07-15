@@ -1,9 +1,4 @@
-import {
-  canCreateAgentDraftSuggestions,
-  canPublishMarketing,
-  canViewDocumentMetadata,
-  canViewFinancialRecords
-} from "@/domain/permission-policy";
+import { canViewFinancialRecords } from "@/domain/permission-policy";
 import type { RoleKey } from "@/domain/roles";
 import type { AuthenticatedPrincipal } from "@/auth/auth-provider";
 import { hasAdminShellAccess } from "@/auth/admin-access";
@@ -22,40 +17,20 @@ export type AdminModule = {
 export const adminModules: readonly AdminModule[] = [
   {
     id: "clients",
-    title: "Client Review",
-    navLabel: "Clients",
+    title: "Client Files",
+    navLabel: "Client Files",
     href: "/admin/clients",
-    description: "Read-only demo client list for structure review. No create, edit or delete action is available.",
+    description: "Main client-file workspace for client details, matters, documents, notes, draft invoices, draft statements and audit review.",
     status: "Not implemented yet",
     phaseLabel: "Coming in later phase",
     isVisibleForRole: canViewFinancialRecords
   },
   {
-    id: "matters",
-    title: "Matter Review",
-    navLabel: "Matters",
-    href: "/admin/matters",
-    description: "Read-only demo matter list for workflow review. No edit, delete, send or approval action is available.",
-    status: "Not implemented yet",
-    phaseLabel: "Coming in later phase",
-    isVisibleForRole: canViewFinancialRecords
-  },
-  {
-    id: "document-review",
-    title: "Document Review",
-    navLabel: "Documents",
-    href: "/admin/documents",
-    description: "Private-document review placeholder. No upload, download or public storage is available.",
-    status: "Not implemented yet",
-    phaseLabel: "Coming in later phase",
-    isVisibleForRole: canViewDocumentMetadata
-  },
-  {
-    id: "pending-invoice-approvals",
-    title: "Billing Review",
-    navLabel: "Billing",
-    href: "/admin/billing",
-    description: "Invoice and statement structure placeholder. No approval, numbering, sending or external collection action exists.",
+    id: "invoice-items",
+    title: "Invoice Items",
+    navLabel: "Invoice Items",
+    href: "/admin/invoice-items",
+    description: "Reusable fee, disbursement and billing item placeholders for later draft invoice preparation inside client files.",
     status: "Not implemented yet",
     phaseLabel: "Coming in later phase",
     isVisibleForRole: canViewFinancialRecords
@@ -90,26 +65,6 @@ export const adminModules: readonly AdminModule[] = [
     phaseLabel: "Coming in later phase",
     isVisibleForRole: canViewFinancialRecords
   },
-  {
-    id: "agent-drafts",
-    title: "Agent Drafts",
-    navLabel: "Agent Drafts",
-    href: "/admin/dashboard",
-    description: "Draft routing placeholder. Agents cannot access this admin shell.",
-    status: "Not implemented yet",
-    phaseLabel: "Coming in later phase",
-    isVisibleForRole: canCreateAgentDraftSuggestions
-  },
-  {
-    id: "website-marketing",
-    title: "Website / Marketing Placeholder",
-    navLabel: "Marketing",
-    href: "/admin/dashboard",
-    description: "Marketing approval placeholder. No publishing or outreach action exists here.",
-    status: "Not implemented yet",
-    phaseLabel: "Coming in later phase",
-    isVisibleForRole: canPublishMarketing
-  }
 ];
 
 export function getVisibleAdminModules(

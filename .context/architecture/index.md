@@ -37,6 +37,7 @@ Phase 5G accepts Supabase Postgres as the managed PostgreSQL direction replacing
 Phase 5I accepts Railway + Railway Postgres as the staging direction without creating Railway resources, deployment, secrets, database commands, production auth readiness, production writes or UI saves.
 Phase 8A read-only admin review workspace is implemented without deployment, database commands, live auth, UI saves, production writes, payment gateways or product workflow actions.
 Phase 8C read-only admin core review modules are implemented with demo-only Clients, Matters and Documents records and demo detail previews, without deployment, database commands, live auth, UI saves, production writes, file storage or client/matter/document CRUD.
+Phase 8G read-only client-file-first admin simplification is implemented with Client Files as the primary workspace and Invoice Items as reusable billing templates, without deployment, database commands, live auth, UI saves, production writes, file storage, LLM calls, client/matter/document CRUD or invoice/statement actions.
 
 ## Current Direction
 
@@ -66,7 +67,8 @@ Phase 8C read-only admin core review modules are implemented with demo-only Clie
 - Local/dev auth boundary for shell protection; production auth remains unresolved.
 - Protected `/admin/dashboard` route with read-only, role-filtered demo placeholder sections.
 - Client/matter service functions wrap repository interfaces with admin access checks and safe typed errors.
-- Protected `/admin/clients` renders a read-only Clients Review module using fake demo records, and `/admin/clients/[slug]` renders approved demo-only client detail previews.
+- Protected `/admin/clients` renders the primary read-only Client Files module using fake demo records, and `/admin/clients/[slug]` renders approved demo-only client file previews with matters, documents, notes, billing items, draft invoices, draft statements and audit history in one workspace.
+- Protected `/admin/invoice-items` renders a read-only reusable Invoice Items module using fake demo billing template records.
 - Protected `/admin/matters` renders a read-only Matters Review module using fake demo records, and `/admin/matters/[id]` renders approved demo-only matter detail previews.
 - Protected `/admin/documents` renders a read-only Documents Review module using fake metadata records, and `/admin/documents/[slug]` renders approved demo-only document detail previews.
 - Protected `/admin/clients/new` and `/admin/matters/new` render disabled future-phase form foundations only.
@@ -169,6 +171,7 @@ See:
 - Phase 5I Railway staging direction: accepted architecture decision and checklist updates only; no Railway resource, deployment, secret, database command, live auth, production write or UI save is exposed.
 - Phase 8A admin review workspace: private admin review UI only; no deploy, migration, `db:push`, live auth, UI save, production write, payment gateway, Yoco, Payfast, shop, checkout, invoice workflow, WhatsApp, Lexpro import or email sending is exposed.
 - Phase 8C admin core review modules: private read-only demo UI only; no deploy, migration, `db:push`, real client/matter/document data entry, document upload/download/storage, live auth, UI save, production write, payment gateway, invoice workflow, WhatsApp, Lexpro import or email sending is exposed.
+- Phase 8G client-file simplification: private read-only demo UI only; no deploy, migration, `db:push`, real data entry, document upload/download/storage, LLM call, live auth, UI save, production write, payment gateway, invoice approval, statement sending, WhatsApp, Lexpro import or email sending is exposed.
 - Agent service users: blocked from normal admin shell navigation.
 
 ## ADR Candidates

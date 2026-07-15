@@ -20,11 +20,12 @@ export function AdminShell({
         <AdminHeader principal={principal} />
         <section className="review-hero" aria-labelledby="review-workspace-title">
           <div>
-            <p className="review-hero__eyebrow">Section-by-section review</p>
-            <h2 id="review-workspace-title">Admin review workspace</h2>
+            <p className="review-hero__eyebrow">Client-file first review</p>
+            <h2 id="review-workspace-title">Admin client file workspace</h2>
             <p>
-              Use this private workspace to review the planned Burgess admin sections
-              without creating records, changing data or enabling live workflows.
+              Use this private workspace to review the simpler Burgess workflow:
+              open a client file, then review matters, documents, notes, billing
+              drafts, statements and audit history from that file.
             </p>
           </div>
           <span className="review-hero__badge">Read-only Reviewer mode</span>
@@ -37,16 +38,16 @@ export function AdminShell({
             Demo placeholder data only. No real client, matter, document or financial data is displayed.
           </StatusCard>
           <StatusCard title="Workflow Boundary">
-            No save, create, approval, sending, upload, sync or external collection actions exist.
+            No save, create, approval, sending, upload, LLM call, sync or external collection actions exist.
           </StatusCard>
         </div>
         <section className="review-checklist" aria-labelledby="review-checklist-title">
           <h2 id="review-checklist-title">Review checklist</h2>
           <ul>
-            <li>Confirm whether the dashboard sections match Burgess Attorneys&apos; workflow.</li>
-            <li>Review the client and matter fields as structure only; no data is live.</li>
-            <li>Check that document, billing, Lexpro, audit and access boundaries are clear.</li>
-            <li>Note missing labels or workflow steps before any write capability is approved.</li>
+            <li>Start from Client Files and confirm that everything important sits inside the client record.</li>
+            <li>Review matters, documents, voice/text notes, billing drafts, invoices and statements as structure only.</li>
+            <li>Check that Invoice Items are reusable building blocks, not official invoices.</li>
+            <li>Note missing labels or workflow steps before any write capability, upload or AI action is approved.</li>
           </ul>
         </section>
         <section className="module-grid" aria-label="Admin section review map">

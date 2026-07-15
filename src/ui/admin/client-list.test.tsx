@@ -8,7 +8,7 @@ describe("client list", () => {
   it("renders the read-only Clients Review module with demo records", () => {
     const html = renderToStaticMarkup(<ClientList clients={demoClientReviewRecords} />);
 
-    expect(html).toContain("Clients Review");
+    expect(html).toContain("Client Files");
     expect(html).toContain("Demo data only.");
     expect(html).toContain("Read-only review mode");
     expect(html).toContain("Do not enter real client data.");
@@ -18,18 +18,19 @@ describe("client list", () => {
     expect(html).toContain("Demo Individual Client");
     expect(html).toContain("Demo Repeat Commercial Client");
     expect(html).toContain("/admin/clients/demo-family-trust");
+    expect(html).toContain("Open demo client file");
     expect(html.match(/Demo only/g)?.length).toBeGreaterThanOrEqual(4);
   });
 
   it("renders Stephanie review prompts and future workflow steps", () => {
     const html = renderToStaticMarkup(<ClientList clients={demoClientReviewRecords} />);
 
-    expect(html).toContain("Questions for Stephanie");
+    expect(html).toContain("Client-file questions for Stephanie");
     expect(html).toContain("Should Burgess manage both individuals and organisations as clients?");
     expect(html).toContain("Should archived clients remain searchable?");
     expect(html).toContain("Future client workflow");
     expect(html).toContain("Conflict/basic duplicate check");
-    expect(html).toContain("No write path is enabled in this phase.");
+    expect(html).toContain("No write path, upload, LLM call or save");
   });
 
   it("does not render active client mutation actions", () => {
@@ -40,6 +41,5 @@ describe("client list", () => {
     expect(html).not.toContain("Delete client");
     expect(html).not.toContain("Save");
     expect(html).not.toContain("Submit");
-    expect(html).not.toContain("Upload document");
   });
 });
