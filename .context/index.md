@@ -1,6 +1,6 @@
 # Context Index
 
-Status: Phase 9F smooth staging admin form layout
+Status: Phase 9G client general documents separated from matter documents
 
 Read order:
 

@@ -125,8 +125,8 @@ export function StagingMatterDetail({
           <div>
             <h2>Matter Documents</h2>
             <p>
-              Upload small staging test documents against this matter. Stored
-              documents can be viewed and downloaded again from this page.
+              Use this only for documents related to this specific matter.
+              Stored documents can be viewed and downloaded again from this page.
             </p>
           </div>
           <span>{documentUploadsEnabled ? "Upload enabled" : "Upload gate off"}</span>

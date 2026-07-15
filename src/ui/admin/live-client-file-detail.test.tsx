@@ -71,10 +71,17 @@ describe("live client file detail", () => {
     expect(html).toContain("Test document upload enabled");
     expect(html).toContain("Staging document upload form");
     expect(html).toContain("compact-admin-form");
-    expect(html).toContain("Describe the file, for example identity document");
+    expect(html).toContain("Client General Documents");
+    expect(html).toContain("client-level documents like ID, proof of address, FICA");
+    expect(html).toContain("Matter-specific documents must be uploaded inside the relevant matter.");
+    expect(html).toContain("Choose the general client document type");
+    expect(html).toContain("Client document category");
+    expect(html).toContain("ID / Proof of address / FICA");
     expect(html).toContain("Upload one small staging file.");
     expect(html).toContain("Upload Test Document");
-    expect(html).toContain("Suggested format: ClientName_MatterName_DocumentType_Date");
+    expect(html).toContain("Suggested format: ClientName_ClientDocumentType_Date");
+    expect(html).toContain("TEST_Client_File_Delete_Later_Identity_Document_");
+    expect(html).not.toContain("Matter/reference label");
     expect(html).toContain("Consultation");
     expect(html).toContain("Edit list");
     expect(html).toContain("LLM note processing unavailable");
@@ -108,6 +115,7 @@ describe("live client file detail", () => {
     expect(html).toContain("No phone saved");
     expect(html).toContain("Matter gate off");
     expect(html).toContain("Upload gate off");
+    expect(html).toContain("No general client documents have been uploaded");
   });
 
   it("renders uploaded document and upload error states", () => {

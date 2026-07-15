@@ -7,7 +7,7 @@ import {
   formatVatTreatment
 } from "@/server/staging-billing-items";
 import type { ClientDocumentListItem } from "@/server/staging-documents";
-import { suggestDocumentFilename } from "@/server/staging-documents";
+import { suggestClientGeneralDocumentFilename } from "@/server/staging-documents";
 import type { ClientFileListItem } from "@/server/staging-client-files";
 import type { StagingMatterListItem } from "@/server/staging-matters";
 
@@ -37,9 +37,9 @@ export function LiveClientFileDetail({
   uploadError?: string;
 }>) {
   const today = new Date().toISOString().slice(0, 10);
-  const suggestedFilename = suggestDocumentFilename({
+  const suggestedFilename = suggestClientGeneralDocumentFilename({
     clientName: client.displayName,
-    documentType: "Document",
+    documentType: "Identity_Document",
     documentDate: today
   });
 
@@ -183,8 +183,12 @@ export function LiveClientFileDetail({
         </article>
 
         <article className="client-review-card" id="documents">
-          <h2>Documents</h2>
-          <p>Use test documents only. View and download stay private to the staging admin session.</p>
+          <h2>Client General Documents</h2>
+          <p>
+            Use this for client-level documents like ID, proof of address, FICA
+            and general client file documents. Matter-specific documents must be
+            uploaded inside the relevant matter.
+          </p>
           {uploaded ? (
             <div className="client-success-banner" role="status">
               Test document uploaded and added to this client file.
@@ -207,13 +211,13 @@ export function LiveClientFileDetail({
               <input type="hidden" name="clientId" value={client.id} />
               <label>
                 <span className="admin-form-field__label">Document type</span>
-                <span className="admin-form-field__help">Describe the file, for example identity document, notice or agreement.</span>
+                <span className="admin-form-field__help">Choose the general client document type, for example ID, proof of address, FICA or authority document.</span>
                 <input name="documentType" placeholder="Identity document" required />
               </label>
               <label>
-                <span className="admin-form-field__label">Matter/reference label</span>
-                <span className="admin-form-field__help">Optional matter or general reference for this client document.</span>
-                <input name="matterReference" placeholder="General" />
+                <span className="admin-form-field__label">Client document category</span>
+                <span className="admin-form-field__help">Use categories such as ID, proof of address, FICA, company registration, authority / mandate or general correspondence.</span>
+                <input name="matterReference" placeholder="ID / Proof of address / FICA" />
               </label>
               <label>
                 <span className="admin-form-field__label">Document date</span>
@@ -231,7 +235,7 @@ export function LiveClientFileDetail({
                 />
               </label>
               <p id="document-name-help" className="client-review-note">
-                Suggested format: ClientName_MatterName_DocumentType_Date.
+                Suggested format: ClientName_ClientDocumentType_Date.
               </p>
               <label>
                 <span className="admin-form-field__label">Test document</span>
@@ -247,7 +251,7 @@ export function LiveClientFileDetail({
             </div>
           )}
           {documents.length > 0 ? (
-            <div className="client-file-table" role="table" aria-label="Uploaded documents">
+            <div className="client-file-table" role="table" aria-label="Client general documents">
               <div className="client-file-table__row client-file-table__row--header" role="row">
                 <span role="columnheader">Filename</span>
                 <span role="columnheader">Type</span>
@@ -280,7 +284,7 @@ export function LiveClientFileDetail({
               ))}
             </div>
           ) : (
-            <p>No test documents have been uploaded for this client file yet.</p>
+            <p>No general client documents have been uploaded for this client file yet.</p>
           )}
         </article>
       </div>

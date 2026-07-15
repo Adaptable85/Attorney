@@ -57,7 +57,10 @@ describe("staging matter detail", () => {
     expect(html).toContain("2026-07-30");
     expect(html).toContain("Staging matter document upload form");
     expect(html).toContain("compact-admin-form");
+    expect(html).toContain("Matter Documents");
+    expect(html).toContain("Use this only for documents related to this specific matter.");
     expect(html).toContain("Name what the file is, for example ID document");
+    expect(html).toContain("Matter/reference label");
     expect(html).toContain("Upload a small test file only.");
     expect(html).toContain("Upload Matter Document");
     expect(html).toContain("TEST_Matter_File.pdf");

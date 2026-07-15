@@ -254,6 +254,23 @@ export function suggestDocumentFilename(options: {
     .join("_");
 }
 
+export function suggestClientGeneralDocumentFilename(options: {
+  clientName: string;
+  documentType: string;
+  documentDate: string;
+}): string {
+  const parts = [
+    options.clientName,
+    options.documentType,
+    options.documentDate
+  ];
+
+  return parts
+    .map((part) => part.trim().replace(/[^A-Za-z0-9]+/g, "_").replace(/^_+|_+$/g, ""))
+    .filter(Boolean)
+    .join("_");
+}
+
 export function parseDocumentUploadFormData(formData: FormData): {
   metadata: Record<string, string>;
   file: File | null;

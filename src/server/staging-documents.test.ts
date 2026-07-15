@@ -11,6 +11,7 @@ import {
   maxStagingDocumentUploadBytes,
   parseDocumentUploadFormData,
   parseMatterDocumentUploadFormData,
+  suggestClientGeneralDocumentFilename,
   suggestDocumentFilename,
   uploadStagingClientDocument,
   uploadStagingMatterDocument
@@ -179,6 +180,26 @@ describe("staging documents", () => {
         documentDate: "2026-07-15"
       })
     ).toBe("TEST_Client_File_General_Matter_Identity_Document_2026_07_15");
+  });
+
+  it("suggests guided client general document filenames without matter names", () => {
+    expect(
+      suggestClientGeneralDocumentFilename({
+        clientName: "TEST Client File",
+        documentType: "Proof of address",
+        documentDate: "2026-07-15"
+      })
+    ).toBe("TEST_Client_File_Proof_of_address_2026_07_15");
+  });
+
+  it("omits blank parts from guided client general document filenames", () => {
+    expect(
+      suggestClientGeneralDocumentFilename({
+        clientName: "TEST Client File",
+        documentType: " / ",
+        documentDate: "2026-07-15"
+      })
+    ).toBe("TEST_Client_File_2026_07_15");
   });
 
   it("parses upload metadata and file", () => {
