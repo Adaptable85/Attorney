@@ -55,17 +55,20 @@ export function StagingMatterCreateForm({
       ) : null}
 
       <form
+        className="compact-admin-form"
         action={`/admin/clients/${client.id}/matters/create`}
         method="post"
         aria-label="Staging matter create form"
       >
         <input type="hidden" name="clientId" value={client.id} />
         <label>
-          Client file
+          <span className="admin-form-field__label">Client file</span>
+          <span className="admin-form-field__help">The matter will be opened inside this saved client file.</span>
           <input value={client.displayName} disabled />
         </label>
         <label>
-          Matter/reference number
+          <span className="admin-form-field__label">Matter/reference number</span>
+          <span className="admin-form-field__help">Use a staging reference that clearly belongs to this matter.</span>
           <input
             name="accountNumber"
             placeholder="TEST-MATTER-001"
@@ -74,7 +77,8 @@ export function StagingMatterCreateForm({
           />
         </label>
         <label>
-          Matter name
+          <span className="admin-form-field__label">Matter name</span>
+          <span className="admin-form-field__help">The short matter title shown in lists and the matter header.</span>
           <input
             name="name"
             placeholder="TEST Matter - Delete Later"
@@ -83,7 +87,8 @@ export function StagingMatterCreateForm({
           />
         </label>
         <label>
-          Matter type
+          <span className="admin-form-field__label">Matter type</span>
+          <span className="admin-form-field__help">Choose the closest legal work category for this staging matter.</span>
           <select name="type" defaultValue="OTHER" disabled={disabled}>
             {matterTypes.map((type) => (
               <option key={type} value={type}>
@@ -93,7 +98,8 @@ export function StagingMatterCreateForm({
           </select>
         </label>
         <label>
-          Status
+          <span className="admin-form-field__label">Status</span>
+          <span className="admin-form-field__help">New staging matters normally start as open.</span>
           <select name="status" defaultValue="OPEN" disabled={disabled}>
             {matterStatuses.map((status) => (
               <option key={status} value={status}>
@@ -103,11 +109,13 @@ export function StagingMatterCreateForm({
           </select>
         </label>
         <label>
-          Optional next step due date
+          <span className="admin-form-field__label">Optional next step due date</span>
+          <span className="admin-form-field__help">Set the next expected action date if one is known.</span>
           <input name="nextStepDueDate" type="date" disabled={disabled} />
         </label>
-        <label>
-          Matter description
+        <label className="admin-form-field--wide">
+          <span className="admin-form-field__label">Matter description</span>
+          <span className="admin-form-field__help">Summarise the test matter context. Do not enter real matter data.</span>
           <textarea
             name="description"
             placeholder="Clearly marked staging test matter only."

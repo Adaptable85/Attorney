@@ -70,6 +70,9 @@ describe("live client file detail", () => {
     expect(html).toContain("Staging matter opened and added to this client file.");
     expect(html).toContain("Test document upload enabled");
     expect(html).toContain("Staging document upload form");
+    expect(html).toContain("compact-admin-form");
+    expect(html).toContain("Describe the file, for example identity document");
+    expect(html).toContain("Upload one small staging file.");
     expect(html).toContain("Upload Test Document");
     expect(html).toContain("Suggested format: ClientName_MatterName_DocumentType_Date");
     expect(html).toContain("Consultation");

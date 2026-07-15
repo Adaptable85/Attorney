@@ -1187,16 +1187,21 @@ a {
 
 .compact-admin-form {
   display: grid;
-  gap: 12px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
   margin-top: 14px;
+  border: 1px solid var(--burgess-border);
+  border-radius: 8px;
+  background: #f8fafc;
+  padding: 16px;
 }
 
 .compact-admin-form label {
   display: grid;
-  gap: 6px;
-  color: var(--burgess-muted);
-  font-size: 13px;
-  font-weight: 800;
+  align-content: start;
+  gap: 7px;
+  min-width: 0;
+  color: var(--burgess-charcoal);
 }
 
 .compact-admin-form input,
@@ -1205,24 +1210,56 @@ a {
   width: 100%;
   min-height: 40px;
   border: 1px solid var(--burgess-border);
-  border-radius: 6px;
+  border-radius: 7px;
   background: #ffffff;
-  padding: 9px 10px;
+  padding: 10px 11px;
   color: var(--burgess-charcoal);
   font: inherit;
 }
 
+.compact-admin-form input[type="file"] {
+  padding: 8px;
+}
+
+.compact-admin-form input:focus,
+.compact-admin-form select:focus,
+.compact-admin-form textarea:focus {
+  border-color: var(--burgess-accent);
+  box-shadow: 0 0 0 3px rgba(38, 106, 154, 0.14);
+  outline: none;
+}
+
 .compact-admin-form textarea {
+  min-height: 118px;
   resize: vertical;
+}
+
+.compact-admin-form .admin-form-field--wide,
+.compact-admin-form button {
+  grid-column: 1 / -1;
+}
+
+.admin-form-field__label {
+  color: var(--burgess-charcoal);
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+.admin-form-field__help {
+  color: var(--burgess-muted);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.45;
 }
 
 .compact-admin-form button {
   justify-self: start;
-  min-height: 40px;
+  min-height: 42px;
   border: 0;
   border-radius: 6px;
   background: var(--burgess-accent);
-  padding: 9px 13px;
+  padding: 10px 14px;
   color: #ffffff;
   font: inherit;
   font-weight: 800;
@@ -1240,6 +1277,7 @@ a {
 .client-file-table {
   display: grid;
   gap: 8px;
+  overflow-x: auto;
 }
 
 .client-file-table__row {
@@ -1253,6 +1291,11 @@ a {
   padding: 12px;
   color: var(--burgess-charcoal);
   text-decoration: none;
+}
+
+.client-file-table__row span {
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .client-file-table__row:not(.client-file-table__row--header):hover,
@@ -1271,6 +1314,17 @@ a {
   flex-wrap: wrap;
   gap: 10px;
   align-items: center;
+}
+
+.client-file-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.client-file-actions a {
+  color: var(--burgess-accent);
+  font-weight: 800;
 }
 
 .document-actions .read-card__link {
@@ -1568,6 +1622,25 @@ a {
   color: var(--burgess-warning);
 }
 
+.form-foundation .compact-admin-form {
+  border: 1px solid var(--burgess-border);
+  background: #f8fafc;
+}
+
+.form-foundation .compact-admin-form input,
+.form-foundation .compact-admin-form select,
+.form-foundation .compact-admin-form textarea {
+  border-radius: 7px;
+  background: #ffffff;
+  color: var(--burgess-charcoal);
+}
+
+.form-foundation .compact-admin-form button {
+  border: 0;
+  background: var(--burgess-accent);
+  color: #ffffff;
+}
+
 .not-authorized {
   max-width: 720px;
   margin: 48px auto;
@@ -1638,6 +1711,7 @@ a {
   .client-review__grid,
   .client-review__summary,
   .client-review-card dl,
+  .compact-admin-form,
   .client-file-table__row,
   .read-list__grid,
   .read-card dl,

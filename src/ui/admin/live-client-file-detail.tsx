@@ -206,19 +206,23 @@ export function LiveClientFileDetail({
             >
               <input type="hidden" name="clientId" value={client.id} />
               <label>
-                Document type
+                <span className="admin-form-field__label">Document type</span>
+                <span className="admin-form-field__help">Describe the file, for example identity document, notice or agreement.</span>
                 <input name="documentType" placeholder="Identity document" required />
               </label>
               <label>
-                Matter/reference label
+                <span className="admin-form-field__label">Matter/reference label</span>
+                <span className="admin-form-field__help">Optional matter or general reference for this client document.</span>
                 <input name="matterReference" placeholder="General" />
               </label>
               <label>
-                Document date
+                <span className="admin-form-field__label">Document date</span>
+                <span className="admin-form-field__help">Use the date on the document or today for staging tests.</span>
                 <input name="documentDate" type="date" defaultValue={today} required />
               </label>
               <label>
-                Confirm display filename
+                <span className="admin-form-field__label">Confirm display filename</span>
+                <span className="admin-form-field__help">Check the suggested name before saving the test document.</span>
                 <input
                   name="displayFilename"
                   defaultValue={suggestedFilename}
@@ -230,7 +234,8 @@ export function LiveClientFileDetail({
                 Suggested format: ClientName_MatterName_DocumentType_Date.
               </p>
               <label>
-                Test document
+                <span className="admin-form-field__label">Test document</span>
+                <span className="admin-form-field__help">Upload one small staging file. Do not upload real Burgess documents.</span>
                 <input name="file" type="file" required />
               </label>
               <button type="submit">Upload Test Document</button>

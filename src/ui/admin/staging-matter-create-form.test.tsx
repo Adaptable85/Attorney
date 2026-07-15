@@ -25,6 +25,9 @@ describe("staging matter create form", () => {
     );
 
     expect(html).toContain("Open New Matter");
+    expect(html).toContain("compact-admin-form");
+    expect(html).toContain("The matter will be opened inside this saved client file.");
+    expect(html).toContain("Summarise the test matter context.");
     expect(html).toContain("/admin/clients/client_test_1/matters/create");
     expect(html).toContain("TEST Client File - Delete Later");
     expect(html).toContain("TEST-MATTER-001");

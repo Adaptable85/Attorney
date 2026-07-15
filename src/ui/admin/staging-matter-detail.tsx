@@ -147,6 +147,7 @@ export function StagingMatterDetail({
 
         {documentUploadsEnabled ? (
           <form
+            className="compact-admin-form"
             action={`/admin/matters/${matter.id}/documents/upload`}
             method="post"
             encType="multipart/form-data"
@@ -155,23 +156,28 @@ export function StagingMatterDetail({
             <input type="hidden" name="clientId" value={matter.clientId} />
             <input type="hidden" name="matterId" value={matter.id} />
             <label>
-              Document type
+              <span className="admin-form-field__label">Document type</span>
+              <span className="admin-form-field__help">Name what the file is, for example ID document, court notice or agreement.</span>
               <input name="documentType" placeholder="ID document, court notice, agreement" required />
             </label>
             <label>
-              Matter/reference label
+              <span className="admin-form-field__label">Matter/reference label</span>
+              <span className="admin-form-field__help">Keep the saved document tied to this matter reference.</span>
               <input name="matterReference" defaultValue={matter.accountNumber} required />
             </label>
             <label>
-              Document date
+              <span className="admin-form-field__label">Document date</span>
+              <span className="admin-form-field__help">Use the document date or today for staging tests.</span>
               <input name="documentDate" type="date" defaultValue={today} required />
             </label>
-            <label>
-              Confirm display filename
+            <label className="admin-form-field--wide">
+              <span className="admin-form-field__label">Confirm display filename</span>
+              <span className="admin-form-field__help">Use the guided name format so files are easy to find later.</span>
               <input name="displayFilename" defaultValue={suggestedFilename} required />
             </label>
-            <label>
-              Select file
+            <label className="admin-form-field--wide">
+              <span className="admin-form-field__label">Select file</span>
+              <span className="admin-form-field__help">Upload a small test file only. Real Burgess documents stay out of staging tests.</span>
               <input name="file" type="file" required />
             </label>
             <button type="submit">Upload Matter Document</button>
@@ -188,7 +194,7 @@ export function StagingMatterDetail({
 
         {documents.length ? (
           <div className="client-file-table" role="table" aria-label="Matter documents">
-            <div role="row">
+            <div className="client-file-table__row client-file-table__row--header" role="row">
               <span role="columnheader">Filename</span>
               <span role="columnheader">Type</span>
               <span role="columnheader">Size</span>
@@ -196,7 +202,7 @@ export function StagingMatterDetail({
               <span role="columnheader">Actions</span>
             </div>
             {documents.map((document) => (
-              <div role="row" key={document.id}>
+              <div className="client-file-table__row" role="row" key={document.id}>
                 <span role="cell">{document.filename}</span>
                 <span role="cell">{document.contentType}</span>
                 <span role="cell">{formatFileSize(document.sizeBytes)}</span>
@@ -244,21 +250,25 @@ export function StagingMatterDetail({
 
         {matterWritesEnabled ? (
           <form
+            className="compact-admin-form"
             action={`/admin/matters/${matter.id}/timeline/create`}
             method="post"
             aria-label="Staging legal timeline form"
           >
             <input type="hidden" name="matterId" value={matter.id} />
             <label>
-              Timeline title
+              <span className="admin-form-field__label">Timeline title</span>
+              <span className="admin-form-field__help">Short heading for what happened on this matter.</span>
               <input name="title" placeholder="Consultation held, notice received, draft sent" required />
             </label>
             <label>
-              Event date
+              <span className="admin-form-field__label">Event date</span>
+              <span className="admin-form-field__help">The date the event, note or instruction happened.</span>
               <input name="eventDate" type="date" defaultValue={today} required />
             </label>
-            <label>
-              Timeline detail
+            <label className="admin-form-field--wide">
+              <span className="admin-form-field__label">Timeline detail</span>
+              <span className="admin-form-field__help">Enter the note, instruction, voice-note summary or next-step context.</span>
               <textarea
                 name="body"
                 placeholder="Add the staging test note or summary for this matter."

@@ -12,6 +12,9 @@ describe("client create form foundation", () => {
     expect(html).toContain("Open New Client File");
     expect(html).toContain("Staging test save enabled");
     expect(html).toContain("Account/reference number");
+    expect(html).toContain("compact-admin-form");
+    expect(html).toContain("Use a staging test reference that you can search later.");
+    expect(html).toContain("The name shown in the client-file list and client header.");
     expect(html).toContain("Primary contact name");
     expect(html).toContain("Opening note");
     expect(html).toContain("Save Staging Client File");

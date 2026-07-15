@@ -45,6 +45,8 @@ Phase 9D Railway-staging matter creation is implemented inside saved client file
 
 Phase 9E Railway-staging matter documents and legal timeline notes are implemented for saved staging matters only. They use existing `DocumentRecord`, `DocumentContent`, `MatterNote`, `TimelineEvent` and `AuditLog` models behind staging document and matter gates, without schema changes, `db:push`, production writes, live Entra auth, matter edit/close/archive/delete, LLM calls, Lexpro sync or invoice/statement approval/sending.
 
+Phase 9F improves staging admin form layout only. It applies a shared stacked form pattern across live staging admin forms without changing schemas, routes, gates, database behavior, production writes, live Entra auth, integrations or financial approval behavior.
+
 ## Current Direction
 
 - TypeScript.

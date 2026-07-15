@@ -27,11 +27,13 @@ function BillingItemFields({
   return (
     <>
       <label>
-        Item label
+        <span className="admin-form-field__label">Item label</span>
+        <span className="admin-form-field__help">Short reusable billing item name shown in lists.</span>
         <input name="label" defaultValue={item?.label ?? ""} required disabled={disabled} />
       </label>
       <label>
-        Category
+        <span className="admin-form-field__label">Category</span>
+        <span className="admin-form-field__help">Choose how this reusable item should be grouped.</span>
         <select name="category" defaultValue={item?.category ?? "TIME"} disabled={disabled}>
           {billingCategories.map((category) => (
             <option key={category} value={category}>
@@ -40,8 +42,9 @@ function BillingItemFields({
           ))}
         </select>
       </label>
-      <label>
-        Description
+      <label className="admin-form-field--wide">
+        <span className="admin-form-field__label">Description</span>
+        <span className="admin-form-field__help">Explain when this billing item should be used.</span>
         <textarea
           name="description"
           defaultValue={item?.description ?? ""}
@@ -51,7 +54,8 @@ function BillingItemFields({
         />
       </label>
       <label>
-        Amount cents
+        <span className="admin-form-field__label">Amount cents</span>
+        <span className="admin-form-field__help">Store money as integer cents, for example 85000 for R 850.00.</span>
         <input
           name="amountCents"
           type="number"
@@ -63,7 +67,8 @@ function BillingItemFields({
         />
       </label>
       <label>
-        VAT treatment
+        <span className="admin-form-field__label">VAT treatment</span>
+        <span className="admin-form-field__help">Select the default VAT handling for this reusable item.</span>
         <select name="vatTreatment" defaultValue={item?.vatTreatment ?? "VAT_ON_FEES"} disabled={disabled}>
           {vatTreatments.map((treatment) => (
             <option key={treatment} value={treatment}>
@@ -73,7 +78,8 @@ function BillingItemFields({
         </select>
       </label>
       <label>
-        Status
+        <span className="admin-form-field__label">Status</span>
+        <span className="admin-form-field__help">Archive only when this template should no longer be suggested.</span>
         <select name="status" defaultValue={item?.status ?? "ACTIVE"} disabled={disabled}>
           <option value="ACTIVE">ACTIVE</option>
           <option value="ARCHIVED">ARCHIVED</option>

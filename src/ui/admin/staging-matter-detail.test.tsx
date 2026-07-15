@@ -56,11 +56,15 @@ describe("staging matter detail", () => {
     expect(html).toContain("/admin/clients/client_1");
     expect(html).toContain("2026-07-30");
     expect(html).toContain("Staging matter document upload form");
+    expect(html).toContain("compact-admin-form");
+    expect(html).toContain("Name what the file is, for example ID document");
+    expect(html).toContain("Upload a small test file only.");
     expect(html).toContain("Upload Matter Document");
     expect(html).toContain("TEST_Matter_File.pdf");
     expect(html).toContain("/admin/matters/matter_1/documents/document_1/view");
     expect(html).toContain("/admin/matters/matter_1/documents/document_1/download");
     expect(html).toContain("Staging legal timeline form");
+    expect(html).toContain("Enter the note, instruction, voice-note summary or next-step context.");
     expect(html).toContain("Add Timeline Note");
     expect(html).toContain("Consultation held");
     expect(html).toContain("Edit matter unavailable");

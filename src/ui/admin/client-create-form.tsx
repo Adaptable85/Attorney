@@ -43,12 +43,14 @@ export function ClientCreateForm({
       ) : null}
 
       <form
+        className="compact-admin-form"
         action="/admin/clients/create"
         method="post"
         aria-label="Staging client file create form"
       >
         <label>
-          Account/reference number
+          <span className="admin-form-field__label">Account/reference number</span>
+          <span className="admin-form-field__help">Use a staging test reference that you can search later.</span>
           <input
             name="accountNumber"
             placeholder="TEST-CLIENT-001"
@@ -57,7 +59,8 @@ export function ClientCreateForm({
           />
         </label>
         <label>
-          Client display name
+          <span className="admin-form-field__label">Client display name</span>
+          <span className="admin-form-field__help">The name shown in the client-file list and client header.</span>
           <input
             name="displayName"
             placeholder="TEST Client File - Delete Later"
@@ -66,14 +69,16 @@ export function ClientCreateForm({
           />
         </label>
         <label>
-          Status
+          <span className="admin-form-field__label">Status</span>
+          <span className="admin-form-field__help">Keep new staging test files active unless you are testing inactive records.</span>
           <select name="status" disabled={disabled} defaultValue="ACTIVE">
             <option value="ACTIVE">ACTIVE</option>
             <option value="INACTIVE">INACTIVE</option>
           </select>
         </label>
         <label>
-          Primary contact name
+          <span className="admin-form-field__label">Primary contact name</span>
+          <span className="admin-form-field__help">Optional staging contact for this client file.</span>
           <input
             name="contactName"
             placeholder="Test Contact"
@@ -81,7 +86,8 @@ export function ClientCreateForm({
           />
         </label>
         <label>
-          Email
+          <span className="admin-form-field__label">Email</span>
+          <span className="admin-form-field__help">Use a test email address only.</span>
           <input
             type="email"
             name="email"
@@ -90,15 +96,17 @@ export function ClientCreateForm({
           />
         </label>
         <label>
-          Phone
+          <span className="admin-form-field__label">Phone</span>
+          <span className="admin-form-field__help">Optional test phone number for review.</span>
           <input
             name="phone"
             placeholder="+27 00 000 0000"
             disabled={disabled}
           />
         </label>
-        <label>
-          Opening note
+        <label className="admin-form-field--wide">
+          <span className="admin-form-field__label">Opening note</span>
+          <span className="admin-form-field__help">Add a short staging note that explains why this test file exists.</span>
           <textarea
             name="openingNote"
             placeholder="Clearly marked staging test note only."

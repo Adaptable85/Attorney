@@ -31,6 +31,9 @@ describe("invoice items review", () => {
     expect(html).toContain("Invoice Items");
     expect(html).toContain("Reusable billing building blocks");
     expect(html).toContain("Add billing item");
+    expect(html).toContain("compact-admin-form");
+    expect(html).toContain("Short reusable billing item name shown in lists.");
+    expect(html).toContain("Store money as integer cents");
     expect(html).toContain("Save Billing Item");
     expect(html).toContain("Update Billing Item");
     expect(html).toContain("Consultation");
