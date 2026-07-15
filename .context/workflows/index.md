@@ -33,7 +33,7 @@ Admin shell workflow:
 - `/admin/clients/[slug]/matters/new` is the only active matter create form in Phase 9D. It may create a staging test matter inside that saved client file only.
 - `/admin/invoice-items` is a protected reusable Invoice Items module. In Phase 9B it can create/edit reusable staging billing templates only when `BURGESS_STAGING_BILLING_ITEMS_ENABLED=true`; applying items to invoices, approving invoices, assigning invoice numbers and sending statements remain blocked.
 - `/admin/matters` is a protected staging matter list/search route. Open new matters from inside a client file, not from this top-level list.
-- `/admin/matters/[id]` is a protected read-focused staging matter detail route with demo fallback for approved fake demo slugs only.
+- `/admin/matters/[id]` is a protected staging matter workspace with demo fallback for approved fake demo slugs only. Saved staging matters can upload/view/download test documents and add legal timeline notes behind explicit staging gates; matter edit/close/archive, invoices, statements, LLM calls and integrations remain blocked.
 - `/admin/documents` is a protected read-only Documents Review module with demo-only metadata and no upload/download/storage controls.
 - `/admin/documents/[slug]` is a protected read-only demo document metadata preview route for approved fake demo slugs only.
 - Role-aware navigation must follow the tested permission policy.

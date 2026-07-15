@@ -1,6 +1,6 @@
 # Context Index
 
-Status: Phase 9D Railway-staging matters inside client files
+Status: Phase 9E Railway-staging matter documents and legal timeline
 
 Read order:
 

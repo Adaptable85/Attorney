@@ -1,4 +1,10 @@
 import { requireAdminRouteAccess } from "@/auth/admin-route-access";
+import {
+  evaluateStagingDocumentUploadGate,
+  evaluateStagingMatterWritesGate
+} from "@/config/staging-admin-live-gates";
+import { loadMatterDocuments } from "@/server/staging-documents";
+import { loadMatterTimeline } from "@/server/staging-matter-timeline";
 import { AdminAccessDenied } from "@/ui/admin/admin-access-denied";
 import { AdminHeader } from "@/ui/admin/admin-header";
 import { getVisibleAdminModules } from "@/ui/admin/admin-modules";
@@ -9,8 +15,17 @@ import { getDemoMatterReviewRecord } from "@/ui/admin/matters-review-data";
 import { StagingMatterDetail } from "@/ui/admin/staging-matter-detail";
 
 export default async function AdminMatterDetailPage({
-  params
-}: Readonly<{ params: Promise<{ id: string }> }>) {
+  params,
+  searchParams
+}: Readonly<{
+  params: Promise<{ id: string }>;
+  searchParams?: Promise<{
+    documentUploaded?: string;
+    documentError?: string;
+    timelineAdded?: string;
+    timelineError?: string;
+  }>;
+}>) {
   const access = await requireAdminRouteAccess();
 
   if (!access.allowed || !access.principal) {
@@ -18,7 +33,12 @@ export default async function AdminMatterDetailPage({
   }
 
   const { id } = await params;
+  const query = await searchParams;
   const liveMatter = await loadStagingMatter(id);
+  const documents = liveMatter ? await loadMatterDocuments(liveMatter.id) : [];
+  const timeline = liveMatter ? await loadMatterTimeline(liveMatter.id) : [];
+  const documentUploadsEnabled = evaluateStagingDocumentUploadGate(access.principal).enabled;
+  const matterWritesEnabled = evaluateStagingMatterWritesGate(access.principal).enabled;
   const matter = getDemoMatterReviewRecord(id);
 
   return (
@@ -27,7 +47,17 @@ export default async function AdminMatterDetailPage({
       <main className="admin-main">
         <AdminHeader principal={access.principal} />
         {liveMatter ? (
-          <StagingMatterDetail matter={liveMatter} />
+          <StagingMatterDetail
+            matter={liveMatter}
+            documents={documents}
+            timeline={timeline}
+            documentUploadsEnabled={documentUploadsEnabled}
+            matterWritesEnabled={matterWritesEnabled}
+            documentUploaded={query?.documentUploaded === "1"}
+            documentError={query?.documentError}
+            timelineAdded={query?.timelineAdded === "1"}
+            timelineError={query?.timelineError}
+          />
         ) : matter ? (
           <MatterDetail matter={matter} />
         ) : (

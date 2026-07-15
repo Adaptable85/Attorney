@@ -43,6 +43,8 @@ Phase 9B Railway-staging test document uploads and reusable billing template edi
 Phase 9C Railway-staging document view/download is implemented for uploaded test documents inside protected client files only, without `db:push`, production writes, live Entra auth, public document URLs, public storage, LLM calls, Lexpro sync or invoice/statement approval/sending.
 Phase 9D Railway-staging matter creation is implemented inside saved client files only behind the staging admin password session and `BURGESS_STAGING_MATTER_WRITES_ENABLED=true`, without schema changes, `db:push`, production writes, live Entra auth, standalone matter creation, matter edit/close/archive/delete, LLM calls, Lexpro sync or invoice/statement approval/sending.
 
+Phase 9E Railway-staging matter documents and legal timeline notes are implemented for saved staging matters only. They use existing `DocumentRecord`, `DocumentContent`, `MatterNote`, `TimelineEvent` and `AuditLog` models behind staging document and matter gates, without schema changes, `db:push`, production writes, live Entra auth, matter edit/close/archive/delete, LLM calls, Lexpro sync or invoice/statement approval/sending.
+
 ## Current Direction
 
 - TypeScript.
