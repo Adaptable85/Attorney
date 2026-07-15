@@ -14,21 +14,49 @@ describe("live client file detail", () => {
     primaryContactEmail: "test@example.test",
     primaryContactPhone: "+27 00 000 0000"
   };
+  const billingItems = [
+    {
+      id: "billing_template_1",
+      label: "Consultation",
+      category: "TIME" as const,
+      description: "Consultation item",
+      amountCents: 85000,
+      currency: "ZAR",
+      vatTreatment: "VAT_ON_FEES" as const,
+      status: "ACTIVE" as const,
+      updatedAt: new Date("2026-07-15T09:00:00.000Z")
+    }
+  ];
 
-  it("renders saved staging client details with inactive workflow panels", () => {
-    const html = renderToStaticMarkup(<LiveClientFileDetail client={client} />);
+  it("renders saved staging client details with clickable panels and gated upload form", () => {
+    const html = renderToStaticMarkup(
+      <LiveClientFileDetail
+        client={client}
+        documents={[]}
+        billingItems={billingItems}
+        documentUploadsEnabled={true}
+        billingItemsEnabled={true}
+        uploaded={false}
+      />
+    );
 
     expect(html).toContain("Live staging client file");
     expect(html).toContain("TEST Client File - Delete Later");
     expect(html).toContain("TEST-001");
     expect(html).toContain("Test Contact");
+    expect(html).toContain("href=\"#documents\"");
     expect(html).toContain("Matter creation unavailable");
-    expect(html).toContain("Document upload unavailable");
+    expect(html).toContain("Test document upload enabled");
+    expect(html).toContain("Staging document upload form");
+    expect(html).toContain("Upload Test Document");
+    expect(html).toContain("Suggested format: ClientName_MatterName_DocumentType_Date");
+    expect(html).toContain("Consultation");
+    expect(html).toContain("Edit list");
     expect(html).toContain("LLM note processing unavailable");
     expect(html).toContain("Invoice approval unavailable");
     expect(html).toContain("Statement sending unavailable");
-    expect(html).not.toContain("<button");
-    expect(html).not.toContain("<form");
+    expect(html).not.toContain("Assign invoice number");
+    expect(html).not.toContain("Send statement");
   });
 
   it("renders pending contact details when a saved client has no primary contact", () => {
@@ -40,11 +68,50 @@ describe("live client file detail", () => {
           primaryContactEmail: null,
           primaryContactPhone: null
         }}
+        documents={[]}
+        billingItems={[]}
+        documentUploadsEnabled={false}
+        billingItemsEnabled={false}
+        uploaded={false}
       />
     );
 
     expect(html).toContain("No contact saved");
     expect(html).toContain("No email saved");
     expect(html).toContain("No phone saved");
+    expect(html).toContain("Upload gate off");
+  });
+
+  it("renders uploaded document and upload error states", () => {
+    const html = renderToStaticMarkup(
+      <LiveClientFileDetail
+        client={client}
+        documents={[
+          {
+            id: "document_1",
+            filename: "TEST_Client_General_Identity_2026_07_15.txt",
+            documentType: "Identity",
+            matterReference: "General",
+            documentDate: "2026-07-15",
+            contentType: "text/plain",
+            sizeBytes: null,
+            status: "ACTIVE",
+            createdAt: new Date("2026-07-15T09:00:00.000Z")
+          }
+        ]}
+        billingItems={[]}
+        documentUploadsEnabled={true}
+        billingItemsEnabled={false}
+        uploaded={true}
+        uploadError="Upload test error"
+      />
+    );
+
+    expect(html).toContain("Test document uploaded and added to this client file.");
+    expect(html).toContain("Document not uploaded.");
+    expect(html).toContain("Upload test error");
+    expect(html).toContain("TEST_Client_General_Identity_2026_07_15.txt");
+    expect(html).toContain("0 bytes");
+    expect(html).toContain("Billing item edit gate off.");
   });
 });

@@ -39,6 +39,7 @@ Phase 8A read-only admin review workspace is implemented without deployment, dat
 Phase 8C read-only admin core review modules are implemented with demo-only Clients, Matters and Documents records and demo detail previews, without deployment, database commands, live auth, UI saves, production writes, file storage or client/matter/document CRUD.
 Phase 8G read-only client-file-first admin simplification is implemented with Client Files as the primary workspace and Invoice Items as reusable billing templates, without deployment, database commands, live auth, UI saves, production writes, file storage, LLM calls, client/matter/document CRUD or invoice/statement actions.
 Phase 9A Railway-staging client-file creation is implemented behind the staging admin password session and `BURGESS_STAGING_CLIENT_FILE_WRITES_ENABLED=true`, without schema changes, `db:push`, production writes, live Entra auth, uploads, LLM calls, Lexpro sync or invoice/statement actions.
+Phase 9B Railway-staging test document uploads and reusable billing template edits are implemented behind the staging admin password session, `BURGESS_STAGING_DOCUMENT_UPLOADS_ENABLED=true` and `BURGESS_STAGING_BILLING_ITEMS_ENABLED=true`, without `db:push`, production writes, live Entra auth, document downloads/public storage, LLM calls, Lexpro sync or invoice/statement approval/sending.
 
 ## Current Direction
 
@@ -68,8 +69,8 @@ Phase 9A Railway-staging client-file creation is implemented behind the staging 
 - Local/dev auth boundary for shell protection; production auth remains unresolved.
 - Protected `/admin/dashboard` route with read-only, role-filtered demo placeholder sections.
 - Client/matter service functions wrap repository interfaces with admin access checks and safe typed errors.
-- Protected `/admin/clients` renders the primary Client Files module as a searchable Railway-staging list. `/admin/clients/new` can create a minimal staging test client file only when the staging write gate is enabled. `/admin/clients/[slug]` renders saved staging client details or approved demo-only client file previews with matters, documents, notes, billing items, draft invoices, draft statements and audit history in one workspace.
-- Protected `/admin/invoice-items` renders a read-only reusable Invoice Items module using fake demo billing template records.
+- Protected `/admin/clients` renders the primary Client Files module as a searchable Railway-staging list. `/admin/clients/new` can create a minimal staging test client file only when the staging write gate is enabled. `/admin/clients/[slug]` renders saved staging client details, can upload private staging test documents when the document gate is enabled, and otherwise keeps matters, notes, invoices, statements, downloads and LLM behavior blocked.
+- Protected `/admin/invoice-items` renders reusable Invoice Items. In Phase 9B it can create/edit staging billing templates when the billing gate is enabled; it cannot apply items to invoices, approve invoices, assign invoice numbers or send statements.
 - Protected `/admin/matters` renders a read-only Matters Review module using fake demo records, and `/admin/matters/[id]` renders approved demo-only matter detail previews.
 - Protected `/admin/documents` renders a read-only Documents Review module using fake metadata records, and `/admin/documents/[slug]` renders approved demo-only document detail previews.
 - Protected `/admin/clients/new` and `/admin/matters/new` render disabled future-phase form foundations only.
@@ -174,6 +175,7 @@ See:
 - Phase 8C admin core review modules: private read-only demo UI only; no deploy, migration, `db:push`, real client/matter/document data entry, document upload/download/storage, live auth, UI save, production write, payment gateway, invoice workflow, WhatsApp, Lexpro import or email sending is exposed.
 - Phase 8G client-file simplification: private read-only demo UI only; no deploy, migration, `db:push`, real data entry, document upload/download/storage, LLM call, live auth, UI save, production write, payment gateway, invoice approval, statement sending, WhatsApp, Lexpro import or email sending is exposed.
 - Phase 9A staging client-file creation: private Railway-staging UI can create minimal test client/contact/audit/timeline records only when the staging admin password session and `BURGESS_STAGING_CLIENT_FILE_WRITES_ENABLED=true` are present. No schema change, `db:push`, production write, live Entra auth, upload, matter write, billing write, invoice approval, statement sending, LLM call, WhatsApp, Lexpro sync or payment feature is exposed.
+- Phase 9B staging document and billing templates: private Railway-staging UI can upload test documents and create/edit reusable billing templates only when the staging admin password session and the matching Phase 9B gates are present. No `db:push`, production write, live Entra auth, document download/public storage, matter write, invoice approval, statement sending, LLM call, WhatsApp, Lexpro sync or payment feature is exposed.
 - Agent service users: blocked from normal admin shell navigation.
 
 ## ADR Candidates

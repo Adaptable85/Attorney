@@ -1,90 +1,219 @@
+import type { BillingItemTemplateListItem } from "@/server/staging-billing-items";
 import {
-  demoInvoiceItemTemplates,
-  disabledInvoiceItemActions,
-  formatPlaceholderRand
-} from "./invoice-items-review-data";
+  formatBillingCategory,
+  formatRandFromCents,
+  formatVatTreatment
+} from "@/server/staging-billing-items";
 
-export function InvoiceItemsReview() {
+const billingCategories = [
+  "TIME",
+  "FOLIO",
+  "PAGE",
+  "FIXED_TARIFF",
+  "DISBURSEMENT",
+  "ADJUSTMENT",
+  "CORRECTION"
+] as const;
+
+const vatTreatments = ["VAT_ON_FEES", "NO_VAT", "VAT_EXEMPT", "CUSTOM"] as const;
+
+function BillingItemFields({
+  disabled,
+  item
+}: Readonly<{
+  disabled: boolean;
+  item?: BillingItemTemplateListItem;
+}>) {
+  return (
+    <>
+      <label>
+        Item label
+        <input name="label" defaultValue={item?.label ?? ""} required disabled={disabled} />
+      </label>
+      <label>
+        Category
+        <select name="category" defaultValue={item?.category ?? "TIME"} disabled={disabled}>
+          {billingCategories.map((category) => (
+            <option key={category} value={category}>
+              {formatBillingCategory(category)}
+            </option>
+          ))}
+        </select>
+      </label>
+      <label>
+        Description
+        <textarea
+          name="description"
+          defaultValue={item?.description ?? ""}
+          rows={3}
+          required
+          disabled={disabled}
+        />
+      </label>
+      <label>
+        Amount cents
+        <input
+          name="amountCents"
+          type="number"
+          min="0"
+          step="1"
+          defaultValue={item?.amountCents ?? 0}
+          required
+          disabled={disabled}
+        />
+      </label>
+      <label>
+        VAT treatment
+        <select name="vatTreatment" defaultValue={item?.vatTreatment ?? "VAT_ON_FEES"} disabled={disabled}>
+          {vatTreatments.map((treatment) => (
+            <option key={treatment} value={treatment}>
+              {formatVatTreatment(treatment)}
+            </option>
+          ))}
+        </select>
+      </label>
+      <label>
+        Status
+        <select name="status" defaultValue={item?.status ?? "ACTIVE"} disabled={disabled}>
+          <option value="ACTIVE">ACTIVE</option>
+          <option value="ARCHIVED">ARCHIVED</option>
+        </select>
+      </label>
+    </>
+  );
+}
+
+export function InvoiceItemsReview({
+  billingItems,
+  writesEnabled,
+  databaseAvailable,
+  saved,
+  error
+}: Readonly<{
+  billingItems: readonly BillingItemTemplateListItem[];
+  writesEnabled: boolean;
+  databaseAvailable: boolean;
+  saved: boolean;
+  error?: string;
+}>) {
+  const disabled = !writesEnabled || !databaseAvailable;
+
   return (
     <section className="client-review" aria-labelledby="invoice-items-title">
       <div className="client-review__hero">
         <div>
           <p className="review-hero__eyebrow">Reusable billing building blocks</p>
-          <h1 id="invoice-items-title">Invoice Items Review</h1>
+          <h1 id="invoice-items-title">Invoice Items</h1>
           <p>
-            Review reusable billing item labels that can later help build draft
-            invoices inside a client file. These are template placeholders only.
+            Load and edit reusable staging billing items for later draft invoice
+            preparation inside client files. These are not official invoices.
           </p>
         </div>
-        <span>Draft library only</span>
+        <span>{writesEnabled ? "Staging edit enabled" : "Edit gate off"}</span>
       </div>
 
       <div className="client-safety-banner" role="note">
-        <strong>Demo only.</strong>
-        <span>No invoice item can be created or edited.</span>
-        <span>No official invoice number can be assigned.</span>
-        <span>Owner/principal approval remains mandatory.</span>
+        <strong>Staging billing templates only.</strong>
+        <span>No invoice can be approved.</span>
+        <span>No invoice number can be assigned.</span>
+        <span>No statement can be sent.</span>
       </div>
 
-      <div className="client-review__summary" aria-label="Invoice item review summary">
+      {saved ? (
+        <div className="client-success-banner" role="status">
+          Reusable billing item saved.
+        </div>
+      ) : null}
+      {error ? (
+        <div className="client-safety-banner" role="alert">
+          <strong>Billing item not saved.</strong>
+          <span>{error}</span>
+        </div>
+      ) : null}
+      {!databaseAvailable ? (
+        <div className="client-safety-banner" role="alert">
+          <strong>Database unavailable.</strong>
+          <span>Billing items cannot be loaded until DATABASE_URL is configured.</span>
+        </div>
+      ) : null}
+      {!writesEnabled ? (
+        <div className="client-safety-banner" role="note">
+          <strong>Edit gate off.</strong>
+          <span>Set BURGESS_STAGING_BILLING_ITEMS_ENABLED=true to edit reusable billing items.</span>
+        </div>
+      ) : null}
+
+      <div className="client-review__summary" aria-label="Invoice item summary">
         <article>
-          <span>Template placeholders</span>
-          <strong>{demoInvoiceItemTemplates.length}</strong>
+          <span>Reusable items</span>
+          <strong>{billingItems.length}</strong>
         </article>
         <article>
-          <span>Amount storage rule</span>
+          <span>Amount storage</span>
           <strong>Cents</strong>
         </article>
         <article>
-          <span>Write access</span>
+          <span>Invoice approval</span>
           <strong>Disabled</strong>
         </article>
       </div>
 
-      <div className="client-review__grid">
-        {demoInvoiceItemTemplates.map((item) => (
-          <article key={item.slug} className="client-review-card">
+      <article className="client-review-card" aria-labelledby="new-billing-item-title">
+        <h2 id="new-billing-item-title">Add billing item</h2>
+        <form className="compact-admin-form" action="/admin/invoice-items/create" method="post">
+          <BillingItemFields disabled={disabled} />
+          <button type="submit" disabled={disabled}>
+            Save Billing Item
+          </button>
+        </form>
+      </article>
+
+      <section className="client-review__grid" aria-label="Reusable billing item list">
+        {billingItems.map((item) => (
+          <article key={item.id} className="client-review-card">
             <div className="read-card__title-row">
               <h2>{item.label}</h2>
-              <span>{item.category}</span>
+              <span>{item.status}</span>
             </div>
             <p>{item.description}</p>
             <dl>
               <div>
-                <dt>Placeholder amount</dt>
-                <dd>{formatPlaceholderRand(item.amountCentsPlaceholder)}</dd>
+                <dt>Category</dt>
+                <dd>{formatBillingCategory(item.category)}</dd>
+              </div>
+              <div>
+                <dt>Amount</dt>
+                <dd>{formatRandFromCents(item.amountCents)}</dd>
               </div>
               <div>
                 <dt>Stored as</dt>
-                <dd>{item.amountCentsPlaceholder} cents</dd>
+                <dd>{item.amountCents} cents</dd>
               </div>
               <div>
                 <dt>VAT treatment</dt>
-                <dd>{item.vatTreatment}</dd>
-              </div>
-              <div>
-                <dt>Typical source</dt>
-                <dd>{item.typicalSource}</dd>
+                <dd>{formatVatTreatment(item.vatTreatment)}</dd>
               </div>
             </dl>
+            <form
+              className="compact-admin-form"
+              action={`/admin/invoice-items/${item.id}/update`}
+              method="post"
+              aria-label={`Edit ${item.label}`}
+            >
+              <BillingItemFields disabled={disabled} item={item} />
+              <button type="submit" disabled={disabled}>
+                Update Billing Item
+              </button>
+            </form>
           </article>
         ))}
-      </div>
-
-      <article className="client-review-card">
-        <h2>Future actions disabled</h2>
-        <ul className="client-disabled-actions">
-          {disabledInvoiceItemActions.map((action) => (
-            <li key={action} data-disabled="true">
-              {action}
-            </li>
-          ))}
-        </ul>
-        <p className="client-review-note">
-          AI may suggest draft invoice items from client file notes later, but it
-          may not approve, send, number or finalize invoices or statements.
-        </p>
-      </article>
+      </section>
+      {billingItems.length === 0 ? (
+        <article className="client-review-card">
+          <h2>No billing items saved yet</h2>
+          <p>Add consultation, drafting, correspondence, perusal, filing or admin-fee templates for staging tests.</p>
+        </article>
+      ) : null}
     </section>
   );
 }

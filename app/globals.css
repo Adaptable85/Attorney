@@ -1185,6 +1185,58 @@ a {
   color: var(--burgess-muted);
 }
 
+.compact-admin-form {
+  display: grid;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.compact-admin-form label {
+  display: grid;
+  gap: 6px;
+  color: var(--burgess-muted);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.compact-admin-form input,
+.compact-admin-form select,
+.compact-admin-form textarea {
+  width: 100%;
+  min-height: 40px;
+  border: 1px solid var(--burgess-border);
+  border-radius: 6px;
+  background: #ffffff;
+  padding: 9px 10px;
+  color: var(--burgess-charcoal);
+  font: inherit;
+}
+
+.compact-admin-form textarea {
+  resize: vertical;
+}
+
+.compact-admin-form button {
+  justify-self: start;
+  min-height: 40px;
+  border: 0;
+  border-radius: 6px;
+  background: var(--burgess-accent);
+  padding: 9px 13px;
+  color: #ffffff;
+  font: inherit;
+  font-weight: 800;
+}
+
+.compact-admin-form button:disabled,
+.compact-admin-form input:disabled,
+.compact-admin-form select:disabled,
+.compact-admin-form textarea:disabled {
+  cursor: not-allowed;
+  background: var(--burgess-panel-muted);
+  color: var(--burgess-muted);
+}
+
 .client-file-table {
   display: grid;
   gap: 8px;
@@ -1210,6 +1262,10 @@ a {
   outline: none;
 }
 
+.billing-sidebar {
+  border-left: 4px solid var(--burgess-accent);
+}
+
 .client-file-table__row--header {
   background: var(--burgess-panel-muted);
   color: var(--burgess-muted);
@@ -1223,7 +1279,8 @@ a {
   gap: 8px;
 }
 
-.client-file-tabs span {
+.client-file-tabs span,
+.client-file-tabs a {
   border: 1px solid var(--burgess-border);
   border-radius: 999px;
   background: var(--burgess-panel);
@@ -1231,6 +1288,15 @@ a {
   color: var(--burgess-charcoal);
   font-size: 13px;
   font-weight: 700;
+  text-decoration: none;
+}
+
+.client-file-tabs a:hover,
+.client-file-tabs a:focus {
+  border-color: var(--burgess-accent);
+  background: var(--burgess-accent-soft);
+  color: var(--burgess-accent);
+  outline: none;
 }
 
 .client-review__summary {

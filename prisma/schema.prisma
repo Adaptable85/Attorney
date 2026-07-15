@@ -144,6 +144,11 @@ enum BillingLineItemStatus {
   CORRECTED
 }
 
+enum BillingItemTemplateStatus {
+  ACTIVE
+  ARCHIVED
+}
+
 enum BillingCategory {
   TIME
   FOLIO
@@ -437,11 +442,25 @@ model DocumentRecord {
   client     Client? @relation(fields: [clientId], references: [id], onDelete: Restrict)
   matter     Matter? @relation(fields: [matterId], references: [id], onDelete: Restrict)
   uploadedBy User?   @relation("DocumentUploader", fields: [uploadedById], references: [id], onDelete: SetNull)
+  content    DocumentContent?
 
   @@index([clientId])
   @@index([matterId])
   @@index([visibility])
   @@index([status])
+}
+
+model DocumentContent {
+  id         String   @id @default(cuid())
+  documentId String   @unique
+  bytes      Bytes
+  sha256     String
+  sizeBytes  Int
+  createdAt  DateTime @default(now())
+
+  document DocumentRecord @relation(fields: [documentId], references: [id], onDelete: Restrict)
+
+  @@index([sha256])
 }
 
 model TimelineEvent {
@@ -495,6 +514,24 @@ model BillingLineItem {
   @@index([matterId])
   @@index([status])
   @@index([category])
+}
+
+model BillingItemTemplate {
+  id              String                    @id @default(cuid())
+  label           String
+  normalizedSearch String
+  category        BillingCategory
+  description     String
+  amountCents     Int
+  currency        String                    @default("ZAR")
+  vatTreatment    VatTreatment
+  status          BillingItemTemplateStatus @default(ACTIVE)
+  createdAt       DateTime                  @default(now())
+  updatedAt       DateTime                  @updatedAt
+
+  @@index([normalizedSearch])
+  @@index([category])
+  @@index([status])
 }
 
 model Invoice {

@@ -1,6 +1,6 @@
 # Context Index
 
-Status: Phase 9A Railway-staging client-file creation
+Status: Phase 9B Railway-staging document uploads and billing item templates
 
 Read order:
 

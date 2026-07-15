@@ -22,7 +22,7 @@
 - Day-one role keys are OWNER_PRINCIPAL, SUPPORT_ADMIN, AGENT_SERVICE, and READ_ONLY_REVIEWER.
 - Any future permission override must be explicit and tested.
 - OpenClaw/AI agents may not create or edit client or matter records directly.
-- Document records store metadata only unless a future storage decision explicitly changes this.
+- Document records store metadata only; Phase 9B stores private staging test file bytes in the separate `DocumentContent` table only when the document upload gate is enabled.
 - Money must be stored in integer cents, not floating point values.
 - VAT overrides require a reason.
 - Draft invoices must not have official invoice numbers.
@@ -32,12 +32,12 @@
 - Seed data must not contain real client data.
 - Repository interfaces must not expose hard-delete methods for protected records.
 - Admin shell placeholders must not imply that CRUD, approval, sending, publishing, upload, download or sync workflows are implemented.
-- Admin review workspace pages must remain private and controlled. Phase 9A permits only the explicit Railway-staging client-file creation form behind `BURGESS_STAGING_CLIENT_FILE_WRITES_ENABLED=true`; all other save/create/submit controls remain blocked.
+- Admin review workspace pages must remain private and controlled. Phase 9A permits the explicit Railway-staging client-file creation form behind `BURGESS_STAGING_CLIENT_FILE_WRITES_ENABLED=true`. Phase 9B permits staging test document uploads and reusable billing template edits behind their own explicit gates; all other save/create/submit controls remain blocked.
 - Burgess public/admin code must not add payment gateway, Yoco, Payfast, shop, checkout or membership copy/functionality.
 - Client Files are the primary future admin workspace; matters, documents, notes, draft billing, draft invoices, draft statements and audit history should be reviewed from the client file before separate top-level workflow sections are expanded.
-- Clients Review pages must remain private. Phase 9A may accept clearly marked staging test client file creation only; it must not accept real Burgess client data or expose active edit, archive, upload, general save or unrelated submit controls.
+- Clients Review pages must remain private. Phase 9A may accept clearly marked staging test client file creation only. Phase 9B may accept clearly marked staging test document uploads inside saved client files only; it must not accept real Burgess client data or expose active edit, archive, download, public storage, general save or unrelated submit controls.
 - Matters Review pages must remain private, read-only and demo-only; they must not accept real matter data or expose active create, edit, close, upload, approval, save or submit controls.
-- Documents Review pages must remain private, read-only and demo-metadata-only; they must not expose real upload, download, storage, replacement, archive, save or submit controls.
+- Documents Review pages must remain private, read-only and demo-metadata-only. Phase 9B permits private staging test document uploads only inside a saved client file; top-level document upload/download/storage/replacement/archive controls remain blocked.
 - Admin dashboard demo values must not imply live operational counts or implemented workflow actions.
 - Agent service users must not receive normal admin shell navigation by default.
 - Client/matter service routes or UI must not bypass server-side service permission checks.
@@ -56,7 +56,7 @@
 - Disabled mutation skeletons must remain unwired from UI, app routes, Prisma adapters and local/dev composition until a live-write phase is accepted.
 - Dev-only mutation functions must require explicit local/dev gates, local/dev composition and fake `DEMO-*` account numbers.
 - Production writes must require production auth readiness and explicit production write enablement.
-- Create forms must remain disabled until a separate UI-write phase is accepted. Phase 9A accepts only staging client-file creation and does not authorize production writes or other UI saves.
+- Create forms must remain disabled until a separate UI-write phase is accepted. Phase 9A accepts only staging client-file creation, and Phase 9B accepts only staging document upload plus reusable billing template create/edit; neither authorizes production writes or other UI saves.
 - Local DB validation must use local PostgreSQL and a guarded `burgess_attorneys_dev` URL only.
 - Refuse Railway, Supabase, Neon, Render, Vercel, remote hostnames and production database URLs for DB tests.
 - Microsoft Entra ID / Microsoft 365 identity is the accepted production auth provider direction.

@@ -7,10 +7,23 @@ import { ClientDetailPreview } from "@/ui/admin/client-detail-preview";
 import { getDemoClientReviewRecord } from "@/ui/admin/clients-review-data";
 import { loadStagingClientFileDetail } from "@/server/staging-client-files";
 import { LiveClientFileDetail } from "@/ui/admin/live-client-file-detail";
+import { loadBillingItemTemplates } from "@/server/staging-billing-items";
+import { loadClientDocuments } from "@/server/staging-documents";
+import {
+  evaluateStagingBillingItemsGate,
+  evaluateStagingDocumentUploadGate
+} from "@/config/staging-admin-live-gates";
 
 export default async function AdminClientDetailPreviewPage({
-  params
-}: Readonly<{ params: Promise<{ slug: string }> }>) {
+  params,
+  searchParams
+}: Readonly<{
+  params: Promise<{ slug: string }>;
+  searchParams?: Promise<{
+    uploadError?: string;
+    uploaded?: string;
+  }>;
+}>) {
   const access = await requireAdminRouteAccess();
 
   if (!access.allowed || !access.principal) {
@@ -18,8 +31,13 @@ export default async function AdminClientDetailPreviewPage({
   }
 
   const { slug } = await params;
+  const query = await searchParams;
   const client = getDemoClientReviewRecord(slug);
   const liveClient = await loadStagingClientFileDetail(slug);
+  const documents = liveClient ? await loadClientDocuments(liveClient.id) : [];
+  const billingItems = await loadBillingItemTemplates({ activeOnly: true, limit: 8 });
+  const documentUploadsEnabled = evaluateStagingDocumentUploadGate(access.principal).enabled;
+  const billingItemsEnabled = evaluateStagingBillingItemsGate(access.principal).enabled;
 
   return (
     <div className="admin-shell">
@@ -27,7 +45,15 @@ export default async function AdminClientDetailPreviewPage({
       <main className="admin-main">
         <AdminHeader principal={access.principal} />
         {liveClient ? (
-          <LiveClientFileDetail client={liveClient} />
+          <LiveClientFileDetail
+            client={liveClient}
+            documents={documents}
+            billingItems={billingItems}
+            documentUploadsEnabled={documentUploadsEnabled}
+            billingItemsEnabled={billingItemsEnabled}
+            uploaded={query?.uploaded === "1"}
+            uploadError={query?.uploadError}
+          />
         ) : client ? (
           <ClientDetailPreview client={client} />
         ) : (
