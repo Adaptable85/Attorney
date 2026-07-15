@@ -1,126 +1,143 @@
 import Link from "next/link";
 
-import {
-  clientFutureWorkflowSteps,
-  clientReviewPrompts,
-  type DemoClientReviewRecord
-} from "./clients-review-data";
+import type { ClientFileListItem } from "@/server/staging-client-files";
 
-export function ClientList({ clients }: Readonly<{ clients: readonly DemoClientReviewRecord[] }>) {
+export function ClientList({
+  clients,
+  query,
+  writesEnabled,
+  databaseAvailable,
+  created
+}: Readonly<{
+  clients: readonly ClientFileListItem[];
+  query: string;
+  writesEnabled: boolean;
+  databaseAvailable: boolean;
+  created: boolean;
+}>) {
   return (
     <section className="client-review" aria-labelledby="clients-title">
       <div className="client-review__hero">
         <div>
-          <p className="review-hero__eyebrow">Main workspace</p>
+          <p className="review-hero__eyebrow">Live staging workspace</p>
           <h1 id="clients-title">Client Files</h1>
           <p>
-            Start here. Each client file brings together the client details,
-            matters, documents, notes, billing drafts, invoices, statements and
-            audit history in one read-only review workspace.
+            Search, open and create staging test client files. Matters,
+            documents, notes, billing drafts, invoices, statements and audit
+            history remain structured inside the client file.
           </p>
         </div>
-        <span>Read-only review mode</span>
+        <span>{writesEnabled ? "Staging writes enabled" : "Writes disabled"}</span>
       </div>
 
       <div className="client-safety-banner" role="note">
-        <strong>Demo data only.</strong>
-        <span>Do not enter real client data.</span>
-        <span>Create, edit, upload, save and archive actions are disabled.</span>
-        <span>Client write paths are not enabled.</span>
+        <strong>Staging test data only.</strong>
+        <span>Do not enter real Burgess client data.</span>
+        <span>Only new client file creation is enabled when the staging gate is on.</span>
+        <span>No matters, uploads, invoices, statements, LLM calls or production writes are enabled.</span>
       </div>
+
+      {created ? (
+        <div className="client-success-banner" role="status">
+          Client file created. You can find it in the list or by using search.
+        </div>
+      ) : null}
+
+      {!databaseAvailable ? (
+        <div className="client-safety-banner" role="alert">
+          <strong>Database unavailable.</strong>
+          <span>Client files cannot be loaded until DATABASE_URL is configured.</span>
+        </div>
+      ) : null}
+
+      {!writesEnabled ? (
+        <div className="client-safety-banner" role="note">
+          <strong>Write gate off.</strong>
+          <span>Set BURGESS_STAGING_CLIENT_FILE_WRITES_ENABLED=true to test creating client files.</span>
+        </div>
+      ) : null}
 
       <div className="client-review__summary" aria-label="Clients review summary">
         <article>
-          <span>Demo clients</span>
+          <span>Client files loaded</span>
           <strong>{clients.length}</strong>
         </article>
         <article>
-          <span>Open matters inside files</span>
-          <strong>{clients.reduce((total, client) => total + client.openMatterCount, 0)}</strong>
+          <span>Search</span>
+          <strong>{query ? "Active" : "Ready"}</strong>
         </article>
         <article>
-          <span>Write access</span>
-          <strong>Disabled</strong>
+          <span>New client file</span>
+          <strong>{writesEnabled ? "Enabled" : "Disabled"}</strong>
         </article>
       </div>
 
-      <div className="client-review__grid">
-        {clients.map((client) => (
-          <article key={client.slug} className="client-review-card">
-            <div className="read-card__title-row">
-              <h2>{client.displayName}</h2>
-              <span>Demo only</span>
-            </div>
-            <p>{client.relationshipNote}</p>
-            <dl>
-              <div>
-                <dt>Client type</dt>
-                <dd>{client.clientType}</dd>
-              </div>
-              <div>
-                <dt>Contact person</dt>
-                <dd>{client.contactPerson}</dd>
-              </div>
-              <div>
-                <dt>Email placeholder</dt>
-                <dd>{client.emailPlaceholder}</dd>
-              </div>
-              <div>
-                <dt>Phone placeholder</dt>
-                <dd>{client.phonePlaceholder}</dd>
-              </div>
-              <div>
-                <dt>Matter count</dt>
-                <dd>{client.matterCount}</dd>
-              </div>
-              <div>
-                <dt>File workspace includes</dt>
-                <dd>Matters, documents, notes, billing drafts, invoices and statements</dd>
-              </div>
-              <div>
-                <dt>Active/open matter count</dt>
-                <dd>{client.openMatterCount}</dd>
-              </div>
-              <div>
-                <dt>Status</dt>
-                <dd>{client.status}</dd>
-              </div>
-              <div>
-                <dt>Responsible internal person</dt>
-                <dd>{client.responsiblePersonPlaceholder}</dd>
-              </div>
-              <div>
-                <dt>Last activity/review note</dt>
-                <dd>{client.lastActivityNote}</dd>
-              </div>
-            </dl>
-            <Link className="read-card__link" href={`/admin/clients/${client.slug}`}>
-              Open demo client file
+      <section className="client-review-card" aria-labelledby="client-search-title">
+        <div className="client-list-toolbar">
+          <div>
+            <h2 id="client-search-title">Find a client file</h2>
+            <p>Search by client name or account/reference number.</p>
+          </div>
+          {writesEnabled && databaseAvailable ? (
+            <Link className="read-card__link" href="/admin/clients/new">
+              Open New Client File
             </Link>
-          </article>
-        ))}
-      </div>
-
-      <section className="client-review-card" aria-labelledby="client-review-prompts-title">
-        <h2 id="client-review-prompts-title">Client-file questions for Stephanie</h2>
-        <ol className="client-review-list">
-          {clientReviewPrompts.map((prompt) => (
-            <li key={prompt}>{prompt}</li>
-          ))}
-        </ol>
+          ) : null}
+        </div>
+        <form className="client-search-form" action="/admin/clients" role="search">
+          <label>
+            Search client files
+            <input
+              type="search"
+              name="q"
+              defaultValue={query}
+              placeholder="Client name or reference number"
+            />
+          </label>
+          <button type="submit">Search</button>
+          {query ? (
+            <Link className="read-card__link" href="/admin/clients">
+              Clear
+            </Link>
+          ) : null}
+        </form>
       </section>
 
-      <section className="client-review-card" aria-labelledby="client-future-workflow-title">
-        <h2 id="client-future-workflow-title">Future client workflow</h2>
-        <p>
-          This workflow is not live yet. No write path, upload, LLM call or save
-          action is enabled in this phase.
-        </p>
-        <ol className="client-review-list client-review-list--steps">
-          {clientFutureWorkflowSteps.map((step) => (
-            <li key={step}>{step}</li>
-          ))}
-        </ol>
+      <section className="client-review-card" aria-labelledby="client-list-title">
+        <h2 id="client-list-title">Client file list</h2>
+        {clients.length > 0 ? (
+          <div className="client-file-table" role="table" aria-label="Client files">
+            <div className="client-file-table__row client-file-table__row--header" role="row">
+              <span role="columnheader">Client</span>
+              <span role="columnheader">Reference</span>
+              <span role="columnheader">Contact</span>
+              <span role="columnheader">Status</span>
+              <span role="columnheader">Updated</span>
+            </div>
+            {clients.map((client) => (
+              <Link
+                key={client.id}
+                className="client-file-table__row"
+                href={`/admin/clients/${client.id}`}
+                role="row"
+              >
+                <span role="cell">{client.displayName}</span>
+                <span role="cell">{client.accountNumber}</span>
+                <span role="cell">{client.primaryContactName ?? "No contact yet"}</span>
+                <span role="cell">{client.status}</span>
+                <span role="cell">{client.updatedAt.toISOString().slice(0, 10)}</span>
+              </Link>
+            ))}
+          </div>
+        ) : (
+          <p>
+            {query
+              ? "No client files match this search."
+              : writesEnabled && databaseAvailable
+                ? "No client files are available yet. Use the new-client action when staging writes are enabled."
+                : "No client files are available yet."}
+          </p>
+        )}
       </section>
     </section>
   );

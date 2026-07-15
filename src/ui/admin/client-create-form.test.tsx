@@ -4,15 +4,45 @@ import { describe, expect, it } from "vitest";
 import { ClientCreateForm } from "./client-create-form";
 
 describe("client create form foundation", () => {
-  it("renders disabled future-phase client fields", () => {
-    const html = renderToStaticMarkup(<ClientCreateForm />);
+  it("renders active staging client file fields when gate and database are available", () => {
+    const html = renderToStaticMarkup(
+      <ClientCreateForm writesEnabled databaseAvailable />
+    );
 
-    expect(html).toContain("Client Creation Disabled");
-    expect(html).toContain("Read-only review is active.");
-    expect(html).toContain("Do not enter real client data.");
-    expect(html).toContain("Future client creation requires explicit approval");
-    expect(html).toContain("Disabled - no save action");
+    expect(html).toContain("Open New Client File");
+    expect(html).toContain("Staging test save enabled");
+    expect(html).toContain("Account/reference number");
+    expect(html).toContain("Primary contact name");
+    expect(html).toContain("Opening note");
+    expect(html).toContain("Save Staging Client File");
+    expect(html).toContain('action="/admin/clients/create"');
+    expect(html).not.toContain("disabled");
+  });
+
+  it("renders disabled staging client fields when gate is off", () => {
+    const html = renderToStaticMarkup(
+      <ClientCreateForm writesEnabled={false} databaseAvailable />
+    );
+
+    expect(html).toContain("Open New Client File");
+    expect(html).toContain("Staging write gate off");
+    expect(html).toContain("Do not enter real Burgess");
+    expect(html).toContain("Creation unavailable.");
     expect(html).toContain("disabled");
-    expect(html).not.toContain("action=");
+  });
+
+  it("renders a safe creation error without enabling the form", () => {
+    const html = renderToStaticMarkup(
+      <ClientCreateForm
+        writesEnabled={false}
+        databaseAvailable={false}
+        error="Staging client file writes are not enabled for this session."
+      />
+    );
+
+    expect(html).toContain("Client file not saved.");
+    expect(html).toContain("Staging client file writes are not enabled");
+    expect(html).toContain("Creation unavailable.");
+    expect(html).toContain("disabled");
   });
 });

@@ -32,17 +32,17 @@
 - Seed data must not contain real client data.
 - Repository interfaces must not expose hard-delete methods for protected records.
 - Admin shell placeholders must not imply that CRUD, approval, sending, publishing, upload, download or sync workflows are implemented.
-- Admin review workspace pages must remain private, read-only, demo/placeholder-only and free of active save/create/submit controls.
+- Admin review workspace pages must remain private and controlled. Phase 9A permits only the explicit Railway-staging client-file creation form behind `BURGESS_STAGING_CLIENT_FILE_WRITES_ENABLED=true`; all other save/create/submit controls remain blocked.
 - Burgess public/admin code must not add payment gateway, Yoco, Payfast, shop, checkout or membership copy/functionality.
 - Client Files are the primary future admin workspace; matters, documents, notes, draft billing, draft invoices, draft statements and audit history should be reviewed from the client file before separate top-level workflow sections are expanded.
-- Clients Review pages must remain private, read-only and demo-only; they must not accept real client data or expose active create, edit, archive, upload, save or submit controls.
+- Clients Review pages must remain private. Phase 9A may accept clearly marked staging test client file creation only; it must not accept real Burgess client data or expose active edit, archive, upload, general save or unrelated submit controls.
 - Matters Review pages must remain private, read-only and demo-only; they must not accept real matter data or expose active create, edit, close, upload, approval, save or submit controls.
 - Documents Review pages must remain private, read-only and demo-metadata-only; they must not expose real upload, download, storage, replacement, archive, save or submit controls.
 - Admin dashboard demo values must not imply live operational counts or implemented workflow actions.
 - Agent service users must not receive normal admin shell navigation by default.
 - Client/matter service routes or UI must not bypass server-side service permission checks.
 - Read-only client/matter UI must not render active edit, delete, send or approval controls.
-- Client/matter create forms must remain disabled until validation, permissions, audit logging and persistence are implemented and tested.
+- Client/matter create forms must remain disabled until validation, permissions, audit logging and persistence are implemented and tested. Phase 9A is the narrow exception for staging client-file creation only.
 - Mutation-capable services must require authenticated actor context, permission checks and audit metadata before repository writes.
 - Local Prisma repository adapters must not be wired to UI saves, API mutation routes or production database operations until production auth and transaction/outbox behavior are explicitly accepted.
 - DB integration tests must use fake data only and must refuse unsafe/non-local database URLs.
@@ -56,7 +56,7 @@
 - Disabled mutation skeletons must remain unwired from UI, app routes, Prisma adapters and local/dev composition until a live-write phase is accepted.
 - Dev-only mutation functions must require explicit local/dev gates, local/dev composition and fake `DEMO-*` account numbers.
 - Production writes must require production auth readiness and explicit production write enablement.
-- Create forms must remain disabled until a separate UI-write phase is accepted.
+- Create forms must remain disabled until a separate UI-write phase is accepted. Phase 9A accepts only staging client-file creation and does not authorize production writes or other UI saves.
 - Local DB validation must use local PostgreSQL and a guarded `burgess_attorneys_dev` URL only.
 - Refuse Railway, Supabase, Neon, Render, Vercel, remote hostnames and production database URLs for DB tests.
 - Microsoft Entra ID / Microsoft 365 identity is the accepted production auth provider direction.

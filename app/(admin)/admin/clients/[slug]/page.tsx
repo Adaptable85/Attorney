@@ -5,6 +5,8 @@ import { getVisibleAdminModules } from "@/ui/admin/admin-modules";
 import { AdminNav } from "@/ui/admin/admin-nav";
 import { ClientDetailPreview } from "@/ui/admin/client-detail-preview";
 import { getDemoClientReviewRecord } from "@/ui/admin/clients-review-data";
+import { loadStagingClientFileDetail } from "@/server/staging-client-files";
+import { LiveClientFileDetail } from "@/ui/admin/live-client-file-detail";
 
 export default async function AdminClientDetailPreviewPage({
   params
@@ -17,13 +19,16 @@ export default async function AdminClientDetailPreviewPage({
 
   const { slug } = await params;
   const client = getDemoClientReviewRecord(slug);
+  const liveClient = await loadStagingClientFileDetail(slug);
 
   return (
     <div className="admin-shell">
       <AdminNav modules={getVisibleAdminModules(access.principal)} />
       <main className="admin-main">
         <AdminHeader principal={access.principal} />
-        {client ? (
+        {liveClient ? (
+          <LiveClientFileDetail client={liveClient} />
+        ) : client ? (
           <ClientDetailPreview client={client} />
         ) : (
           <section className="read-detail" aria-label="Demo client not found">

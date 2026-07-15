@@ -1,6 +1,6 @@
 # Context Index
 
-Status: Phase 8G read-only client-file-first admin workspace
+Status: Phase 9A Railway-staging client-file creation
 
 Read order:
 

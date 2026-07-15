@@ -145,13 +145,14 @@ describe("architecture guardrails", () => {
     expect(source).not.toContain("Send statement");
   });
 
-  it("keeps create form submit controls disabled until audited persistence is enabled", () => {
+  it("keeps create form submit controls limited to staging client files", () => {
     const clientForm = readFileSync(join(root, "src/ui/admin/client-create-form.tsx"), "utf8");
     const matterForm = readFileSync(join(root, "src/ui/admin/matter-create-form.tsx"), "utf8");
 
-    expect(clientForm).toContain("type=\"button\" disabled");
+    expect(clientForm).toContain('action="/admin/clients/create"');
+    expect(clientForm).toContain("Save Staging Client File");
+    expect(clientForm).toContain("document uploads");
     expect(matterForm).toContain("type=\"button\" disabled");
-    expect(clientForm).not.toContain("action=");
     expect(matterForm).not.toContain("action=");
   });
 
@@ -213,6 +214,7 @@ describe("architecture guardrails", () => {
     expect(gates).toContain("production_writes_disabled");
     expect(gates).toContain("dev_mutation_entrypoints_disabled");
     expect(gates).toContain("local_dev_writes_disabled");
+    expect(projectSource()).toContain("BURGESS_STAGING_CLIENT_FILE_WRITES_ENABLED");
   });
 
   it("keeps production auth readiness default-off and provider-neutral", () => {

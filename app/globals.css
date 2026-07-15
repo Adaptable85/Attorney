@@ -1123,6 +1123,100 @@ a {
   line-height: 1.4;
 }
 
+.client-success-banner {
+  border: 1px solid #4b7c59;
+  border-radius: 8px;
+  background: #edf7f0;
+  padding: 14px;
+  color: #31573a;
+  font-weight: 700;
+}
+
+.client-list-toolbar {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.client-search-form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 10px;
+}
+
+.client-search-form label {
+  display: grid;
+  flex: 1 1 320px;
+  gap: 6px;
+  color: var(--burgess-charcoal);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.client-search-form input,
+.form-foundation input,
+.form-foundation select,
+.form-foundation textarea {
+  min-height: 42px;
+  border: 1px solid var(--burgess-border);
+  border-radius: 4px;
+  padding: 9px 10px;
+  color: var(--burgess-charcoal);
+  font: inherit;
+}
+
+.client-search-form button,
+.form-foundation button {
+  min-height: 42px;
+  border: 0;
+  border-radius: 4px;
+  background: var(--burgess-accent);
+  padding: 9px 14px;
+  color: #ffffff;
+  font: inherit;
+  font-weight: 800;
+}
+
+.form-foundation button:disabled {
+  cursor: not-allowed;
+  background: var(--burgess-panel-muted);
+  color: var(--burgess-muted);
+}
+
+.client-file-table {
+  display: grid;
+  gap: 8px;
+}
+
+.client-file-table__row {
+  display: grid;
+  grid-template-columns: 1.25fr 0.85fr 1fr 0.7fr 0.7fr;
+  gap: 8px;
+  align-items: center;
+  border: 1px solid var(--burgess-border);
+  border-radius: 7px;
+  background: var(--burgess-panel);
+  padding: 12px;
+  color: var(--burgess-charcoal);
+  text-decoration: none;
+}
+
+.client-file-table__row:not(.client-file-table__row--header):hover,
+.client-file-table__row:not(.client-file-table__row--header):focus {
+  border-color: var(--burgess-accent);
+  background: var(--burgess-accent-soft);
+  outline: none;
+}
+
+.client-file-table__row--header {
+  background: var(--burgess-panel-muted);
+  color: var(--burgess-muted);
+  font-size: 12px;
+  font-weight: 800;
+}
+
 .client-file-tabs {
   display: flex;
   flex-wrap: wrap;
@@ -1383,12 +1477,18 @@ a {
 
 .form-foundation button {
   justify-self: start;
-  border: 1px solid var(--burgess-border);
+  border: 1px solid transparent;
   border-radius: 6px;
-  background: var(--burgess-warning-soft);
+  background: var(--burgess-accent);
   padding: 10px 12px;
-  color: var(--burgess-warning);
+  color: #ffffff;
   font-weight: 700;
+}
+
+.form-foundation button:disabled {
+  border-color: var(--burgess-border);
+  background: var(--burgess-warning-soft);
+  color: var(--burgess-warning);
 }
 
 .not-authorized {
@@ -1461,6 +1561,7 @@ a {
   .client-review__grid,
   .client-review__summary,
   .client-review-card dl,
+  .client-file-table__row,
   .read-list__grid,
   .read-card dl,
   .read-detail dl {
