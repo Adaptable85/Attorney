@@ -41,6 +41,19 @@ describe("live client file detail", () => {
       updatedAt: new Date("2026-07-15T09:00:00.000Z")
     }
   ];
+  const statementLines = [{
+    id: "statement_line_1",
+    statementSnapshotId: "statement_1",
+    invoiceId: "invoice_1",
+    matterReference: "TEST-MATTER-001",
+    draftInvoiceReference: "DRAFT-TEST-MATTER-001-20260715-ABC123",
+    description: "TEST-MATTER-001 - DRAFT-TEST-MATTER-001-20260715-ABC123",
+    debitCents: 97750,
+    creditCents: 0,
+    balanceCents: 97750,
+    lineDate: new Date("2026-07-15T09:00:00.000Z"),
+    position: 1
+  }];
 
   it("renders saved staging client details with clickable panels and gated upload form", () => {
     const html = renderToStaticMarkup(
@@ -48,6 +61,7 @@ describe("live client file detail", () => {
         client={client}
         matters={matters}
         documents={[]}
+        statementLines={statementLines}
         billingItems={billingItems}
         matterWritesEnabled={true}
         documentUploadsEnabled={true}
@@ -86,7 +100,11 @@ describe("live client file detail", () => {
     expect(html).toContain("Edit list");
     expect(html).toContain("LLM note processing unavailable");
     expect(html).toContain("Invoice approval unavailable");
-    expect(html).toContain("Statement sending unavailable");
+    expect(html).toContain("Draft only - not approved, not sent");
+    expect(html).toContain("Client draft statement lines");
+    expect(html).toContain("TEST-MATTER-001");
+    expect(html).toContain("DRAFT-TEST-MATTER-001-20260715-ABC123");
+    expect(html).toContain("R 977,50");
     expect(html).not.toContain("Assign invoice number");
     expect(html).not.toContain("Send statement");
   });
@@ -102,6 +120,7 @@ describe("live client file detail", () => {
         }}
         matters={[]}
         documents={[]}
+        statementLines={[]}
         billingItems={[]}
         matterWritesEnabled={false}
         documentUploadsEnabled={false}
@@ -116,6 +135,7 @@ describe("live client file detail", () => {
     expect(html).toContain("Matter gate off");
     expect(html).toContain("Upload gate off");
     expect(html).toContain("No general client documents have been uploaded");
+    expect(html).toContain("No matter draft invoices have pulled through");
   });
 
   it("renders uploaded document and upload error states", () => {
@@ -136,6 +156,7 @@ describe("live client file detail", () => {
             createdAt: new Date("2026-07-15T09:00:00.000Z")
           }
         ]}
+        statementLines={[]}
         billingItems={[]}
         matterWritesEnabled={false}
         documentUploadsEnabled={true}

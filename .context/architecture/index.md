@@ -49,6 +49,8 @@ Phase 9F improves staging admin form layout only. It applies a shared stacked fo
 
 Phase 9G separates client general document wording/default filename guidance from matter-specific document wording. Client file documents are for ID, proof of address, FICA, authority and general client-file documents; matter documents remain inside matter pages. It adds no schema change, migration, route behavior change, production write, live auth or integration.
 
+Phase 9H adds Railway-staging matter draft billing lines, draft invoice creation and client draft statement lines behind `BURGESS_STAGING_MATTER_INVOICES_ENABLED=true`. It uses existing billing, invoice and statement models only and does not approve invoices, assign official invoice numbers, generate PDFs, send statements, run migrations, enable production writes, enable live auth or sync integrations.
+
 ## Current Direction
 
 - TypeScript.
@@ -79,6 +81,7 @@ Phase 9G separates client general document wording/default filename guidance fro
 - Client/matter service functions wrap repository interfaces with admin access checks and safe typed errors.
 - Protected `/admin/clients` renders the primary Client Files module as a searchable Railway-staging list. `/admin/clients/new` can create a minimal staging test client file only when the staging write gate is enabled. `/admin/clients/[slug]` renders saved staging client details, can create/list staging matters when the matter gate is enabled, can upload private staging test documents when the document gate is enabled, and can view/download those uploaded test documents through protected audited routes. Client file document uploads are labelled as Client General Documents for ID, proof of address, FICA, company registration, authority / mandate and general correspondence. Matter edit/close/archive, notes, invoices, statements, public links and LLM behavior remain blocked.
 - Protected `/admin/matters` renders saved staging matters as a searchable list. New matter creation starts from a saved client file only. Matter detail pages keep Matter Documents for matter-specific documents only, with the visible matter/reference label and protected view/download routes.
+- Protected `/admin/matters/[id]` can add draft matter billing lines and create draft matter invoices when the staging matter invoice gate is enabled. Draft invoices pull into the client file statement panel as draft-only lines.
 - Protected `/admin/invoice-items` renders reusable Invoice Items. In Phase 9B it can create/edit staging billing templates when the billing gate is enabled; it cannot apply items to invoices, approve invoices, assign invoice numbers or send statements.
 - Protected `/admin/matters` renders a read-only Matters Review module using fake demo records, and `/admin/matters/[id]` renders approved demo-only matter detail previews.
 - Protected `/admin/documents` renders a read-only Documents Review module using fake metadata records, and `/admin/documents/[slug]` renders approved demo-only document detail previews.
@@ -188,6 +191,7 @@ See:
 - Phase 9C staging document view/download: private Railway-staging UI can view and download uploaded test documents only from protected client file routes when the staging admin password session and document gate are present. No public document URL, public storage, production document storage, production write, live Entra auth, document sharing, invoice approval, statement sending, LLM call, WhatsApp, Lexpro sync or payment feature is exposed.
 - Phase 9D staging matters: private Railway-staging UI can open and list staging test matters inside saved client files only when the staging admin password session and matter gate are present. No production write, live Entra auth, standalone matter creation, matter edit/close/archive/delete, invoice approval, statement sending, LLM call, WhatsApp, Lexpro sync or payment feature is exposed.
 - Phase 9G document distinction: client file documents and matter documents are separated by UI wording and filename guidance only. No schema change, migration, route behavior change, gate change, production write, live auth, invoice/statement action, LLM call, WhatsApp, Lexpro sync or payment feature is exposed.
+- Phase 9H draft invoicing: private Railway-staging UI can create draft matter billing lines, draft matter invoices and client draft statement lines only when the staging admin password session and matter invoice gate are present. No production write, live Entra auth, invoice approval, official invoice number, PDF generation, sending, payment, LLM call, WhatsApp or Lexpro sync is exposed.
 - Agent service users: blocked from normal admin shell navigation.
 
 ## ADR Candidates

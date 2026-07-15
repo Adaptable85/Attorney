@@ -2,7 +2,8 @@ import { describe, expect, it } from "vitest";
 
 import {
   evaluateStagingBillingItemsGate,
-  evaluateStagingDocumentUploadGate
+  evaluateStagingDocumentUploadGate,
+  evaluateStagingMatterInvoicesGate
 } from "./staging-admin-live-gates";
 
 const stagingPasswordPrincipal = {
@@ -22,6 +23,13 @@ describe("staging admin live gates", () => {
 
   it("keeps billing items disabled by default", () => {
     expect(evaluateStagingBillingItemsGate(stagingPasswordPrincipal, {})).toEqual({
+      enabled: false,
+      reason: "staging_gate_disabled"
+    });
+  });
+
+  it("keeps matter invoices disabled by default", () => {
+    expect(evaluateStagingMatterInvoicesGate(stagingPasswordPrincipal, {})).toEqual({
       enabled: false,
       reason: "staging_gate_disabled"
     });
@@ -56,6 +64,14 @@ describe("staging admin live gates", () => {
     expect(
       evaluateStagingBillingItemsGate(stagingPasswordPrincipal, {
         BURGESS_STAGING_BILLING_ITEMS_ENABLED: "true"
+      })
+    ).toEqual({
+      enabled: true,
+      reason: "enabled_for_staging_password_admin"
+    });
+    expect(
+      evaluateStagingMatterInvoicesGate(stagingPasswordPrincipal, {
+        BURGESS_STAGING_MATTER_INVOICES_ENABLED: "true"
       })
     ).toEqual({
       enabled: true,

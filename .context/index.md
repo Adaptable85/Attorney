@@ -1,6 +1,6 @@
 # Context Index
 
-Status: Phase 9G client general documents separated from matter documents
+Status: Phase 9H matter invoicing and client statement drafts
 
 Read order:
 

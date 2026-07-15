@@ -16,6 +16,41 @@ const baseMatter = {
   updatedAt: new Date("2026-07-15T09:00:00.000Z")
 };
 
+const billingLines = [{
+  id: "billing_line_1",
+  matterId: "matter_1",
+  description: "Consultation",
+  category: "TIME" as const,
+  status: "DRAFT" as const,
+  quantity: 1,
+  unitAmountCents: 85000,
+  totalAmountCents: 85000,
+  currency: "ZAR",
+  vatTreatment: "VAT_ON_FEES" as const,
+  vatAmountCents: 12750,
+  createdAt: new Date("2026-07-15T09:00:00.000Z")
+}];
+
+const draftInvoices = [{
+  id: "invoice_1",
+  clientId: "client_1",
+  matterId: "matter_1",
+  internalDraftReference: "DRAFT-TEST-MATTER-001-20260715-ABC123",
+  officialInvoiceNumber: null,
+  status: "DRAFT" as const,
+  subtotalCents: 85000,
+  vatAmountCents: 12750,
+  totalCents: 97750,
+  currency: "ZAR",
+  createdAt: new Date("2026-07-15T09:30:00.000Z"),
+  lines: [{
+    id: "invoice_line_1",
+    description: "Consultation",
+    totalAmountCents: 85000,
+    vatAmountCents: 12750
+  }]
+}];
+
 describe("staging matter detail", () => {
   it("renders a staging matter workspace with document and timeline controls", () => {
     const html = renderToStaticMarkup(
@@ -44,10 +79,15 @@ describe("staging matter detail", () => {
           },
           createdAt: new Date("2026-07-15T10:00:00.000Z")
         }]}
+        billingLines={billingLines}
+        draftInvoices={draftInvoices}
         documentUploadsEnabled={true}
         matterWritesEnabled={true}
+        matterInvoicesEnabled={true}
         documentUploaded={true}
         timelineAdded={true}
+        billingLineAdded={true}
+        invoiceCreated={true}
       />
     );
 
@@ -70,11 +110,20 @@ describe("staging matter detail", () => {
     expect(html).toContain("Enter the note, instruction, voice-note summary or next-step context.");
     expect(html).toContain("Add Timeline Note");
     expect(html).toContain("Consultation held");
-    expect(html).toContain("Edit matter unavailable");
-    expect(html).toContain("Close matter unavailable");
-    expect(html).toContain("Statement sending unavailable");
+    expect(html).toContain("Billing Items");
+    expect(html).toContain("Staging matter billing line form");
+    expect(html).toContain("Add Draft Billing Line");
+    expect(html).toContain("Draft billing line added to this matter.");
+    expect(html).toContain("Draft Invoices");
+    expect(html).toContain("Create Draft Invoice");
+    expect(html).toContain("DRAFT-TEST-MATTER-001-20260715-ABC123");
+    expect(html).toContain("Not assigned");
+    expect(html).toContain("Draft invoice created and pulled into the client statement.");
+    expect(html).toContain("Statement Link");
+    expect(html).toContain("/admin/clients/client_1#statements");
     expect(html).not.toContain("Approve invoice");
     expect(html).not.toContain("Send statement");
+    expect(html).not.toContain("Official invoice number");
   });
 
   it("renders safe fallbacks for missing optional matter fields", () => {
@@ -87,10 +136,15 @@ describe("staging matter detail", () => {
         }}
         documents={[]}
         timeline={[]}
+        billingLines={[]}
+        draftInvoices={[]}
         documentUploadsEnabled={false}
         matterWritesEnabled={false}
+        matterInvoicesEnabled={false}
         documentError="Document gate test error"
         timelineError="Timeline gate test error"
+        billingError="Billing gate test error"
+        invoiceError="Invoice gate test error"
       />
     );
 
@@ -98,8 +152,12 @@ describe("staging matter detail", () => {
     expect(html).toContain("Not set");
     expect(html).toContain("Document upload unavailable");
     expect(html).toContain("Legal timeline unavailable");
+    expect(html).toContain("Matter invoice gate off");
+    expect(html).toContain("Draft invoice action unavailable.");
     expect(html).toContain("Document gate test error");
     expect(html).toContain("Timeline gate test error");
+    expect(html).toContain("Billing gate test error");
+    expect(html).toContain("Invoice gate test error");
   });
 
   it("renders matter document and timeline fallback values", () => {
@@ -147,8 +205,11 @@ describe("staging matter detail", () => {
           },
           createdAt: new Date("2026-07-16T10:00:00.000Z")
         }]}
+        billingLines={[]}
+        draftInvoices={[]}
         documentUploadsEnabled={true}
         matterWritesEnabled={true}
+        matterInvoicesEnabled={false}
       />
     );
 

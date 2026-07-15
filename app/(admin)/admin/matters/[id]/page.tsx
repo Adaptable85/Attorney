@@ -1,9 +1,14 @@
 import { requireAdminRouteAccess } from "@/auth/admin-route-access";
 import {
   evaluateStagingDocumentUploadGate,
+  evaluateStagingMatterInvoicesGate,
   evaluateStagingMatterWritesGate
 } from "@/config/staging-admin-live-gates";
 import { loadMatterDocuments } from "@/server/staging-documents";
+import {
+  loadMatterBillingLines,
+  loadMatterDraftInvoices
+} from "@/server/staging-matter-invoices";
 import { loadMatterTimeline } from "@/server/staging-matter-timeline";
 import { AdminAccessDenied } from "@/ui/admin/admin-access-denied";
 import { AdminHeader } from "@/ui/admin/admin-header";
@@ -24,6 +29,10 @@ export default async function AdminMatterDetailPage({
     documentError?: string;
     timelineAdded?: string;
     timelineError?: string;
+    billingLineAdded?: string;
+    billingError?: string;
+    invoiceCreated?: string;
+    invoiceError?: string;
   }>;
 }>) {
   const access = await requireAdminRouteAccess();
@@ -37,8 +46,11 @@ export default async function AdminMatterDetailPage({
   const liveMatter = await loadStagingMatter(id);
   const documents = liveMatter ? await loadMatterDocuments(liveMatter.id) : [];
   const timeline = liveMatter ? await loadMatterTimeline(liveMatter.id) : [];
+  const billingLines = liveMatter ? await loadMatterBillingLines(liveMatter.id) : [];
+  const draftInvoices = liveMatter ? await loadMatterDraftInvoices(liveMatter.id) : [];
   const documentUploadsEnabled = evaluateStagingDocumentUploadGate(access.principal).enabled;
   const matterWritesEnabled = evaluateStagingMatterWritesGate(access.principal).enabled;
+  const matterInvoicesEnabled = evaluateStagingMatterInvoicesGate(access.principal).enabled;
   const matter = getDemoMatterReviewRecord(id);
 
   return (
@@ -51,12 +63,19 @@ export default async function AdminMatterDetailPage({
             matter={liveMatter}
             documents={documents}
             timeline={timeline}
+            billingLines={billingLines}
+            draftInvoices={draftInvoices}
             documentUploadsEnabled={documentUploadsEnabled}
             matterWritesEnabled={matterWritesEnabled}
+            matterInvoicesEnabled={matterInvoicesEnabled}
             documentUploaded={query?.documentUploaded === "1"}
             documentError={query?.documentError}
             timelineAdded={query?.timelineAdded === "1"}
             timelineError={query?.timelineError}
+            billingLineAdded={query?.billingLineAdded === "1"}
+            billingError={query?.billingError}
+            invoiceCreated={query?.invoiceCreated === "1"}
+            invoiceError={query?.invoiceError}
           />
         ) : matter ? (
           <MatterDetail matter={matter} />

@@ -15,6 +15,7 @@ import {
   evaluateStagingMatterWritesGate
 } from "@/config/staging-admin-live-gates";
 import { loadStagingMatters } from "@/server/staging-matters";
+import { loadClientDraftStatementLines } from "@/server/staging-matter-invoices";
 
 export default async function AdminClientDetailPreviewPage({
   params,
@@ -40,6 +41,7 @@ export default async function AdminClientDetailPreviewPage({
   const liveClient = await loadStagingClientFileDetail(slug);
   const matters = liveClient ? await loadStagingMatters({ clientId: liveClient.id }) : [];
   const documents = liveClient ? await loadClientDocuments(liveClient.id) : [];
+  const statementLines = liveClient ? await loadClientDraftStatementLines(liveClient.id) : [];
   const billingItems = await loadBillingItemTemplates({ activeOnly: true, limit: 8 });
   const matterWritesEnabled = evaluateStagingMatterWritesGate(access.principal).enabled;
   const documentUploadsEnabled = evaluateStagingDocumentUploadGate(access.principal).enabled;
@@ -55,6 +57,7 @@ export default async function AdminClientDetailPreviewPage({
             client={liveClient}
             matters={matters}
             documents={documents}
+            statementLines={statementLines}
             billingItems={billingItems}
             matterWritesEnabled={matterWritesEnabled}
             documentUploadsEnabled={documentUploadsEnabled}

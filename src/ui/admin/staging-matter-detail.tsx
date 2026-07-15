@@ -1,6 +1,11 @@
 import Link from "next/link";
 
 import { suggestDocumentFilename, type MatterDocumentListItem } from "@/server/staging-documents";
+import {
+  formatDraftInvoiceMoney,
+  type StagingMatterBillingLineItem,
+  type StagingMatterDraftInvoice
+} from "@/server/staging-matter-invoices";
 import type { StagingMatterTimelineItem } from "@/server/staging-matter-timeline";
 import type { StagingMatterListItem } from "@/server/staging-matters";
 
@@ -30,22 +35,36 @@ export function StagingMatterDetail({
   matter,
   documents,
   timeline,
+  billingLines,
+  draftInvoices,
   documentUploadsEnabled,
   matterWritesEnabled,
+  matterInvoicesEnabled,
   documentUploaded,
   documentError,
   timelineAdded,
-  timelineError
+  timelineError,
+  billingLineAdded,
+  billingError,
+  invoiceCreated,
+  invoiceError
 }: Readonly<{
   matter: StagingMatterListItem;
   documents: readonly MatterDocumentListItem[];
   timeline: readonly StagingMatterTimelineItem[];
+  billingLines: readonly StagingMatterBillingLineItem[];
+  draftInvoices: readonly StagingMatterDraftInvoice[];
   documentUploadsEnabled: boolean;
   matterWritesEnabled: boolean;
+  matterInvoicesEnabled: boolean;
   documentUploaded?: boolean;
   documentError?: string;
   timelineAdded?: boolean;
   timelineError?: string;
+  billingLineAdded?: boolean;
+  billingError?: string;
+  invoiceCreated?: boolean;
+  invoiceError?: string;
 }>) {
   const today = new Date().toISOString().slice(0, 10);
   const suggestedFilename = suggestDocumentFilename({
@@ -82,7 +101,9 @@ export function StagingMatterDetail({
         <a href="#overview">Overview</a>
         <a href="#documents">Documents</a>
         <a href="#timeline">Legal Timeline</a>
-        <a href="#disabled-actions">Disabled Actions</a>
+        <a href="#billing-items">Billing Items</a>
+        <a href="#draft-invoices">Draft Invoices</a>
+        <a href="#statement-link">Statement Link</a>
       </nav>
 
       <article id="overview" className="client-review-card">
@@ -309,15 +330,180 @@ export function StagingMatterDetail({
         )}
       </article>
 
-      <article id="disabled-actions" className="client-review-card">
-        <h2>Disabled actions</h2>
-        <ul className="client-disabled-actions">
-          <li data-disabled="true">Edit matter unavailable</li>
-          <li data-disabled="true">Close matter unavailable</li>
-          <li data-disabled="true">Archive matter unavailable</li>
-          <li data-disabled="true">Invoice approval unavailable</li>
-          <li data-disabled="true">Statement sending unavailable</li>
-        </ul>
+      <article id="billing-items" className="client-review-card">
+        <div className="read-list__header">
+          <div>
+            <h2>Billing Items</h2>
+            <p>
+              Add draft charge lines for this matter only. These lines can be
+              pulled into a draft invoice, but they are not approved fees.
+            </p>
+          </div>
+          <span>{matterInvoicesEnabled ? "Draft billing enabled" : "Invoice gate off"}</span>
+        </div>
+
+        {billingLineAdded ? (
+          <div className="client-safety-banner" role="status">
+            Draft billing line added to this matter.
+          </div>
+        ) : null}
+
+        {billingError ? (
+          <div className="client-safety-banner" role="alert">
+            <strong>Billing line not saved.</strong>
+            <span>{billingError}</span>
+          </div>
+        ) : null}
+
+        {matterInvoicesEnabled ? (
+          <form
+            className="compact-admin-form"
+            action={`/admin/matters/${matter.id}/billing-lines/create`}
+            method="post"
+            aria-label="Staging matter billing line form"
+          >
+            <input type="hidden" name="matterId" value={matter.id} />
+            <label className="admin-form-field--wide">
+              <span className="admin-form-field__label">Billing description</span>
+              <span className="admin-form-field__help">Describe the work or disbursement for this matter.</span>
+              <input name="description" placeholder="Consultation, drafting, filing fee" required />
+            </label>
+            <label>
+              <span className="admin-form-field__label">Category</span>
+              <span className="admin-form-field__help">Choose the billing type for this draft line.</span>
+              <select name="category" defaultValue="TIME">
+                <option value="TIME">Time</option>
+                <option value="FOLIO">Folio</option>
+                <option value="PAGE">Page</option>
+                <option value="FIXED_TARIFF">Fixed tariff</option>
+                <option value="DISBURSEMENT">Disbursement</option>
+                <option value="ADJUSTMENT">Adjustment</option>
+                <option value="CORRECTION">Correction</option>
+              </select>
+            </label>
+            <label>
+              <span className="admin-form-field__label">Quantity</span>
+              <span className="admin-form-field__help">Use whole units only for staging tests.</span>
+              <input name="quantity" type="number" min="1" step="1" defaultValue="1" required />
+            </label>
+            <label>
+              <span className="admin-form-field__label">Unit amount cents</span>
+              <span className="admin-form-field__help">Enter cents only. R850.00 is 85000.</span>
+              <input name="unitAmountCents" type="number" min="0" step="1" placeholder="85000" required />
+            </label>
+            <label>
+              <span className="admin-form-field__label">VAT treatment</span>
+              <span className="admin-form-field__help">VAT stays draft/configurable and is not final tax advice.</span>
+              <select name="vatTreatment" defaultValue="VAT_ON_FEES">
+                <option value="VAT_ON_FEES">VAT on fees</option>
+                <option value="NO_VAT">No VAT</option>
+                <option value="VAT_EXEMPT">VAT exempt</option>
+                <option value="CUSTOM">Custom</option>
+              </select>
+            </label>
+            <button type="submit">Add Draft Billing Line</button>
+          </form>
+        ) : (
+          <div className="client-safety-banner" role="note">
+            <strong>Matter invoice gate off.</strong>
+            <span>Set BURGESS_STAGING_MATTER_INVOICES_ENABLED=true to test matter billing drafts.</span>
+          </div>
+        )}
+
+        {billingLines.length ? (
+          <div className="client-file-table" role="table" aria-label="Matter billing lines">
+            <div className="client-file-table__row client-file-table__row--header" role="row">
+              <span role="columnheader">Description</span>
+              <span role="columnheader">Status</span>
+              <span role="columnheader">Amount</span>
+              <span role="columnheader">VAT</span>
+            </div>
+            {billingLines.map((line) => (
+              <div className="client-file-table__row" role="row" key={line.id}>
+                <span role="cell">{line.description}</span>
+                <span role="cell">{line.status}</span>
+                <span role="cell">{formatDraftInvoiceMoney(line.totalAmountCents)}</span>
+                <span role="cell">{formatDraftInvoiceMoney(line.vatAmountCents)}</span>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p>No draft billing lines have been added for this matter yet.</p>
+        )}
+      </article>
+
+      <article id="draft-invoices" className="client-review-card">
+        <div className="read-list__header">
+          <div>
+            <h2>Draft Invoices</h2>
+            <p>
+              Create draft matter invoices from uninvoiced draft billing lines.
+              Draft invoices have no official invoice number and cannot be sent.
+            </p>
+          </div>
+          <span>Draft only</span>
+        </div>
+
+        {invoiceCreated ? (
+          <div className="client-safety-banner" role="status">
+            Draft invoice created and pulled into the client statement.
+          </div>
+        ) : null}
+
+        {invoiceError ? (
+          <div className="client-safety-banner" role="alert">
+            <strong>Draft invoice not created.</strong>
+            <span>{invoiceError}</span>
+          </div>
+        ) : null}
+
+        {matterInvoicesEnabled && billingLines.some((line) => line.status === "DRAFT") ? (
+          <form
+            action={`/admin/matters/${matter.id}/invoices/create`}
+            method="post"
+            aria-label="Create staging matter draft invoice"
+          >
+            <button type="submit">Create Draft Invoice</button>
+          </form>
+        ) : (
+          <div className="client-safety-banner" role="note">
+            <strong>Draft invoice action unavailable.</strong>
+            <span>Add uninvoiced draft billing lines and keep the staging invoice gate enabled.</span>
+          </div>
+        )}
+
+        {draftInvoices.length ? (
+          <div className="client-file-table" role="table" aria-label="Matter draft invoices">
+            <div className="client-file-table__row client-file-table__row--header" role="row">
+              <span role="columnheader">Draft reference</span>
+              <span role="columnheader">Status</span>
+              <span role="columnheader">Total</span>
+              <span role="columnheader">Official number</span>
+            </div>
+            {draftInvoices.map((invoice) => (
+              <div className="client-file-table__row" role="row" key={invoice.id}>
+                <span role="cell">{invoice.internalDraftReference}</span>
+                <span role="cell">{invoice.status}</span>
+                <span role="cell">{formatDraftInvoiceMoney(invoice.totalCents)}</span>
+                <span role="cell">Not assigned</span>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p>No draft invoices have been created for this matter yet.</p>
+        )}
+      </article>
+
+      <article id="statement-link" className="client-review-card">
+        <h2>Statement Link</h2>
+        <p>
+          Draft invoices from this matter pull through to the client statement
+          automatically as draft-only debit lines. Statements cannot be approved,
+          generated for sending or sent in this phase.
+        </p>
+        <Link className="read-card__link" href={`/admin/clients/${matter.clientId}#statements`}>
+          View client statement draft
+        </Link>
       </article>
 
       <Link className="read-card__link" href="/admin/matters">

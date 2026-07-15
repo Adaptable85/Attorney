@@ -7,6 +7,10 @@ import {
   formatVatTreatment
 } from "@/server/staging-billing-items";
 import type { ClientDocumentListItem } from "@/server/staging-documents";
+import {
+  formatDraftInvoiceMoney,
+  type StagingClientStatementLine
+} from "@/server/staging-matter-invoices";
 import { suggestClientGeneralDocumentFilename } from "@/server/staging-documents";
 import type { ClientFileListItem } from "@/server/staging-client-files";
 import type { StagingMatterListItem } from "@/server/staging-matters";
@@ -15,6 +19,7 @@ export function LiveClientFileDetail({
   client,
   matters,
   documents,
+  statementLines,
   billingItems,
   matterWritesEnabled,
   documentUploadsEnabled,
@@ -27,6 +32,7 @@ export function LiveClientFileDetail({
   client: ClientFileListItem;
   matters: readonly StagingMatterListItem[];
   documents: readonly ClientDocumentListItem[];
+  statementLines: readonly StagingClientStatementLine[];
   billingItems: readonly BillingItemTemplateListItem[];
   matterWritesEnabled: boolean;
   documentUploadsEnabled: boolean;
@@ -343,9 +349,31 @@ export function LiveClientFileDetail({
         <article className="client-review-card" id="statements">
           <h2>Statements</h2>
           <p>
-            Statements remain inactive. No statement can be approved, generated
-            for sending or sent from this client file.
+            Draft statement lines pull through from matter draft invoices. Draft
+            only - not approved, not sent.
           </p>
+          {statementLines.length ? (
+            <div className="client-file-table" role="table" aria-label="Client draft statement lines">
+              <div className="client-file-table__row client-file-table__row--header" role="row">
+                <span role="columnheader">Matter</span>
+                <span role="columnheader">Draft invoice</span>
+                <span role="columnheader">Description</span>
+                <span role="columnheader">Debit</span>
+                <span role="columnheader">Balance</span>
+              </div>
+              {statementLines.map((line) => (
+                <div className="client-file-table__row" role="row" key={line.id}>
+                  <span role="cell">{line.matterReference ?? "Client"}</span>
+                  <span role="cell">{line.draftInvoiceReference ?? "Draft invoice"}</span>
+                  <span role="cell">{line.description}</span>
+                  <span role="cell">{formatDraftInvoiceMoney(line.debitCents)}</span>
+                  <span role="cell">{formatDraftInvoiceMoney(line.balanceCents)}</span>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p>No matter draft invoices have pulled through to this client statement yet.</p>
+          )}
         </article>
       </div>
 
