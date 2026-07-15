@@ -112,6 +112,10 @@ describe("live client file detail", () => {
     expect(html).toContain("Upload test error");
     expect(html).toContain("TEST_Client_General_Identity_2026_07_15.txt");
     expect(html).toContain("0 bytes");
+    expect(html).toContain("/admin/clients/client_test_1/documents/document_1/view");
+    expect(html).toContain("/admin/clients/client_test_1/documents/document_1/download");
+    expect(html).toContain("View");
+    expect(html).toContain("Download");
     expect(html).toContain("Billing item edit gate off.");
   });
 });

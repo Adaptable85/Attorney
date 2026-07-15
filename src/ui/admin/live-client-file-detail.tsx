@@ -122,7 +122,7 @@ export function LiveClientFileDetail({
 
         <article className="client-review-card" id="documents">
           <h2>Documents</h2>
-          <p>Use test documents only. No public download link is exposed.</p>
+          <p>Use test documents only. View and download stay private to the staging admin session.</p>
           {uploaded ? (
             <div className="client-success-banner" role="status">
               Test document uploaded and added to this client file.
@@ -186,7 +186,7 @@ export function LiveClientFileDetail({
                 <span role="columnheader">Type</span>
                 <span role="columnheader">Size</span>
                 <span role="columnheader">Status</span>
-                <span role="columnheader">Created</span>
+                <span role="columnheader">Actions</span>
               </div>
               {documents.map((document) => (
                 <div key={document.id} className="client-file-table__row" role="row">
@@ -194,7 +194,21 @@ export function LiveClientFileDetail({
                   <span role="cell">{document.contentType}</span>
                   <span role="cell">{document.sizeBytes ?? 0} bytes</span>
                   <span role="cell">{document.status}</span>
-                  <span role="cell">{document.createdAt.toISOString().slice(0, 10)}</span>
+                  <span role="cell" className="document-actions">
+                    <Link
+                      className="read-card__link"
+                      href={`/admin/clients/${client.id}/documents/${document.id}/view`}
+                      target="_blank"
+                    >
+                      View
+                    </Link>
+                    <Link
+                      className="read-card__link"
+                      href={`/admin/clients/${client.id}/documents/${document.id}/download`}
+                    >
+                      Download
+                    </Link>
+                  </span>
                 </div>
               ))}
             </div>

@@ -2,6 +2,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 
 import type { AuthenticatedPrincipal } from "@/auth/auth-provider";
 import {
+  getStagingClientDocumentContent,
   loadClientDocuments,
   listClientDocuments,
   maxStagingDocumentUploadBytes,
@@ -33,6 +34,7 @@ function createFakePrisma() {
   const clients = [{ id: "client_1", displayName: "TEST Client" }];
   const documents: Array<{
     id: string;
+    clientId?: string;
     filename: string;
     contentType: string;
     sizeBytes: number;
@@ -56,12 +58,14 @@ function createFakePrisma() {
     },
     documentRecord: {
       async create({ data }: { data: {
+        clientId?: string;
         filename: string;
         contentType: string;
         sizeBytes: number;
       } }) {
         const record = {
           id: `document_${documents.length + 1}`,
+          clientId: data.clientId,
           filename: data.filename,
           contentType: data.contentType,
           sizeBytes: data.sizeBytes,
@@ -70,6 +74,22 @@ function createFakePrisma() {
         };
         documents.push(record);
         return record;
+      },
+      async findUnique({ where }: { where: { id: string } }) {
+        const document = documents.find((record) => record.id === where.id);
+
+        if (!document) {
+          return null;
+        }
+
+        return {
+          ...document,
+          clientId: document.clientId ?? "client_1",
+          content: {
+            bytes: new Uint8Array([116, 101, 115, 116]),
+            sizeBytes: 4
+          }
+        };
       },
       async findMany() {
         return documents;
@@ -354,6 +374,176 @@ describe("staging documents", () => {
     expect(fake.documentContents).toHaveLength(1);
     expect(fake.auditLogs).toHaveLength(1);
     expect(fake.timelineEvents).toHaveLength(1);
+  });
+
+  it("loads document content for inline view and records access audit", async () => {
+    vi.stubEnv("DATABASE_URL", "postgresql://user:pass@localhost:5432/burgess_attorneys_dev");
+    const fake = createFakePrisma();
+    fake.documents.push({
+      id: "document_1",
+      clientId: "client_1",
+      filename: "TEST.txt",
+      contentType: "text/plain",
+      sizeBytes: 4,
+      status: "ACTIVE",
+      createdAt: new Date("2026-07-15T09:00:00.000Z")
+    });
+
+    const result = await getStagingClientDocumentContent({
+      principal: stagingPrincipal,
+      prisma: fake.prisma,
+      clientId: "client_1",
+      documentId: "document_1",
+      action: "view",
+      environment: {
+        BURGESS_STAGING_DOCUMENT_UPLOADS_ENABLED: "true"
+      }
+    });
+
+    expect(result).toMatchObject({
+      ok: true,
+      data: {
+        filename: "TEST.txt",
+        contentType: "text/plain",
+        sizeBytes: 4
+      }
+    });
+    expect(fake.auditLogs).toHaveLength(1);
+  });
+
+  it("loads document content for download and records a download audit", async () => {
+    vi.stubEnv("DATABASE_URL", "postgresql://user:pass@localhost:5432/burgess_attorneys_dev");
+    const fake = createFakePrisma();
+    fake.documents.push({
+      id: "document_1",
+      clientId: "client_1",
+      filename: "TEST.txt",
+      contentType: "text/plain",
+      sizeBytes: 4,
+      status: "ACTIVE",
+      createdAt: new Date("2026-07-15T09:00:00.000Z")
+    });
+
+    const result = await getStagingClientDocumentContent({
+      principal: stagingPrincipal,
+      prisma: fake.prisma,
+      clientId: "client_1",
+      documentId: "document_1",
+      action: "download",
+      environment: {
+        BURGESS_STAGING_DOCUMENT_UPLOADS_ENABLED: "true"
+      }
+    });
+
+    expect(result.ok).toBe(true);
+    expect(fake.auditLogs).toEqual([
+      expect.objectContaining({
+        eventType: "DOCUMENT_DOWNLOADED"
+      })
+    ]);
+  });
+
+  it("fails closed when document access has no database URL", async () => {
+    const fake = createFakePrisma();
+
+    const result = await getStagingClientDocumentContent({
+      principal: stagingPrincipal,
+      prisma: fake.prisma,
+      clientId: "client_1",
+      documentId: "document_1",
+      action: "view",
+      environment: {
+        BURGESS_STAGING_DOCUMENT_UPLOADS_ENABLED: "true"
+      }
+    });
+
+    expect(result).toMatchObject({
+      ok: false,
+      error: {
+        code: "SERVICE_CONTEXT_ERROR"
+      }
+    });
+  });
+
+  it("fails closed when document access gate is disabled", async () => {
+    vi.stubEnv("DATABASE_URL", "postgresql://user:pass@localhost:5432/burgess_attorneys_dev");
+    const fake = createFakePrisma();
+
+    const result = await getStagingClientDocumentContent({
+      principal: stagingPrincipal,
+      prisma: fake.prisma,
+      clientId: "client_1",
+      documentId: "document_1",
+      action: "view",
+      environment: {
+        BURGESS_STAGING_DOCUMENT_UPLOADS_ENABLED: "false"
+      }
+    });
+
+    expect(result).toMatchObject({
+      ok: false,
+      error: {
+        code: "UNAUTHORIZED"
+      }
+    });
+  });
+
+  it("fails closed when document content does not belong to the client", async () => {
+    vi.stubEnv("DATABASE_URL", "postgresql://user:pass@localhost:5432/burgess_attorneys_dev");
+    const fake = createFakePrisma();
+    fake.documents.push({
+      id: "document_1",
+      clientId: "client_2",
+      filename: "TEST.txt",
+      contentType: "text/plain",
+      sizeBytes: 4,
+      status: "ACTIVE",
+      createdAt: new Date("2026-07-15T09:00:00.000Z")
+    });
+
+    const result = await getStagingClientDocumentContent({
+      principal: stagingPrincipal,
+      prisma: fake.prisma,
+      clientId: "client_1",
+      documentId: "document_1",
+      action: "download",
+      environment: {
+        BURGESS_STAGING_DOCUMENT_UPLOADS_ENABLED: "true"
+      }
+    });
+
+    expect(result).toMatchObject({
+      ok: false,
+      error: {
+        code: "NOT_FOUND"
+      }
+    });
+  });
+
+  it("returns transaction failure when document content cannot be loaded", async () => {
+    vi.stubEnv("DATABASE_URL", "postgresql://user:pass@localhost:5432/burgess_attorneys_dev");
+
+    const result = await getStagingClientDocumentContent({
+      principal: stagingPrincipal,
+      prisma: {
+        async $transaction() {
+          throw new Error("transaction failed");
+        }
+      },
+      clientId: "client_1",
+      documentId: "document_1",
+      action: "view",
+      environment: {
+        BURGESS_STAGING_DOCUMENT_UPLOADS_ENABLED: "true"
+      }
+    });
+
+    expect(result).toMatchObject({
+      ok: false,
+      error: {
+        code: "TRANSACTION_ERROR"
+      }
+    });
   });
 
   it("uses safe defaults for optional upload metadata", async () => {

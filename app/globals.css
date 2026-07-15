@@ -1266,6 +1266,17 @@ a {
   border-left: 4px solid var(--burgess-accent);
 }
 
+.document-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.document-actions .read-card__link {
+  margin-top: 0;
+}
+
 .client-file-table__row--header {
   background: var(--burgess-panel-muted);
   color: var(--burgess-muted);

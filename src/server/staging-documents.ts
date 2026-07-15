@@ -31,6 +31,14 @@ export type StagingDocumentUploadResult = {
   filename: string;
 };
 
+export type StagingDocumentContentResult = {
+  id: string;
+  filename: string;
+  contentType: string;
+  sizeBytes: number;
+  bytes: Uint8Array;
+};
+
 const uploadMetadataSchema = z.object({
   clientId: z.string().trim().min(1, "Client file is required"),
   documentType: z.string().trim().min(1, "Document type is required").max(80),
@@ -98,6 +106,23 @@ type DocumentTransaction = {
       };
       orderBy: [{ createdAt: "desc" }, { id: "asc" }];
     }): Promise<PrismaDocumentRecord[]>;
+    findUnique(args: {
+      where: { id: string };
+      include: {
+        content: {
+          select: {
+            bytes: true;
+            sizeBytes: true;
+          };
+        };
+      };
+    }): Promise<(PrismaDocumentRecord & {
+      clientId: string | null;
+      content: {
+        bytes: Uint8Array;
+        sizeBytes: number;
+      } | null;
+    }) | null>;
   };
   documentContent: {
     create(args: {
@@ -112,7 +137,7 @@ type DocumentTransaction = {
   auditLog: {
     create(args: {
       data: {
-        eventType: "DOCUMENT_UPLOADED";
+        eventType: "DOCUMENT_UPLOADED" | "DOCUMENT_ACCESSED" | "DOCUMENT_DOWNLOADED";
         actorId: string;
         targetType: "document";
         targetId: string;
@@ -423,6 +448,110 @@ export async function uploadStagingClientDocument(options: {
       return serviceFailure({
         code: "NOT_FOUND",
         message: "Client file was not found."
+      });
+    }
+
+    return transactionFailure();
+  }
+}
+
+export async function getStagingClientDocumentContent(options: {
+  principal: AuthenticatedPrincipal | null;
+  prisma: unknown;
+  clientId: string;
+  documentId: string;
+  action: "view" | "download";
+  environment?: Partial<Record<string, string | undefined>>;
+}): Promise<ServiceResult<StagingDocumentContentResult>> {
+  if (!hasDatabaseUrl()) {
+    return serviceFailure({
+      code: "SERVICE_CONTEXT_ERROR",
+      message: "DATABASE_URL is required before staging documents can be opened."
+    });
+  }
+
+  const gate = evaluateStagingDocumentUploadGate(options.principal, options.environment);
+
+  if (!gate.enabled) {
+    return serviceFailure({
+      code: "UNAUTHORIZED",
+      message: "Staging document access is not enabled for this session."
+    });
+  }
+
+  const prisma = options.prisma as DocumentPrisma;
+  const actor = actorData(options.principal);
+
+  try {
+    const result = await prisma.$transaction(async (tx) => {
+      const document = await tx.documentRecord.findUnique({
+        where: { id: options.documentId },
+        include: {
+          content: {
+            select: {
+              bytes: true,
+              sizeBytes: true
+            }
+          }
+        }
+      });
+
+      if (!document || document.clientId !== options.clientId || !document.content) {
+        throw new Error("DOCUMENT_NOT_FOUND");
+      }
+
+      const savedActor = await tx.user.upsert({
+        where: { id: actor.id },
+        update: {
+          email: actor.email,
+          name: actor.name,
+          status: "ACTIVE",
+          authProvider: "FUTURE_PROVIDER"
+        },
+        create: {
+          id: actor.id,
+          email: actor.email,
+          name: actor.name,
+          status: "ACTIVE",
+          authProvider: "FUTURE_PROVIDER"
+        }
+      });
+
+      await tx.auditLog.create({
+        data: {
+          eventType: options.action === "download" ? "DOCUMENT_DOWNLOADED" : "DOCUMENT_ACCESSED",
+          actorId: savedActor.id,
+          targetType: "document",
+          targetId: document.id,
+          summary: options.action === "download"
+            ? "Staging client document downloaded"
+            : "Staging client document viewed",
+          metadata: {
+            source: "staging-client-file-document-access",
+            action: options.action,
+            clientId: options.clientId,
+            filename: document.filename,
+            sizeBytes: document.content.sizeBytes
+          },
+          sensitive: true
+        }
+      });
+
+      return {
+        id: document.id,
+        filename: document.filename,
+        contentType: document.contentType,
+        sizeBytes: document.content.sizeBytes,
+        bytes: document.content.bytes
+      };
+    });
+
+    return serviceSuccess(result);
+  } catch (error) {
+    if (error instanceof Error && error.message === "DOCUMENT_NOT_FOUND") {
+      return serviceFailure({
+        code: "NOT_FOUND",
+        message: "Document was not found for this client file."
       });
     }
 
