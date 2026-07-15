@@ -18,9 +18,9 @@ export const adminModules: readonly AdminModule[] = [
   {
     id: "clients",
     title: "Client Files",
-    navLabel: "Client Files",
+    navLabel: "Files",
     href: "/admin/clients",
-    description: "Main client-file workspace for client details, matters, documents, notes, draft invoices, draft statements and audit review.",
+    description: "Dense practice file workspace for client details, matters, general documents, draft statement position and audit review.",
     status: "Not implemented yet",
     phaseLabel: "Coming in later phase",
     isVisibleForRole: canViewFinancialRecords
@@ -30,7 +30,7 @@ export const adminModules: readonly AdminModule[] = [
     title: "Invoice Items",
     navLabel: "Invoice Items",
     href: "/admin/invoice-items",
-    description: "Reusable fee, disbursement and billing item placeholders for later draft invoice preparation inside client files.",
+    description: "Separate reusable fee, disbursement and billing item maintenance for later matter billing selection.",
     status: "Not implemented yet",
     phaseLabel: "Coming in later phase",
     isVisibleForRole: canViewFinancialRecords

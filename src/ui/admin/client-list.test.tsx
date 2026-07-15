@@ -17,7 +17,7 @@ describe("client list", () => {
     }
   ];
 
-  it("renders the live staging client file list and search controls", () => {
+  it("renders the live staging Files table and filter controls", () => {
     const html = renderToStaticMarkup(
       <ClientList
         clients={clients}
@@ -28,15 +28,24 @@ describe("client list", () => {
       />
     );
 
-    expect(html).toContain("Client Files");
-    expect(html).toContain("Live staging workspace");
+    expect(html).toContain("Files");
+    expect(html).toContain("Practice files");
     expect(html).toContain("Staging writes enabled");
     expect(html).toContain("Client file created.");
-    expect(html).toContain("Search client files");
+    expect(html).toContain("File filters");
+    expect(html).toContain("Search files");
     expect(html).toContain("Open New Client File");
+    expect(html).toContain("File ref");
+    expect(html).toContain("A/R draft");
+    expect(html).toContain("Draft statement balance");
+    expect(html).toContain("Unbilled fees");
+    expect(html).toContain("Disbursements");
+    expect(html).toContain("Responsible");
     expect(html).toContain("TEST Client File - Delete Later");
     expect(html).toContain("TEST-001");
     expect(html).toContain("/admin/clients/client_test_1");
+    expect(html).toContain("/admin/clients/client_test_1#documents");
+    expect(html).toContain("/admin/clients/client_test_1#statements");
   });
 
   it("shows disabled state when the staging write gate is off", () => {

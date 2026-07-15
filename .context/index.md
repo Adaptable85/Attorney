@@ -1,6 +1,6 @@
 # Context Index
 
-Status: Phase 9H matter invoicing and client statement drafts
+Status: Phase 10A GhostPractice-inspired admin workflow and visual redesign
 
 Read order:
 

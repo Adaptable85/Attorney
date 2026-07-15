@@ -33,6 +33,7 @@ export function LiveClientFileDetail({
   uploadError?: string;
 }>) {
   const today = new Date().toISOString().slice(0, 10);
+  const statementBalanceCents = statementLines.at(-1)?.balanceCents ?? 0;
   const suggestedFilename = suggestClientGeneralDocumentFilename({
     clientName: client.displayName,
     documentType: "Identity_Document",
@@ -40,26 +41,53 @@ export function LiveClientFileDetail({
   });
 
   return (
-    <section className="client-review" aria-labelledby="client-detail-title">
-      <div className="client-review__hero">
+    <section className="client-review practice-page" aria-labelledby="client-detail-title">
+      <div className="practice-record-header">
         <div>
-          <p className="review-hero__eyebrow">Live staging client file</p>
+          <p className="review-hero__eyebrow">File summary</p>
           <h1 id="client-detail-title">{client.displayName}</h1>
           <p>
-            This client file is saved in the Railway staging database. Client
-            creation, matter opening, test document uploads and reusable billing
-            templates are live for staging only.
+            File {client.accountNumber} is saved in Railway staging. General
+            client documents stay here; matter work, billing and notes stay
+            inside each matter.
           </p>
         </div>
-        <span>Staging test file</span>
+        <span className="practice-chip">Staging test file</span>
       </div>
 
-      <div className="client-file-tabs" aria-label="Client file sections">
+      <div className="practice-summary-bar" aria-label="Client file operational summary">
+        <div>
+          <span>File ref</span>
+          <strong>{client.accountNumber}</strong>
+        </div>
+        <div>
+          <span>Status</span>
+          <strong>{client.status}</strong>
+        </div>
+        <div>
+          <span>Contact</span>
+          <strong>{client.primaryContactName ?? "No contact saved"}</strong>
+        </div>
+        <div>
+          <span>Responsible</span>
+          <strong>Staging reviewer</strong>
+        </div>
+        <div>
+          <span>Updated</span>
+          <strong>{client.updatedAt.toISOString().slice(0, 10)}</strong>
+        </div>
+        <div>
+          <span>Draft statement</span>
+          <strong>{formatDraftInvoiceMoney(statementBalanceCents)}</strong>
+        </div>
+      </div>
+
+      <div className="client-file-tabs practice-tabs" aria-label="Client file sections">
         {[
           ["#overview", "Overview"],
           ["#matters", "Matters"],
-          ["#documents", "Client General Documents"],
-          ["#statements", "Client Statement"],
+          ["#documents", "General Documents"],
+          ["#statements", "Statement"],
           ["#audit", "Audit"]
         ].map(([href, tab]) => (
           <a key={href} href={href}>
@@ -69,7 +97,7 @@ export function LiveClientFileDetail({
       </div>
 
       <div className="client-review__grid">
-        <article className="client-review-card" id="overview">
+        <article className="client-review-card practice-panel" id="overview">
           <h2>Overview</h2>
           <dl>
             <div>
@@ -99,8 +127,8 @@ export function LiveClientFileDetail({
           </dl>
         </article>
 
-        <article className="client-review-card">
-          <h2>Staging boundaries</h2>
+        <article className="client-review-card practice-panel">
+          <h2>Operational gates</h2>
           <ul className="client-disabled-actions">
             <li data-disabled={matterWritesEnabled ? "false" : "true"}>
               {matterWritesEnabled ? "Staging matter creation enabled" : "Matter creation unavailable"}
@@ -116,11 +144,11 @@ export function LiveClientFileDetail({
       </div>
 
       <div className="client-review__grid">
-        <article className="client-review-card" id="matters">
+        <article className="client-review-card practice-panel" id="matters">
           <div className="read-card__title-row">
             <h2>Matters</h2>
             {matterWritesEnabled ? (
-              <Link className="read-card__link" href={`/admin/clients/${client.id}/matters/new`}>
+              <Link className="practice-action practice-action--primary" href={`/admin/clients/${client.id}/matters/new`}>
                 Open New Matter
               </Link>
             ) : null}
@@ -148,27 +176,32 @@ export function LiveClientFileDetail({
             </div>
           ) : null}
           {matters.length > 0 ? (
-            <div className="client-file-table" role="table" aria-label="Client matters">
-              <div className="client-file-table__row client-file-table__row--header" role="row">
+            <div className="client-file-table practice-table practice-table--matters" role="table" aria-label="Client matters">
+              <div className="client-file-table__row client-file-table__row--header practice-table__row" role="row">
                 <span role="columnheader">Matter</span>
                 <span role="columnheader">Reference</span>
                 <span role="columnheader">Type</span>
                 <span role="columnheader">Status</span>
                 <span role="columnheader">Updated</span>
+                <span role="columnheader">Actions</span>
               </div>
               {matters.map((matter) => (
-                <Link
+                <div
                   key={matter.id}
-                  className="client-file-table__row"
-                  href={`/admin/matters/${matter.id}`}
+                  className="client-file-table__row practice-table__row"
                   role="row"
                 >
                   <span role="cell">{matter.name}</span>
                   <span role="cell">{matter.accountNumber}</span>
                   <span role="cell">{matter.type}</span>
-                  <span role="cell">{matter.status}</span>
+                  <span role="cell"><span className="practice-status">{matter.status}</span></span>
                   <span role="cell">{matter.updatedAt.toISOString().slice(0, 10)}</span>
-                </Link>
+                  <span role="cell" className="client-file-actions">
+                    <Link href={`/admin/matters/${matter.id}`}>Open</Link>
+                    <Link href={`/admin/matters/${matter.id}#documents`}>Docs</Link>
+                    <Link href={`/admin/matters/${matter.id}#draft-invoices`}>Invoices</Link>
+                  </span>
+                </div>
               ))}
             </div>
           ) : (
@@ -176,8 +209,8 @@ export function LiveClientFileDetail({
           )}
         </article>
 
-        <article className="client-review-card" id="documents">
-          <h2>Client General Documents</h2>
+        <article className="client-review-card practice-panel" id="documents">
+          <h2>General Documents</h2>
           <p>
             Use this for client-level documents like ID, proof of address, FICA
             and general client file documents. Matter-specific documents must be
@@ -245,8 +278,8 @@ export function LiveClientFileDetail({
             </div>
           )}
           {documents.length > 0 ? (
-            <div className="client-file-table" role="table" aria-label="Client general documents">
-              <div className="client-file-table__row client-file-table__row--header" role="row">
+            <div className="client-file-table practice-table practice-table--documents" role="table" aria-label="Client general documents">
+              <div className="client-file-table__row client-file-table__row--header practice-table__row" role="row">
                 <span role="columnheader">Filename</span>
                 <span role="columnheader">Type</span>
                 <span role="columnheader">Size</span>
@@ -254,7 +287,7 @@ export function LiveClientFileDetail({
                 <span role="columnheader">Actions</span>
               </div>
               {documents.map((document) => (
-                <div key={document.id} className="client-file-table__row" role="row">
+                <div key={document.id} className="client-file-table__row practice-table__row" role="row">
                   <span role="cell">{document.filename}</span>
                   <span role="cell">{document.contentType}</span>
                   <span role="cell">{document.sizeBytes ?? 0} bytes</span>
@@ -284,15 +317,15 @@ export function LiveClientFileDetail({
       </div>
 
       <div className="client-review__grid">
-        <article className="client-review-card" id="statements">
-          <h2>Client Statement</h2>
+        <article className="client-review-card practice-panel" id="statements">
+          <h2>Statement</h2>
           <p>
             Draft statement lines pull through from draft invoices created inside
             this client&apos;s matters. Draft only - not approved, not sent.
           </p>
           {statementLines.length ? (
-            <div className="client-file-table" role="table" aria-label="Client draft statement lines">
-              <div className="client-file-table__row client-file-table__row--header" role="row">
+            <div className="client-file-table practice-table practice-table--statement" role="table" aria-label="Client draft statement lines">
+              <div className="client-file-table__row client-file-table__row--header practice-table__row" role="row">
                 <span role="columnheader">Matter</span>
                 <span role="columnheader">Draft invoice</span>
                 <span role="columnheader">Description</span>
@@ -300,7 +333,7 @@ export function LiveClientFileDetail({
                 <span role="columnheader">Balance</span>
               </div>
               {statementLines.map((line) => (
-                <div className="client-file-table__row" role="row" key={line.id}>
+                <div className="client-file-table__row practice-table__row" role="row" key={line.id}>
                   <span role="cell">{line.matterReference ?? "Client"}</span>
                   <span role="cell">{line.draftInvoiceReference ?? "Draft invoice"}</span>
                   <span role="cell">{line.description}</span>
@@ -315,7 +348,7 @@ export function LiveClientFileDetail({
         </article>
       </div>
 
-      <article className="client-review-card" id="audit">
+      <article className="client-review-card practice-panel" id="audit">
         <h2>Audit</h2>
         <p>
           Client creation, matter opening, test document uploads and draft

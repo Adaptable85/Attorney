@@ -26,10 +26,15 @@ describe("staging matter list", () => {
       />
     );
 
-    expect(html).toContain("Live staging matter list");
+    expect(html).toContain("Practice matters");
     expect(html).toContain("Search matters");
+    expect(html).toContain("Matter filters");
+    expect(html).toContain("Unbilled draft fees");
+    expect(html).toContain("Draft invoices");
     expect(html).toContain("TEST Matter - Delete Later");
     expect(html).toContain("/admin/matters/matter_1");
+    expect(html).toContain("/admin/matters/matter_1#documents");
+    expect(html).toContain("/admin/matters/matter_1#billing");
     expect(html).not.toContain("Approve invoice");
     expect(html).not.toContain("Send statement");
   });

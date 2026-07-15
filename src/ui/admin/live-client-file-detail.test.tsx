@@ -56,10 +56,11 @@ describe("live client file detail", () => {
       />
     );
 
-    expect(html).toContain("Live staging client file");
+    expect(html).toContain("File summary");
     expect(html).toContain("TEST Client File - Delete Later");
     expect(html).toContain("TEST-001");
     expect(html).toContain("Test Contact");
+    expect(html).toContain("Draft statement");
     expect(html).toContain("href=\"#documents\"");
     expect(html).toContain("Staging matter creation enabled");
     expect(html).toContain("Open New Matter");
@@ -72,7 +73,7 @@ describe("live client file detail", () => {
     expect(html).toContain("Test document upload enabled");
     expect(html).toContain("Staging document upload form");
     expect(html).toContain("compact-admin-form");
-    expect(html).toContain("Client General Documents");
+    expect(html).toContain("General Documents");
     expect(html).toContain("client-level documents like ID, proof of address, FICA");
     expect(html).toContain("Matter-specific documents must be uploaded inside the relevant matter.");
     expect(html).toContain("Choose the general client document type");

@@ -15,7 +15,7 @@ export function AdminNav({ modules }: Readonly<{ modules: readonly AdminModule[]
     <nav className="admin-nav" aria-label="Admin modules">
       <div className="admin-nav__brand">
         <p className="admin-nav__brand-name">Burgess Attorneys</p>
-        <p className="admin-nav__brand-label">Client-file review workspace</p>
+        <p className="admin-nav__brand-label">Practice file workspace</p>
       </div>
       <ul className="admin-nav__list">
         {uniqueNavItems.map((item) => (

@@ -91,10 +91,12 @@ describe("staging matter detail", () => {
       />
     );
 
-    expect(html).toContain("Live staging matter");
+    expect(html).toContain("Matter workspace");
     expect(html).toContain("TEST Matter - Delete Later");
     expect(html).toContain("/admin/clients/client_1");
     expect(html).toContain("2026-07-30");
+    expect(html).toContain("Unbilled draft fees");
+    expect(html).toContain("Draft invoices");
     expect(html).toContain("Staging matter document upload form");
     expect(html).toContain("compact-admin-form");
     expect(html).toContain("Matter Documents");
@@ -113,7 +115,8 @@ describe("staging matter detail", () => {
     expect(html).toContain("Audio upload and automatic transcription are not active yet.");
     expect(html).toContain("Add Matter Note");
     expect(html).toContain("Consultation held");
-    expect(html).toContain("Billing Items");
+    expect(html).toContain("Billing");
+    expect(html).toContain("href=\"#billing\"");
     expect(html).toContain("Staging matter billing line form");
     expect(html).toContain("Add Draft Billing Line");
     expect(html).toContain("Draft billing line added to this matter.");
@@ -123,6 +126,7 @@ describe("staging matter detail", () => {
     expect(html).toContain("Not assigned");
     expect(html).toContain("Draft invoice created and pulled into the client statement.");
     expect(html).toContain("Statement Link");
+    expect(html).toContain("Audit");
     expect(html).toContain("/admin/clients/client_1#statements");
     expect(html).not.toContain("Approve invoice");
     expect(html).not.toContain("Send statement");

@@ -67,6 +67,13 @@ export function StagingMatterDetail({
   invoiceError?: string;
 }>) {
   const today = new Date().toISOString().slice(0, 10);
+  const draftUnbilledFeesCents = billingLines
+    .filter((line) => line.status === "DRAFT" && line.category !== "DISBURSEMENT")
+    .reduce((total, line) => total + line.totalAmountCents, 0);
+  const draftDisbursementsCents = billingLines
+    .filter((line) => line.status === "DRAFT" && line.category === "DISBURSEMENT")
+    .reduce((total, line) => total + line.totalAmountCents, 0);
+  const draftInvoiceTotalCents = draftInvoices.reduce((total, invoice) => total + invoice.totalCents, 0);
   const suggestedFilename = suggestDocumentFilename({
     clientName: matter.clientDisplayName ?? "Client",
     matterReference: matter.accountNumber,
@@ -75,22 +82,56 @@ export function StagingMatterDetail({
   });
 
   return (
-    <section className="client-review" aria-labelledby="matter-detail-title">
-      <div className="client-review__hero">
+    <section className="client-review practice-page" aria-labelledby="matter-detail-title">
+      <div className="practice-record-header">
         <div>
-          <p className="review-hero__eyebrow">Live staging matter</p>
+          <p className="review-hero__eyebrow">Matter workspace</p>
           <h1 id="matter-detail-title">{matter.name}</h1>
           <p>
-            This matter is saved in Railway staging. You can upload test
-            documents, add matter-specific notes or voice-note summaries, build
-            draft billing lines and create draft matter invoices. Editing,
-            closing, approval, sending and official numbering remain disabled.
+            Matter {matter.accountNumber} sits inside{" "}
+            {matter.clientDisplayName ?? "the saved client file"}. Documents,
+            notes, billing and draft invoices are matter-specific.
           </p>
         </div>
-        <span>Staging test matter</span>
+        <span className="practice-chip">Staging test matter</span>
       </div>
 
-      <div className="client-safety-banner" role="note">
+      <div className="practice-summary-bar" aria-label="Matter operational summary">
+        <div>
+          <span>Matter ref</span>
+          <strong>{matter.accountNumber}</strong>
+        </div>
+        <div>
+          <span>Client</span>
+          <strong>{matter.clientDisplayName ?? "Saved client"}</strong>
+        </div>
+        <div>
+          <span>Type</span>
+          <strong>{matter.type}</strong>
+        </div>
+        <div>
+          <span>Status</span>
+          <strong>{matter.status}</strong>
+        </div>
+        <div>
+          <span>Responsible</span>
+          <strong>Staging reviewer</strong>
+        </div>
+        <div>
+          <span>Next date</span>
+          <strong>{matter.nextStepDueDate ? matter.nextStepDueDate.toISOString().slice(0, 10) : "Not set"}</strong>
+        </div>
+        <div>
+          <span>Unbilled draft fees</span>
+          <strong>{formatDraftInvoiceMoney(draftUnbilledFeesCents)}</strong>
+        </div>
+        <div>
+          <span>Draft invoices</span>
+          <strong>{formatDraftInvoiceMoney(draftInvoiceTotalCents)}</strong>
+        </div>
+      </div>
+
+      <div className="practice-alert" role="note">
         <strong>Staging matter workspace.</strong>
         <span>
           Use test data only. No edit, close, archive, approve, send, LLM or sync
@@ -98,16 +139,17 @@ export function StagingMatterDetail({
         </span>
       </div>
 
-      <nav className="client-file-tabs" aria-label="Matter sections">
+      <nav className="client-file-tabs practice-tabs" aria-label="Matter sections">
         <a href="#overview">Overview</a>
-        <a href="#documents">Documents</a>
+        <a href="#documents">Matter Documents</a>
         <a href="#timeline">Notes / Voice Notes</a>
-        <a href="#billing-items">Billing Items</a>
+        <a href="#billing">Billing</a>
         <a href="#draft-invoices">Draft Invoices</a>
         <a href="#statement-link">Statement Link</a>
+        <a href="#audit">Audit</a>
       </nav>
 
-      <article id="overview" className="client-review-card">
+      <article id="overview" className="client-review-card practice-panel">
         <h2>Overview</h2>
         <dl>
           <div>
@@ -142,7 +184,7 @@ export function StagingMatterDetail({
         <p>{matter.description}</p>
       </article>
 
-      <article id="documents" className="client-review-card">
+      <article id="documents" className="client-review-card practice-panel">
         <div className="read-list__header">
           <div>
             <h2>Matter Documents</h2>
@@ -215,8 +257,8 @@ export function StagingMatterDetail({
         )}
 
         {documents.length ? (
-          <div className="client-file-table" role="table" aria-label="Matter documents">
-            <div className="client-file-table__row client-file-table__row--header" role="row">
+          <div className="client-file-table practice-table practice-table--documents" role="table" aria-label="Matter documents">
+            <div className="client-file-table__row client-file-table__row--header practice-table__row" role="row">
               <span role="columnheader">Filename</span>
               <span role="columnheader">Type</span>
               <span role="columnheader">Size</span>
@@ -224,7 +266,7 @@ export function StagingMatterDetail({
               <span role="columnheader">Actions</span>
             </div>
             {documents.map((document) => (
-              <div className="client-file-table__row" role="row" key={document.id}>
+              <div className="client-file-table__row practice-table__row" role="row" key={document.id}>
                 <span role="cell">{document.filename}</span>
                 <span role="cell">{document.contentType}</span>
                 <span role="cell">{formatFileSize(document.sizeBytes)}</span>
@@ -245,7 +287,7 @@ export function StagingMatterDetail({
         )}
       </article>
 
-      <article id="timeline" className="client-review-card">
+      <article id="timeline" className="client-review-card practice-panel">
         <div className="read-list__header">
           <div>
             <h2>Matter Notes / Voice Notes</h2>
@@ -332,10 +374,10 @@ export function StagingMatterDetail({
         )}
       </article>
 
-      <article id="billing-items" className="client-review-card">
+      <article id="billing" className="client-review-card practice-panel">
         <div className="read-list__header">
           <div>
-            <h2>Billing Items</h2>
+            <h2>Billing</h2>
             <p>
               Add draft charge lines for this matter only. These lines can be
               pulled into a draft invoice, but they are not approved fees.
@@ -413,16 +455,18 @@ export function StagingMatterDetail({
         )}
 
         {billingLines.length ? (
-          <div className="client-file-table" role="table" aria-label="Matter billing lines">
-            <div className="client-file-table__row client-file-table__row--header" role="row">
+          <div className="client-file-table practice-table practice-table--billing" role="table" aria-label="Matter billing lines">
+            <div className="client-file-table__row client-file-table__row--header practice-table__row" role="row">
               <span role="columnheader">Description</span>
+              <span role="columnheader">Category</span>
               <span role="columnheader">Status</span>
               <span role="columnheader">Amount</span>
               <span role="columnheader">VAT</span>
             </div>
             {billingLines.map((line) => (
-              <div className="client-file-table__row" role="row" key={line.id}>
+              <div className="client-file-table__row practice-table__row" role="row" key={line.id}>
                 <span role="cell">{line.description}</span>
+                <span role="cell">{line.category}</span>
                 <span role="cell">{line.status}</span>
                 <span role="cell">{formatDraftInvoiceMoney(line.totalAmountCents)}</span>
                 <span role="cell">{formatDraftInvoiceMoney(line.vatAmountCents)}</span>
@@ -434,7 +478,7 @@ export function StagingMatterDetail({
         )}
       </article>
 
-      <article id="draft-invoices" className="client-review-card">
+      <article id="draft-invoices" className="client-review-card practice-panel">
         <div className="read-list__header">
           <div>
             <h2>Draft Invoices</h2>
@@ -475,15 +519,15 @@ export function StagingMatterDetail({
         )}
 
         {draftInvoices.length ? (
-          <div className="client-file-table" role="table" aria-label="Matter draft invoices">
-            <div className="client-file-table__row client-file-table__row--header" role="row">
+          <div className="client-file-table practice-table practice-table--invoices" role="table" aria-label="Matter draft invoices">
+            <div className="client-file-table__row client-file-table__row--header practice-table__row" role="row">
               <span role="columnheader">Draft reference</span>
               <span role="columnheader">Status</span>
               <span role="columnheader">Total</span>
               <span role="columnheader">Official number</span>
             </div>
             {draftInvoices.map((invoice) => (
-              <div className="client-file-table__row" role="row" key={invoice.id}>
+              <div className="client-file-table__row practice-table__row" role="row" key={invoice.id}>
                 <span role="cell">{invoice.internalDraftReference}</span>
                 <span role="cell">{invoice.status}</span>
                 <span role="cell">{formatDraftInvoiceMoney(invoice.totalCents)}</span>
@@ -496,7 +540,7 @@ export function StagingMatterDetail({
         )}
       </article>
 
-      <article id="statement-link" className="client-review-card">
+      <article id="statement-link" className="client-review-card practice-panel">
         <h2>Statement Link</h2>
         <p>
           Draft invoices from this matter pull through to the client statement
@@ -506,6 +550,25 @@ export function StagingMatterDetail({
         <Link className="read-card__link" href={`/admin/clients/${matter.clientId}#statements`}>
           View client statement draft
         </Link>
+      </article>
+
+      <article id="audit" className="client-review-card practice-panel">
+        <h2>Audit</h2>
+        <p>
+          Matter document uploads, matter notes, draft billing lines and draft
+          invoice creation are audit/timeline events in staging. Approval,
+          official invoice numbering, PDF generation and sending remain absent.
+        </p>
+        <dl>
+          <div>
+            <dt>Draft disbursements</dt>
+            <dd>{formatDraftInvoiceMoney(draftDisbursementsCents)}</dd>
+          </div>
+          <div>
+            <dt>Numbering status</dt>
+            <dd>Not assigned in staging draft flow</dd>
+          </div>
+        </dl>
       </article>
 
       <Link className="read-card__link" href="/admin/matters">

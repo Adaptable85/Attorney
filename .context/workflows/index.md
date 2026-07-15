@@ -38,6 +38,7 @@ Admin shell workflow:
 - Matter document uploads are for that specific matter only and keep the matter/reference label and matter-specific filename guidance.
 - Matter draft invoicing starts inside the selected matter. Add draft billing lines first, then create a draft invoice from uninvoiced draft lines. The resulting draft invoice pulls into the client statement panel automatically as draft-only and not sent.
 - Live staging admin forms use the shared stacked form pattern from Phase 9F: label, help text and input box are grouped vertically for smoother data entry.
+- Phase 10A keeps the same routes and gates but presents the admin workspace as a denser practice-management interface: `/admin/clients` is the Files table, `/admin/clients/[slug]` is the file summary with general documents and statement context, and `/admin/matters/[id]` is the operational matter workspace for matter documents, notes / voice-note summaries, draft billing, draft invoices and statement pull-through.
 - `/admin/documents` is a protected read-only Documents Review module with demo-only metadata and no upload/download/storage controls.
 - `/admin/documents/[slug]` is a protected read-only demo document metadata preview route for approved fake demo slugs only.
 - Role-aware navigation must follow the tested permission policy.
@@ -116,6 +117,7 @@ Audited persistence workflow:
 - Phase 9D enables Railway-staging matter creation only inside saved client files; do not run `db:push`, run production migrations, enable production writes, enable live Entra auth, enable standalone matter creation, matter edit/close/archive/delete, invoice approval, invoice numbering, statement sending, Lexpro sync, WhatsApp, payment providers or use real Burgess matter data.
 - Phase 9G clarifies client-general versus matter-specific document UI only; do not run `db:push`, run migrations, change schema/routes/gates, enable production writes, enable live Entra auth, expose public document links, invoice approval, invoice numbering, statement sending, Lexpro sync, WhatsApp, payment providers or use real Burgess documents.
 - Phase 9H enables Railway-staging matter draft billing lines, draft invoices and client statement draft lines only; do not run `db:push`, run migrations, enable production writes, enable live Entra auth, approve invoices, assign official invoice numbers, generate PDFs, send invoices/statements, enable payments, Lexpro sync, WhatsApp, LLM calls or use real Burgess financial data.
+- Phase 10A changes admin UI/flow only; do not run `db:push`, run migrations, change schema, enable production writes, enable live Entra auth, approve invoices, assign official invoice numbers, generate PDFs, send invoices/statements, enable payments, Lexpro sync, WhatsApp, LLM calls or use real Burgess data.
 - Do not enable `BURGESS_PRODUCTION_AUTH_ENABLED`, `BURGESS_PRODUCTION_AUTH_CONFIGURED` or `BURGESS_PRODUCTION_WRITES_ENABLED` until Entra tenant/admin access, MFA policy, allowed users/domains, role claim approach, environment configuration, staging validation and production readiness review are complete.
 
 Hosting/environment workflow:
