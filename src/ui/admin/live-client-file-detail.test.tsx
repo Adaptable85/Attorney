@@ -27,16 +27,33 @@ describe("live client file detail", () => {
       updatedAt: new Date("2026-07-15T09:00:00.000Z")
     }
   ];
+  const matters = [
+    {
+      id: "matter_1",
+      clientId: "client_test_1",
+      clientDisplayName: "TEST Client File - Delete Later",
+      accountNumber: "TEST-MATTER-001",
+      name: "TEST Matter - Delete Later",
+      description: "Staging matter test",
+      type: "OTHER" as const,
+      status: "OPEN" as const,
+      nextStepDueDate: null,
+      updatedAt: new Date("2026-07-15T09:00:00.000Z")
+    }
+  ];
 
   it("renders saved staging client details with clickable panels and gated upload form", () => {
     const html = renderToStaticMarkup(
       <LiveClientFileDetail
         client={client}
+        matters={matters}
         documents={[]}
         billingItems={billingItems}
+        matterWritesEnabled={true}
         documentUploadsEnabled={true}
         billingItemsEnabled={true}
         uploaded={false}
+        matterCreated={true}
       />
     );
 
@@ -45,7 +62,12 @@ describe("live client file detail", () => {
     expect(html).toContain("TEST-001");
     expect(html).toContain("Test Contact");
     expect(html).toContain("href=\"#documents\"");
-    expect(html).toContain("Matter creation unavailable");
+    expect(html).toContain("Staging matter creation enabled");
+    expect(html).toContain("Open New Matter");
+    expect(html).toContain("/admin/clients/client_test_1/matters/new");
+    expect(html).toContain("TEST Matter - Delete Later");
+    expect(html).toContain("/admin/matters/matter_1");
+    expect(html).toContain("Staging matter opened and added to this client file.");
     expect(html).toContain("Test document upload enabled");
     expect(html).toContain("Staging document upload form");
     expect(html).toContain("Upload Test Document");
@@ -68,8 +90,10 @@ describe("live client file detail", () => {
           primaryContactEmail: null,
           primaryContactPhone: null
         }}
+        matters={[]}
         documents={[]}
         billingItems={[]}
+        matterWritesEnabled={false}
         documentUploadsEnabled={false}
         billingItemsEnabled={false}
         uploaded={false}
@@ -79,6 +103,7 @@ describe("live client file detail", () => {
     expect(html).toContain("No contact saved");
     expect(html).toContain("No email saved");
     expect(html).toContain("No phone saved");
+    expect(html).toContain("Matter gate off");
     expect(html).toContain("Upload gate off");
   });
 
@@ -86,6 +111,7 @@ describe("live client file detail", () => {
     const html = renderToStaticMarkup(
       <LiveClientFileDetail
         client={client}
+        matters={[]}
         documents={[
           {
             id: "document_1",
@@ -100,6 +126,7 @@ describe("live client file detail", () => {
           }
         ]}
         billingItems={[]}
+        matterWritesEnabled={false}
         documentUploadsEnabled={true}
         billingItemsEnabled={false}
         uploaded={true}

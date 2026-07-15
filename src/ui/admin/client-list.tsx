@@ -33,8 +33,8 @@ export function ClientList({
       <div className="client-safety-banner" role="note">
         <strong>Staging test data only.</strong>
         <span>Do not enter real Burgess client data.</span>
-        <span>Only new client file creation is enabled when the staging gate is on.</span>
-        <span>No matters, uploads, invoices, statements, LLM calls or production writes are enabled.</span>
+        <span>Client, matter and document actions are limited to explicit staging gates.</span>
+        <span>No edit, close, archive, invoices, statements, LLM calls or production writes are enabled.</span>
       </div>
 
       {created ? (

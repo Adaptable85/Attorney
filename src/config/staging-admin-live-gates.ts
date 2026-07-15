@@ -60,3 +60,14 @@ export function evaluateStagingBillingItemsGate(
     variableName: "BURGESS_STAGING_BILLING_ITEMS_ENABLED"
   });
 }
+
+export function evaluateStagingMatterWritesGate(
+  principal: AuthenticatedPrincipal | null,
+  environment: Partial<Record<string, string | undefined>> = process.env
+): StagingAdminLiveGateDecision {
+  return evaluateBooleanStagingGate({
+    principal,
+    environment,
+    variableName: "BURGESS_STAGING_MATTER_WRITES_ENABLED"
+  });
+}

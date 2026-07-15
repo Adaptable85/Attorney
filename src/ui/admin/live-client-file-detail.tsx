@@ -9,22 +9,31 @@ import {
 import type { ClientDocumentListItem } from "@/server/staging-documents";
 import { suggestDocumentFilename } from "@/server/staging-documents";
 import type { ClientFileListItem } from "@/server/staging-client-files";
+import type { StagingMatterListItem } from "@/server/staging-matters";
 
 export function LiveClientFileDetail({
   client,
+  matters,
   documents,
   billingItems,
+  matterWritesEnabled,
   documentUploadsEnabled,
   billingItemsEnabled,
   uploaded,
+  matterCreated,
+  matterError,
   uploadError
 }: Readonly<{
   client: ClientFileListItem;
+  matters: readonly StagingMatterListItem[];
   documents: readonly ClientDocumentListItem[];
   billingItems: readonly BillingItemTemplateListItem[];
+  matterWritesEnabled: boolean;
   documentUploadsEnabled: boolean;
   billingItemsEnabled: boolean;
   uploaded: boolean;
+  matterCreated?: boolean;
+  matterError?: string;
   uploadError?: string;
 }>) {
   const today = new Date().toISOString().slice(0, 10);
@@ -42,8 +51,8 @@ export function LiveClientFileDetail({
           <h1 id="client-detail-title">{client.displayName}</h1>
           <p>
             This client file is saved in the Railway staging database. Client
-            creation, test document uploads and reusable billing templates are
-            live for staging only.
+            creation, matter opening, test document uploads and reusable billing
+            templates are live for staging only.
           </p>
         </div>
         <span>Staging test file</span>
@@ -100,7 +109,9 @@ export function LiveClientFileDetail({
         <article className="client-review-card">
           <h2>Staging boundaries</h2>
           <ul className="client-disabled-actions">
-            <li data-disabled="true">Matter creation unavailable</li>
+            <li data-disabled={matterWritesEnabled ? "false" : "true"}>
+              {matterWritesEnabled ? "Staging matter creation enabled" : "Matter creation unavailable"}
+            </li>
             <li data-disabled={documentUploadsEnabled ? "false" : "true"}>
               {documentUploadsEnabled ? "Test document upload enabled" : "Document upload unavailable"}
             </li>
@@ -113,11 +124,62 @@ export function LiveClientFileDetail({
 
       <div className="client-review__grid">
         <article className="client-review-card" id="matters">
-          <h2>Matters</h2>
+          <div className="read-card__title-row">
+            <h2>Matters</h2>
+            {matterWritesEnabled ? (
+              <Link className="read-card__link" href={`/admin/clients/${client.id}/matters/new`}>
+                Open New Matter
+              </Link>
+            ) : null}
+          </div>
           <p>
-            Matter creation is still blocked. Future matters will sit inside this
-            client file before billing or document workflows are expanded.
+            Matters are saved inside this client file. Editing, closing,
+            invoicing and statement actions remain disabled.
           </p>
+          {matterCreated ? (
+            <div className="client-success-banner" role="status">
+              Staging matter opened and added to this client file.
+            </div>
+          ) : null}
+          {matterError ? (
+            <div className="client-safety-banner" role="alert">
+              <strong>Matter not saved.</strong>
+              <span>{matterError}</span>
+            </div>
+          ) : null}
+          {!matterWritesEnabled ? (
+            <div className="client-safety-banner" role="note">
+              <strong>Matter gate off.</strong>
+              <span>Set BURGESS_STAGING_MATTER_WRITES_ENABLED=true to test opening matters.</span>
+            </div>
+          ) : null}
+          {matters.length > 0 ? (
+            <div className="client-file-table" role="table" aria-label="Client matters">
+              <div className="client-file-table__row client-file-table__row--header" role="row">
+                <span role="columnheader">Matter</span>
+                <span role="columnheader">Reference</span>
+                <span role="columnheader">Type</span>
+                <span role="columnheader">Status</span>
+                <span role="columnheader">Updated</span>
+              </div>
+              {matters.map((matter) => (
+                <Link
+                  key={matter.id}
+                  className="client-file-table__row"
+                  href={`/admin/matters/${matter.id}`}
+                  role="row"
+                >
+                  <span role="cell">{matter.name}</span>
+                  <span role="cell">{matter.accountNumber}</span>
+                  <span role="cell">{matter.type}</span>
+                  <span role="cell">{matter.status}</span>
+                  <span role="cell">{matter.updatedAt.toISOString().slice(0, 10)}</span>
+                </Link>
+              ))}
+            </div>
+          ) : (
+            <p>No staging matters have been opened for this client file yet.</p>
+          )}
         </article>
 
         <article className="client-review-card" id="documents">

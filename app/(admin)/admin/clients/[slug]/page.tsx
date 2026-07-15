@@ -11,8 +11,10 @@ import { loadBillingItemTemplates } from "@/server/staging-billing-items";
 import { loadClientDocuments } from "@/server/staging-documents";
 import {
   evaluateStagingBillingItemsGate,
-  evaluateStagingDocumentUploadGate
+  evaluateStagingDocumentUploadGate,
+  evaluateStagingMatterWritesGate
 } from "@/config/staging-admin-live-gates";
+import { loadStagingMatters } from "@/server/staging-matters";
 
 export default async function AdminClientDetailPreviewPage({
   params,
@@ -20,6 +22,8 @@ export default async function AdminClientDetailPreviewPage({
 }: Readonly<{
   params: Promise<{ slug: string }>;
   searchParams?: Promise<{
+    matterCreated?: string;
+    matterError?: string;
     uploadError?: string;
     uploaded?: string;
   }>;
@@ -34,8 +38,10 @@ export default async function AdminClientDetailPreviewPage({
   const query = await searchParams;
   const client = getDemoClientReviewRecord(slug);
   const liveClient = await loadStagingClientFileDetail(slug);
+  const matters = liveClient ? await loadStagingMatters({ clientId: liveClient.id }) : [];
   const documents = liveClient ? await loadClientDocuments(liveClient.id) : [];
   const billingItems = await loadBillingItemTemplates({ activeOnly: true, limit: 8 });
+  const matterWritesEnabled = evaluateStagingMatterWritesGate(access.principal).enabled;
   const documentUploadsEnabled = evaluateStagingDocumentUploadGate(access.principal).enabled;
   const billingItemsEnabled = evaluateStagingBillingItemsGate(access.principal).enabled;
 
@@ -47,11 +53,15 @@ export default async function AdminClientDetailPreviewPage({
         {liveClient ? (
           <LiveClientFileDetail
             client={liveClient}
+            matters={matters}
             documents={documents}
             billingItems={billingItems}
+            matterWritesEnabled={matterWritesEnabled}
             documentUploadsEnabled={documentUploadsEnabled}
             billingItemsEnabled={billingItemsEnabled}
             uploaded={query?.uploaded === "1"}
+            matterCreated={query?.matterCreated === "1"}
+            matterError={query?.matterError}
             uploadError={query?.uploadError}
           />
         ) : client ? (

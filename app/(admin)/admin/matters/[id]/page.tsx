@@ -3,8 +3,10 @@ import { AdminAccessDenied } from "@/ui/admin/admin-access-denied";
 import { AdminHeader } from "@/ui/admin/admin-header";
 import { getVisibleAdminModules } from "@/ui/admin/admin-modules";
 import { AdminNav } from "@/ui/admin/admin-nav";
+import { loadStagingMatter } from "@/server/staging-matters";
 import { MatterDetail } from "@/ui/admin/matter-detail";
 import { getDemoMatterReviewRecord } from "@/ui/admin/matters-review-data";
+import { StagingMatterDetail } from "@/ui/admin/staging-matter-detail";
 
 export default async function AdminMatterDetailPage({
   params
@@ -16,6 +18,7 @@ export default async function AdminMatterDetailPage({
   }
 
   const { id } = await params;
+  const liveMatter = await loadStagingMatter(id);
   const matter = getDemoMatterReviewRecord(id);
 
   return (
@@ -23,7 +26,9 @@ export default async function AdminMatterDetailPage({
       <AdminNav modules={getVisibleAdminModules(access.principal)} />
       <main className="admin-main">
         <AdminHeader principal={access.principal} />
-        {matter ? (
+        {liveMatter ? (
+          <StagingMatterDetail matter={liveMatter} />
+        ) : matter ? (
           <MatterDetail matter={matter} />
         ) : (
           <section className="read-detail" aria-label="Demo matter not found">
