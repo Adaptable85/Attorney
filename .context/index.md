@@ -1,6 +1,6 @@
 # Context Index
 
-Status: Phase 10A GhostPractice-inspired admin workflow and visual redesign
+Status: Phase 10B simplified client-file, matter and invoice-item admin workflow
 
 Read order:
 

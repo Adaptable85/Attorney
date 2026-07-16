@@ -5,6 +5,7 @@ import {
   evaluateStagingMatterWritesGate
 } from "@/config/staging-admin-live-gates";
 import { loadMatterDocuments } from "@/server/staging-documents";
+import { loadBillingItemTemplates } from "@/server/staging-billing-items";
 import {
   loadMatterBillingLines,
   loadMatterDraftInvoices
@@ -48,6 +49,7 @@ export default async function AdminMatterDetailPage({
   const timeline = liveMatter ? await loadMatterTimeline(liveMatter.id) : [];
   const billingLines = liveMatter ? await loadMatterBillingLines(liveMatter.id) : [];
   const draftInvoices = liveMatter ? await loadMatterDraftInvoices(liveMatter.id) : [];
+  const billingItems = liveMatter ? await loadBillingItemTemplates({ activeOnly: true }) : [];
   const documentUploadsEnabled = evaluateStagingDocumentUploadGate(access.principal).enabled;
   const matterWritesEnabled = evaluateStagingMatterWritesGate(access.principal).enabled;
   const matterInvoicesEnabled = evaluateStagingMatterInvoicesGate(access.principal).enabled;
@@ -65,6 +67,7 @@ export default async function AdminMatterDetailPage({
             timeline={timeline}
             billingLines={billingLines}
             draftInvoices={draftInvoices}
+            billingItems={billingItems}
             documentUploadsEnabled={documentUploadsEnabled}
             matterWritesEnabled={matterWritesEnabled}
             matterInvoicesEnabled={matterInvoicesEnabled}

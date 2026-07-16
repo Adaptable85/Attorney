@@ -51,6 +51,18 @@ const draftInvoices = [{
   }]
 }];
 
+const billingItems = [{
+  id: "billing_template_1",
+  label: "Consultation",
+  category: "TIME" as const,
+  description: "Reusable consultation item",
+  amountCents: 85000,
+  currency: "ZAR",
+  vatTreatment: "VAT_ON_FEES" as const,
+  status: "ACTIVE" as const,
+  updatedAt: new Date("2026-07-15T09:00:00.000Z")
+}];
+
 describe("staging matter detail", () => {
   it("renders a staging matter workspace with document and timeline controls", () => {
     const html = renderToStaticMarkup(
@@ -81,6 +93,7 @@ describe("staging matter detail", () => {
         }]}
         billingLines={billingLines}
         draftInvoices={draftInvoices}
+        billingItems={billingItems}
         documentUploadsEnabled={true}
         matterWritesEnabled={true}
         matterInvoicesEnabled={true}
@@ -118,16 +131,22 @@ describe("staging matter detail", () => {
     expect(html).toContain("Billing");
     expect(html).toContain("href=\"#billing\"");
     expect(html).toContain("Staging matter billing line form");
+    expect(html).toContain("Reusable invoice item");
+    expect(html).toContain("Consultation - R 850,00");
+    expect(html).toContain("Manual billing entry");
     expect(html).toContain("Add Draft Billing Line");
     expect(html).toContain("Draft billing line added to this matter.");
     expect(html).toContain("Draft Invoices");
     expect(html).toContain("Create Draft Invoice");
     expect(html).toContain("DRAFT-TEST-MATTER-001-20260715-ABC123");
-    expect(html).toContain("Not assigned");
     expect(html).toContain("Draft invoice created and pulled into the client statement.");
-    expect(html).toContain("Statement Link");
-    expect(html).toContain("Audit");
+    expect(html).toContain("They pull through to the client statement as draft-only lines.");
+    expect(html).toContain("View client statement");
     expect(html).toContain("/admin/clients/client_1#statements");
+    expect(html).not.toContain("Statement Link");
+    expect(html).not.toContain("href=\"#statement-link\"");
+    expect(html).not.toContain("id=\"audit\"");
+    expect(html).not.toContain("Not assigned");
     expect(html).not.toContain("Approve invoice");
     expect(html).not.toContain("Send statement");
     expect(html).not.toContain("Official invoice number");
@@ -145,6 +164,7 @@ describe("staging matter detail", () => {
         timeline={[]}
         billingLines={[]}
         draftInvoices={[]}
+        billingItems={[]}
         documentUploadsEnabled={false}
         matterWritesEnabled={false}
         matterInvoicesEnabled={false}
@@ -214,6 +234,7 @@ describe("staging matter detail", () => {
         }]}
         billingLines={[]}
         draftInvoices={[]}
+        billingItems={[]}
         documentUploadsEnabled={true}
         matterWritesEnabled={true}
         matterInvoicesEnabled={false}

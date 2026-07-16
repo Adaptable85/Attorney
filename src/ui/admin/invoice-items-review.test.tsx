@@ -30,6 +30,7 @@ describe("invoice items review", () => {
 
     expect(html).toContain("Invoice Items");
     expect(html).toContain("Reusable billing building blocks");
+    expect(html).toContain("preparation inside matters");
     expect(html).toContain("Add billing item");
     expect(html).toContain("compact-admin-form");
     expect(html).toContain("Short reusable billing item name shown in lists.");

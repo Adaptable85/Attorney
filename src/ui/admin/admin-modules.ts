@@ -35,36 +35,6 @@ export const adminModules: readonly AdminModule[] = [
     phaseLabel: "Coming in later phase",
     isVisibleForRole: canViewFinancialRecords
   },
-  {
-    id: "lexpro-boundary",
-    title: "Lexpro Boundary",
-    navLabel: "Lexpro",
-    href: "/admin/lexpro",
-    description: "Accounting boundary placeholder only. Lexpro remains the accounting source of truth.",
-    status: "Not implemented yet",
-    phaseLabel: "Coming in later phase",
-    isVisibleForRole: canViewFinancialRecords
-  },
-  {
-    id: "audit-log",
-    title: "Audit Trail",
-    navLabel: "Audit",
-    href: "/admin/audit",
-    description: "Sensitive-action review placeholder. Live audit events are not displayed yet.",
-    status: "Not implemented yet",
-    phaseLabel: "Coming in later phase",
-    isVisibleForRole: canViewFinancialRecords
-  },
-  {
-    id: "access-control",
-    title: "Settings / Access Control",
-    navLabel: "Access",
-    href: "/admin/access",
-    description: "Role and gate review placeholder. Live Microsoft Entra auth and production writes remain disabled.",
-    status: "Not implemented yet",
-    phaseLabel: "Coming in later phase",
-    isVisibleForRole: canViewFinancialRecords
-  },
 ];
 
 export function getVisibleAdminModules(

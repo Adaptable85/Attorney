@@ -85,10 +85,9 @@ export function LiveClientFileDetail({
       <div className="client-file-tabs practice-tabs" aria-label="Client file sections">
         {[
           ["#overview", "Overview"],
-          ["#matters", "Matters"],
           ["#documents", "General Documents"],
-          ["#statements", "Statement"],
-          ["#audit", "Audit"]
+          ["#matters", "Matters"],
+          ["#statements", "Statement"]
         ].map(([href, tab]) => (
           <a key={href} href={href}>
             {tab}
@@ -125,88 +124,6 @@ export function LiveClientFileDetail({
               <dd>{client.updatedAt.toISOString().slice(0, 10)}</dd>
             </div>
           </dl>
-        </article>
-
-        <article className="client-review-card practice-panel">
-          <h2>Operational gates</h2>
-          <ul className="client-disabled-actions">
-            <li data-disabled={matterWritesEnabled ? "false" : "true"}>
-              {matterWritesEnabled ? "Staging matter creation enabled" : "Matter creation unavailable"}
-            </li>
-            <li data-disabled={documentUploadsEnabled ? "false" : "true"}>
-              {documentUploadsEnabled ? "Test document upload enabled" : "Document upload unavailable"}
-            </li>
-            <li data-disabled="true">Matter voice-note transcription unavailable</li>
-            <li data-disabled="true">Official invoice approval unavailable</li>
-            <li data-disabled="true">Statement sending unavailable</li>
-          </ul>
-        </article>
-      </div>
-
-      <div className="client-review__grid">
-        <article className="client-review-card practice-panel" id="matters">
-          <div className="read-card__title-row">
-            <h2>Matters</h2>
-            {matterWritesEnabled ? (
-              <Link className="practice-action practice-action--primary" href={`/admin/clients/${client.id}/matters/new`}>
-                Open New Matter
-              </Link>
-            ) : null}
-          </div>
-          <p>
-            Matters are saved inside this client file. Open a matter to add
-            matter-specific documents, notes, voice-note summaries, billing
-            lines and draft invoices.
-          </p>
-          {matterCreated ? (
-            <div className="client-success-banner" role="status">
-              Staging matter opened and added to this client file.
-            </div>
-          ) : null}
-          {matterError ? (
-            <div className="client-safety-banner" role="alert">
-              <strong>Matter not saved.</strong>
-              <span>{matterError}</span>
-            </div>
-          ) : null}
-          {!matterWritesEnabled ? (
-            <div className="client-safety-banner" role="note">
-              <strong>Matter gate off.</strong>
-              <span>Set BURGESS_STAGING_MATTER_WRITES_ENABLED=true to test opening matters.</span>
-            </div>
-          ) : null}
-          {matters.length > 0 ? (
-            <div className="client-file-table practice-table practice-table--matters" role="table" aria-label="Client matters">
-              <div className="client-file-table__row client-file-table__row--header practice-table__row" role="row">
-                <span role="columnheader">Matter</span>
-                <span role="columnheader">Reference</span>
-                <span role="columnheader">Type</span>
-                <span role="columnheader">Status</span>
-                <span role="columnheader">Updated</span>
-                <span role="columnheader">Actions</span>
-              </div>
-              {matters.map((matter) => (
-                <div
-                  key={matter.id}
-                  className="client-file-table__row practice-table__row"
-                  role="row"
-                >
-                  <span role="cell">{matter.name}</span>
-                  <span role="cell">{matter.accountNumber}</span>
-                  <span role="cell">{matter.type}</span>
-                  <span role="cell"><span className="practice-status">{matter.status}</span></span>
-                  <span role="cell">{matter.updatedAt.toISOString().slice(0, 10)}</span>
-                  <span role="cell" className="client-file-actions">
-                    <Link href={`/admin/matters/${matter.id}`}>Open</Link>
-                    <Link href={`/admin/matters/${matter.id}#documents`}>Docs</Link>
-                    <Link href={`/admin/matters/${matter.id}#draft-invoices`}>Invoices</Link>
-                  </span>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <p>No staging matters have been opened for this client file yet.</p>
-          )}
         </article>
 
         <article className="client-review-card practice-panel" id="documents">
@@ -316,44 +233,99 @@ export function LiveClientFileDetail({
         </article>
       </div>
 
-      <div className="client-review__grid">
-        <article className="client-review-card practice-panel" id="statements">
-          <h2>Statement</h2>
-          <p>
-            Draft statement lines pull through from draft invoices created inside
-            this client&apos;s matters. Draft only - not approved, not sent.
-          </p>
-          {statementLines.length ? (
-            <div className="client-file-table practice-table practice-table--statement" role="table" aria-label="Client draft statement lines">
-              <div className="client-file-table__row client-file-table__row--header practice-table__row" role="row">
-                <span role="columnheader">Matter</span>
-                <span role="columnheader">Draft invoice</span>
-                <span role="columnheader">Description</span>
-                <span role="columnheader">Debit</span>
-                <span role="columnheader">Balance</span>
-              </div>
-              {statementLines.map((line) => (
-                <div className="client-file-table__row practice-table__row" role="row" key={line.id}>
-                  <span role="cell">{line.matterReference ?? "Client"}</span>
-                  <span role="cell">{line.draftInvoiceReference ?? "Draft invoice"}</span>
-                  <span role="cell">{line.description}</span>
-                  <span role="cell">{formatDraftInvoiceMoney(line.debitCents)}</span>
-                  <span role="cell">{formatDraftInvoiceMoney(line.balanceCents)}</span>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <p>No matter draft invoices have pulled through to this client statement yet.</p>
-          )}
-        </article>
-      </div>
-
-      <article className="client-review-card practice-panel" id="audit">
-        <h2>Audit</h2>
+      <article className="client-review-card practice-panel" id="matters">
+        <div className="read-card__title-row">
+          <h2>Matters</h2>
+          {matterWritesEnabled ? (
+            <Link className="practice-action practice-action--primary" href={`/admin/clients/${client.id}/matters/new`}>
+              Open New Matter
+            </Link>
+          ) : null}
+        </div>
         <p>
-          Client creation, matter opening, test document uploads and draft
-          matter billing activity are audit logged in staging.
+          Matters are saved inside this client file. Open a matter to add
+          matter-specific documents, notes, voice-note summaries, billing
+          lines and draft invoices.
         </p>
+        {matterCreated ? (
+          <div className="client-success-banner" role="status">
+            Staging matter opened and added to this client file.
+          </div>
+        ) : null}
+        {matterError ? (
+          <div className="client-safety-banner" role="alert">
+            <strong>Matter not saved.</strong>
+            <span>{matterError}</span>
+          </div>
+        ) : null}
+        {!matterWritesEnabled ? (
+          <div className="client-safety-banner" role="note">
+            <strong>Matter creation unavailable.</strong>
+            <span>Set BURGESS_STAGING_MATTER_WRITES_ENABLED=true to test opening matters.</span>
+          </div>
+        ) : null}
+        {matters.length > 0 ? (
+          <div className="client-file-table practice-table practice-table--matters" role="table" aria-label="Client matters">
+            <div className="client-file-table__row client-file-table__row--header practice-table__row" role="row">
+              <span role="columnheader">Matter</span>
+              <span role="columnheader">Reference</span>
+              <span role="columnheader">Type</span>
+              <span role="columnheader">Status</span>
+              <span role="columnheader">Updated</span>
+              <span role="columnheader">Actions</span>
+            </div>
+            {matters.map((matter) => (
+              <div
+                key={matter.id}
+                className="client-file-table__row practice-table__row"
+                role="row"
+              >
+                <span role="cell">{matter.name}</span>
+                <span role="cell">{matter.accountNumber}</span>
+                <span role="cell">{matter.type}</span>
+                <span role="cell"><span className="practice-status">{matter.status}</span></span>
+                <span role="cell">{matter.updatedAt.toISOString().slice(0, 10)}</span>
+                <span role="cell" className="client-file-actions">
+                  <Link href={`/admin/matters/${matter.id}`}>Open</Link>
+                  <Link href={`/admin/matters/${matter.id}#documents`}>Docs</Link>
+                  <Link href={`/admin/matters/${matter.id}#draft-invoices`}>Invoices</Link>
+                </span>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p>No staging matters have been opened for this client file yet.</p>
+        )}
+      </article>
+
+      <article className="client-review-card practice-panel" id="statements">
+        <h2>Statement</h2>
+        <p>
+          Draft statement lines pull through from draft invoices created inside
+          this client&apos;s matters. Draft only - not approved, not sent.
+        </p>
+        {statementLines.length ? (
+          <div className="client-file-table practice-table practice-table--statement" role="table" aria-label="Client draft statement lines">
+            <div className="client-file-table__row client-file-table__row--header practice-table__row" role="row">
+              <span role="columnheader">Matter</span>
+              <span role="columnheader">Draft invoice</span>
+              <span role="columnheader">Description</span>
+              <span role="columnheader">Debit</span>
+              <span role="columnheader">Balance</span>
+            </div>
+            {statementLines.map((line) => (
+              <div className="client-file-table__row practice-table__row" role="row" key={line.id}>
+                <span role="cell">{line.matterReference ?? "Client"}</span>
+                <span role="cell">{line.draftInvoiceReference ?? "Draft invoice"}</span>
+                <span role="cell">{line.description}</span>
+                <span role="cell">{formatDraftInvoiceMoney(line.debitCents)}</span>
+                <span role="cell">{formatDraftInvoiceMoney(line.balanceCents)}</span>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p>No matter draft invoices have pulled through to this client statement yet.</p>
+        )}
       </article>
 
       <Link className="read-card__link" href="/admin/clients">

@@ -3,10 +3,7 @@ import Link from "next/link";
 import type { AdminModule } from "./admin-modules";
 
 export function AdminNav({ modules }: Readonly<{ modules: readonly AdminModule[] }>) {
-  const navItems = [
-    { href: "/admin", label: "Admin Home" },
-    ...modules.map((module) => ({ href: module.href, label: module.navLabel }))
-  ];
+  const navItems = modules.map((module) => ({ href: module.href, label: module.navLabel }));
   const uniqueNavItems = navItems.filter(
     (item, index, items) => items.findIndex((candidate) => candidate.href === item.href) === index
   );

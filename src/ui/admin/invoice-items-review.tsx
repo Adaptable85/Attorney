@@ -112,7 +112,7 @@ export function InvoiceItemsReview({
           <h1 id="invoice-items-title">Invoice Items</h1>
           <p>
             Load and edit reusable staging billing items for later draft invoice
-            preparation inside client files. These are not official invoices.
+            preparation inside matters. These are not official invoices.
           </p>
         </div>
         <span>{writesEnabled ? "Staging edit enabled" : "Edit gate off"}</span>

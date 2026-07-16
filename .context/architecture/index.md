@@ -53,6 +53,8 @@ Phase 9H adds Railway-staging matter draft billing lines, draft invoice creation
 
 Phase 10A redesigns the protected admin staging UI into a denser practice-file workflow inspired by legal practice management systems. `/admin/clients` is the primary Files workspace, client details keep general documents and statement context, and matter pages hold matter documents, notes / voice-note summaries, billing, draft invoices and statement pull-through. It adds no schema change, migration, `db:push`, production write, live auth, official invoice numbering, approval, PDF generation, sending, payment gateway, WhatsApp, Lexpro sync or LLM action.
 
+Phase 10B simplifies the protected staging admin workflow to Files and Invoice Items as normal navigation. Client files now focus on Overview, General Documents, Matters and Statement. Matter pages now focus on Overview, Matter Documents, Notes / Voice Notes, Billing and Draft Invoices. Active reusable Invoice Items can prefill matter billing fields as a UI assist, while server-side billing creation remains unchanged behind the existing staging invoice gate.
+
 ## Current Direction
 
 - TypeScript.
@@ -195,6 +197,7 @@ See:
 - Phase 9G document distinction: client file documents and matter documents are separated by UI wording and filename guidance only. No schema change, migration, route behavior change, gate change, production write, live auth, invoice/statement action, LLM call, WhatsApp, Lexpro sync or payment feature is exposed.
 - Phase 9H draft invoicing: private Railway-staging UI can create draft matter billing lines, draft matter invoices and client draft statement lines only when the staging admin password session and matter invoice gate are present. No production write, live Entra auth, invoice approval, official invoice number, PDF generation, sending, payment, LLM call, WhatsApp or Lexpro sync is exposed.
 - Phase 10A admin redesign: protected staging UI is denser and matter-centric, but it only rearranges existing safe staging capabilities. No schema change, migration, `db:push`, production write, live auth, approval, official invoice number, PDF generation, sending, payment, LLM call, WhatsApp or Lexpro sync is exposed.
+- Phase 10B admin simplification: protected staging UI keeps normal navigation to Files and Invoice Items only, removes client/matter clutter, and lets active invoice item templates prefill matter billing fields. No schema change, migration, `db:push`, production write, live auth, approval, official invoice number, PDF generation, sending, payment, LLM call, WhatsApp or Lexpro sync is exposed.
 - Agent service users: blocked from normal admin shell navigation.
 
 ## ADR Candidates

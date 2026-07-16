@@ -28,7 +28,7 @@ describe("admin module visibility", () => {
     expect(modules).toEqual([]);
   });
 
-  it("shows owner approval and audit placeholders", () => {
+  it("keeps normal navigation focused on files and invoice items", () => {
     const modules = getVisibleAdminModules({
       userId: "owner",
       email: "owner@example.test",
@@ -36,12 +36,11 @@ describe("admin module visibility", () => {
       provider: "local_dev_placeholder"
     });
 
-    expect(modules.map((module) => module.title)).toEqual(
-      expect.arrayContaining([
-        "Invoice Items",
-        "Audit Trail"
-      ])
-    );
+    expect(modules.map((module) => module.navLabel)).toEqual(["Files", "Invoice Items"]);
+    expect(modules.map((module) => module.navLabel)).not.toContain("Dashboard");
+    expect(modules.map((module) => module.navLabel)).not.toContain("Lexpro");
+    expect(modules.map((module) => module.navLabel)).not.toContain("Audit");
+    expect(modules.map((module) => module.navLabel)).not.toContain("Access");
   });
 
   it("keeps placeholder modules labelled as not implemented", () => {
@@ -67,6 +66,7 @@ describe("admin module visibility", () => {
     const hrefs = modules.map((module) => module.href);
 
     expect(hrefs).toEqual(expect.arrayContaining(["/admin/clients", "/admin/invoice-items"]));
+    expect(hrefs).toHaveLength(2);
     expect(hrefs).not.toContain("/admin/matters");
     expect(hrefs).not.toContain("/admin/documents");
     expect(hrefs).not.toContain("/admin/billing");

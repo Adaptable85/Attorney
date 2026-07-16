@@ -62,7 +62,8 @@ describe("live client file detail", () => {
     expect(html).toContain("Test Contact");
     expect(html).toContain("Draft statement");
     expect(html).toContain("href=\"#documents\"");
-    expect(html).toContain("Staging matter creation enabled");
+    expect(html).toContain("href=\"#matters\"");
+    expect(html).toContain("href=\"#statements\"");
     expect(html).toContain("Open New Matter");
     expect(html).toContain("/admin/clients/client_test_1/matters/new");
     expect(html).toContain("TEST Matter - Delete Later");
@@ -70,7 +71,6 @@ describe("live client file detail", () => {
     expect(html).toContain("Open a matter to add");
     expect(html).toContain("matter-specific documents, notes, voice-note summaries");
     expect(html).toContain("Staging matter opened and added to this client file.");
-    expect(html).toContain("Test document upload enabled");
     expect(html).toContain("Staging document upload form");
     expect(html).toContain("compact-admin-form");
     expect(html).toContain("General Documents");
@@ -84,8 +84,11 @@ describe("live client file detail", () => {
     expect(html).toContain("Suggested format: ClientName_ClientDocumentType_Date");
     expect(html).toContain("TEST_Client_File_Delete_Later_Identity_Document_");
     expect(html).not.toContain("Matter/reference label");
-    expect(html).toContain("Matter voice-note transcription unavailable");
-    expect(html).toContain("Official invoice approval unavailable");
+    expect(html).not.toContain("href=\"#audit\"");
+    expect(html).not.toContain("Operational gates");
+    expect(html).not.toContain("Matter voice-note transcription unavailable");
+    expect(html).not.toContain("Official invoice approval unavailable");
+    expect(html).not.toContain("Statement sending unavailable");
     expect(html).not.toContain("Billing Item Library");
     expect(html).not.toContain("Reusable Billing Items");
     expect(html).not.toContain("Manage list");
@@ -123,7 +126,7 @@ describe("live client file detail", () => {
     expect(html).toContain("No contact saved");
     expect(html).toContain("No email saved");
     expect(html).toContain("No phone saved");
-    expect(html).toContain("Matter gate off");
+    expect(html).toContain("Matter creation unavailable.");
     expect(html).toContain("Upload gate off");
     expect(html).toContain("No general client documents have been uploaded");
     expect(html).toContain("No matter draft invoices have pulled through");
