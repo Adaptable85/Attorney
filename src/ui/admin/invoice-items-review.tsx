@@ -17,6 +17,10 @@ const billingCategories = [
 
 const vatTreatments = ["VAT_ON_FEES", "NO_VAT", "VAT_EXEMPT", "CUSTOM"] as const;
 
+function formatDate(date: Date): string {
+  return date.toISOString().slice(0, 10);
+}
+
 function BillingItemFields({
   disabled,
   item
@@ -91,18 +95,34 @@ function BillingItemFields({
 
 export function InvoiceItemsReview({
   billingItems,
+  query,
   writesEnabled,
   databaseAvailable,
   saved,
   error
 }: Readonly<{
   billingItems: readonly BillingItemTemplateListItem[];
+  query?: string;
   writesEnabled: boolean;
   databaseAvailable: boolean;
   saved: boolean;
   error?: string;
 }>) {
   const disabled = !writesEnabled || !databaseAvailable;
+  const searchQuery = query?.trim() ?? "";
+  const normalizedQuery = searchQuery.toLowerCase();
+  const visibleBillingItems = normalizedQuery
+    ? billingItems.filter((item) =>
+        [
+          item.label,
+          item.description,
+          item.category,
+          item.vatTreatment,
+          item.status,
+          String(item.amountCents)
+        ].some((value) => value.toLowerCase().includes(normalizedQuery))
+      )
+    : billingItems;
 
   return (
     <section className="client-review" aria-labelledby="invoice-items-title">
@@ -155,17 +175,109 @@ export function InvoiceItemsReview({
           <strong>{billingItems.length}</strong>
         </article>
         <article>
-          <span>Amount storage</span>
-          <strong>Cents</strong>
+          <span>Showing</span>
+          <strong>{visibleBillingItems.length}</strong>
         </article>
         <article>
-          <span>Invoice approval</span>
-          <strong>Disabled</strong>
+          <span>Search</span>
+          <strong>{searchQuery ? "Active" : "Ready"}</strong>
         </article>
       </div>
 
-      <article className="client-review-card" aria-labelledby="new-billing-item-title">
-        <h2 id="new-billing-item-title">Add billing item</h2>
+      <section className="client-review-card practice-panel" aria-labelledby="invoice-items-filter-title">
+        <div className="client-list-toolbar practice-toolbar">
+          <div>
+            <h2 id="invoice-items-filter-title">Item filters</h2>
+            <p>Search reusable invoice items by label, category, amount or VAT treatment.</p>
+          </div>
+          {disabled ? (
+            <span className="practice-action" aria-disabled="true">
+              Add Invoice Item disabled
+            </span>
+          ) : (
+            <a className="practice-action practice-action--primary" href="#add-invoice-item">
+              Add Invoice Item
+            </a>
+          )}
+        </div>
+        <form className="client-search-form practice-filter-bar" action="/admin/invoice-items" role="search">
+          <label>
+            Search invoice items
+            <input
+              type="search"
+              name="q"
+              defaultValue={searchQuery}
+              placeholder="Consultation, drafting, disbursement, 85000"
+            />
+          </label>
+          <button type="submit">Search</button>
+          {searchQuery ? (
+            <a className="practice-action" href="/admin/invoice-items">
+              Clear
+            </a>
+          ) : null}
+          <span className="practice-filter-note">
+            Reusable templates appear in matter billing dropdowns.
+          </span>
+        </form>
+      </section>
+
+      <section
+        className="client-file-table practice-table practice-table--invoice-items"
+        role="table"
+        aria-label="Invoice item register"
+      >
+        <div className="client-file-table__row client-file-table__row--header practice-table__row" role="row">
+          <span role="columnheader">Item</span>
+          <span role="columnheader">Category</span>
+          <span role="columnheader">Description</span>
+          <span role="columnheader">Amount</span>
+          <span role="columnheader">VAT</span>
+          <span role="columnheader">Status</span>
+          <span role="columnheader">Updated</span>
+          <span role="columnheader">Actions</span>
+        </div>
+        {visibleBillingItems.map((item) => (
+          <div key={item.id} className="client-file-table__row practice-table__row" role="row">
+            <span role="cell">
+              <strong>{item.label}</strong>
+              <small>{item.amountCents} cents</small>
+            </span>
+            <span role="cell">{formatBillingCategory(item.category)}</span>
+            <span role="cell">{item.description}</span>
+            <span role="cell">{formatRandFromCents(item.amountCents)}</span>
+            <span role="cell">{formatVatTreatment(item.vatTreatment)}</span>
+            <span role="cell"><span className="practice-status">{item.status}</span></span>
+            <span role="cell">{formatDate(item.updatedAt)}</span>
+            <span role="cell" className="client-file-actions">
+              {disabled ? (
+                <span aria-disabled="true">Edit disabled</span>
+              ) : (
+                <a href={`#edit-${item.id}`}>Edit</a>
+              )}
+            </span>
+          </div>
+        ))}
+      </section>
+
+      {billingItems.length === 0 ? (
+        <article className="client-review-card">
+          <h2>No billing items saved yet</h2>
+          <p>Add consultation, drafting, correspondence, perusal, filing or admin-fee templates for staging tests.</p>
+        </article>
+      ) : null}
+      {billingItems.length > 0 && visibleBillingItems.length === 0 ? (
+        <article className="client-review-card">
+          <h2>No invoice items match this search</h2>
+          <p>Clear the filter to return to the full reusable item list.</p>
+        </article>
+      ) : null}
+
+      <article className="client-review-card invoice-item-panel" id="add-invoice-item" aria-labelledby="new-billing-item-title">
+        <div className="read-card__title-row">
+          <h2 id="new-billing-item-title">Add Invoice Item</h2>
+          <span>{disabled ? "Unavailable" : "Ready"}</span>
+        </div>
         <form className="compact-admin-form" action="/admin/invoice-items/create" method="post">
           <BillingItemFields disabled={disabled} />
           <button type="submit" disabled={disabled}>
@@ -174,32 +286,13 @@ export function InvoiceItemsReview({
         </form>
       </article>
 
-      <section className="client-review__grid" aria-label="Reusable billing item list">
-        {billingItems.map((item) => (
-          <article key={item.id} className="client-review-card">
+      <section className="invoice-item-edit-list" aria-label="Edit invoice items">
+        {visibleBillingItems.map((item) => (
+          <article key={item.id} id={`edit-${item.id}`} className="client-review-card invoice-item-panel">
             <div className="read-card__title-row">
-              <h2>{item.label}</h2>
-              <span>{item.status}</span>
+              <h2>Edit {item.label}</h2>
+              <a className="read-card__link" href="#invoice-items-title">Back to list</a>
             </div>
-            <p>{item.description}</p>
-            <dl>
-              <div>
-                <dt>Category</dt>
-                <dd>{formatBillingCategory(item.category)}</dd>
-              </div>
-              <div>
-                <dt>Amount</dt>
-                <dd>{formatRandFromCents(item.amountCents)}</dd>
-              </div>
-              <div>
-                <dt>Stored as</dt>
-                <dd>{item.amountCents} cents</dd>
-              </div>
-              <div>
-                <dt>VAT treatment</dt>
-                <dd>{formatVatTreatment(item.vatTreatment)}</dd>
-              </div>
-            </dl>
             <form
               className="compact-admin-form"
               action={`/admin/invoice-items/${item.id}/update`}
@@ -214,12 +307,6 @@ export function InvoiceItemsReview({
           </article>
         ))}
       </section>
-      {billingItems.length === 0 ? (
-        <article className="client-review-card">
-          <h2>No billing items saved yet</h2>
-          <p>Add consultation, drafting, correspondence, perusal, filing or admin-fee templates for staging tests.</p>
-        </article>
-      ) : null}
     </section>
   );
 }

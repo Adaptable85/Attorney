@@ -1,6 +1,6 @@
 # Context Index
 
-Status: Phase 10B simplified client-file, matter and invoice-item admin workflow
+Status: Phase 10C invoice items list view with add/edit workflow
 
 Read order:
 

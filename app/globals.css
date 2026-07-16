@@ -1332,6 +1332,27 @@ a {
     minmax(126px, 0.9fr);
 }
 
+.practice-table--invoice-items .practice-table__row {
+  grid-template-columns:
+    minmax(150px, 1fr)
+    minmax(105px, 0.75fr)
+    minmax(220px, 1.35fr)
+    minmax(95px, 0.7fr)
+    minmax(105px, 0.78fr)
+    minmax(80px, 0.62fr)
+    minmax(95px, 0.68fr)
+    minmax(90px, 0.7fr);
+}
+
+.invoice-item-panel {
+  scroll-margin-top: 24px;
+}
+
+.invoice-item-edit-list {
+  display: grid;
+  gap: 14px;
+}
+
 .client-review__hero {
   display: flex;
   align-items: flex-start;
@@ -1981,6 +2002,7 @@ a {
   .practice-table--billing .practice-table__row,
   .practice-table--invoices .practice-table__row,
   .practice-table--matter-index .practice-table__row,
+  .practice-table--invoice-items .practice-table__row,
   .read-list__grid,
   .read-card dl,
   .read-detail dl {

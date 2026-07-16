@@ -14,6 +14,7 @@ export default async function AdminInvoiceItemsPage({
 }: Readonly<{
   searchParams?: Promise<{
     error?: string;
+    q?: string;
     saved?: string;
   }>;
 }>) {
@@ -24,6 +25,7 @@ export default async function AdminInvoiceItemsPage({
   }
 
   const params = await searchParams;
+  const query = params?.q?.trim() ?? "";
   const pageState = getStagingBillingItemsPageState(access.principal);
   const billingItems = await loadBillingItemTemplates();
 
@@ -34,6 +36,7 @@ export default async function AdminInvoiceItemsPage({
         <AdminHeader principal={access.principal} />
         <InvoiceItemsReview
           billingItems={billingItems}
+          query={query}
           writesEnabled={pageState.writesEnabled}
           databaseAvailable={pageState.databaseAvailable}
           saved={params?.saved === "1"}
