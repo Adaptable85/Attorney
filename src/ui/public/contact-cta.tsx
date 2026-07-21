@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { contactDetails } from "./public-content";
+import { EmailLink, PhoneActions } from "./contact-links";
 
 export function ContactCta({
   eyebrow = "Connect With Us",
@@ -18,9 +18,10 @@ export function ContactCta({
         <Link className="public-button public-button--primary" href="/contact">
           Contact Us
         </Link>
-        <a className="public-button public-button--secondary" href={`mailto:${contactDetails.email}`}>
+        <EmailLink className="public-button public-button--secondary">
           Email Stephanie
-        </a>
+        </EmailLink>
+        <PhoneActions compact />
       </div>
     </section>
   );

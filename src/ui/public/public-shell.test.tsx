@@ -27,5 +27,8 @@ describe("public shell", () => {
     expect(html).toContain("public-nav public-nav--left");
     expect(html).toContain("public-nav public-nav--right");
     expect(html).toContain("%2Fbrand%2Fburgess-logo-header.png");
+    expect(html).toContain("href=\"mailto:stephanie@burgessinc.co.za\"");
+    expect(html).toContain("href=\"tel:+27787496223\"");
+    expect(html).toContain("href=\"https://wa.me/27787496223\"");
   });
 });

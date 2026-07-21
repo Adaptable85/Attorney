@@ -25,6 +25,8 @@ export type PublicTrustSignal = {
 export const contactDetails = {
   email: "stephanie@burgessinc.co.za",
   phone: "078 749 6223",
+  phoneHref: "tel:+27787496223",
+  whatsappHref: "https://wa.me/27787496223",
   address: "10 Nuxia Street, Kuilsriver",
   region: "Kuils River, Cape Town and the Northern Suburbs"
 } as const;

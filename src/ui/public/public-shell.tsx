@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
 
+import { EmailLink, PhoneActions } from "./contact-links";
 import { contactDetails } from "./public-content";
 
 const navItems = [
@@ -58,8 +59,9 @@ export function PublicShell({ children }: Readonly<{ children: ReactNode }>) {
           <p>Traditional values applied innovatively, with personal attention to detail.</p>
         </div>
         <address>
-          <a href={`mailto:${contactDetails.email}`}>{contactDetails.email}</a>
-          <a href={`tel:${contactDetails.phone.replace(/\s/g, "")}`}>{contactDetails.phone}</a>
+          <EmailLink />
+          <span>{contactDetails.phone}</span>
+          <PhoneActions compact />
           <span>{contactDetails.address}</span>
         </address>
       </footer>

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 
+import { EmailLink, PhoneActions } from "@/ui/public/contact-links";
 import { contactDetails } from "@/ui/public/public-content";
 import { PublicShell } from "@/ui/public/public-shell";
 
@@ -23,14 +24,15 @@ export default function ContactPage() {
         </section>
 
         <section className="contact-panel contact-panel--premium" aria-label="Contact details">
-          <a href={`mailto:${contactDetails.email}`}>
+          <p>
             <span>Email</span>
-            {contactDetails.email}
-          </a>
-          <a href={`tel:${contactDetails.phone.replace(/\s/g, "")}`}>
+            <EmailLink />
+          </p>
+          <p>
             <span>Phone</span>
             {contactDetails.phone}
-          </a>
+            <PhoneActions />
+          </p>
           <p>
             <span>Address</span>
             {contactDetails.address}

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 
 import { ContactCta } from "@/ui/public/contact-cta";
+import { EmailLink, PhoneActions } from "@/ui/public/contact-links";
 import { contactDetails, founderStory, stephanieProfile } from "@/ui/public/public-content";
 import { PublicShell } from "@/ui/public/public-shell";
 
@@ -51,8 +52,9 @@ export default function TeamPage() {
             </p>
           </div>
           <address>
-            <a href={`mailto:${contactDetails.email}`}>{contactDetails.email}</a>
-            <a href={`tel:${contactDetails.phone.replace(/\s/g, "")}`}>{contactDetails.phone}</a>
+            <EmailLink />
+            <span>{contactDetails.phone}</span>
+            <PhoneActions />
           </address>
         </section>
 

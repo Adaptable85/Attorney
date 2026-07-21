@@ -233,6 +233,38 @@ a {
   color: var(--burgess-charcoal);
 }
 
+.contact-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.contact-actions a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 38px;
+  border: 1px solid rgba(38, 106, 154, 0.24);
+  border-radius: 999px;
+  background: #ffffff;
+  padding: 8px 14px;
+  color: var(--burgess-accent);
+  font-size: 13px;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.contact-actions a:hover,
+.contact-actions a:focus {
+  border-color: var(--burgess-accent);
+  background: var(--burgess-accent-soft);
+  outline: none;
+}
+
+.contact-actions--compact {
+  align-items: center;
+}
+
 .premium-hero {
   display: grid;
   grid-template-columns: minmax(0, 1.04fr) minmax(340px, 0.96fr);

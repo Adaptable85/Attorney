@@ -31,7 +31,9 @@ describe("home page", () => {
     expect(html).not.toContain("Admin Platform Foundation");
     expect(html).not.toContain("Yoco");
     expect(html).not.toContain("Payfast");
-    expect(html).not.toContain("WhatsApp");
+    expect(html).toContain("href=\"tel:+27787496223\"");
+    expect(html).toContain("href=\"https://wa.me/27787496223\"");
+    expect(html).not.toContain("WhatsApp automation");
     expect(html).not.toContain("Lexpro");
     expect(html.length).toBeGreaterThan(5200);
   });

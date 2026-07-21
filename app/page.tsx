@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { ContactCta } from "@/ui/public/contact-cta";
+import { EmailLink, PhoneActions } from "@/ui/public/contact-links";
 import {
   contactDetails,
   founderStory,
@@ -136,8 +137,9 @@ export default function Home() {
             </p>
           </div>
           <address>
-            <a href={`mailto:${contactDetails.email}`}>{contactDetails.email}</a>
-            <a href={`tel:${contactDetails.phone.replace(/\s/g, "")}`}>{contactDetails.phone}</a>
+            <EmailLink />
+            <span>{contactDetails.phone}</span>
+            <PhoneActions />
             <span>{contactDetails.address}</span>
           </address>
         </section>
