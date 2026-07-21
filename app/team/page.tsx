@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 
 import { ContactCta } from "@/ui/public/contact-cta";
 import { contactDetails, founderStory, stephanieProfile } from "@/ui/public/public-content";
@@ -21,9 +22,13 @@ export default function TeamPage() {
         </section>
 
         <section className="profile-card profile-card--premium" aria-labelledby="profile-title">
-          <div className="profile-card__mark" aria-hidden="true">
-            SB
-          </div>
+          <Image
+            className="profile-card__photo"
+            src="/brand/stephanie-burgess.jpg"
+            alt="Stephanie Burgess"
+            width={840}
+            height={1078}
+          />
           <div>
             <p className="public-eyebrow">{founderStory.eyebrow}</p>
             <h2 id="profile-title">{founderStory.title}</h2>

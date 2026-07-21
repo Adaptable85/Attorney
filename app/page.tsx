@@ -86,8 +86,13 @@ export default function Home() {
         </section>
 
         <section className="founder-feature" aria-labelledby="founder-title">
-          <div className="founder-feature__portrait" aria-hidden="true">
-            <span>SB</span>
+          <div className="founder-feature__portrait">
+            <Image
+              src="/brand/stephanie-burgess.jpg"
+              alt="Stephanie Burgess"
+              width={840}
+              height={1078}
+            />
           </div>
           <div className="founder-feature__copy">
             <p className="public-eyebrow">About Stephanie</p>

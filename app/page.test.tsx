@@ -9,6 +9,7 @@ describe("home page", () => {
 
     expect(html).toContain("Burgess Attorneys");
     expect(html).toContain("%2Fbrand%2Fburgess-logo-header.png");
+    expect(html).toContain("%2Fbrand%2Fstephanie-burgess.jpg");
     expect(html).toContain("Boutique legal support in Kuils River");
     expect(html).toContain("Practical legal guidance, handled with personal attention.");
     expect(html).toContain("Speak to Stephanie");

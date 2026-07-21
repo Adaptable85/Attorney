@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 
 import { ContactCta } from "@/ui/public/contact-cta";
 import { contactDetails, founderStory, stephanieProfile, trustSignals } from "@/ui/public/public-content";
@@ -39,9 +40,13 @@ export default function AboutPage() {
             </p>
           </article>
           <article className="about-founder-card">
-            <div className="profile-card__mark" aria-hidden="true">
-              SB
-            </div>
+            <Image
+              className="profile-card__photo"
+              src="/brand/stephanie-burgess.jpg"
+              alt="Stephanie Burgess"
+              width={840}
+              height={1078}
+            />
             <div>
               <p className="public-eyebrow">About Stephanie</p>
               <h2>{stephanieProfile.name}</h2>

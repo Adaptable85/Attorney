@@ -8,6 +8,7 @@ describe("team public page", () => {
     const html = renderToStaticMarkup(<TeamPage />);
 
     expect(html).toContain("Stephanie Burgess");
+    expect(html).toContain("%2Fbrand%2Fstephanie-burgess.jpg");
     expect(html).toContain("Ladies with a passion for justice");
     expect(html).toContain("Stephanie brings calm structure to serious legal matters.");
     expect(html).toContain("University of Pretoria");
