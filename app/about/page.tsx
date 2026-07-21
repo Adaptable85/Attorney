@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { ContactCta } from "@/ui/public/contact-cta";
+import { stephanieProfile } from "@/ui/public/public-content";
 import { PublicShell } from "@/ui/public/public-shell";
 
 export const metadata: Metadata = {
@@ -15,14 +16,15 @@ export default function AboutPage() {
       <main className="public-main public-main--narrow" aria-labelledby="about-title">
         <section className="page-hero">
           <p className="public-eyebrow">About Burgess Attorneys</p>
-          <h1 id="about-title">A short insight About Us</h1>
+          <h1 id="about-title">A boutique firm with a personal way of working</h1>
           <p>
             Burgess Attorneys Inc is a boutique law firm based in Kuils River, serving clients in
-            Cape Town and the Northern Suburbs with careful attention to detail.
+            Cape Town and the Northern Suburbs with calm, practical legal support and careful
+            attention to detail.
           </p>
         </section>
 
-        <section className="content-stack">
+        <section className="content-stack content-stack--soft">
           <article>
             <h2>Firm background</h2>
             <p>
@@ -30,6 +32,26 @@ export default function AboutPage() {
               sole proprietor Burgess Attorneys. The firm focuses on developing positive, sharing
               and productive lifelong relationships with clients and their business partners.
             </p>
+          </article>
+          <article className="about-founder-card">
+            <div className="profile-card__mark" aria-hidden="true">
+              SB
+            </div>
+            <div>
+              <p className="public-eyebrow">About Stephanie</p>
+              <h2>{stephanieProfile.name}</h2>
+              <p>{stephanieProfile.summary}</p>
+              <p>
+                Her approach is direct, prepared and personal. Clients can expect clear explanation,
+                careful document review and guidance that respects both the legal position and the
+                practical pressure a matter can place on a person, family or business.
+              </p>
+              <ul>
+                {stephanieProfile.highlights.map((highlight) => (
+                  <li key={highlight}>{highlight}</li>
+                ))}
+              </ul>
+            </div>
           </article>
           <article>
             <h2>Personal attention</h2>
