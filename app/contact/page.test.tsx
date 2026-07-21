@@ -14,6 +14,7 @@ describe("contact public page", () => {
     expect(html).toContain("href=\"mailto:stephanie@burgessinc.co.za\"");
     expect(html).toContain("href=\"tel:+27787496223\"");
     expect(html).toContain("href=\"https://wa.me/27787496223\"");
+    expect(html).toContain("contact-icon");
     expect(html).toContain("WhatsApp");
     expect(html).toContain("Contact Us");
     expect(html).toContain("Keep the first message simple and safe.");

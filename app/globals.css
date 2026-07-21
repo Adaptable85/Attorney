@@ -239,10 +239,31 @@ a {
   gap: 8px;
 }
 
+.contact-panel a[href^="mailto:"],
+.contact-ribbon address a[href^="mailto:"],
+.public-footer address a[href^="mailto:"],
+.public-button[href^="mailto:"] {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.contact-icon {
+  width: 17px;
+  height: 17px;
+  flex: 0 0 auto;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.9;
+}
+
 .contact-actions a {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 7px;
   min-height: 38px;
   border: 1px solid rgba(38, 106, 154, 0.24);
   border-radius: 999px;
