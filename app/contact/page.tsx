@@ -15,14 +15,14 @@ export default function ContactPage() {
       <main className="public-main public-main--narrow" aria-labelledby="contact-title">
         <section className="page-hero">
           <p className="public-eyebrow">Contact Burgess Attorneys</p>
-          <h1 id="contact-title">Speak to the firm about your matter</h1>
+          <h1 id="contact-title">Start with a clear conversation.</h1>
           <p>
-            Use the email or phone details below to contact Burgess Attorneys. This website does not
-            collect private matter information and does not provide an active contact form.
+            Use the direct details below to contact Burgess Attorneys. This website does not collect
+            private matter information and does not provide an active contact form.
           </p>
         </section>
 
-        <section className="contact-panel" aria-label="Contact details">
+        <section className="contact-panel contact-panel--premium" aria-label="Contact details">
           <a href={`mailto:${contactDetails.email}`}>
             <span>Email</span>
             {contactDetails.email}
@@ -34,6 +34,16 @@ export default function ContactPage() {
           <p>
             <span>Address</span>
             {contactDetails.address}
+          </p>
+        </section>
+
+        <section className="public-flow-band" aria-labelledby="contact-flow-title">
+          <p className="public-eyebrow">Before you send details</p>
+          <h2 id="contact-flow-title">Keep the first message simple and safe.</h2>
+          <p>
+            A short message with your name, contact number and the broad type of matter is enough
+            for an initial enquiry. Sensitive documents and detailed facts should wait until the
+            firm confirms the appropriate next step.
           </p>
         </section>
 

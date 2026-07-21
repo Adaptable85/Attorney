@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 import { ContactCta } from "@/ui/public/contact-cta";
-import { stephanieProfile } from "@/ui/public/public-content";
+import { contactDetails, founderStory, stephanieProfile, trustSignals } from "@/ui/public/public-content";
 import { PublicShell } from "@/ui/public/public-shell";
 
 export const metadata: Metadata = {
@@ -16,11 +16,11 @@ export default function AboutPage() {
       <main className="public-main public-main--narrow" aria-labelledby="about-title">
         <section className="page-hero">
           <p className="public-eyebrow">About Burgess Attorneys</p>
-          <h1 id="about-title">A boutique firm with a personal way of working</h1>
+          <h1 id="about-title">A boutique firm built around personal attention.</h1>
           <p>
-            Burgess Attorneys Inc is a boutique law firm based in Kuils River, serving clients in
-            Cape Town and the Northern Suburbs with calm, practical legal support and careful
-            attention to detail.
+            Burgess Attorneys Inc is based in {contactDetails.region}. The firm keeps the client
+            conversation close, practical and careful from the first enquiry through to the next
+            legal step.
           </p>
         </section>
 
@@ -32,6 +32,11 @@ export default function AboutPage() {
               sole proprietor Burgess Attorneys. The firm focuses on developing positive, sharing
               and productive lifelong relationships with clients and their business partners.
             </p>
+            <p>
+              Traditional values are not treated as old-fashioned. They are applied with modern
+              responsiveness, clear communication and attention to the documents behind every
+              matter.
+            </p>
           </article>
           <article className="about-founder-card">
             <div className="profile-card__mark" aria-hidden="true">
@@ -40,18 +45,22 @@ export default function AboutPage() {
             <div>
               <p className="public-eyebrow">About Stephanie</p>
               <h2>{stephanieProfile.name}</h2>
-              <p>{stephanieProfile.summary}</p>
-              <p>
-                Her approach is direct, prepared and personal. Clients can expect clear explanation,
-                careful document review and guidance that respects both the legal position and the
-                practical pressure a matter can place on a person, family or business.
-              </p>
+              <p>{founderStory.summary}</p>
+              <p>{founderStory.philosophy}</p>
               <ul>
-                {stephanieProfile.highlights.map((highlight) => (
+                {founderStory.credentials.map((highlight) => (
                   <li key={highlight}>{highlight}</li>
                 ))}
               </ul>
             </div>
+          </article>
+          <article className="trust-grid trust-grid--about" aria-label="Burgess Attorneys trust signals">
+            {trustSignals.map((signal) => (
+              <div key={signal.label}>
+                <h2>{signal.label}</h2>
+                <p>{signal.value}</p>
+              </div>
+            ))}
           </article>
           <article>
             <h2>Personal attention</h2>

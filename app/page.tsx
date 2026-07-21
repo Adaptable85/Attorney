@@ -2,16 +2,23 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { ContactCta } from "@/ui/public/contact-cta";
-import { processSteps, serviceGroups, stephanieProfile, testimonial } from "@/ui/public/public-content";
+import {
+  contactDetails,
+  founderStory,
+  homepageSections,
+  processSteps,
+  servicePathways,
+  testimonial,
+  trustSignals
+} from "@/ui/public/public-content";
 import { PublicShell } from "@/ui/public/public-shell";
-import { ServiceCard } from "@/ui/public/service-card";
 
 export default function Home() {
   return (
     <PublicShell>
-      <main className="public-main" aria-labelledby="home-title">
-        <section className="public-hero">
-          <div className="public-hero__copy">
+      <main className="public-main public-main--premium" aria-labelledby="home-title">
+        <section className="premium-hero">
+          <div className="premium-hero__copy">
             <Image
               className="public-hero__logo"
               src="/brand/burgess-logo-header.png"
@@ -20,117 +27,125 @@ export default function Home() {
               height={182}
               priority
             />
-            <p className="public-eyebrow">Welcome to Burgess Attorneys</p>
-            <h1 id="home-title">How can we be of assistance?</h1>
+            <p className="public-eyebrow">{homepageSections.heroEyebrow}</p>
+            <h1 id="home-title">{homepageSections.heroTitle}</h1>
             <p>
-              Practical legal support from a boutique firm in Kuils River and the Northern Suburbs
-              of Cape Town. The flow is personal and clear: understand the matter, decide on the
-              next step and move forward with careful guidance.
+              Burgess Attorneys is a boutique firm for people and businesses who need clear legal
+              advice, careful document work and a calm explanation of what should happen next.
             </p>
             <div className="public-hero__actions">
               <Link className="public-button public-button--primary" href="/contact">
-                Speak to Stephanie
+                {homepageSections.heroCta}
               </Link>
               <Link className="public-button public-button--secondary" href="/services">
-                View Services
+                {homepageSections.serviceCta}
               </Link>
             </div>
           </div>
-          <div className="public-hero__visual" aria-label="Burgess Attorneys legal services">
-            <p className="public-eyebrow">How the firm helps</p>
-            {processSteps.map((step) => (
-              <article key={step.title}>
-                <span>{step.title}</span>
-                <p>{step.summary}</p>
+          <aside className="premium-hero__panel" aria-label="Burgess Attorneys client pathway">
+            <p className="public-eyebrow">How the firm works</p>
+            <h2>Personal attention before legal action.</h2>
+            <div className="premium-hero__steps">
+              {processSteps.map((step, index) => (
+                <article key={step.title}>
+                  <span>{String(index + 1).padStart(2, "0")}</span>
+                  <div>
+                    <h3>{step.title}</h3>
+                    <p>{step.summary}</p>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </aside>
+        </section>
+
+        <section className="intent-strip" aria-labelledby="client-intent-title">
+          <div className="public-section__header">
+            <p className="public-eyebrow">Start with the right path</p>
+            <h2 id="client-intent-title">{homepageSections.intentTitle}</h2>
+            <p>
+              Choose the closest starting point. The first conversation can then confirm whether
+              Burgess Attorneys is able to assist with your specific facts and documents.
+            </p>
+          </div>
+          <div className="pathway-grid">
+            {servicePathways.map((pathway) => (
+              <article className="pathway-card" key={pathway.title}>
+                <p>{pathway.audience}</p>
+                <h3>{pathway.title}</h3>
+                <span>{pathway.summary}</span>
+                <ul>
+                  {pathway.services.slice(0, 4).map((service) => (
+                    <li key={service}>{service}</li>
+                  ))}
+                </ul>
+                <Link href="/contact">{pathway.ctaLabel}</Link>
               </article>
             ))}
           </div>
         </section>
 
-        <section className="process-strip" aria-label="Burgess Attorneys process">
-          {processSteps.map((step) => (
-            <article key={step.title}>
-              <h2>{step.title}</h2>
-              <p>{step.summary}</p>
-            </article>
-          ))}
-        </section>
-
-        <section className="public-split" aria-labelledby="home-about-title">
-          <div>
-            <p className="public-eyebrow">About the firm</p>
-            <h2 id="home-about-title">A short insight about Burgess Attorneys</h2>
-            <p>
-              Burgess Attorneys Inc was founded on 1 September 2021 after the incorporation of the
-              sole proprietor Burgess Attorneys. The firm is intentionally boutique: clients are not
-              treated like file numbers, and matters are approached with careful attention to the
-              people, documents and decisions involved.
-            </p>
-            <p>
-              The aim is to keep traditional values present while applying experience in a
-              practical, modern and responsive way.
-            </p>
-            <Link className="public-text-link" href="/about">
-              Learn more about the firm
-            </Link>
+        <section className="founder-feature" aria-labelledby="founder-title">
+          <div className="founder-feature__portrait" aria-hidden="true">
+            <span>SB</span>
           </div>
-          <aside className="profile-highlight" aria-labelledby="home-profile-title">
-            <p className="public-eyebrow">Ladies with a passion for justice</p>
-            <h2 id="home-profile-title">About Stephanie</h2>
-            <p>
-              <strong>{stephanieProfile.name}</strong> · {stephanieProfile.title}
-            </p>
-            <p>
-              Stephanie brings together litigation experience, insolvency knowledge and a grounded
-              client-facing style shaped by her journey from Pretoria to Cape Town.
-            </p>
+          <div className="founder-feature__copy">
+            <p className="public-eyebrow">About Stephanie</p>
+            <h2 id="founder-title">{homepageSections.founderTitle}</h2>
+            <p>{founderStory.summary}</p>
+            <p>{founderStory.philosophy}</p>
             <ul>
-              {stephanieProfile.highlights.slice(0, 3).map((highlight) => (
-                <li key={highlight}>{highlight}</li>
+              {founderStory.credentials.map((credential) => (
+                <li key={credential}>{credential}</li>
               ))}
             </ul>
-          </aside>
+            <Link className="public-text-link" href="/team">
+              Meet Stephanie
+            </Link>
+          </div>
         </section>
 
-        <section className="public-section public-section--services" aria-labelledby="home-services-title">
-          <div className="public-section__header">
-            <p className="public-eyebrow">Have a look at</p>
-            <h2 id="home-services-title">Our Services</h2>
-            <p>
-              Providing timely and reliable service that is focused and sensitive to our
-              clients&apos; specific needs and instructions.
-            </p>
+        <section className="trust-band" aria-labelledby="trust-title">
+          <div>
+            <p className="public-eyebrow">Trust signals</p>
+            <h2 id="trust-title">{homepageSections.trustTitle}</h2>
           </div>
-          <div className="service-grid">
-            {serviceGroups.slice(0, 3).map((group) => (
-              <ServiceCard key={group.title} group={group} />
+          <div className="trust-grid">
+            {trustSignals.map((signal) => (
+              <article key={signal.label}>
+                <h3>{signal.label}</h3>
+                <p>{signal.value}</p>
+              </article>
             ))}
           </div>
         </section>
 
-        <section className="public-flow-band" aria-labelledby="home-commitment-title">
-          <p className="public-eyebrow">Your success drives our commitment</p>
-          <h2 id="home-commitment-title">Information, support and practical legal direction.</h2>
-          <p>
-            The public website should feel calm, welcoming and easy to move through, while the
-            protected admin platform remains separate for client files, matters, documents and
-            billing workflows.
-          </p>
-          <Link className="public-button public-button--primary" href="/contact">
-            Contact Us
-          </Link>
-        </section>
-
-        <section className="testimonial-section" aria-labelledby="home-testimonial-title">
+        <section className="testimonial-section testimonial-section--premium" aria-labelledby="home-testimonial-title">
           <p className="public-eyebrow">What do our clients say</p>
-          <h2 id="home-testimonial-title">In Our Testimonials</h2>
+          <h2 id="home-testimonial-title">Client words, responsibly presented.</h2>
           <blockquote>
             <p>{testimonial.quote}</p>
             <cite>{testimonial.author}</cite>
           </blockquote>
         </section>
 
-        <ContactCta />
+        <section className="contact-ribbon" aria-labelledby="home-contact-title">
+          <div>
+            <p className="public-eyebrow">Direct contact</p>
+            <h2 id="home-contact-title">{homepageSections.contactTitle}</h2>
+            <p>
+              Initial contact should be used to arrange the appropriate next step. Please do not
+              send urgent or sensitive detail before the firm confirms how it can assist.
+            </p>
+          </div>
+          <address>
+            <a href={`mailto:${contactDetails.email}`}>{contactDetails.email}</a>
+            <a href={`tel:${contactDetails.phone.replace(/\s/g, "")}`}>{contactDetails.phone}</a>
+            <span>{contactDetails.address}</span>
+          </address>
+        </section>
+
+        <ContactCta title="Legal representation at your finger tips" />
       </main>
     </PublicShell>
   );

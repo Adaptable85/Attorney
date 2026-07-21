@@ -8,11 +8,13 @@ describe("about public page", () => {
     const html = renderToStaticMarkup(<AboutPage />);
 
     expect(html).toContain("About Burgess Attorneys");
-    expect(html).toContain("A boutique firm with a personal way of working");
+    expect(html).toContain("A boutique firm built around personal attention.");
     expect(html).toContain("1 September 2021");
     expect(html).toContain("About Stephanie");
     expect(html).toContain("Stephanie Burgess");
     expect(html).toContain("practical pressure a matter can place");
+    expect(html).toContain("Direct attorney contact");
+    expect(html).toContain("Careful boundaries");
     expect(html).toContain("Traditional values, applied innovatively");
     expect(html).toContain("Kuils River");
     expect(html).toContain("no website statement should be read as a guarantee");
