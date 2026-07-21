@@ -44,11 +44,20 @@ export function EmailLink({
 export function PhoneActions({ compact = false }: Readonly<{ compact?: boolean }>) {
   return (
     <span className={compact ? "contact-actions contact-actions--compact" : "contact-actions"}>
-      <a aria-label={`Call ${contactDetails.phone}`} href={contactDetails.phoneHref}>
+      <a
+        className="contact-action contact-action--call"
+        aria-label={`Call ${contactDetails.phone}`}
+        href={contactDetails.phoneHref}
+      >
         <ContactIcon type="call" />
         <span>Call</span>
       </a>
-      <a href={contactDetails.whatsappHref} rel="noopener noreferrer" target="_blank">
+      <a
+        className="contact-action contact-action--whatsapp"
+        href={contactDetails.whatsappHref}
+        rel="noopener noreferrer"
+        target="_blank"
+      >
         <ContactIcon type="whatsapp" />
         <span>WhatsApp</span>
       </a>

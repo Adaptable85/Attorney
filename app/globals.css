@@ -235,8 +235,9 @@ a {
 
 .contact-actions {
   display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 10px;
 }
 
 .contact-panel a[href^="mailto:"],
@@ -246,6 +247,13 @@ a {
   display: inline-flex;
   align-items: center;
   gap: 8px;
+}
+
+.contact-panel a[href^="mailto:"] .contact-icon,
+.contact-ribbon address a[href^="mailto:"] .contact-icon,
+.public-footer address a[href^="mailto:"] .contact-icon,
+.public-button[href^="mailto:"] .contact-icon {
+  color: #2d8fd5;
 }
 
 .contact-icon {
@@ -262,28 +270,63 @@ a {
 .contact-actions a {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  gap: 7px;
-  min-height: 38px;
-  border: 1px solid rgba(38, 106, 154, 0.24);
-  border-radius: 999px;
+  justify-content: flex-start;
+  gap: 10px;
+  min-height: 44px;
+  border: 1px solid rgba(21, 48, 73, 0.1);
+  border-radius: 14px;
   background: #ffffff;
-  padding: 8px 14px;
-  color: var(--burgess-accent);
+  box-shadow: 0 8px 18px rgba(21, 48, 73, 0.06);
+  padding: 9px 14px 9px 10px;
+  color: var(--burgess-charcoal);
   font-size: 13px;
   font-weight: 800;
   text-decoration: none;
 }
 
+.contact-actions a .contact-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  padding: 7px;
+  stroke-width: 2.15;
+}
+
+.contact-action--call .contact-icon {
+  background: rgba(45, 143, 213, 0.13);
+  color: #1d75b8;
+}
+
+.contact-action--whatsapp .contact-icon {
+  background: rgba(37, 211, 102, 0.16);
+  color: #128c4a;
+}
+
 .contact-actions a:hover,
 .contact-actions a:focus {
-  border-color: var(--burgess-accent);
-  background: var(--burgess-accent-soft);
+  border-color: rgba(38, 106, 154, 0.28);
+  background: #f8fcff;
   outline: none;
+  transform: translateY(-1px);
 }
 
 .contact-actions--compact {
   align-items: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin-top: 0;
+}
+
+.contact-actions--compact a {
+  min-height: 38px;
+  border-radius: 999px;
+  padding: 6px 12px 6px 8px;
+}
+
+.contact-actions--compact a .contact-icon {
+  width: 25px;
+  height: 25px;
+  padding: 6px;
 }
 
 .premium-hero {
