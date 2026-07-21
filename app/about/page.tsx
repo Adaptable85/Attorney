@@ -44,8 +44,10 @@ export default function AboutPage() {
               className="profile-card__photo"
               src="/brand/stephanie-burgess.jpg"
               alt="Stephanie Burgess"
-              width={840}
-              height={1078}
+              width={1024}
+              height={1535}
+              quality={95}
+              sizes="140px"
             />
             <div>
               <p className="public-eyebrow">About Stephanie</p>

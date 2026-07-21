@@ -83,8 +83,10 @@ export default function Home() {
             <Image
               src="/brand/stephanie-burgess.jpg"
               alt="Stephanie Burgess"
-              width={840}
-              height={1078}
+              width={1024}
+              height={1535}
+              quality={95}
+              sizes="(max-width: 840px) 86vw, 360px"
             />
           </div>
           <div className="founder-feature__copy">
