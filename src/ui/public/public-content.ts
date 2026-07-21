@@ -135,11 +135,34 @@ export const trustSignals: PublicTrustSignal[] = [
   }
 ];
 
-export const testimonial = {
-  author: "Romeo Brand",
-  quote:
-    "Their diligence, tenacity and strive to provide their clients with the best result cannot be ignored. Thank you, Steph, for always providing sound advice and your willingness to go above and beyond."
-} as const;
+export const testimonials = [
+  {
+    author: "Vaughn Brazier",
+    quote:
+      "Absolutely on point. Always prepared and sound strong advice. In short the job gets done and you can push on their button 24/7."
+  },
+  {
+    author: "Amber Africa",
+    quote: "I was treated with the absolute best service. 10/10 recommended!"
+  },
+  {
+    author: "Geraldine Pekeur",
+    quote:
+      "Professional service and great help towards my case can't thank you enough for the time and effort you put into assisting me thank you Burgess Attorneys I would highly recommend you to family and friends in need of legal assistance and representation"
+  },
+  {
+    author: "Jeraydo Hattingh",
+    quote:
+      "I had such a great experience with Burgess Attorneys from day 1. Stephanie was kind, patient and always explained things in a way that made sense. She highlighted key points in my case that I was never aware of. She handled it quick, always updated me with information and always reassured me with facts that we will walk away victors and WE DID!!! I would highly recommend Burgess Attorneys to anyone in need of an excellent lawyer. Thank you Burgess Attorneys"
+  },
+  {
+    author: "Ivan Gordon",
+    quote:
+      "Ms.Burgess has and still is an excellent attorney who goes far and beyond what is required. Her attention to detail and professionalism is way above any expectations. Her caring demeanor also adds to your experience. I would recommend her above all."
+  }
+] as const;
+
+export const testimonial = testimonials[0];
 
 export const founderStory = {
   eyebrow: "Attorney and Insolvency Practitioner",

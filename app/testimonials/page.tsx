@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 import { ContactCta } from "@/ui/public/contact-cta";
-import { testimonial } from "@/ui/public/public-content";
+import { testimonials } from "@/ui/public/public-content";
 import { PublicShell } from "@/ui/public/public-shell";
 
 export const metadata: Metadata = {
@@ -23,11 +23,13 @@ export default function TestimonialsPage() {
           </p>
         </section>
 
-        <section className="testimonial-section" aria-label="Public testimonial">
-          <blockquote>
-            <p>{testimonial.quote}</p>
-            <cite>{testimonial.author}</cite>
-          </blockquote>
+        <section className="testimonial-section testimonial-section--list" aria-label="Public testimonials">
+          {testimonials.map((testimonial) => (
+            <blockquote key={testimonial.author}>
+              <p>{testimonial.quote}</p>
+              <cite>{testimonial.author}</cite>
+            </blockquote>
+          ))}
         </section>
 
         <ContactCta />

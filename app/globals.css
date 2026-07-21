@@ -882,6 +882,11 @@ a {
   padding-left: 18px;
 }
 
+.testimonial-section--list {
+  display: grid;
+  gap: 22px;
+}
+
 .testimonial-section cite {
   display: block;
   margin-top: 12px;
