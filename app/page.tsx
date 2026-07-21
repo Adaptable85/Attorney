@@ -19,14 +19,6 @@ export default function Home() {
       <main className="public-main public-main--premium" aria-labelledby="home-title">
         <section className="premium-hero">
           <div className="premium-hero__copy">
-            <Image
-              className="public-hero__logo"
-              src="/brand/burgess-logo-header.png"
-              alt="Burgess Attorneys"
-              width={254}
-              height={182}
-              priority
-            />
             <p className="public-eyebrow">{homepageSections.heroEyebrow}</p>
             <h1 id="home-title">{homepageSections.heroTitle}</h1>
             <p>

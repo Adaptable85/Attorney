@@ -13,11 +13,21 @@ const navItems = [
   { href: "/contact", label: "Contact Us" }
 ] as const;
 
+const leftNavItems = navItems.slice(0, 3);
+const rightNavItems = navItems.slice(3);
+
 export function PublicShell({ children }: Readonly<{ children: ReactNode }>) {
   return (
     <div className="public-site">
       <header className="public-header">
-        <Link className="public-brand" href="/" aria-label="Burgess Attorneys home">
+        <nav className="public-nav public-nav--left" aria-label="Primary public navigation">
+          {leftNavItems.map((item) => (
+            <Link key={item.href} href={item.href}>
+              {item.label}
+            </Link>
+          ))}
+        </nav>
+        <Link className="public-brand public-brand--center" href="/" aria-label="Burgess Attorneys home">
           <Image
             className="public-brand__logo"
             src="/brand/burgess-logo-header.png"
@@ -27,8 +37,8 @@ export function PublicShell({ children }: Readonly<{ children: ReactNode }>) {
             priority
           />
         </Link>
-        <nav className="public-nav" aria-label="Public navigation">
-          {navItems.map((item) => (
+        <nav className="public-nav public-nav--right" aria-label="Secondary public navigation">
+          {rightNavItems.map((item) => (
             <Link key={item.href} href={item.href}>
               {item.label}
             </Link>
